@@ -1910,159 +1910,183 @@
 }
 ],
 "nCip":149,
-"nSocLinked":195,
+"alloc":"employment-weighted",
+"allocMovedPct":32.5,
+"nSocLinked":194,
 "openingsCovered":26.1,
 "byFamily":[
 {
 "f":"Food Preparation & Serving",
 "linked":0.0,
+"linkedEq":0.0,
 "open":6065,
 "jobs":26686,
 "ratio":0.0
 },
 {
 "f":"Office & Administrative Support",
-"linked":18.9,
+"linked":22.7,
+"linkedEq":18.9,
 "open":4855,
 "jobs":33658,
-"ratio":0.004
+"ratio":0.005
 },
 {
 "f":"Sales",
 "linked":0.0,
+"linkedEq":0.0,
 "open":4190,
 "jobs":25259,
 "ratio":0.0
 },
 {
 "f":"Transportation & Material Moving",
-"linked":16.5,
+"linked":13.4,
+"linkedEq":16.5,
 "open":3638,
 "jobs":21816,
-"ratio":0.005
+"ratio":0.004
 },
 {
 "f":"Educational Instruction & Library",
-"linked":89.4,
+"linked":201.2,
+"linkedEq":89.4,
 "open":3268,
 "jobs":27437,
-"ratio":0.027
+"ratio":0.062
 },
 {
 "f":"Management",
-"linked":220.7,
+"linked":297.3,
+"linkedEq":220.7,
 "open":3154,
 "jobs":26571,
-"ratio":0.07
+"ratio":0.094
 },
 {
 "f":"Production",
-"linked":0.5,
+"linked":0.3,
+"linkedEq":0.5,
 "open":2834,
 "jobs":16169,
 "ratio":0.0
 },
 {
 "f":"Healthcare Support",
-"linked":41.5,
+"linked":50.4,
+"linkedEq":41.5,
 "open":2788,
 "jobs":15826,
-"ratio":0.015
+"ratio":0.018
 },
 {
 "f":"Business & Financial Operations",
-"linked":78.6,
+"linked":94.0,
+"linkedEq":78.6,
 "open":2376,
 "jobs":18931,
-"ratio":0.033
+"ratio":0.04
 },
 {
 "f":"Healthcare Practitioners & Technical",
-"linked":385.8,
+"linked":550.2,
+"linkedEq":385.8,
 "open":2178,
 "jobs":22354,
-"ratio":0.177
+"ratio":0.253
 },
 {
 "f":"Building & Grounds Cleaning",
 "linked":0.0,
+"linkedEq":0.0,
 "open":2055,
 "jobs":12086,
 "ratio":0.0
 },
 {
 "f":"Personal Care & Service",
-"linked":64.5,
+"linked":75.5,
+"linkedEq":64.5,
 "open":1927,
 "jobs":8505,
-"ratio":0.033
+"ratio":0.039
 },
 {
 "f":"Construction & Extraction",
 "linked":0.0,
+"linkedEq":0.0,
 "open":1769,
 "jobs":14549,
 "ratio":0.0
 },
 {
 "f":"Community & Social Service",
-"linked":63.9,
+"linked":69.4,
+"linkedEq":63.9,
 "open":1614,
 "jobs":10342,
-"ratio":0.04
+"ratio":0.043
 },
 {
 "f":"Installation, Maintenance & Repair",
-"linked":14.5,
+"linked":14.7,
+"linkedEq":14.5,
 "open":1511,
 "jobs":11816,
 "ratio":0.01
 },
 {
 "f":"Protective Service",
-"linked":9.0,
+"linked":10.6,
+"linkedEq":9.0,
 "open":850,
 "jobs":5268,
-"ratio":0.011
+"ratio":0.012
 },
 {
 "f":"Arts, Design, Entertainment & Media",
-"linked":95.5,
+"linked":108.6,
+"linkedEq":95.5,
 "open":835,
 "jobs":5104,
-"ratio":0.114
+"ratio":0.13
 },
 {
 "f":"Computer & Mathematical",
-"linked":65.2,
+"linked":67.7,
+"linkedEq":65.2,
 "open":808,
 "jobs":8404,
-"ratio":0.081
+"ratio":0.084
 },
 {
 "f":"Architecture & Engineering",
-"linked":47.3,
+"linked":50.6,
+"linkedEq":47.3,
 "open":698,
 "jobs":5784,
-"ratio":0.068
+"ratio":0.073
 },
 {
 "f":"Life, Physical & Social Science",
-"linked":114.5,
+"linked":69.8,
+"linkedEq":114.5,
 "open":582,
 "jobs":3651,
-"ratio":0.197
+"ratio":0.12
 },
 {
 "f":"Farming, Fishing & Forestry",
-"linked":3.0,
+"linked":3.7,
+"linkedEq":3.0,
 "open":510,
 "jobs":2620,
-"ratio":0.006
+"ratio":0.007
 },
 {
 "f":"Legal",
 "linked":0.0,
+"linkedEq":0.0,
 "open":213,
 "jobs":2294,
 "ratio":0.0
@@ -2232,31 +2256,11 @@
 "lw":1.4
 },
 {
-"soc":"11-9072",
-"n":"Entertainment and Recreation Managers, Except Gambling",
-"open":53,
-"linked":21.8,
-"ratio":0.413,
-"m":92310,
-"t":"Bachelor's",
-"lw":1.85
-},
-{
-"soc":"11-3012",
-"n":"Administrative Services Managers",
-"open":51,
-"linked":15.5,
-"ratio":0.301,
-"m":97032,
-"t":"Bachelor's",
-"lw":1.95
-},
-{
 "soc":"11-9199",
 "n":"Managers, All Other",
 "open":148,
-"linked":36.3,
-"ratio":0.245,
+"linked":107.2,
+"ratio":0.722,
 "m":125445,
 "t":"Bachelor's",
 "lw":2.52
@@ -2265,98 +2269,18 @@
 "soc":"29-1141",
 "n":"Registered Nurses",
 "open":546,
-"linked":126.0,
-"ratio":0.231,
+"linked":252.0,
+"ratio":0.461,
 "m":97469,
 "t":"Bachelor's",
 "lw":1.96
 },
 {
-"soc":"11-9151",
-"n":"Social and Community Service Managers",
-"open":149,
-"linked":26.3,
-"ratio":0.177,
-"m":80766,
-"t":"Bachelor's",
-"lw":1.62
-},
-{
-"soc":"11-3071",
-"n":"Transportation, Storage, and Distribution Managers",
-"open":56,
-"linked":7.5,
-"ratio":0.133,
-"m":101858,
-"t":"High school",
-"lw":2.04
-},
-{
-"soc":"11-9021",
-"n":"Construction Managers",
-"open":132,
-"linked":16.5,
-"ratio":0.125,
-"m":103459,
-"t":"Bachelor's",
-"lw":2.08
-},
-{
-"soc":"29-2072",
-"n":"Medical Records Specialists",
-"open":90,
-"linked":10.5,
-"ratio":0.117,
-"m":57554,
-"t":"Sub-baccalaureate",
-"lw":1.16
-},
-{
-"soc":"25-2011",
-"n":"Preschool Teachers, Except Special Education",
-"open":182,
-"linked":21.0,
-"ratio":0.115,
-"m":49733,
-"t":"Sub-baccalaureate",
-"lw":1.0
-},
-{
-"soc":"11-3013",
-"n":"Facilities Managers",
-"open":78,
-"linked":8.8,
-"ratio":0.112,
-"m":88712,
-"t":"Bachelor's",
-"lw":1.78
-},
-{
-"soc":"13-1111",
-"n":"Management Analysts",
-"open":96,
-"linked":9.7,
-"ratio":0.101,
-"m":107515,
-"t":"Bachelor's",
-"lw":2.16
-},
-{
-"soc":"27-2022",
-"n":"Coaches and Scouts",
-"open":135,
-"linked":12.5,
-"ratio":0.092,
-"m":59990,
-"t":"Bachelor's",
-"lw":1.2
-},
-{
 "soc":"25-2021",
 "n":"Elementary School Teachers, Except Special Education",
 "open":306,
-"linked":26.0,
-"ratio":0.085,
+"linked":102.2,
+"ratio":0.334,
 "m":63070,
 "t":"Bachelor's",
 "lw":1.27
@@ -2365,11 +2289,111 @@
 "soc":"25-2031",
 "n":"Secondary School Teachers, Except Special and Career/Technical Education",
 "open":192,
-"linked":15.3,
-"ratio":0.08,
+"linked":56.3,
+"ratio":0.293,
 "m":76220,
 "t":"Bachelor's",
 "lw":1.53
+},
+{
+"soc":"11-9072",
+"n":"Entertainment and Recreation Managers, Except Gambling",
+"open":53,
+"linked":12.8,
+"ratio":0.243,
+"m":92310,
+"t":"Bachelor's",
+"lw":1.85
+},
+{
+"soc":"29-2072",
+"n":"Medical Records Specialists",
+"open":90,
+"linked":18.7,
+"ratio":0.208,
+"m":57554,
+"t":"Sub-baccalaureate",
+"lw":1.16
+},
+{
+"soc":"27-2022",
+"n":"Coaches and Scouts",
+"open":135,
+"linked":22.2,
+"ratio":0.164,
+"m":59990,
+"t":"Bachelor's",
+"lw":1.2
+},
+{
+"soc":"11-9151",
+"n":"Social and Community Service Managers",
+"open":149,
+"linked":23.0,
+"ratio":0.155,
+"m":80766,
+"t":"Bachelor's",
+"lw":1.62
+},
+{
+"soc":"25-2011",
+"n":"Preschool Teachers, Except Special Education",
+"open":182,
+"linked":27.4,
+"ratio":0.15,
+"m":49733,
+"t":"Sub-baccalaureate",
+"lw":1.0
+},
+{
+"soc":"11-3012",
+"n":"Administrative Services Managers",
+"open":51,
+"linked":7.0,
+"ratio":0.137,
+"m":97032,
+"t":"Bachelor's",
+"lw":1.95
+},
+{
+"soc":"39-9031",
+"n":"Exercise Trainers and Group Fitness Instructors",
+"open":166,
+"linked":22.7,
+"ratio":0.137,
+"m":57304,
+"t":"High school",
+"lw":1.15
+},
+{
+"soc":"11-9021",
+"n":"Construction Managers",
+"open":132,
+"linked":15.9,
+"ratio":0.12,
+"m":103459,
+"t":"Bachelor's",
+"lw":2.08
+},
+{
+"soc":"15-1211",
+"n":"Computer Systems Analysts",
+"open":51,
+"linked":5.9,
+"ratio":0.117,
+"m":99611,
+"t":"Bachelor's",
+"lw":2.0
+},
+{
+"soc":"13-2011",
+"n":"Accountants and Auditors",
+"open":258,
+"linked":30.2,
+"ratio":0.117,
+"m":78894,
+"t":"Bachelor's",
+"lw":1.58
 }
 ]
 },

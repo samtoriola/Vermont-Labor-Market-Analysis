@@ -183,16 +183,61 @@ print(comp.groupby("inst")["completions"].sum().to_string())
 print("\nby award level:")
 print(comp.groupby("award")["completions"].sum().sort_values(ascending=False).to_string())
 
-# fractional allocation across linked SOCs
+# ---- allocation of completions across a program's linked occupations ----
+#
+# EMPLOYMENT-WEIGHTED. Each program's completions are divided across its linked SOCs
+# in proportion to those occupations' Vermont employment, so a broad program lands
+# mostly where the jobs actually are.
+#
+# The earlier equal split was indefensible for broad programs: Business Administration
+# links to 23 occupations, so 93 graduates became 4.04 apiece across all 23 -- including
+# occupations with almost no Vermont employment. Weighting concentrates them in the
+# large management and business occupations instead.
+#
+# Both allocations are computed; the weighted one is reported and the equal one is kept
+# so the size of the choice stays visible.
 nsoc = xw.groupby("cip")["soc"].nunique().rename("nsoc")
 link = comp.merge(xw, on="cip", how="inner").merge(nsoc, on="cip", how="left")
-link["frac"] = link["completions"] / link["nsoc"]
-print("\nallocation check: %.1f in == %.1f out" % (tot_comp, link["frac"].sum()))
 
+# Vermont employment per SOC. SOCs absent from the Lightcast list get 0, which is the
+# point: a graduate cannot take a job that does not exist in Vermont.
+jobs_by_soc = o.set_index("soc")["jobs"].to_dict()
+link["soc_jobs"] = link["soc"].map(jobs_by_soc).fillna(0.0)
+link["cip_jobs"] = link.groupby(["cip", "AWLEVEL", "UNITID"])["soc_jobs"].transform("sum")
+
+link["frac_eq"] = link["completions"] / link["nsoc"]
+
+# Fallback: if none of a CIP's linked occupations exist in Vermont there is no
+# employment signal, so use the equal split rather than dropping those completions.
+link["frac"] = np.where(
+    link["cip_jobs"] > 0,
+    link["completions"] * link["soc_jobs"] / link["cip_jobs"].replace(0, np.nan),
+    link["frac_eq"],
+)
+link["frac"] = link["frac"].fillna(link["frac_eq"])
+
+n_fallback = int((link["cip_jobs"] <= 0).groupby(link["cip"]).any().sum())
+print()
+print("allocation: employment-weighted")
+print("  totals preserved: %.1f in == %.1f out (weighted), %.1f (equal)"
+      % (tot_comp, link["frac"].sum(), link["frac_eq"].sum()))
+print("  CIPs with no VT employment in any linked SOC (fell back to equal): %d" % n_fallback)
+
+eq_by_soc = link.groupby("soc")["frac_eq"].sum()
+wt_by_soc = link.groupby("soc")["frac"].sum()
+cmp_soc = pd.concat([eq_by_soc, wt_by_soc], axis=1).fillna(0.0)
+moved = (cmp_soc["frac"] - cmp_soc["frac_eq"]).abs().sum() / 2
+print("  reallocated vs equal split: %.0f of %.0f completions (%.1f%%)"
+      % (moved, tot_comp, moved / tot_comp * 100))
+print("  SOCs receiving completions: %d weighted vs %d equal"
+      % (int((wt_by_soc > 0.01).sum()), int((eq_by_soc > 0.01).sum())))
+
+socsup_eq = link.groupby("soc")["frac_eq"].sum().rename("linked_eq").reset_index()
 socsup = link.groupby("soc")["frac"].sum().rename("linked").reset_index()
 dem = o[["soc", "name", "jobs", "open", "med", "tier", "family", "lwRatio"]].copy()
-al = dem.merge(socsup, on="soc", how="left")
+al = dem.merge(socsup, on="soc", how="left").merge(socsup_eq, on="soc", how="left")
 al["linked"] = al["linked"].fillna(0.0)
+al["linked_eq"] = al["linked_eq"].fillna(0.0)
 al["ratio"] = np.where(al["open"] > 0, al["linked"] / al["open"], np.nan)
 
 matched_soc = int((al["linked"] > 0).sum())
@@ -223,17 +268,22 @@ out["vscs"] = {
     "byAward": [{"a": k, "c": round(float(v))} for k, v in
                 comp.groupby("award")["completions"].sum().sort_values(ascending=False).items()],
     "nCip": int(comp["cip"].nunique()),
+    "alloc": "employment-weighted",
+    "allocMovedPct": round(float(moved / tot_comp) * 1000) / 10,
     "nSocLinked": matched_soc,
     "openingsCovered": round(float(al.loc[al["linked"] > 0, "open"].sum()
                                    / al["open"].sum()) * 1000) / 10,
 }
 # family-level supply vs demand
-famal = al.groupby("family").agg(linked=("linked", "sum"), open=("open", "sum"),
+famal = al.groupby("family").agg(linked=("linked", "sum"),
+                                 linked_eq=("linked_eq", "sum"),
+                                 open=("open", "sum"),
                                  jobs=("jobs", "sum")).reset_index()
 famal = famal[~famal["family"].isin(["Military", "Other"])]
 famal["ratio"] = np.where(famal["open"] > 0, famal["linked"] / famal["open"], np.nan)
 out["vscs"]["byFamily"] = [
-    {"f": r["family"], "linked": round(r["linked"], 1), "open": round(r["open"]),
+    {"f": r["family"], "linked": round(r["linked"], 1),
+     "linkedEq": round(r["linked_eq"], 1), "open": round(r["open"]),
      "jobs": round(r["jobs"]),
      "ratio": (round(r["ratio"], 3) if pd.notna(r["ratio"]) else None)}
     for _, r in famal.sort_values("open", ascending=False).iterrows()]

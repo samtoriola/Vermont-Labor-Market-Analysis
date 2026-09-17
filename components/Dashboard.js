@@ -194,11 +194,13 @@ function Methods() {
         <div>
           <h4>Program alignment</h4>
           <p>
-            CIP-to-SOC is many-to-many, so each program’s completions are split equally across its
-            linked occupations. All 149 VSCS programs and 1,983 completions matched the crosswalk,
-            but that equal split is an assumption, and a program whose graduates concentrate is
-            understated. One year; counts credentials, not people; says nothing about whether
-            graduates stay in Vermont.
+            CIP-to-SOC is many-to-many, so each program’s completions are divided across its
+            linked occupations in proportion to those occupations’ Vermont employment. All 149
+            VSCS programs and 1,983 completions matched the crosswalk, and the total is preserved.
+            That weighting moves 32.5% of completions relative to a flat split — it is a model of
+            where graduates go, not an observation. 21 programs link only to occupations with no
+            Vermont employment and fall back to an equal split. One year; counts credentials, not
+            people; silent on whether graduates stay in Vermont.
           </p>
         </div>
 
