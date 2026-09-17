@@ -1,12 +1,25 @@
 'use client';
 
-import { DATA, LC, PCT, TIER_ORDER, SER, lwAnnual } from '@/lib/data';
+import { DATA, LC, PCT, TIER_ORDER, SERIES, lwAnnual, occByTier } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Callout, Panel, Table, QHead, LwPicker, N } from '../ui';
+import { Answer, Callout, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
+import { useDrill, occDrill } from '../Drill';
 import { RankedBars, BoxPlot, BoxLegend } from '../charts';
 
 export default function Q4({ lw, setLw }) {
   const LWA = lwAnnual(lw);
+  const { open } = useDrill();
+
+  const tierDrill = (k) =>
+    open(
+      occDrill({
+        label: 'Entry credential',
+        title: k,
+        cap: 'Every occupation whose typical entry credential is this tier, largest first.',
+        occ: occByTier(k),
+        lwAnnual: LWA,
+      })
+    );
   const t = {};
   LC.tiers.forEach((r) => {
     t[r.t] = r;
@@ -29,7 +42,7 @@ export default function Q4({ lw, setLw }) {
       p50: b.p50,
       p75: b.p75,
       p90: b.p90,
-      color: SER[i],
+      color: SERIES[i],
       extra: [
         ['Jobs', fmt(r.jobs)],
         ['Share of employment', r.share + '%'],
@@ -41,11 +54,11 @@ export default function Q4({ lw, setLw }) {
 
   return (
     <>
-      <QHead n={4}>
-        What share of Vermont employment is associated with bachelor&rsquo;s-level,
-        sub-baccalaureate, high school, and other educational pathways, and how are these
-        requirements related to earnings and employment opportunity?
-      </QHead>
+      <VHead
+        title="Education pathways"
+      >
+        The share of Vermont employment at each entry credential, and how those requirements relate to earnings.
+      </VHead>
 
       <Answer>
         <p>
@@ -91,7 +104,7 @@ export default function Q4({ lw, setLw }) {
 
       <Panel
         title="The credential ladder, with spread"
-        cap="Earnings distribution at each entry-credential tier. Note how far the high-school and sub-baccalaureate boxes overlap, and how the bachelor's box separates from both — that asymmetry is the finding, and a median-only chart conceals it."
+        cap="Click a tier to list its occupations. Earnings distribution at each entry-credential tier. Note how far the high-school and sub-baccalaureate boxes overlap, and how the bachelor's box separates from both — that asymmetry is the finding, and a median-only chart conceals it."
         src="Lightcast · employment-weighted mean of occupation percentiles · 100% of jobs priced"
       >
         <BoxLegend />
@@ -158,7 +171,7 @@ export default function Q4({ lw, setLw }) {
               return {
                 label: r.t,
                 value: r.share,
-                color: SER[i],
+                color: SERIES[i],
                 mode: 'pct',
                 extra: [
                   ['Jobs', fmt(r.jobs)],
@@ -187,7 +200,7 @@ export default function Q4({ lw, setLw }) {
               return {
                 label: k,
                 value: b.p90 / b.p10,
-                color: SER[i],
+                color: SERIES[i],
                 dec: 2,
                 extra: [
                   ['10th percentile', money(b.p10)],
@@ -218,7 +231,7 @@ export default function Q4({ lw, setLw }) {
             return {
               label: r.t,
               value: r.above[lw],
-              color: SER[i],
+              color: SERIES[i],
               mode: 'pct',
               extra: [
                 ['Jobs', fmt(r.jobs)],

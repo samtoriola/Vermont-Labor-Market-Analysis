@@ -1,128 +1,105 @@
 'use client';
 
-import { SOW, LC } from '@/lib/data';
+// Section: Regional variation
+import { useState } from 'react';
+import { SOW } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Callout, Panel, Table, QHead, N } from '../ui';
-import { RankedBars } from '../charts';
+import { Answer, Callout, Panel, Table, VHead, N } from '../ui';
+import VermontMap from '../VermontMap';
 
 export default function Q7() {
-  const R = SOW.regions.slice();
+  const [metric, setMetric] = useState('ba');
+  const [sel, setSel] = useState(null);
+
+  const R = SOW.regions;
   const byBa = R.slice().sort((a, b) => b.ba - a.ba);
   const byLw = R.slice().sort((a, b) => b.lwH - a.lwH);
   const byInc = R.slice().sort((a, b) => (b.incLw || 0) - (a.incLw || 0));
-  const tightest = byInc[byInc.length - 1];
-  const loosest = byInc[0];
+  const byPop = R.slice().sort((a, b) => b.pop - a.pop);
+  const tight = byInc[byInc.length - 1];
+  const loose = byInc[0];
+  const picked = sel ? R.find((r) => r.c === sel) : null;
+  const wBa = R.reduce((a, r) => a + r.ba * r.pop, 0) / R.reduce((a, r) => a + r.pop, 0);
 
   return (
     <>
-      <QHead n={7}>
-        How does labor market opportunity vary across Vermont&rsquo;s regions, including differences
-        in occupational demand, wage sufficiency, educational attainment, and occupation-specific
-        wage premiums?
-      </QHead>
+      <VHead title="Regional variation">
+        How opportunity differs across Vermont’s 14 counties — attainment, earnings and the local
+        cost floor.
+      </VHead>
 
-      <Answer label="Answer — two of four dimensions">
+      <Answer>
         <p>
-          <strong>Educational attainment varies enormously across Vermont.</strong> The share of
-          25&ndash;64-year-olds holding a bachelor&rsquo;s degree or higher runs from{' '}
-          <N>{byBa[0].ba}%</N> in {byBa[0].c} County to <N>{byBa[byBa.length - 1].ba}%</N> in{' '}
-          {byBa[byBa.length - 1].c} &mdash; a{' '}
-          <N>{(byBa[0].ba - byBa[byBa.length - 1].ba).toFixed(1)}-point</N> spread within one small
-          state.
+          <strong>Attainment varies enormously; the cost of living barely does.</strong>{' '}
+          Bachelor’s-or-higher among 25–64-year-olds runs from <N>{byBa[0].ba}%</N> in {byBa[0].c}{' '}
+          to <N>{byBa[byBa.length - 1].ba}%</N> in {byBa[byBa.length - 1].c} — a{' '}
+          <N>{(byBa[0].ba - byBa[byBa.length - 1].ba).toFixed(1)}-point</N> spread. The
+          single-adult living wage moves only from <N>${byLw[byLw.length - 1].lwH.toFixed(2)}</N>{' '}
+          to <N>${byLw[0].lwH.toFixed(2)}</N> an hour.
         </p>
         <p>
-          <strong>Wage sufficiency varies far less, and not in the same pattern.</strong> The
-          single-adult living wage ranges only <N>${byLw[byLw.length - 1].lwH.toFixed(2)}</N> to{' '}
-          <N>${byLw[0].lwH.toFixed(2)}</N> per hour across the 14 counties. Because the cost floor
-          is nearly flat while incomes are not, the binding constraint is earnings, not cost of
-          living. {tightest.c} County has the tightest margin: median household income of{' '}
-          <N>{money(tightest.inc)}</N> against a living wage of <N>{money(tightest.lwA)}</N>, a
-          ratio of <N>{tightest.incLw}×</N> &mdash; against <N>{loosest.incLw}×</N> in {loosest.c}.
-        </p>
-        <p>
-          Attainment and cost do not move together, so a high-attainment county is not automatically
-          a high-opportunity one, and the counties furthest from self-sufficiency are not the most
-          expensive &mdash; they are the lowest-earning.
+          Because the floor is nearly flat while incomes are not,{' '}
+          <strong>the binding constraint is earnings, not cost of living</strong>. {tight.c} has
+          the tightest margin: median household income of <N>{money(tight.inc)}</N> against a{' '}
+          <N>{money(tight.lwA)}</N> living wage — a ratio of <N>{tight.incLw}×</N>, against{' '}
+          <N>{loose.incLw}×</N> in {loose.c}. Attainment and cost do not move together, so a
+          high-attainment county is not automatically a high-opportunity one.
         </p>
       </Answer>
 
-      <Callout label="The demand half of this question is unanswered">
-        <p>
-          Both Lightcast exports are <strong>statewide only</strong>, and CPS resolves Vermont to
-          metro/non-metro and nothing finer. So occupational demand by region, and
-          occupation-specific wage premiums by region, cannot be computed from the data loaded here
-          &mdash; two of this question&rsquo;s four dimensions are missing.
-        </p>
-        <p>
-          Closing it needs county-level occupation data. Lightcast Core LMI in the warehouse covers
-          all 14 Vermont counties (<code>areaid</code> 50001&ndash;50027) with occupation
-          employment, earnings and projections, which would answer it fully. A county-level
-          Lightcast export would do the same. Note also that county regions and the ACS PUMA
-          geography used for microdata attainment do not nest cleanly, which is a live decision for
-          SOW section 7&rsquo;s regional definitions.
-        </p>
-      </Callout>
-
       <Panel
-        title="Bachelor's attainment by county"
-        cap="Share of the 25–64 population holding a bachelor's degree or higher."
-        src="ACS 2016–2020 5-year county tables · bachelors_degree_or_higher_25_64 ÷ pop_25_64"
+        title="Vermont by county"
+        cap="Switch the shading metric, then click a county — on the map or in the list — to pin it."
+        src="ACS 2016–2020 5-year · MIT Living Wage 2025 · outlines from Census TIGER, simplified"
       >
-        <RankedBars
-          rows={byBa.map((r) => ({
-            label: r.c,
-            value: r.ba,
-            color: '--s1',
-            mode: 'pct',
-            extra: [
-              ['Population', fmt(r.pop)],
-              ['Median household income', money(r.inc)],
-              ['Living wage (1 adult)', '$' + r.lwH.toFixed(2) + '/hr'],
-              ['Income ÷ living wage', r.incLw + '×'],
-            ],
-          }))}
-          opts={{
-            mode: 'pct',
-            labelWidth: 148,
-            valueLabel: 'BA+ share, 25–64',
-            aria: "Bachelor's attainment by county",
-          }}
+        <VermontMap
+          regions={R}
+          metric={metric}
+          setMetric={setMetric}
+          selected={sel}
+          onSelect={setSel}
         />
       </Panel>
 
-      <Panel
-        title="Median household income against the local living wage"
-        cap="How far a typical household sits above the single-adult self-sufficiency threshold in its own county. Values near 1.0 mean the median household is close to the floor."
-        src={`ACS median household income ÷ MIT living wage 2025, single adult, annualised at ${fmt(LC.hours)} hours · household income vs a single-adult threshold is indicative, not a like-for-like comparison`}
-      >
-        <RankedBars
-          rows={byInc.map((r) => ({
-            label: r.c,
-            value: r.incLw,
-            color: r.incLw >= 1.25 ? '--s3' : '--s2',
-            dec: 2,
-            extra: [
-              ['Median household income', money(r.inc)],
-              ['Living wage, annualised', money(r.lwA)],
-              ['BA+ share', r.ba + '%'],
-              ['Population', fmt(r.pop)],
-            ],
-          }))}
-          opts={{
-            dec: 2,
-            labelWidth: 148,
-            rule: 1,
-            ruleLabel: 'Parity',
-            valueLabel: 'Income ÷ living wage',
-            aria: 'Median income relative to living wage by county',
-          }}
-        />
-      </Panel>
+      {picked ? (
+        <Panel
+          title={picked.c + ' County'}
+          cap="Pinned from the map. Click it again, or choose another, to change this."
+          src="ACS 2016–2020 5-year · MIT Living Wage 2025"
+        >
+          <div className="dstats">
+            <div className="dstat">
+              <div className="k">Population</div>
+              <div className="v">{fmt(picked.pop)}</div>
+            </div>
+            <div className="dstat">
+              <div className="k">BA+ 25–64</div>
+              <div className="v">{picked.ba}%</div>
+            </div>
+            <div className="dstat">
+              <div className="k">Median income</div>
+              <div className="v">{money(picked.inc)}</div>
+            </div>
+            <div className="dstat">
+              <div className="k">Living wage /hr</div>
+              <div className="v">${picked.lwH.toFixed(2)}</div>
+            </div>
+            <div className="dstat">
+              <div className="k">Income ÷ LW</div>
+              <div className="v">{picked.incLw}×</div>
+            </div>
+          </div>
+          <p className="cap" style={{ margin: 0 }}>
+            Vermont for comparison: <N>{wBa.toFixed(1)}%</N> BA+ (population-weighted),
+            living wage <N>$23.95</N>/hr statewide.
+          </p>
+        </Panel>
+      ) : null}
 
       <Panel
         title="All 14 counties"
-        cap="Population, attainment, income and the local cost floor side by side."
-        src="ACS 2016–2020 5-year · MIT Living Wage 2025 · sorted by population"
+        cap="Click a row to pin that county on the map above."
+        src="ACS 2016–2020 5-year · MIT Living Wage 2025"
       >
         <Table
           cols={[
@@ -134,7 +111,8 @@ export default function Q7() {
             'Living wage /yr',
             'Income ÷ LW',
           ]}
-          rows={R.map((r) => ({
+          rows={byPop.map((r) => ({
+            onClick: () => setSel(sel === r.c ? null : r.c),
             cells: [
               r.c,
               fmt(r.pop),
@@ -147,6 +125,21 @@ export default function Q7() {
           }))}
         />
       </Panel>
+
+      <Callout label="What this map cannot show">
+        <p>
+          Demand is statewide only. The Lightcast occupation and postings exports carry no county
+          breakdown, and CPS resolves Vermont to metro/non-metro and nothing finer — so
+          occupational demand and occupation-specific wage premiums by county are absent. Lightcast
+          Core LMI covers all 14 counties and would close that gap.
+        </p>
+        <p>
+          Two caveats on what is here: county lines and the ACS PUMA areas used for microdata do
+          not nest, so a demand-side regional view and a microdata attainment view cannot yet share
+          a map. And median <em>household</em> income against a single-adult wage floor is
+          indicative, not like-for-like.
+        </p>
+      </Callout>
     </>
   );
 }

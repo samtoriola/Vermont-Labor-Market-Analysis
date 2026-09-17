@@ -2,16 +2,33 @@
 
 import { useTipHandlers } from './Tooltip';
 import { fmt, money, niceMax, trunc, fmtVal } from '@/lib/format';
-import { SER } from '@/lib/data';
+import { SERIES } from '@/lib/data';
 
 /**
  * Wraps an SVG group so the tooltip hook runs once per mark instance.
  * Calling useTipHandlers directly inside a .map() would break the rules of hooks.
  */
-function TipMark({ title, rows, className, children }) {
+function TipMark({ title, rows, className, onClick, children }) {
   const h = useTipHandlers(title, rows);
+  const clickable = typeof onClick === 'function';
   return (
-    <g className={className} {...h}>
+    <g
+      className={className + (clickable ? ' clickable' : '')}
+      role={clickable ? 'button' : undefined}
+      aria-label={clickable ? title : undefined}
+      onClick={onClick}
+      onKeyDown={
+        clickable
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
+      {...h}
+    >
       {children}
     </g>
   );
@@ -119,7 +136,7 @@ export function RankedBars({ rows, opts = {} }) {
             >
               {trunc(r.label, Math.floor(labW / 6.4))}
             </text>
-            <TipMark title={r.label} rows={trows} className="bar">
+            <TipMark title={r.label} rows={trows} className="bar" onClick={r.onClick}>
               <rect x={bx} y={y} width={bw} height={rowH} rx={4} fill={V(r.color || '--s1')} />
               <text
                 x={v < 0 ? bx - 9 : bx + bw + 9}
@@ -233,7 +250,7 @@ export function BoxPlot({ rows, opts = {} }) {
             >
               {trunc(r.label, Math.floor(labW / 6.4))}
             </text>
-            <TipMark title={r.label} rows={trows} className="bar">
+            <TipMark title={r.label} rows={trows} className="bar" onClick={r.onClick}>
               <line x1={x10} y1={cy} x2={x25} y2={cy} stroke={V('--ink-3')} strokeWidth={1.5} />
               <line x1={x75} y1={cy} x2={x90} y2={cy} stroke={V('--ink-3')} strokeWidth={1.5} />
               <line
@@ -395,7 +412,7 @@ export function StackedRows({ rows, opts = {} }) {
                 width={Math.max(0.5, pw - 2)}
                 height={rowH}
                 rx={2}
-                fill={V(SER[k])}
+                fill={V(SERIES[k])}
               />
             </TipMark>
           );
@@ -681,7 +698,7 @@ export function Scatter({ pts, opts }) {
             cx={X(p.x)}
             cy={Y(p.y)}
             r={4}
-            fill={V(SER[p.series])}
+            fill={V(SERIES[p.series])}
             fillOpacity={0.72}
             stroke={V('--panel')}
             strokeWidth={1}
@@ -746,7 +763,7 @@ export function GroupedBars({ rows, opts }) {
             <text x={labW - 11} y={y0 + rowH / 2 + 4} className="clab" textAnchor="end" fontSize={12}>
               {trunc(r.label, 28)}
             </text>
-            <TipMark title={r.label} rows={r.extra || []} className="bar">
+            <TipMark title={r.label} rows={r.extra || []} className="bar" onClick={r.onClick}>
               {r.parts.map((p, k) => (
                 <rect
                   key={k}

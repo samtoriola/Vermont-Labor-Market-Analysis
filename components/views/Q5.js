@@ -1,13 +1,22 @@
 'use client';
 
-import { SOW, TIER_ORDER } from '@/lib/data';
+import { useState } from 'react';
+import { SOW, TIER_ORDER, lwAnnual, filterOcc } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Callout, Panel, Table, QHead, N } from '../ui';
+import { Answer, Callout, Panel, Table, VHead, N } from '../ui';
+import Filters from '../Filters';
 import { RankedBars } from '../charts';
 
-export default function Q5() {
+export default function Q5({ lw }) {
+  const LWA = lwAnnual(lw);
+  const [f, setF] = useState({ tiers: [], wage: 'all', minJobs: 0 });
   const O = SOW.opp;
   const top = O.top;
+  // Filters narrow the scored list; the composite itself is unchanged.
+  const shown = filterOcc(
+    O.top.map((r) => ({ ...r, lwAnnual: LWA })),
+    { ...f, lwAnnual: LWA }
+  );
   const baCount = top.filter((r) => r.t === "Bachelor's").length;
   const tierLead = {};
   TIER_ORDER.forEach((t) => {
@@ -17,10 +26,11 @@ export default function Q5() {
 
   return (
     <>
-      <QHead n={5}>
-        Which occupations represent high-demand and high-value opportunities based on employment,
-        projected growth, annual openings, job postings, earnings, and educational accessibility?
-      </QHead>
+      <VHead
+        title="Where the opportunity is"
+      >
+        Occupations combining scale, growth, advertised demand and pay — scored transparently, and read at each level of educational accessibility.
+      </VHead>
 
       <Answer>
         <p>
@@ -93,13 +103,15 @@ export default function Q5() {
         </p>
       </Callout>
 
+      <Filters f={f} setF={setF} shown={shown.length} total={O.top.length} note="of the top 30 scored" />
+
       <Panel
-        title="Highest-scoring occupations overall"
+        title="Highest-scoring occupations"
         cap={`Composite of four percentile ranks at ${O.weightEach}% each. Hover for the full breakdown — the score is simply the mean of those four numbers.`}
         src={`Lightcast · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
       >
         <RankedBars
-          rows={top.slice(0, 20).map((r) => ({
+          rows={shown.slice(0, 20).map((r) => ({
             label: r.n,
             value: r.sc,
             color: '--s1',

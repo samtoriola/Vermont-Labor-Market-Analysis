@@ -1,6 +1,6 @@
 'use client';
 
-import { LC, SER } from '@/lib/data';
+import { LC, SERIES, SERIES_HEX } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 
 export function Panel({ title, cap, src, children }) {
@@ -14,7 +14,7 @@ export function Panel({ title, cap, src, children }) {
   );
 }
 
-export function Answer({ label = 'Answer', children }) {
+export function Answer({ label = 'In short', children }) {
   return (
     <div className="answer">
       <span className="alabel">{label}</span>
@@ -32,22 +32,28 @@ export function Callout({ label, children }) {
   );
 }
 
-export function QHead({ n, children }) {
+/** Section heading. No question numbers — this reads as a report, not a response. */
+export function VHead({ title, children }) {
   return (
-    <div className="qhead">
-      <div className="qlabel">Research question {n}</div>
-      <h2>{children}</h2>
+    <div className="vhead">
+      <h2>{title}</h2>
+      {children ? <p>{children}</p> : null}
     </div>
   );
 }
 
-export function Legend({ labels, colors }) {
+/**
+ * Legend. Pass hexes to print the colour code beside each label — worth doing
+ * where the colour itself carries meaning (a threshold, a ramp position).
+ */
+export function Legend({ labels, colors, hexes }) {
   return (
     <ul className="legend">
       {labels.map((l, i) => (
         <li key={l}>
           <span className="sw" style={{ background: `var(${colors[i]})` }} />
           {l}
+          {hexes && hexes[i] ? <span className="hex">{hexes[i]}</span> : null}
         </li>
       ))}
     </ul>
@@ -81,7 +87,7 @@ export function Table({ cols, rows }) {
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className={r.low ? 'lowN' : undefined}>
+            <tr key={i} onClick={r.onClick} style={r.onClick ? { cursor: 'pointer' } : undefined}>
               {r.cells.map((c, j) => (
                 <td key={j} className={j ? 'num' : undefined}>
                   {c}
@@ -95,15 +101,17 @@ export function Table({ cols, rows }) {
   );
 }
 
-/** Numeric span in the tabular monospace face. */
+/** Numeric span in the tabular figure style. */
 export function N({ children }) {
   return <span className="num">{children}</span>;
 }
 
-/**
- * Living-wage household-type selector. SOW section 7 leaves the benchmark to VSCS,
- * so it is a control rather than a hardcoded assumption.
- */
+/** Makes the drill-down discoverable rather than hidden. */
+export function DrillHint({ children = 'Click any bar to see the occupations behind it.' }) {
+  return <p className="drillhint">{children}</p>;
+}
+
+/** Living-wage household selector. The benchmark is a choice, so it is a control. */
 export function LwPicker({ value, onChange }) {
   const hourly = LC.livingWage[value];
   return (
@@ -119,7 +127,7 @@ export function LwPicker({ value, onChange }) {
         </select>
       </label>
       <span className="ctrlnote">
-        {'MIT Living Wage 2025, Vermont · $' +
+        {'$' +
           hourly.toFixed(2) +
           '/hr = ' +
           money(hourly * LC.hours) +
@@ -131,4 +139,4 @@ export function LwPicker({ value, onChange }) {
   );
 }
 
-export { SER };
+export { SERIES, SERIES_HEX };

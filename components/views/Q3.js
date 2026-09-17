@@ -2,7 +2,7 @@
 
 import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
-import { Answer, Callout, Panel, Legend, QHead, N } from '../ui';
+import { Answer, Callout, Panel, Legend, VHead, N } from '../ui';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 
 export default function Q3() {
@@ -48,10 +48,11 @@ export default function Q3() {
 
   return (
     <>
-      <QHead n={3}>
-        Where are projected job growth, annual openings, and current employer demand concentrated,
-        and how closely do these measures align with Vermont&rsquo;s existing employment base?
-      </QHead>
+      <VHead
+        title="Employer demand and growth"
+      >
+        Where projected growth, annual openings and advertised demand concentrate — and how closely each tracks the existing employment base.
+      </VHead>
 
       <Answer>
         <p>

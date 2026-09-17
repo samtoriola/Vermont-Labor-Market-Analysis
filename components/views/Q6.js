@@ -1,22 +1,25 @@
 'use client';
 
-import { SOW, SER } from '@/lib/data';
+import { SOW, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Callout, Panel, Table, QHead, N } from '../ui';
+import { Answer, Callout, Panel, Table, VHead, N } from '../ui';
+import { useDrill, occDrill } from '../Drill';
 import { RankedBars } from '../charts';
 
-export default function Q6() {
+export default function Q6({ lw }) {
+  const LWA = lwAnnual(lw);
+  const { open } = useDrill();
   const V = SOW.vscs;
   const vtsu = V.byInst.find((r) => r.i === 'Vermont State University');
   const ccv = V.byInst.find((r) => r.i === 'Community College of Vermont');
 
   return (
     <>
-      <QHead n={6}>
-        How well does VSCS graduate production align with occupational demand, and where do
-        program-to-occupation relationships suggest strong pipelines, diffuse career pathways,
-        potential undersupply, or limited labor market opportunity?
-      </QHead>
+      <VHead
+        title="VSCS program alignment"
+      >
+        How VSCS credential production compares with Vermont occupational demand, and where the relationship warrants a closer look.
+      </VHead>
 
       <Answer>
         <p>
@@ -70,7 +73,7 @@ export default function Q6() {
           rows={V.byAward.map((r, i) => ({
             label: r.a,
             value: r.c,
-            color: SER[i % SER.length],
+            color: SERIES[i % SERIES.length],
             extra: [
               ['Share of VSCS output', ((r.c / V.totalCompletions) * 100).toFixed(1) + '%'],
             ],
@@ -85,7 +88,7 @@ export default function Q6() {
 
       <Panel
         title="Linked completions against annual openings, by family"
-        cap="Openings are Vermont-wide; linked completions are VSCS output allocated across each program's occupations. A low ratio in a no-credential family is expected, not a gap."
+        cap="Click a row to list the occupations behind it. Openings are Vermont-wide; linked completions are VSCS output allocated across each program's occupations. A low ratio in a no-credential family is expected, not a gap."
         src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · fractional allocation across linked SOCs"
       >
         <Table
@@ -96,6 +99,20 @@ export default function Q6() {
             'Completions per opening',
           ]}
           rows={V.byFamily.map((r) => ({
+            onClick: () =>
+              open(
+                occDrill({
+                  label: 'Occupational family',
+                  title: r.f,
+                  cap: 'Occupations in this family, against which VSCS completions were allocated.',
+                  occ: occByFamily(r.f),
+                  lwAnnual: LWA,
+                  extraStats: [
+                    ['Annual openings', fmt(r.open)],
+                    ['Linked completions', r.linked.toFixed(1)],
+                  ],
+                })
+              ),
             cells: [
               r.f,
               fmt(r.open),

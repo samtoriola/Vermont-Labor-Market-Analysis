@@ -1,12 +1,32 @@
 'use client';
 
-import { LC, PCT, lwAnnual } from '@/lib/data';
+import { useState } from 'react';
+import { LC, PCT, lwAnnual, filterOcc, occByTier } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Panel, Table, QHead, LwPicker, N } from '../ui';
+import { Answer, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
+import Filters from '../Filters';
+import { useDrill, occDrill } from '../Drill';
 import { RankedBars, BoxPlot, BoxLegend, Scatter } from '../charts';
 
 export default function Q2({ lw, setLw }) {
   const LWA = lwAnnual(lw);
+  const { open } = useDrill();
+  const [f, setF] = useState({ tiers: [], wage: 'all', minJobs: 0 });
+  const filtered = filterOcc(LC.allOcc, { ...f, lwAnnual: LWA });
+
+  const sizeDrill = (tier) => {
+    const lo = tier === 'Large (2,000+)' ? 2000 : tier === 'Medium (500-2,000)' ? 500 : 0;
+    const hi = tier === 'Large (2,000+)' ? Infinity : tier === 'Medium (500-2,000)' ? 2000 : 500;
+    open(
+      occDrill({
+        label: 'Occupation size',
+        title: tier,
+        cap: 'Every occupation in this size band, largest first.',
+        occ: LC.allOcc.filter((o) => o.j >= lo && o.j < hi).sort((a, b) => b.j - a.j),
+        lwAnnual: LWA,
+      })
+    );
+  };
   const sz = LC.sizeTiers;
   const [big, mid, small] = sz;
   const top = LC.topOcc.slice(0, 25);
@@ -57,11 +77,11 @@ export default function Q2({ lw, setLw }) {
 
   return (
     <>
-      <QHead n={2}>
-        Which occupations and occupational segments employ the largest numbers of Vermont workers,
-        and how does wage quality — measured against appropriate self-sufficiency or living-wage
-        benchmarks — vary across large, medium, and smaller occupations?
-      </QHead>
+      <VHead
+        title="Occupation size and wage quality"
+      >
+        Which occupations employ the most Vermonters, and how pay compares with a self-sufficiency benchmark across large, medium and smaller occupations.
+      </VHead>
 
       <Answer>
         <p>
@@ -107,6 +127,7 @@ export default function Q2({ lw, setLw }) {
             value: r.above[lw],
             color: '--s1',
             mode: 'pct',
+            onClick: () => sizeDrill(r.s),
             extra: [
               ['Occupations', fmt(r.nocc)],
               ['Jobs', fmt(r.jobs)],
@@ -221,13 +242,15 @@ export default function Q2({ lw, setLw }) {
         />
       </Panel>
 
+      <Filters f={f} setF={setF} shown={filtered.length} total={LC.allOcc.length} />
+
       <Panel
         title="Every occupation: size against pay"
-        cap={`All ${fmt(LC.allOcc.length)} occupations. The vertical line is the living wage; points left of it employ people below self-sufficiency. Coloured by size tier.`}
+        cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Coloured by size tier.`}
         src="Lightcast · occupations with usable median earnings · log y-axis"
       >
         <Scatter
-          pts={LC.allOcc
+          pts={filtered
             .filter((r) => r.m)
             .map((r) => ({
               x: r.m,

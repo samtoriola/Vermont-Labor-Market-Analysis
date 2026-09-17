@@ -1,0 +1,9 @@
+# Normalise to LF in the repository so Windows checkouts don't rewrite every line
+# of the generated data files and swamp the diff.
+* text=auto eol=lf
+
+# Generated data: treat as text but keep it out of diff output, since these are
+# build artefacts from scripts/ rather than hand-edited source.
+data/*.json linguist-generated=true diff=none
+scripts/vt_map.json linguist-generated=true diff=none
+package-lock.json linguist-generated=true

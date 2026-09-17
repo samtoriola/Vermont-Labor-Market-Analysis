@@ -1,12 +1,26 @@
 'use client';
 
-import { DATA, LC, PCT, TOTJ, TIER_ORDER, SER, lwAnnual } from '@/lib/data';
+import { DATA, LC, PCT, TOTJ, TIER_ORDER, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Panel, Legend, Table, QHead, N } from '../ui';
+import { Answer, Panel, Legend, Table, VHead, N, DrillHint } from '../ui';
+import { useDrill, occDrill } from '../Drill';
 import { RankedBars, StackedRows, BoxPlot, BoxLegend } from '../charts';
 
 export default function Q1({ lw }) {
   const LWA = lwAnnual(lw);
+  const { open } = useDrill();
+
+  const famDrill = (f) =>
+    open(
+      occDrill({
+        label: 'Occupational family',
+        title: f.f,
+        cap: 'Every detailed occupation in this family, largest first.',
+        occ: occByFamily(f.f),
+        lwAnnual: LWA,
+        extraStats: [['Annual openings', fmt(f.open)]],
+      })
+    );
   const fams = LC.families;
   const top3 = fams.slice(0, 3);
   const hiPay = fams.slice().sort((a, b) => (b.med || 0) - (a.med || 0))[0];
@@ -61,10 +75,11 @@ export default function Q1({ lw }) {
 
   return (
     <>
-      <QHead n={1}>
-        How is Vermont employment distributed across occupational families, and how does that
-        distribution vary by industry, earnings, and typical entry-level education?
-      </QHead>
+      <VHead
+        title="Employment structure"
+      >
+        How Vermont’s jobs distribute across occupational families, and how that varies by industry, earnings and entry credential.
+      </VHead>
 
       <Answer>
         <p>
@@ -99,13 +114,15 @@ export default function Q1({ lw }) {
       <Panel
         title="Jobs by occupational family"
         cap="Vermont 2025. Hover for earnings, concentration, openings and change since 2021."
-        src={`Lightcast occupation table · 22 SOC major groups · ${fmt(TOTJ)} total jobs`}
+        src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
       >
+        <DrillHint />
         <RankedBars
           rows={fams.map((r) => ({
             label: r.f,
             value: r.jobs,
             color: '--s1',
+            onClick: () => famDrill(r),
             extra: [
               ['Median earnings', r.med ? money(r.med) : '—'],
               ['Employment concentration', r.lq !== null ? r.lq + '× US' : '—'],
@@ -140,7 +157,7 @@ export default function Q1({ lw }) {
         cap="Share of each family's jobs at each entry-credential tier, sorted by the BA+ share. This is the requirement attached to the job, not the credential its workers hold."
         src="Lightcast · Typical Entry Level Education, jobs-weighted"
       >
-        <Legend labels={TIER_ORDER} colors={SER} />
+        <Legend labels={TIER_ORDER} colors={SERIES} />
         <StackedRows
           rows={credRows}
           opts={{
