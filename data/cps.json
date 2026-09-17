@@ -1,0 +1,1593 @@
+{
+"months":59,
+"families":[
+{
+"f":"Management",
+"e":46026,
+"n":5739,
+"u":1560
+},
+{
+"f":"Office & Administrative Support",
+"e":30020,
+"n":3672,
+"u":1110
+},
+{
+"f":"Sales",
+"e":28494,
+"n":3402,
+"u":1020
+},
+{
+"f":"Educational Instruction & Library",
+"e":26274,
+"n":3226,
+"u":823
+},
+{
+"f":"Healthcare Practitioners & Technical",
+"e":23214,
+"n":2737,
+"u":692
+},
+{
+"f":"Business & Financial Operations",
+"e":18935,
+"n":2272,
+"u":659
+},
+{
+"f":"Construction & Extraction",
+"e":17750,
+"n":2131,
+"u":613
+},
+{
+"f":"Transportation & Material Moving",
+"e":16975,
+"n":2047,
+"u":624
+},
+{
+"f":"Production",
+"e":16885,
+"n":2006,
+"u":604
+},
+{
+"f":"Food Preparation & Serving",
+"e":15999,
+"n":1713,
+"u":583
+},
+{
+"f":"Building & Grounds Cleaning",
+"e":13178,
+"n":1629,
+"u":490
+},
+{
+"f":"Arts, Design, Entertainment & Media",
+"e":10209,
+"n":1265,
+"u":362
+},
+{
+"f":"Computer & Mathematical",
+"e":10008,
+"n":1162,
+"u":329
+},
+{
+"f":"Healthcare Support",
+"e":9847,
+"n":1190,
+"u":371
+},
+{
+"f":"Community & Social Service",
+"e":9583,
+"n":1144,
+"u":323
+},
+{
+"f":"Installation, Maintenance & Repair",
+"e":8948,
+"n":1062,
+"u":304
+},
+{
+"f":"Personal Care & Service",
+"e":7910,
+"n":930,
+"u":306
+},
+{
+"f":"Architecture & Engineering",
+"e":6835,
+"n":802,
+"u":242
+},
+{
+"f":"Life, Physical & Social Science",
+"e":5493,
+"n":642,
+"u":170
+},
+{
+"f":"Protective Service",
+"e":4480,
+"n":510,
+"u":148
+},
+{
+"f":"Farming, Fishing & Forestry",
+"e":4479,
+"n":525,
+"u":163
+},
+{
+"f":"Legal",
+"e":3837,
+"n":470,
+"u":114
+}
+],
+"sectors":[
+{
+"s":"Health Care & Social Assistance",
+"e":54016,
+"n":6457
+},
+{
+"s":"Educational Services",
+"e":41476,
+"n":5048
+},
+{
+"s":"Retail Trade",
+"e":36533,
+"n":4312
+},
+{
+"s":"Manufacturing",
+"e":31371,
+"n":3742
+},
+{
+"s":"Professional, Scientific & Technical",
+"e":24233,
+"n":2931
+},
+{
+"s":"Construction",
+"e":24091,
+"n":2918
+},
+{
+"s":"Accommodation & Food Services",
+"e":18929,
+"n":2119
+},
+{
+"s":"Public Administration",
+"e":17917,
+"n":2183
+},
+{
+"s":"Other Services",
+"e":16072,
+"n":1959
+},
+{
+"s":"Administrative, Support & Waste Mgmt",
+"e":11667,
+"n":1429
+},
+{
+"s":"Finance & Insurance",
+"e":11294,
+"n":1366
+},
+{
+"s":"Agriculture, Forestry, Fishing & Hunting",
+"e":10387,
+"n":1299
+},
+{
+"s":"Transportation & Warehousing",
+"e":8837,
+"n":1080
+},
+{
+"s":"Arts, Entertainment & Recreation",
+"e":8324,
+"n":999
+},
+{
+"s":"Real Estate & Rental",
+"e":6420,
+"n":779
+},
+{
+"s":"Wholesale Trade",
+"e":5351,
+"n":623
+},
+{
+"s":"Information",
+"e":5166,
+"n":632
+},
+{
+"s":"Utilities",
+"e":2222,
+"n":268
+},
+{
+"s":"Management of Companies",
+"e":575,
+"n":68
+},
+{
+"s":"Mining, Quarrying, Oil & Gas",
+"e":439,
+"n":57
+}
+],
+"pathways":[
+{
+"p":"Less than high school",
+"e":15616,
+"n":1718,
+"sh":4.7
+},
+{
+"p":"High school diploma",
+"e":87140,
+"n":10508,
+"sh":26.0
+},
+{
+"p":"Some college, no degree",
+"e":38498,
+"n":4523,
+"sh":11.5
+},
+{
+"p":"Associate degree (sub-baccalaureate)",
+"e":29751,
+"n":3767,
+"sh":8.9
+},
+{
+"p":"Bachelor's degree",
+"e":102181,
+"n":12085,
+"sh":30.5
+},
+{
+"p":"Graduate or professional degree",
+"e":62193,
+"n":7675,
+"sh":18.5
+}
+],
+"famEdu":{
+"Architecture & Engineering":{
+"Associate degree (sub-baccalaureate)":{
+"e":505,
+"n":65
+},
+"Bachelor's degree":{
+"e":3699,
+"n":418
+},
+"Graduate or professional degree":{
+"e":1338,
+"n":165
+},
+"High school diploma":{
+"e":699,
+"n":84
+},
+"Less than high school":{
+"e":30,
+"n":3
+},
+"Some college, no degree":{
+"e":565,
+"n":67
+}
+},
+"Arts, Design, Entertainment & Media":{
+"Associate degree (sub-baccalaureate)":{
+"e":933,
+"n":123
+},
+"Bachelor's degree":{
+"e":4959,
+"n":600
+},
+"Graduate or professional degree":{
+"e":2295,
+"n":291
+},
+"High school diploma":{
+"e":746,
+"n":89
+},
+"Less than high school":{
+"e":151,
+"n":16
+},
+"Some college, no degree":{
+"e":1126,
+"n":146
+}
+},
+"Building & Grounds Cleaning":{
+"Associate degree (sub-baccalaureate)":{
+"e":937,
+"n":125
+},
+"Bachelor's degree":{
+"e":1629,
+"n":204
+},
+"Graduate or professional degree":{
+"e":312,
+"n":46
+},
+"High school diploma":{
+"e":6862,
+"n":835
+},
+"Less than high school":{
+"e":1275,
+"n":160
+},
+"Some college, no degree":{
+"e":2163,
+"n":259
+}
+},
+"Business & Financial Operations":{
+"Associate degree (sub-baccalaureate)":{
+"e":1538,
+"n":193
+},
+"Bachelor's degree":{
+"e":9361,
+"n":1110
+},
+"Graduate or professional degree":{
+"e":4257,
+"n":513
+},
+"High school diploma":{
+"e":1814,
+"n":219
+},
+"Less than high school":{
+"e":162,
+"n":17
+},
+"Some college, no degree":{
+"e":1803,
+"n":220
+}
+},
+"Community & Social Service":{
+"Associate degree (sub-baccalaureate)":{
+"e":476,
+"n":61
+},
+"Bachelor's degree":{
+"e":3071,
+"n":357
+},
+"Graduate or professional degree":{
+"e":4569,
+"n":558
+},
+"High school diploma":{
+"e":852,
+"n":100
+},
+"Less than high school":{
+"e":130,
+"n":13
+},
+"Some college, no degree":{
+"e":484,
+"n":55
+}
+},
+"Computer & Mathematical":{
+"Associate degree (sub-baccalaureate)":{
+"e":980,
+"n":124
+},
+"Bachelor's degree":{
+"e":5611,
+"n":635
+},
+"Graduate or professional degree":{
+"e":2342,
+"n":285
+},
+"High school diploma":{
+"e":616,
+"n":69
+},
+"Less than high school":{
+"e":6,
+"n":1
+},
+"Some college, no degree":{
+"e":453,
+"n":48
+}
+},
+"Construction & Extraction":{
+"Associate degree (sub-baccalaureate)":{
+"e":1701,
+"n":200
+},
+"Bachelor's degree":{
+"e":2582,
+"n":296
+},
+"Graduate or professional degree":{
+"e":436,
+"n":50
+},
+"High school diploma":{
+"e":9032,
+"n":1111
+},
+"Less than high school":{
+"e":1654,
+"n":199
+},
+"Some college, no degree":{
+"e":2345,
+"n":275
+}
+},
+"Educational Instruction & Library":{
+"Associate degree (sub-baccalaureate)":{
+"e":805,
+"n":103
+},
+"Bachelor's degree":{
+"e":9425,
+"n":1128
+},
+"Graduate or professional degree":{
+"e":12872,
+"n":1630
+},
+"High school diploma":{
+"e":1506,
+"n":178
+},
+"Less than high school":{
+"e":267,
+"n":26
+},
+"Some college, no degree":{
+"e":1398,
+"n":161
+}
+},
+"Farming, Fishing & Forestry":{
+"Associate degree (sub-baccalaureate)":{
+"e":434,
+"n":53
+},
+"Bachelor's degree":{
+"e":719,
+"n":80
+},
+"Graduate or professional degree":{
+"e":151,
+"n":15
+},
+"High school diploma":{
+"e":1854,
+"n":227
+},
+"Less than high school":{
+"e":707,
+"n":81
+},
+"Some college, no degree":{
+"e":614,
+"n":69
+}
+},
+"Food Preparation & Serving":{
+"Associate degree (sub-baccalaureate)":{
+"e":1300,
+"n":158
+},
+"Bachelor's degree":{
+"e":2215,
+"n":232
+},
+"Graduate or professional degree":{
+"e":499,
+"n":60
+},
+"High school diploma":{
+"e":5553,
+"n":618
+},
+"Less than high school":{
+"e":3498,
+"n":348
+},
+"Some college, no degree":{
+"e":2935,
+"n":297
+}
+},
+"Healthcare Practitioners & Technical":{
+"Associate degree (sub-baccalaureate)":{
+"e":2988,
+"n":370
+},
+"Bachelor's degree":{
+"e":8264,
+"n":951
+},
+"Graduate or professional degree":{
+"e":9436,
+"n":1125
+},
+"High school diploma":{
+"e":1130,
+"n":136
+},
+"Less than high school":{
+"e":63,
+"n":5
+},
+"Some college, no degree":{
+"e":1333,
+"n":150
+}
+},
+"Healthcare Support":{
+"Associate degree (sub-baccalaureate)":{
+"e":1350,
+"n":168
+},
+"Bachelor's degree":{
+"e":2095,
+"n":252
+},
+"Graduate or professional degree":{
+"e":424,
+"n":52
+},
+"High school diploma":{
+"e":3834,
+"n":470
+},
+"Less than high school":{
+"e":352,
+"n":44
+},
+"Some college, no degree":{
+"e":1792,
+"n":204
+}
+},
+"Installation, Maintenance & Repair":{
+"Associate degree (sub-baccalaureate)":{
+"e":1462,
+"n":174
+},
+"Bachelor's degree":{
+"e":1075,
+"n":133
+},
+"Graduate or professional degree":{
+"e":184,
+"n":23
+},
+"High school diploma":{
+"e":4513,
+"n":532
+},
+"Less than high school":{
+"e":384,
+"n":48
+},
+"Some college, no degree":{
+"e":1329,
+"n":152
+}
+},
+"Legal":{
+"Associate degree (sub-baccalaureate)":{
+"e":182,
+"n":26
+},
+"Bachelor's degree":{
+"e":705,
+"n":74
+},
+"Graduate or professional degree":{
+"e":2687,
+"n":337
+},
+"High school diploma":{
+"e":157,
+"n":21
+},
+"Some college, no degree":{
+"e":107,
+"n":12
+}
+},
+"Life, Physical & Social Science":{
+"Associate degree (sub-baccalaureate)":{
+"e":183,
+"n":27
+},
+"Bachelor's degree":{
+"e":1924,
+"n":210
+},
+"Graduate or professional degree":{
+"e":3033,
+"n":366
+},
+"High school diploma":{
+"e":137,
+"n":16
+},
+"Some college, no degree":{
+"e":216,
+"n":23
+}
+},
+"Management":{
+"Associate degree (sub-baccalaureate)":{
+"e":3375,
+"n":446
+},
+"Bachelor's degree":{
+"e":18726,
+"n":2294
+},
+"Graduate or professional degree":{
+"e":10659,
+"n":1320
+},
+"High school diploma":{
+"e":8292,
+"n":1040
+},
+"Less than high school":{
+"e":653,
+"n":85
+},
+"Some college, no degree":{
+"e":4321,
+"n":554
+}
+},
+"Office & Administrative Support":{
+"Associate degree (sub-baccalaureate)":{
+"e":3270,
+"n":422
+},
+"Bachelor's degree":{
+"e":8336,
+"n":1008
+},
+"Graduate or professional degree":{
+"e":2669,
+"n":318
+},
+"High school diploma":{
+"e":10034,
+"n":1225
+},
+"Less than high school":{
+"e":627,
+"n":75
+},
+"Some college, no degree":{
+"e":5084,
+"n":624
+}
+},
+"Personal Care & Service":{
+"Associate degree (sub-baccalaureate)":{
+"e":1306,
+"n":169
+},
+"Bachelor's degree":{
+"e":1838,
+"n":216
+},
+"Graduate or professional degree":{
+"e":511,
+"n":66
+},
+"High school diploma":{
+"e":2286,
+"n":270
+},
+"Less than high school":{
+"e":481,
+"n":51
+},
+"Some college, no degree":{
+"e":1488,
+"n":158
+}
+},
+"Production":{
+"Associate degree (sub-baccalaureate)":{
+"e":1614,
+"n":208
+},
+"Bachelor's degree":{
+"e":2892,
+"n":343
+},
+"Graduate or professional degree":{
+"e":674,
+"n":89
+},
+"High school diploma":{
+"e":8682,
+"n":1022
+},
+"Less than high school":{
+"e":809,
+"n":87
+},
+"Some college, no degree":{
+"e":2215,
+"n":257
+}
+},
+"Protective Service":{
+"Associate degree (sub-baccalaureate)":{
+"e":589,
+"n":70
+},
+"Bachelor's degree":{
+"e":1654,
+"n":181
+},
+"Graduate or professional degree":{
+"e":545,
+"n":70
+},
+"High school diploma":{
+"e":1071,
+"n":118
+},
+"Less than high school":{
+"e":192,
+"n":18
+},
+"Some college, no degree":{
+"e":430,
+"n":53
+}
+},
+"Sales":{
+"Associate degree (sub-baccalaureate)":{
+"e":2736,
+"n":342
+},
+"Bachelor's degree":{
+"e":9147,
+"n":1089
+},
+"Graduate or professional degree":{
+"e":1757,
+"n":223
+},
+"High school diploma":{
+"e":7954,
+"n":969
+},
+"Less than high school":{
+"e":2561,
+"n":261
+},
+"Some college, no degree":{
+"e":4340,
+"n":518
+}
+},
+"Transportation & Material Moving":{
+"Associate degree (sub-baccalaureate)":{
+"e":1087,
+"n":140
+},
+"Bachelor's degree":{
+"e":2256,
+"n":274
+},
+"Graduate or professional degree":{
+"e":544,
+"n":73
+},
+"High school diploma":{
+"e":9515,
+"n":1159
+},
+"Less than high school":{
+"e":1614,
+"n":180
+},
+"Some college, no degree":{
+"e":1958,
+"n":221
+}
+}
+},
+"trend":[
+{
+"y":2021,
+"m":12,
+"emp":312128,
+"lf":323903,
+"ur":3.64,
+"ba":45.7
+},
+{
+"y":2022,
+"m":12,
+"emp":335606,
+"lf":344680,
+"ur":2.63,
+"ba":45.6
+},
+{
+"y":2023,
+"m":12,
+"emp":344228,
+"lf":350805,
+"ur":1.87,
+"ba":47.9
+},
+{
+"y":2024,
+"m":12,
+"emp":349193,
+"lf":357781,
+"ur":2.4,
+"ba":48.0
+},
+{
+"y":2025,
+"m":11,
+"emp":335775,
+"lf":345510,
+"ur":2.82,
+"ba":47.7
+}
+],
+"famTrend":{
+"Architecture & Engineering":{
+"2021":{
+"e":6900,
+"n":183
+},
+"2025":{
+"e":6268,
+"n":125
+}
+},
+"Arts, Design, Entertainment & Media":{
+"2021":{
+"e":8179,
+"n":234
+},
+"2025":{
+"e":9739,
+"n":212
+}
+},
+"Building & Grounds Cleaning":{
+"2021":{
+"e":13866,
+"n":392
+},
+"2025":{
+"e":10799,
+"n":241
+}
+},
+"Business & Financial Operations":{
+"2021":{
+"e":16753,
+"n":465
+},
+"2025":{
+"e":19479,
+"n":409
+}
+},
+"Community & Social Service":{
+"2021":{
+"e":10026,
+"n":263
+},
+"2025":{
+"e":8700,
+"n":182
+}
+},
+"Computer & Mathematical":{
+"2021":{
+"e":10260,
+"n":259
+},
+"2025":{
+"e":12394,
+"n":244
+}
+},
+"Construction & Extraction":{
+"2021":{
+"e":17072,
+"n":471
+},
+"2025":{
+"e":17957,
+"n":380
+}
+},
+"Educational Instruction & Library":{
+"2021":{
+"e":24953,
+"n":687
+},
+"2025":{
+"e":23012,
+"n":509
+}
+},
+"Farming, Fishing & Forestry":{
+"2021":{
+"e":4198,
+"n":113
+},
+"2025":{
+"e":3477,
+"n":73
+}
+},
+"Food Preparation & Serving":{
+"2021":{
+"e":14420,
+"n":350
+},
+"2025":{
+"e":22198,
+"n":395
+}
+},
+"Healthcare Practitioners & Technical":{
+"2021":{
+"e":22599,
+"n":606
+},
+"2025":{
+"e":21587,
+"n":429
+}
+},
+"Healthcare Support":{
+"2021":{
+"e":9252,
+"n":259
+},
+"2025":{
+"e":9867,
+"n":205
+}
+},
+"Installation, Maintenance & Repair":{
+"2021":{
+"e":9872,
+"n":257
+},
+"2025":{
+"e":8683,
+"n":186
+}
+},
+"Legal":{
+"2021":{
+"e":3046,
+"n":89
+},
+"2025":{
+"e":4425,
+"n":96
+}
+},
+"Life, Physical & Social Science":{
+"2021":{
+"e":4174,
+"n":109
+},
+"2025":{
+"e":6330,
+"n":130
+}
+},
+"Management":{
+"2021":{
+"e":38963,
+"n":1101
+},
+"2025":{
+"e":43218,
+"n":938
+}
+},
+"Office & Administrative Support":{
+"2021":{
+"e":26759,
+"n":737
+},
+"2025":{
+"e":29949,
+"n":627
+}
+},
+"Personal Care & Service":{
+"2021":{
+"e":8405,
+"n":228
+},
+"2025":{
+"e":9554,
+"n":185
+}
+},
+"Production":{
+"2021":{
+"e":15521,
+"n":408
+},
+"2025":{
+"e":16772,
+"n":349
+}
+},
+"Protective Service":{
+"2021":{
+"e":4126,
+"n":111
+},
+"2025":{
+"e":5778,
+"n":114
+}
+},
+"Sales":{
+"2021":{
+"e":27398,
+"n":751
+},
+"2025":{
+"e":28292,
+"n":573
+}
+},
+"Transportation & Material Moving":{
+"2021":{
+"e":15388,
+"n":418
+},
+"2025":{
+"e":17300,
+"n":374
+}
+}
+},
+"famSector":{
+"Educational Instruction & Library":[
+{
+"s":"Educational Services",
+"e":21938,
+"n":2709
+},
+{
+"s":"Health Care & Social Assistance",
+"e":2019,
+"n":229
+},
+{
+"s":"Information",
+"e":665,
+"n":87
+},
+{
+"s":"Arts, Entertainment & Recreation",
+"e":499,
+"n":60
+}
+],
+"Healthcare Practitioners & Technical":[
+{
+"s":"Health Care & Social Assistance",
+"e":18829,
+"n":2234
+},
+{
+"s":"Educational Services",
+"e":1511,
+"n":181
+},
+{
+"s":"Retail Trade",
+"e":1178,
+"n":125
+},
+{
+"s":"Professional, Scientific & Technical",
+"e":1045,
+"n":123
+}
+],
+"Sales":[
+{
+"s":"Retail Trade",
+"e":18305,
+"n":2176
+},
+{
+"s":"Real Estate & Rental",
+"e":2090,
+"n":248
+},
+{
+"s":"Finance & Insurance",
+"e":1813,
+"n":218
+},
+{
+"s":"Wholesale Trade",
+"e":1701,
+"n":202
+}
+],
+"Construction & Extraction":[
+{
+"s":"Construction",
+"e":15262,
+"n":1819
+},
+{
+"s":"Manufacturing",
+"e":669,
+"n":82
+},
+{
+"s":"Retail Trade",
+"e":327,
+"n":39
+},
+{
+"s":"Public Administration",
+"e":273,
+"n":37
+}
+],
+"Production":[
+{
+"s":"Manufacturing",
+"e":11919,
+"n":1422
+},
+{
+"s":"Retail Trade",
+"e":1514,
+"n":180
+},
+{
+"s":"Other Services",
+"e":788,
+"n":93
+},
+{
+"s":"Utilities",
+"e":449,
+"n":52
+}
+],
+"Food Preparation & Serving":[
+{
+"s":"Accommodation & Food Services",
+"e":11269,
+"n":1203
+},
+{
+"s":"Health Care & Social Assistance",
+"e":1393,
+"n":154
+},
+{
+"s":"Retail Trade",
+"e":1333,
+"n":141
+},
+{
+"s":"Educational Services",
+"e":832,
+"n":101
+}
+],
+"Healthcare Support":[
+{
+"s":"Health Care & Social Assistance",
+"e":8161,
+"n":979
+},
+{
+"s":"Other Services",
+"e":736,
+"n":94
+},
+{
+"s":"Public Administration",
+"e":498,
+"n":62
+},
+{
+"s":"Professional, Scientific & Technical",
+"e":189,
+"n":21
+}
+],
+"Building & Grounds Cleaning":[
+{
+"s":"Administrative, Support & Waste Mgmt",
+"e":6106,
+"n":737
+},
+{
+"s":"Educational Services",
+"e":1525,
+"n":186
+},
+{
+"s":"Accommodation & Food Services",
+"e":1199,
+"n":159
+},
+{
+"s":"Health Care & Social Assistance",
+"e":1063,
+"n":127
+}
+],
+"Office & Administrative Support":[
+{
+"s":"Health Care & Social Assistance",
+"e":5450,
+"n":685
+},
+{
+"s":"Retail Trade",
+"e":3106,
+"n":357
+},
+{
+"s":"Educational Services",
+"e":2969,
+"n":366
+},
+{
+"s":"Transportation & Warehousing",
+"e":2889,
+"n":355
+}
+],
+"Management":[
+{
+"s":"Health Care & Social Assistance",
+"e":5124,
+"n":630
+},
+{
+"s":"Educational Services",
+"e":4861,
+"n":610
+},
+{
+"s":"Agriculture, Forestry, Fishing & Hunting",
+"e":4702,
+"n":619
+},
+{
+"s":"Manufacturing",
+"e":4240,
+"n":519
+}
+],
+"Community & Social Service":[
+{
+"s":"Health Care & Social Assistance",
+"e":4899,
+"n":590
+},
+{
+"s":"Educational Services",
+"e":2248,
+"n":249
+},
+{
+"s":"Public Administration",
+"e":1118,
+"n":140
+},
+{
+"s":"Other Services",
+"e":1014,
+"n":131
+}
+],
+"Transportation & Material Moving":[
+{
+"s":"Transportation & Warehousing",
+"e":4639,
+"n":568
+},
+{
+"s":"Retail Trade",
+"e":4468,
+"n":529
+},
+{
+"s":"Manufacturing",
+"e":2103,
+"n":255
+},
+{
+"s":"Wholesale Trade",
+"e":1602,
+"n":179
+}
+],
+"Farming, Fishing & Forestry":[
+{
+"s":"Agriculture, Forestry, Fishing & Hunting",
+"e":3969,
+"n":464
+},
+{
+"s":"Manufacturing",
+"e":167,
+"n":22
+},
+{
+"s":"Retail Trade",
+"e":147,
+"n":18
+},
+{
+"s":"Arts, Entertainment & Recreation",
+"e":56,
+"n":6
+}
+],
+"Computer & Mathematical":[
+{
+"s":"Professional, Scientific & Technical",
+"e":3893,
+"n":444
+},
+{
+"s":"Educational Services",
+"e":903,
+"n":96
+},
+{
+"s":"Manufacturing",
+"e":864,
+"n":105
+},
+{
+"s":"Health Care & Social Assistance",
+"e":842,
+"n":102
+}
+],
+"Business & Financial Operations":[
+{
+"s":"Professional, Scientific & Technical",
+"e":3865,
+"n":470
+},
+{
+"s":"Finance & Insurance",
+"e":2958,
+"n":361
+},
+{
+"s":"Public Administration",
+"e":2862,
+"n":340
+},
+{
+"s":"Manufacturing",
+"e":1750,
+"n":199
+}
+],
+"Personal Care & Service":[
+{
+"s":"Other Services",
+"e":3196,
+"n":386
+},
+{
+"s":"Health Care & Social Assistance",
+"e":2185,
+"n":252
+},
+{
+"s":"Arts, Entertainment & Recreation",
+"e":1087,
+"n":127
+},
+{
+"s":"Educational Services",
+"e":509,
+"n":54
+}
+],
+"Architecture & Engineering":[
+{
+"s":"Manufacturing",
+"e":3168,
+"n":354
+},
+{
+"s":"Professional, Scientific & Technical",
+"e":2272,
+"n":275
+},
+{
+"s":"Public Administration",
+"e":339,
+"n":46
+},
+{
+"s":"Construction",
+"e":278,
+"n":32
+}
+],
+"Protective Service":[
+{
+"s":"Public Administration",
+"e":2803,
+"n":319
+},
+{
+"s":"Administrative, Support & Waste Mgmt",
+"e":461,
+"n":54
+},
+{
+"s":"Health Care & Social Assistance",
+"e":336,
+"n":35
+},
+{
+"s":"Arts, Entertainment & Recreation",
+"e":230,
+"n":25
+}
+],
+"Arts, Design, Entertainment & Media":[
+{
+"s":"Arts, Entertainment & Recreation",
+"e":2766,
+"n":353
+},
+{
+"s":"Professional, Scientific & Technical",
+"e":2242,
+"n":276
+},
+{
+"s":"Information",
+"e":1566,
+"n":188
+},
+{
+"s":"Educational Services",
+"e":744,
+"n":94
+}
+],
+"Legal":[
+{
+"s":"Professional, Scientific & Technical",
+"e":2582,
+"n":327
+},
+{
+"s":"Public Administration",
+"e":828,
+"n":96
+},
+{
+"s":"Other Services",
+"e":87,
+"n":10
+},
+{
+"s":"Real Estate & Rental",
+"e":77,
+"n":8
+}
+],
+"Installation, Maintenance & Repair":[
+{
+"s":"Other Services",
+"e":2567,
+"n":301
+},
+{
+"s":"Retail Trade",
+"e":1576,
+"n":184
+},
+{
+"s":"Manufacturing",
+"e":1332,
+"n":163
+},
+{
+"s":"Construction",
+"e":887,
+"n":102
+}
+],
+"Life, Physical & Social Science":[
+{
+"s":"Educational Services",
+"e":1304,
+"n":135
+},
+{
+"s":"Public Administration",
+"e":1086,
+"n":125
+},
+{
+"s":"Health Care & Social Assistance",
+"e":859,
+"n":112
+},
+{
+"s":"Professional, Scientific & Technical",
+"e":847,
+"n":108
+}
+]
+}
+}
