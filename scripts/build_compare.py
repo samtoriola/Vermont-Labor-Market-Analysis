@@ -9,7 +9,7 @@ New Hampshire is the neighbour comparison: same OEWS vintage (2025 state file) a
 similar small-state labour market. The US column comes from the 2024 national file --
 a year older, which is flagged in the UI.
 """
-import json, os, pathlib
+import json, os, pathlib, re
 import numpy as np
 import pandas as pd
 import warnings
@@ -45,9 +45,15 @@ def pull(sql, area):
     })
     out["area"] = area
     before = len(out)
-    out = out[out["p50"].notna() & out["emp"].notna() & (out["emp"] > 0)]
+    # A row is useful if it has a median. Employment is suppressed independently of
+    # wages -- 21 Vermont occupations publish a mean but no headcount -- and dropping
+    # those at the pull would cost the wage figures too. The dots, which are sized by
+    # employment, filter again below; the percentile ladder does not need to.
+    out = out[out["p50"].notna()]
+    hasemp = out["emp"].notna() & (out["emp"] > 0)
     print(f"  {area}: {len(out)} of {before} detailed occupations priced, "
-          f"{out['emp'].sum():,.0f} jobs")
+          f"{int((~hasemp).sum())} of them with employment suppressed, "
+          f"{out.loc[hasemp, 'emp'].sum():,.0f} jobs")
     return out
 
 
@@ -74,7 +80,8 @@ AREAS = [
 ]
 
 out = {"censorAt": CENSOR, "areas": []}
-for label, df, src in AREAS:
+for label, df_all, src in AREAS:
+    df = df_all[df_all["emp"].notna() & (df_all["emp"] > 0)]
     w = df["emp"]
     # Employment-weighted mean of occupation medians: the "average" line on the chart.
     avg = float(np.average(df["p50"], weights=w))
@@ -113,6 +120,12 @@ for label, df, src in AREAS:
 
 # Per-occupation ladder for Vermont: mean and median on one scale, so the chart can
 # show where the average sits inside the spread instead of hiding it in a box.
+#
+# Lightcast and OEWS do not always agree on the code for the same occupation. Lightcast
+# uses aggregate codes ending in 8 where OEWS publishes the same occupation under a code
+# ending in 0 -- Home Health and Personal Care Aides is 31-1128 in one and 31-1120 in the
+# other, 8,882 Vermont jobs that a straight code lookup misses. Rather than hand-maintain
+# a list, match on the occupation title and key the ladder under both codes.
 out["vtLadder"] = {
     r["soc"]: {
         "mu": (round(float(r["mean"])) if pd.notna(r["mean"]) else None),
@@ -124,6 +137,38 @@ out["vtLadder"] = {
     }
     for _, r in vt.iterrows()
 }
+
+LIGHTCAST = json.loads((HERE.parent / "data" / "lightcast.json").read_text(encoding="utf-8"))
+
+
+def norm(t):
+    return re.sub(r"[^a-z0-9]+", " ", str(t).lower()).strip()
+
+
+oews_by_title = {}
+for _, r in vt.iterrows():
+    oews_by_title.setdefault(norm(r["name"]), r["soc"])
+
+aliases = {}
+for o in LIGHTCAST["allOcc"]:
+    if o["s"] in out["vtLadder"]:
+        continue
+    hit = oews_by_title.get(norm(o["n"]))
+    if hit:
+        aliases[o["s"]] = hit
+        out["vtLadder"][o["s"]] = out["vtLadder"][hit]
+print(f"code aliases resolved on title: {len(aliases)} -> "
+      + ", ".join(f"{k}->{v}" for k, v in sorted(aliases.items())))
+
+# Lightcast reports Postsecondary Teachers as one occupation (5,514 Vermont jobs);
+# OEWS only ever publishes the 26 subject-level codes and no combined row. An
+# employment-weighted mean of the subject codes was tried and rejected: the codes with
+# published employment cover only 64% of Lightcast's total, a third of that weight is
+# Health Specialties Teachers at a $134,950 mean, and the suppressed remainder is the
+# lower-paid end. It came out at $108,615 against a $84,494 median -- biased high and
+# not comparable with the published means on the other rows. The chart says the mean is
+# not published rather than showing a derived number that looks like the rest.
+
 nmu = sum(1 for v in out["vtLadder"].values() if v["mu"] is not None)
 print("")
 print(f"vtLadder: {len(out['vtLadder'])} Vermont occupations, {nmu} with a mean wage")

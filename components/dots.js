@@ -326,7 +326,7 @@ export function PercentileLadder({ rows, opts = {} }) {
           ['10th percentile', money(r.p10)],
           ['25th percentile', money(r.p25)],
           ['Median', money(r.p50)],
-          ['Mean', hasMu ? money(r.mu) : '—'],
+          ['Mean', hasMu ? money(r.mu) : r.muNote || '—'],
           ['75th percentile', money(r.p75)],
           ['90th percentile', money(r.p90)],
           [

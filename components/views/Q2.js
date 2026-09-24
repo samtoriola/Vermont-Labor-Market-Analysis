@@ -78,6 +78,9 @@ export default function Q2({ lw, setLw }) {
         p75: b.p75,
         p90: b.p90,
         mu: L ? L.mu : null,
+        // OEWS publishes no combined row for a few occupations Lightcast reports as
+        // one, so the mean is genuinely absent rather than merely missing.
+        muNote: L ? null : 'not published for Vermont',
         color: b.p50 >= LWA ? '--s3' : '--s2',
         extra: [
           ['Jobs, 2025', fmt(r.j)],
@@ -262,7 +265,7 @@ export default function Q2({ lw, setLw }) {
       <Panel
         title="The 25 largest occupations — mean against median"
         cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean. Wherever the ring sits to the right of the dot, a long upper tail is lifting the average above what a typical worker earns — the reason an average alone is a poor guide to pay. Where the whole line falls left of the living-wage mark, most people in that occupation earn below self-sufficiency, not just the bottom tail."
-        src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} shown with a published mean · living wage: MIT 2025, ${lw}`}
+        src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
       >
         <LadderLegend />
         <PercentileLadder
