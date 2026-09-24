@@ -96,20 +96,30 @@ o["family"] = o["soc"].str[:2].map(SOC_MAJOR).fillna("Other")
 o["edu_detail"] = o["edu_raw"].fillna("Not assigned")
 o["tier"] = o["edu_raw"].map(EDU_TIER).fillna("Not assigned")
 o["open"] = o["openTot"] / OPEN_YEARS
-o["chgPct"] = np.where(o["jobs21"] > 0, o["chg"] / o["jobs21"], np.nan)
+# Every rate here divides by a headcount, and Lightcast models employment down to a
+# fraction of a job. A `> 0` guard is therefore not enough: Gambling Managers carries
+# 0.005 jobs in 2025 against a projected gain of 1.0, which reads as 19,390% growth,
+# and Bailiffs goes 0.1 -> 55.9 jobs, which reads as +54,601%. Neither is a Vermont
+# signal; both are artefacts of dividing by a fractional base.
+#
+# So no rate is published unless its own denominator carries at least MIN_BASE jobs.
+# That suppresses about 106 of 796 occupations per measure, together 0.11% of state
+# employment, and brings the largest projected growth down from 19,390% to 29.1% and
+# the largest observed change from 54,601% to 1,118% (Aircraft Service Attendants,
+# 25 -> 306 jobs, a real move on a small base rather than an artefact).
+MIN_BASE = 10
+
+o["chgPct"] = np.where(o["jobs21"] >= MIN_BASE, o["chg"] / o["jobs21"], np.nan)
 o["g5"] = o["jobs30"] - o["jobs25"]
-o["g5pct"] = np.where(o["jobs25"] > 0, o["g5"] / o["jobs25"], np.nan)
+o["g5pct"] = np.where(o["jobs25"] >= MIN_BASE, o["g5"] / o["jobs25"], np.nan)
+
 # Turnover: Lightcast's own 2025 rate, with separations/jobs as fallback where blank.
 # Churn-inclusive -- separations count job-to-job transfers, not just exits -- so this
-# reads as a stability signal, not unmet hiring need.
-# Suppressed below 10 jobs: a rate on a fractional headcount is meaningless and
-# produces absurd values. Gambling Change Persons carries 0.02 jobs against 129
-# separations in the source, i.e. 5,281x -- an artefact of Lightcast's own modelling,
-# not a Vermont signal. 47 occupations sit under 1 job and hold 7 jobs between them.
-TURN_MIN_JOBS = 10
+# reads as a stability signal, not unmet hiring need. Same MIN_BASE rule: Gambling
+# Change Persons carries 0.02 jobs against 129 separations, i.e. 5,281x.
 o["turn"] = np.where(o["turnRate"].notna(), o["turnRate"],
                      np.where(o["jobs25"] > 0, o["sep25"] / o["jobs25"], np.nan))
-o["turn"] = np.where(o["jobs25"] >= TURN_MIN_JOBS, o["turn"], np.nan)
+o["turn"] = np.where(o["jobs25"] >= MIN_BASE, o["turn"], np.nan)
 
 # carry LQ forward from the previous export (verified same snapshot)
 lq = prev[["SOC", "2025 Employment Concentration"]].copy()

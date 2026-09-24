@@ -138,3 +138,17 @@ renders, that the dot charts draw, that hovering a dot produces a tooltip, that 
 a column opens the drill-down, and that nothing overflows at 390px. Run it after any
 chart change: `next build` compiles a stale identifier happily and it only fails at
 runtime. `shoot_panels.py` crops each chart panel to `../_shots/` for eyeballing.
+
+## e2e_rates.py
+
+Guards the minimum-base rule. `build.py` publishes projected growth, observed change
+and turnover only where the denominator carries at least 10 jobs, because Lightcast
+models employment to a fraction of a job: Gambling Managers has 0.005 jobs against a
+projected gain of 1.0, which computes as 19,390% growth, and Bailiffs goes 0.1 to 55.9
+jobs, which computes as +54,601%. This script checks the suppressed cells render as a
+dash and that blanks sort below real values in both directions.
+
+Note that `build.py` writes `lc_data.js` here, not `../data/lightcast.json`. Run
+`mk_app_data.py` afterwards to convert. It now converts whatever `*_data.js` files are
+present and leaves the other committed JSONs alone, so a Lightcast-only change does not
+require re-running the CPS and percentile builds against BigQuery.

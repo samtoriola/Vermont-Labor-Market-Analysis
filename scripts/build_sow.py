@@ -81,7 +81,12 @@ o["postings"] = o["postings"].fillna(0.0)
 o["family"] = o["soc"].str[:2].map(SOC_MAJOR).fillna("Other")
 o["tier"] = o["edu_raw"].map(EDU_TIER).fillna("Not assigned")
 o["open"] = o["openTot"] / OPEN_YEARS
-o["g5pct"] = np.where(o["jobs"] > 0, (o["jobs30"] - o["jobs"]) / o["jobs"] * 100, np.nan)
+# Same minimum base as build.py: a growth rate on a fractional headcount is noise.
+# Q5 filters to jobs >= 100 anyway, but the rule belongs with the calculation so it
+# cannot drift back in if that filter is ever relaxed.
+MIN_BASE = 10
+o["g5pct"] = np.where(o["jobs"] >= MIN_BASE,
+                      (o["jobs30"] - o["jobs"]) / o["jobs"] * 100, np.nan)
 o["postPer100"] = np.where(o["jobs"] > 0, o["postings"] / o["jobs"] * 100, np.nan)
 o["lwRatio"] = np.where(o["med"] > 0, o["med"] / LW_DEFAULT, np.nan)
 # Openings INTENSITY, not volume: absolute openings correlate 0.92 with employment,

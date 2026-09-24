@@ -168,9 +168,10 @@ function Methods() {
           <h4>Wage percentiles</h4>
           <p>
             Annual figures as supplied, all 798 occupations; 16 with zero earnings are excluded
-            (0.00% of jobs). Occupation boxes are true percentiles. Group boxes — family, credential
-            tier, size tier — are the employment-weighted mean of their occupations’ percentiles, so
-            they describe range faithfully but are not exact group quantiles.
+            (0.00% of jobs). The percentile ladder shows one occupation’s own published
+            percentiles and mean. Group figures — family, credential tier, size tier — are the
+            employment-weighted mean of their occupations’ percentiles, so they describe range
+            faithfully but are not exact group quantiles.
           </p>
         </div>
 
@@ -181,6 +182,21 @@ function Methods() {
             adult, two children). The default is <strong>$23.95</strong> — one adult, no children —
             annualised at 2,080 hours. Across counties the one-adult figure ranges $21.79–$25.85.
             Every wage-quality number moves with this choice.
+          </p>
+        </div>
+
+        <div>
+          <h4>Rates on small bases</h4>
+          <p>
+            Lightcast models employment to a fraction of a job, so any rate with a tiny
+            denominator is noise. Gambling Managers carries <strong>0.005 jobs</strong> against a
+            projected gain of 1.0, which computes as 19,390% growth; Bailiffs goes 0.1 to 55.9
+            jobs, which computes as +54,601%. Projected growth, observed change and turnover are
+            therefore left blank unless their own denominator carries at least{' '}
+            <strong>10 jobs</strong>. That suppresses about 120 of 796 occupations per measure,
+            together <strong>0.11%</strong> of state employment, and caps projected growth at
+            29.1% and observed change at 1,118% — both real moves on small bases. A blank means
+            the base was too small to support a percentage, not that the figure is zero.
           </p>
         </div>
 

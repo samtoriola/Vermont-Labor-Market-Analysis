@@ -3,7 +3,7 @@ import pathlib
 from playwright.sync_api import sync_playwright
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "_shots"
-URL = "http://127.0.0.1:3128/"
+URL = "http://127.0.0.1:3129/"
 WANT = [
     ("structure", "Where pay actually sits", "01-families-dotrows"),
     ("wage", "Where pay sits, by occupation size", "02-size-dotcolumns"),
