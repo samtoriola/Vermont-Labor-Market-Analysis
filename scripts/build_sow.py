@@ -7,9 +7,13 @@ Q8  Synthesis inputs (SOW 4D)
 
 Q6 method: IPEDS 2024 completions for VSCS (CCV 230861, Vermont State University 231165),
 MAJORNUM=1, CIPCODE!=99, joined to cip2020_soc2018_crosswalk. Because CIP->SOC is
-many-to-many, each CIP's completions are split EQUALLY across its linked SOCs
-(fractional allocation). This preserves the total but is an assumption, not a fact:
-the SOW itself calls program-to-occupation a network of pathways, not a mapping.
+many-to-many, each CIP's completions are split across its linked SOCs IN PROPORTION TO
+THOSE OCCUPATIONS' VERMONT EMPLOYMENT (fractional allocation), falling back to an equal
+split only where none of a CIP's linked occupations exist in Vermont. This preserves the
+total but is an assumption, not a fact -- no graduate is observed entering any job, and
+the SOW itself calls program-to-occupation a network of pathways, not a mapping. Both
+allocations are computed and the difference is reported, because weighting moves about a
+third of the completions relative to an equal split.
 """
 import pandas as pd, numpy as np, json, os, warnings
 from google.cloud import bigquery
