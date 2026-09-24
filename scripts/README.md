@@ -100,3 +100,41 @@ Change them here, not in the app.
   latter is 3.03 TB, unpartitioned and unclustered — a single filtered probe scans ~735 GB.
   Nothing in this pipeline touches it; if you add county-level demand for RQ7, materialise
   a Vermont slice once rather than querying it live.
+
+## build_compare.py
+
+OEWS wage distributions for Vermont, New Hampshire and the United States, written to
+`../data/compare.json`. Vermont and New Hampshire come from the 2025 state file; there
+is no 2025 national file in the warehouse, so the US column is OEWS 2024 and every
+chart that uses it says so.
+
+Two traps in that source. The national table stores its numerics as strings with
+thousands separators, so `SAFE_CAST('96,310' AS FLOAT64)` silently returns NULL and
+every US row disappears; commas have to be stripped first. And `#` means "at or above
+$239,200" while `*` means suppressed, so both need handling rather than casting.
+
+It also writes `vtLadder`, the mean and five percentiles for each Vermont occupation,
+which is what lets the percentile ladder put the mean and the median on one line.
+
+## build_people.py
+
+Person-level earnings from ACS 1-year 2024 (IPUMS USA), written to `../data/people.json`.
+Every dot in those charts is one respondent.
+
+Two traps here too. `2024_acs1_household_geographic` holds one row per PERSON, not per
+household, so joining on SERIAL alone matches every person in the household and inflates
+the sample by household size -- 2.23x. Use `SELECT DISTINCT SERIAL, STATEFIP`. And the
+measure is INCEARN, not INCWAGE: wage income alone reads zero for the self-employed,
+which would silently drop 135 of Vermont's 2,028 full-time year-round workers.
+
+Columns hold more respondents than a chart can render, so each carries a weighted random
+sample drawn without replacement with probability proportional to PERWT. The average and
+median lines are computed from every respondent, not from the sampled dots.
+
+## e2e_dots.py, shoot_panels.py
+
+`e2e_dots.py` drives a real browser against `next start` and checks that every tab
+renders, that the dot charts draw, that hovering a dot produces a tooltip, that clicking
+a column opens the drill-down, and that nothing overflows at 390px. Run it after any
+chart change: `next build` compiles a stale identifier happily and it only fails at
+runtime. `shoot_panels.py` crops each chart panel to `../_shots/` for eyeballing.

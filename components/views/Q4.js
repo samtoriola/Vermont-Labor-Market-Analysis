@@ -1,11 +1,16 @@
 'use client';
 
-import { DATA, LC, PCT, TIER_ORDER, SERIES, lwAnnual, occByTier } from '@/lib/data';
+import {
+  DATA, LC, PCT, TIER_ORDER, SERIES, COMPARE, PEOPLE,
+  lwAnnual, occByTier, wageStats, occDots,
+} from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Callout, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
-import { RankedBars, BoxPlot, BoxLegend } from '../charts';
+import { occDotTip, personTip } from '../occCols';
+import { RankedBars } from '../charts';
+import { DotColumns, DotLegend } from '../dots';
 
 export default function Q4({ lw, setLw }) {
   const LWA = lwAnnual(lw);
@@ -33,25 +38,34 @@ export default function Q4({ lw, setLw }) {
   const lastCps = DATA.trend[DATA.trend.length - 1];
   const P = PCT.tiers;
 
-  const tierBox = TIER_ORDER.filter((k) => P[k]).map((k, i) => {
-    const b = P[k];
-    const r = t[k];
+  // One dot per occupation at each entry-credential tier. The gap between the
+  // solid average line and the dashed median line is the thing a box plot hides.
+  const tierDots = TIER_ORDER.filter((k) => occByTier(k).length).map((k) => {
+    const occ = occByTier(k);
+    const st = wageStats(occ);
     return {
       label: k,
-      p10: b.p10,
-      p25: b.p25,
-      p50: b.p50,
-      p75: b.p75,
-      p90: b.p90,
-      color: SERIES[i],
-      extra: [
-        ['Jobs', fmt(r.jobs)],
-        ['Share of employment', r.share + '%'],
-        ['Above living wage', r.above[lw].toFixed(1) + '%'],
-        ['Occupations', fmt(b.nocc)],
-      ],
+      sub: fmt(st.n) + ' occupations',
+      dots: occDots(occ),
+      avg: st.avg,
+      med: st.med,
+      color: st.med >= LWA ? '--s3' : '--s2',
+      onClick: () => tierDrill(k),
     };
   });
+
+  // The same ladder measured on people rather than jobs: one dot per Vermonter who
+  // answered the ACS, grouped by the credential they hold.
+  const credPeople = PEOPLE.byCred.map((c) => ({
+    label: c.label,
+    sub: fmt(c.n) + ' respondents',
+    dots: c.dots,
+    avg: c.avg,
+    med: c.med,
+    thin: c.thin,
+    color: c.med >= LWA ? '--s3' : '--s2',
+  }));
+
 
   return (
     <>
@@ -106,19 +120,37 @@ export default function Q4({ lw, setLw }) {
       <LwPicker value={lw} onChange={setLw} />
 
       <Panel
-        title="The credential ladder, with spread"
-        cap="Click a tier to list its occupations. Earnings distribution at each entry-credential tier. Note how far the high-school and sub-baccalaureate boxes overlap, and how the bachelor's box separates from both — that asymmetry is the finding, and a median-only chart conceals it."
-        src="Lightcast · employment-weighted mean of occupation percentiles · 100% of jobs priced"
+        title="The credential ladder, by what the job requires"
+        cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Notice how far the high-school and sub-baccalaureate clouds overlap, and how the bachelor's cloud separates from both — that asymmetry is the finding, and a median-only chart conceals it. Click a column to list its occupations."
+        src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
       >
-        <BoxLegend />
-        <BoxPlot
-          rows={tierBox}
+        <DotLegend unit="one occupation" />
+        <DotColumns
+          groups={tierDots}
           opts={{
-            labelWidth: 200,
+            yMax: COMPARE.yMax,
             rule: LWA,
             ruleLabel: 'Living wage ' + money(LWA),
-            endLabels: true,
-            aria: 'Earnings percentile distribution by entry-credential tier',
+            dotTip: occDotTip(LWA),
+            aria: 'Median pay of every occupation, by entry-credential tier',
+          }}
+        />
+      </Panel>
+
+      <Panel
+        title="The credential ladder, by what people hold"
+        cap="The same ladder measured on people instead of jobs. Every dot is one Vermonter who answered the American Community Survey, placed at their own earnings for the year and grouped by the credential they actually hold. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
+        src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+      >
+        <DotLegend unit="one survey respondent" sized={false} />
+        <DotColumns
+          groups={credPeople}
+          opts={{
+            yMax: PEOPLE.yMax,
+            rule: LWA,
+            ruleLabel: 'Living wage ' + money(LWA),
+            dotTip: personTip(LWA),
+            aria: 'Earnings of individual survey respondents, by credential held',
           }}
         />
       </Panel>

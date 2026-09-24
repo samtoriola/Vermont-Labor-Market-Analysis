@@ -298,6 +298,8 @@ section.view {
 }
 
 .panel {
+  /* Clears the sticky header when a panel is scrolled or linked to. */
+  scroll-margin-top: 150px;
   background: var(--panel);
   border: 1px solid var(--rule);
   border-radius: 6px;
@@ -382,9 +384,9 @@ section.view {
 }
 
 .chart.boxkey {
-  width: 300px;
+  width: 470px;
   max-width: 100%;
-  margin: 0 0 12px;
+  margin: 0 0 10px;
 }
 
 .chart text {
@@ -411,6 +413,15 @@ section.view {
   stroke: var(--rule);
 }
 
+/* Reference-line labels are drawn over dense marks, so they carry a halo of the
+   panel background rather than relying on contrast that is not there. */
+.chart .rulelab {
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
 .chart .nbadge {
   font-family: var(--fig);
   font-variant-numeric: tabular-nums;
@@ -428,6 +439,43 @@ section.view {
 
 .chart .bar.clickable {
   cursor: pointer;
+}
+
+/* Dot distributions: one mark per occupation or per survey respondent. Dots overlap
+   heavily by design, so hover lifts a single dot clear of the cloud around it. */
+.chart .dot {
+  cursor: default;
+  transition: opacity 0.1s;
+}
+
+.chart .dot:hover {
+  opacity: 1;
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+
+.chart .collabel.clickable {
+  cursor: pointer;
+}
+
+.chart .collabel.clickable:hover .clab,
+.chart .collabel.clickable:hover .vlab {
+  fill: var(--accent);
+}
+
+/* Reference columns are context, not Vermont findings, so they sit back a little. */
+.chart .dotcol.ref .clab,
+.chart .dotrow.ref .clab {
+  fill: var(--ink-2);
+}
+
+.chart .ladder {
+  cursor: default;
+}
+
+.chart .ladder:hover line,
+.chart .ladder:hover circle {
+  opacity: 1;
 }
 
 .chart g:focus-visible,

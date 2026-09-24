@@ -1,11 +1,16 @@
 'use client';
 
-import { DATA, LC, PCT, TOTJ, TIER_ORDER, SERIES, lwAnnual, occByFamily } from '@/lib/data';
+import {
+  DATA, LC, PCT, TOTJ, TIER_ORDER, SERIES, COMPARE,
+  lwAnnual, occByFamily, wageStats, occDots, compareCol,
+} from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Panel, Legend, Table, VHead, N, DrillHint } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
-import { RankedBars, StackedRows, BoxPlot, BoxLegend } from '../charts';
+import { occDotTip } from '../occCols';
+import { RankedBars, StackedRows } from '../charts';
+import { DotRows, DotLegend } from '../dots';
 
 export default function Q1({ lw }) {
   const LWA = lwAnnual(lw);
@@ -28,27 +33,29 @@ export default function Q1({ lw }) {
   const loPay = fams.filter((r) => r.med).sort((a, b) => a.med - b.med)[0];
   const top3Share = (top3.reduce((a, r) => a + r.jobs, 0) / TOTJ) * 100;
 
-  const famBox = fams
-    .filter((r) => PCT.families[r.f])
+  // One dot per occupation, placed at its own median pay and sized by employment.
+  // The solid line is the employment-weighted average, the dashed line the median:
+  // where they separate, a few well-paid occupations are carrying the family.
+  const famDots = fams
     .map((r) => {
-      const b = PCT.families[r.f];
+      const occ = occByFamily(r.f);
+      const st = wageStats(occ);
       return {
         label: r.f,
-        p10: b.p10,
-        p25: b.p25,
-        p50: b.p50,
-        p75: b.p75,
-        p90: b.p90,
-        color: b.p50 >= LWA ? '--s3' : '--s2',
-        extra: [
-          ['Jobs', fmt(r.jobs)],
-          ['Above living wage', r.above[lw] !== null ? r.above[lw] + '% of jobs' : '—'],
-          ['Occupations priced', fmt(b.nocc)],
-          ['Jobs covered', b.cov + '%'],
-        ],
+        dots: occDots(occ),
+        avg: st.avg,
+        med: st.med,
+        color: st.med >= LWA ? '--s3' : '--s2',
+        onClick: () => famDrill(r),
       };
     })
-    .sort((a, b) => b.p50 - a.p50);
+    .filter((r) => r.dots.length)
+    .sort((a, b) => b.avg - a.avg);
+
+  // Reference rows: the state as a whole, the nearest comparable state, the nation.
+  const famRefs = ['Vermont', 'New Hampshire', 'United States']
+    .map(compareCol)
+    .filter(Boolean);
 
   const credRows = fams
     .map((r) => {
@@ -140,17 +147,19 @@ export default function Q1({ lw }) {
       </Panel>
 
       <Panel
-        title="Earnings distribution by family"
-        cap="Whiskers span the 10th to 90th percentile, the box the 25th to 75th, the line the median. Green medians clear the living wage, amber do not. Percentiles are the employment-weighted mean of each family's occupation percentiles, not a pooled wage distribution — the spread is indicative of range, not an exact family quantile."
-        src={`Lightcast Vermont occupation export · annual percentiles, 100% of jobs priced · benchmark: MIT Living Wage 2025, ${lw}`}
+        title="Where pay actually sits, by family"
+        cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average and the dashed line the median; the wider the gap, the more a handful of well-paid occupations is pulling the average up. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
+        src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
       >
-        <BoxLegend />
-        <BoxPlot
-          rows={famBox}
+        <DotLegend unit="one occupation" />
+        <DotRows
+          rows={famDots.concat(famRefs)}
           opts={{
+            xMax: COMPARE.yMax,
             rule: LWA,
             ruleLabel: 'Living wage ' + money(LWA),
-            aria: 'Earnings percentile distribution by occupational family',
+            dotTip: occDotTip(LWA),
+            aria: 'Median pay of every occupation, grouped by family',
           }}
         />
       </Panel>

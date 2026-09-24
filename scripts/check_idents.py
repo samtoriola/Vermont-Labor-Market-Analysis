@@ -27,9 +27,14 @@ ALLOW = {
     "BA", "HS", "LW", "LMI", "PUMA", "SOW", "US",
     # SQL fragments that appear inside source-line captions
     "SUM", "COUNT", "AVG", "WTFINL", "PERWT", "MAJORNUM", "CIPCODE",
+    # Agency and survey names that appear in source captions
+    "OEWS", "BLS", "LAUS", "OES",
 }
 
-IMPORT_RE = re.compile(r"^import\s+(.+?)\s+from\s+['\"]", re.M)
+# The import clause may run over several lines, so match lazily across newlines
+# rather than anchoring to one line -- a multi-line import used to read as "never
+# imported", which buried real findings under false positives.
+IMPORT_RE = re.compile(r"^import\s+([\s\S]+?)\s+from\s+['\"]", re.M)
 DECL_RE = re.compile(r"\b(?:const|let|var|function|class)\s+([A-Za-z_]\w*)")
 DESTRUCT_RE = re.compile(r"\b(?:const|let|var)\s*\{([^}]*)\}")
 WORD_RE = re.compile(r"[A-Za-z_]\w*")

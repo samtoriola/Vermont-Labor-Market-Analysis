@@ -1,5 +1,7 @@
 'use client';
 
+import { fmt, money } from '@/lib/format';
+
 /**
  * Column spec for occupation tables, shared by the master view and the drill-down
  * so both carry the same measures and export the same shape.
@@ -28,4 +30,48 @@ export function occColsWide(lwAnnual) {
     { k: 'f', label: 'Family', kind: 'text', get: (o) => o.f },
     { k: 's', label: 'SOC', kind: 'text', get: (o) => o.s },
   ]);
+}
+
+/**
+ * Tooltip for a single occupation dot. Reference columns come from OEWS and carry
+ * a percentile range but none of the Vermont-only Lightcast fields, so those rows
+ * are only added when they exist.
+ */
+export function occDotTip(lwAnnual) {
+  return (d, g) => ({
+    title: d.n,
+    rows: [
+      ['Median pay', money(d.v)],
+      ['Jobs', fmt(d.e)],
+      ...(d.lo ? [['10th to 90th', money(d.lo) + ' to ' + money(d.hi)]] : []),
+      ...(g && g.ref
+        ? []
+        : [
+            ['vs living wage', (d.v / lwAnnual).toFixed(2) + '×'],
+            [
+              'Projected 2025-30',
+              d.g === null || d.g === undefined ? '—' : (d.g >= 0 ? '+' : '') + d.g + '%',
+            ],
+            [
+              'Turnover',
+              d.turn === null || d.turn === undefined ? '—' : d.turn.toFixed(1) + '%',
+            ],
+            ['Entry credential', d.t || '—'],
+          ]),
+    ],
+  });
+}
+
+/** Tooltip for a single ACS respondent dot. */
+export function personTip(lwAnnual) {
+  return (d) => ({
+    title: 'One ACS respondent',
+    rows: [
+      ['Earnings, 2024', money(d.v)],
+      ['vs living wage', (d.v / lwAnnual).toFixed(2) + '×'],
+      ['Age', String(d.a)],
+      ['Usual hours a week', String(d.h)],
+      ['Occupation group', d.f || '—'],
+    ],
+  });
 }

@@ -1,13 +1,18 @@
 'use client';
 
-import { LC, PCT, lwAnnual } from '@/lib/data';
+import {
+  LC, PCT, COMPARE, PEOPLE, SIZE_ORDER,
+  lwAnnual, wageStats, occDots, occBySize, compareCol,
+} from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
 import { useDrill, occDrill } from '../Drill';
-import { RankedBars, BoxPlot, BoxLegend, Scatter } from '../charts';
+import { occDotTip, personTip } from '../occCols';
+import { RankedBars, Scatter } from '../charts';
+import { DotColumns, DotLegend, PercentileLadder, LadderLegend } from '../dots';
 
 export default function Q2({ lw, setLw }) {
   const LWA = lwAnnual(lw);
@@ -15,50 +20,56 @@ export default function Q2({ lw, setLw }) {
   const { apply } = useFilters();
   const filtered = apply(LC.allOcc);
 
-  const sizeDrill = (tier) => {
-    const lo = tier === 'Large (2,000+)' ? 2000 : tier === 'Medium (500-2,000)' ? 500 : 0;
-    const hi = tier === 'Large (2,000+)' ? Infinity : tier === 'Medium (500-2,000)' ? 2000 : 500;
+  const sizeDrill = (band) =>
     open(
       occDrill({
         label: 'Occupation size',
-        title: tier,
+        title: band,
         cap: 'Every occupation in this size band, largest first.',
-        occ: LC.allOcc.filter((o) => o.j >= lo && o.j < hi).sort((a, b) => b.j - a.j),
+        occ: occBySize(band),
         lwAnnual: LWA,
       })
     );
-  };
   const sz = LC.sizeTiers;
   const [big, mid, small] = sz;
   const top = LC.topOcc.slice(0, 25);
 
-  const szBox = sz
-    .filter((r) => PCT.sizeTiers[r.s])
-    .map((r) => {
-      const b = PCT.sizeTiers[r.s];
-      return {
-        label: r.s,
-        p10: b.p10,
-        p25: b.p25,
-        p50: b.p50,
-        p75: b.p75,
-        p90: b.p90,
-        color: '--s1',
-        extra: [
-          ['Occupations', fmt(r.nocc)],
-          ['Jobs', fmt(r.jobs)],
-          ['Share of employment', r.share + '%'],
-          ['Above living wage', r.above[lw].toFixed(1) + '%'],
-        ],
-      };
-    });
+  const szDots = SIZE_ORDER.map((band) => {
+    const occ = occBySize(band);
+    const st = wageStats(occ);
+    return {
+      label: band,
+      sub: fmt(st.n) + ' occupations',
+      dots: occDots(occ),
+      avg: st.avg,
+      med: st.med,
+      onClick: () => sizeDrill(band),
+    };
+  }).filter((r) => r.dots.length);
 
-  const occBox = top
-    .filter((r) => PCT.occ[r.soc])
+  const areaRefs = ['Vermont', 'New Hampshire', 'United States'].map(compareCol).filter(Boolean);
+
+  // The occupation dots above are job-level: what a role pays. These are people --
+  // one dot per ACS respondent, at their own wage income. Vermont leads, the
+  // neighbouring state and the nation follow as reference.
+  const peopleAreas = PEOPLE.byArea.map((a, i) => ({
+    label: a.label,
+    sub: fmt(a.n) + ' respondents',
+    dots: a.dots,
+    avg: a.avg,
+    med: a.med,
+    thin: a.thin,
+    ref: i > 0,
+  }));
+
+  // Percentile ladder for the largest occupations. OEWS supplies the mean alongside
+  // the percentiles, so mean and median can be read on one line; Lightcast supplies
+  // the percentiles for anything OEWS suppresses.
+  const ladder = top
     .map((r) => {
-      const b = PCT.occ[r.soc];
-      const belowLabel =
-        b.p25 >= LWA ? 'under 25%' : b.p50 >= LWA ? '25–50%' : b.p75 >= LWA ? '50–75%' : 'over 75%';
+      const L = COMPARE.vtLadder[r.soc];
+      const b = L || PCT.occ[r.soc];
+      if (!b) return null;
       return {
         label: r.n,
         p10: b.p10,
@@ -66,15 +77,17 @@ export default function Q2({ lw, setLw }) {
         p50: b.p50,
         p75: b.p75,
         p90: b.p90,
+        mu: L ? L.mu : null,
         color: b.p50 >= LWA ? '--s3' : '--s2',
         extra: [
-          ['Jobs', fmt(r.j)],
+          ['Jobs, 2025', fmt(r.j)],
           ['SOC', r.soc],
           ['Entry education', r.e],
-          ['Share below living wage', belowLabel],
         ],
       };
-    });
+    })
+    .filter(Boolean);
+  const ladderMu = ladder.filter((r) => r.mu !== null && r.mu !== undefined).length;
 
   return (
     <>
@@ -149,19 +162,37 @@ export default function Q2({ lw, setLw }) {
       </Panel>
 
       <Panel
-        title="Earnings distribution by occupation size"
-        cap="The same inverse relationship, now with spread. The larger the occupation, the lower and tighter its wage distribution — large occupations top out near where medium and smaller ones begin."
-        src="Lightcast · employment-weighted mean of occupation percentiles · annual figures as supplied"
+        title="Where pay sits, by occupation size"
+        cap="One dot per occupation, placed at its median pay and sized by employment. The solid line is the employment-weighted average, the dashed line the median. The three columns on the right put Vermont as a whole beside its nearest comparable state and the nation. Click a Vermont column for the occupations behind it."
+        src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
       >
-        <BoxLegend />
-        <BoxPlot
-          rows={szBox}
+        <DotLegend unit="one occupation" />
+        <DotColumns
+          groups={szDots.concat(areaRefs)}
           opts={{
-            labelWidth: 196,
+            yMax: COMPARE.yMax,
             rule: LWA,
             ruleLabel: 'Living wage ' + money(LWA),
-            endLabels: true,
-            aria: 'Earnings percentile distribution by occupation size tier',
+            dotTip: occDotTip(LWA),
+            aria: 'Median pay of every occupation, by size band and by area',
+          }}
+        />
+      </Panel>
+
+      <Panel
+        title="What people actually earn"
+        cap="The chart above is about jobs; this one is about people. Every dot is one Vermonter who answered the American Community Survey, placed at their own earnings for the year. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
+        src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+      >
+        <DotLegend unit="one survey respondent" sized={false} />
+        <DotColumns
+          groups={peopleAreas}
+          opts={{
+            yMax: PEOPLE.yMax,
+            rule: LWA,
+            ruleLabel: 'Living wage ' + money(LWA),
+            dotTip: personTip(LWA),
+            aria: 'Earnings of individual survey respondents, by area',
           }}
         />
       </Panel>
@@ -229,18 +260,18 @@ export default function Q2({ lw, setLw }) {
       </Panel>
 
       <Panel
-        title="The 25 largest occupations — earnings distribution"
-        cap="These are true occupation-level percentiles, not weighted means. Where the box sits entirely left of the living-wage line, most people in that occupation earn below self-sufficiency — not just the bottom tail."
-        src={`Lightcast · ${fmt(Object.keys(PCT.occ).length)} occupations priced · true occupation percentiles`}
+        title="The 25 largest occupations — mean against median"
+        cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean. Wherever the ring sits to the right of the dot, a long upper tail is lifting the average above what a typical worker earns — the reason an average alone is a poor guide to pay. Where the whole line falls left of the living-wage mark, most people in that occupation earn below self-sufficiency, not just the bottom tail."
+        src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} shown with a published mean · living wage: MIT 2025, ${lw}`}
       >
-        <BoxLegend />
-        <BoxPlot
-          rows={occBox}
+        <LadderLegend />
+        <PercentileLadder
+          rows={ladder}
           opts={{
             labelWidth: 262,
             rule: LWA,
             ruleLabel: 'Living wage',
-            aria: 'Earnings percentiles for the 25 largest occupations',
+            aria: 'Percentile range, median and mean for the 25 largest occupations',
           }}
         />
       </Panel>

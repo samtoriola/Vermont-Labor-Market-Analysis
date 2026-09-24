@@ -132,10 +132,12 @@ KNOWN = [
     "LC", "PCT", "DATA", "SOW", "MAP", "TOTJ", "TIER_ORDER", "SIZE_ORDER", "DEFAULT_LW",
     "lwAnnual", "lwHourly", "tierRow", "cpsSubBacc", "cpsHsOrLess", "filterOcc",
     "occByFamily", "occByTier", "rampStep", "rampHex",
+    "COMPARE", "PEOPLE", "wageStats", "occDots", "occBySize", "sizeBand", "compareCol",
     "fmt", "money", "pct", "niceMax", "trunc", "fmtVal",
     "useDrill", "occDrill", "useTip", "useTipHandlers",
-    "RankedBars", "BoxPlot", "BoxLegend", "StackedRows", "Dumbbell", "TrendLine",
-    "Scatter", "GroupedBars",
+    "RankedBars", "StackedRows", "Dumbbell", "TrendLine", "Scatter", "GroupedBars",
+    "DotColumns", "DotRows", "DotLegend", "PercentileLadder", "LadderLegend",
+    "occCols", "occDotTip", "personTip",
     "Panel", "Answer", "Callout", "VHead", "Legend", "Tiles", "Table", "N",
     "DrillHint", "LwPicker", "Filters", "VermontMap",
 ]
@@ -180,10 +182,15 @@ for q in VIEWS:
 
 # ---- 6. chart components exported and used ----
 charts_src = read(pathlib.PurePath(str(APP)) / "components/charts.js")
-for comp in ["RankedBars", "BoxPlot", "BoxLegend", "StackedRows", "Dumbbell",
-             "TrendLine", "Scatter", "GroupedBars"]:
+for comp in ["RankedBars", "StackedRows", "Dumbbell", "TrendLine", "Scatter",
+             "GroupedBars"]:
     if f"export function {comp}" not in charts_src:
         problems.append(f"charts.js does not export {comp}")
+
+dots_src = read(pathlib.PurePath(str(APP)) / "components/dots.js")
+for comp in ["DotColumns", "DotRows", "DotLegend", "PercentileLadder", "LadderLegend"]:
+    if f"export function {comp}" not in dots_src:
+        problems.append(f"dots.js does not export {comp}")
 
 # ---- 7. path-length audit (the real deployment blocker) ----
 base = os.path.abspath(str(APP))
