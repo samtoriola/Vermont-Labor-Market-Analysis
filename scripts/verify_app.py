@@ -138,7 +138,7 @@ KNOWN = [
     "RankedBars", "StackedRows", "Dumbbell", "TrendLine", "Scatter", "GroupedBars",
     "DotColumns", "DotRows", "DotLegend", "PercentileLadder", "LadderLegend",
     "occCols", "occDotTip", "personTip",
-    "Panel", "Answer", "Callout", "VHead", "Legend", "Tiles", "Table", "N",
+    "Panel", "Callout", "VHead", "Legend", "Tiles", "Table", "N",
     "DrillHint", "LwPicker", "Filters", "VermontMap",
 ]
 for p in js_files:

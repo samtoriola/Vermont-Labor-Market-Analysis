@@ -2,78 +2,32 @@
 
 import { SOW, TIER_ORDER, lwAnnual } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Callout, Panel, Table, VHead, N } from '../ui';
+import { Callout, Panel, Table, VHead, N } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
 import { RankedBars } from '../charts';
 
 export default function Q5({ lw }) {
-  const LWA = lwAnnual(lw);
   const { apply } = useFilters();
   const O = SOW.opp;
   const top = O.top;
   // Filters narrow the scored list; the composite itself is unchanged.
   const shown = apply(O.top.map((r) => ({ ...r, f: r.fam })));
-  const baCount = top.filter((r) => r.t === "Bachelor's").length;
   const tierLead = {};
   TIER_ORDER.forEach((t) => {
     if (O.byTier[t] && O.byTier[t].length) tierLead[t] = O.byTier[t][0];
   });
-  const spotlight = top[6] || top[top.length - 1];
 
   return (
     <>
       <VHead
-        title="Where the opportunity is"
+        title="Opportunity index"
       >
-        Occupations combining scale, growth, advertised demand and pay — scored transparently, and read at each level of educational accessibility.
+        Occupations scored on scale, growth, advertised demand and pay, at each level of educational accessibility.
       </VHead>
 
       <ActiveFilters />
-
-      <Answer>
-        <p>
-          Scoring all <N>{fmt(O.nEligible)}</N> Vermont occupations with at least {O.minJobs} jobs
-          on four indicators weighted <N>{O.weightEach}%</N> each &mdash; employment, projected
-          growth, postings per 100 jobs and median earnings &mdash; the highest-scoring are{' '}
-          {top[0].n} (<N>{top[0].sc}</N>), {top[1].n} (<N>{top[1].sc}</N>) and {top[2].n} (
-          <N>{top[2].sc}</N>).
-        </p>
-        <p>
-          Postings are expressed <strong>per 100 jobs</strong> rather than as a raw count, so a
-          large occupation does not score twice for being large &mdash; employment already has its
-          own component. {spotlight.n} is the clearest case: only the{' '}
-          <N>{spotlight.s_size}th</N> percentile on employment, but the{' '}
-          <N>{spotlight.s_postings}th</N> on postings intensity, which a volume-based measure would
-          have buried.
-        </p>
-        <p>
-          <strong>The ranking tilts heavily toward bachelor&rsquo;s-entry work</strong> &mdash;{' '}
-          <N>{baCount}</N> of the top <N>{top.length}</N>. That tilt is a finding, not an artefact:
-          with each component verified to carry independent signal, higher-credential occupations
-          genuinely lead on the combination of pay, growth and advertised demand. It also grew when
-          the openings component was removed, because openings intensity was the one indicator that
-          favoured high-turnover low-wage work. The tier-by-tier tables below are therefore the more
-          actionable view for VSCS, since they ask what is strongest{' '}
-          <em>at each level of educational accessibility</em>.
-        </p>
-        <p>
-          On that basis the leaders are{' '}
-          {TIER_ORDER.filter((t) => tierLead[t]).map((t, i) => (
-            <span key={t}>
-              {i > 0 ? '; ' : ''}
-              <strong>{t}</strong> &mdash; {tierLead[t].n}
-            </span>
-          ))}
-          .
-        </p>
-        <p>
-          The SOW leaves indicator weights and thresholds to VSCS (section 7). These are equal
-          weights on percentile ranks: a defensible default and nothing more. Every component score
-          is shown so the composite can be audited or reweighted.
-        </p>
-      </Answer>
 
       <Callout label="How this index was arrived at">
         <p>It began as six indicators and was cut to four, each removal for a measured reason.</p>

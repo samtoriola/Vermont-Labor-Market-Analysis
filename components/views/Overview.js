@@ -2,7 +2,7 @@
 
 import { DATA, LC, TOTJ, tierRow, cpsSubBacc, cpsHsOrLess, lwHourly } from '@/lib/data';
 import { fmt } from '@/lib/format';
-import { Answer, Panel, Legend, Table, Tiles, N } from '../ui';
+import { Panel, Legend, Table, Tiles, N } from '../ui';
 import { RankedBars, TrendLine } from '../charts';
 
 export default function Overview({ lw }) {
@@ -36,29 +36,9 @@ export default function Overview({ lw }) {
     <>
       <Tiles items={tiles} />
 
-      <Answer label="The headline finding">
-        <p>
-          Vermont has <N>{fmt(TOTJ)}</N> jobs. Only{' '}
-          <strong>
-            <N>{baReq.toFixed(1)}%</N> of them list a bachelor&rsquo;s degree or higher as the
-            typical entry credential
-          </strong>{' '}
-          &mdash; but <N>{lastCps.ba.toFixed(1)}%</N> of Vermont workers aged 25+ actually hold
-          one. That <N>{(lastCps.ba - baReq).toFixed(1)}-point</N> gap between what jobs require
-          and what workers hold is the most consequential number on this page for program planning.
-        </p>
-        <p>
-          The mirror image sits in the middle of the credential ladder. Jobs whose typical entry
-          requirement is <strong>sub-baccalaureate</strong> &mdash; a certificate, some college, or
-          an associate degree &mdash; are <N>{sub.share.toFixed(1)}%</N> of Vermont employment, and{' '}
-          <N>{sub.above[lw].toFixed(0)}%</N> of them pay above the living wage. That is VSCS&rsquo;s
-          most direct field of play.
-        </p>
-      </Answer>
-
       <Panel
         title="Requirements versus attainment"
-        cap="Two different questions, two different sources. Lightcast assigns each occupation a typical entry credential (a property of the job). CPS records the credential each worker holds (a property of the person). They are not the same measure and the gap is the point."
+        cap="Two different questions, two different sources. Lightcast assigns each occupation a typical entry credential (a property of the job). CPS records the credential each worker holds (a property of the person). They are not the same measure."
         src="Lightcast occupation table, 2025 jobs · CPS 2025, age 25+ · CPS and Lightcast universes differ; compare shares, not levels"
       >
         <Legend
@@ -95,8 +75,8 @@ export default function Overview({ lw }) {
         </Panel>
 
         <Panel
-          title="Where the two sources land"
-          cap="Lightcast counts jobs; CPS counts employed residents. The ~3% difference is definitional, not an error — use each for what it measures."
+          title="Lightcast and CPS side by side"
+          cap="Lightcast counts jobs; CPS counts employed residents. The ~3% difference is definitional, not an error."
           src="Neither is wrong; the universes differ"
         >
           <Table

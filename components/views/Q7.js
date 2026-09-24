@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { SOW } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Callout, Panel, Table, VHead, N } from '../ui';
+import { Callout, Panel, Table, VHead, N } from '../ui';
 import VermontMap from '../VermontMap';
 
 export default function Q7() {
@@ -12,12 +12,7 @@ export default function Q7() {
   const [sel, setSel] = useState(null);
 
   const R = SOW.regions;
-  const byBa = R.slice().sort((a, b) => b.ba - a.ba);
-  const byLw = R.slice().sort((a, b) => b.lwH - a.lwH);
-  const byInc = R.slice().sort((a, b) => (b.incLw || 0) - (a.incLw || 0));
   const byPop = R.slice().sort((a, b) => b.pop - a.pop);
-  const tight = byInc[byInc.length - 1];
-  const loose = byInc[0];
   const picked = sel ? R.find((r) => r.c === sel) : null;
   const wBa = R.reduce((a, r) => a + r.ba * r.pop, 0) / R.reduce((a, r) => a + r.pop, 0);
 
@@ -27,25 +22,6 @@ export default function Q7() {
         How opportunity differs across Vermont’s 14 counties — attainment, earnings and the local
         cost floor.
       </VHead>
-
-      <Answer>
-        <p>
-          <strong>Attainment varies enormously; the cost of living barely does.</strong>{' '}
-          Bachelor’s-or-higher among 25–64-year-olds runs from <N>{byBa[0].ba}%</N> in {byBa[0].c}{' '}
-          to <N>{byBa[byBa.length - 1].ba}%</N> in {byBa[byBa.length - 1].c} — a{' '}
-          <N>{(byBa[0].ba - byBa[byBa.length - 1].ba).toFixed(1)}-point</N> spread. The
-          single-adult living wage moves only from <N>${byLw[byLw.length - 1].lwH.toFixed(2)}</N>{' '}
-          to <N>${byLw[0].lwH.toFixed(2)}</N> an hour.
-        </p>
-        <p>
-          Because the floor is nearly flat while incomes are not,{' '}
-          <strong>the binding constraint is earnings, not cost of living</strong>. {tight.c} has
-          the tightest margin: median household income of <N>{money(tight.inc)}</N> against a{' '}
-          <N>{money(tight.lwA)}</N> living wage — a ratio of <N>{tight.incLw}×</N>, against{' '}
-          <N>{loose.incLw}×</N> in {loose.c}. Attainment and cost do not move together, so a
-          high-attainment county is not automatically a high-opportunity one.
-        </p>
-      </Answer>
 
       <Panel
         title="Vermont by county"

@@ -39,15 +39,6 @@ export function ExportButton({ label, cols, rows }) {
   );
 }
 
-export function Answer({ label = 'In short', children }) {
-  return (
-    <div className="answer">
-      <span className="alabel">{label}</span>
-      {children}
-    </div>
-  );
-}
-
 export function Callout({ label, children }) {
   return (
     <div className="callout">

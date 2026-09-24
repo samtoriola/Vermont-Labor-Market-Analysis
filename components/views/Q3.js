@@ -2,7 +2,7 @@
 
 import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
-import { Answer, Callout, Panel, Legend, VHead, N } from '../ui';
+import { Callout, Panel, Legend, VHead, N } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 
@@ -24,8 +24,6 @@ export default function Q3() {
   const growers = fams
     .filter((r) => r.g5pct !== null)
     .sort((a, b) => b.g5pct - a.g5pct);
-  const g5Total = fams.reduce((a, r) => a + r.g5, 0);
-  const shrinking = growers.filter((r) => r.g5pct < 0).length;
 
   const cpsRows = DATA.families
     .map((f) => {
@@ -57,35 +55,6 @@ export default function Q3() {
 
       <ActiveFilters />
 
-      <Answer>
-        <p>
-          <strong>The three measures do not point at the same places.</strong> Postings demand is
-          most over-represented in {hot[0].f} (<N>{hot[0].idx.toFixed(2)}×</N> its employment share)
-          and {hot[1].f} (<N>{hot[1].idx.toFixed(2)}×</N>), while the most under-represented is{' '}
-          {hot[hot.length - 1].f} at <N>{hot[hot.length - 1].idx.toFixed(2)}×</N>.
-        </p>
-        <p>
-          Projected growth is concentrated differently again: {growers[0].f} leads at{' '}
-          <N>{growers[0].g5pct}%</N> over five years, and {shrinking} of {growers.length} families
-          are projected to shrink. Statewide, jobs grow from <N>{fmt(TOTJ)}</N> toward{' '}
-          <N>{fmt(TOTJ + g5Total)}</N> by 2030 &mdash; roughly{' '}
-          <N>{((g5Total / TOTJ) * 100).toFixed(1)}%</N> over the window, which is slow growth
-          rather than expansion.
-        </p>
-        <p>
-          Against that, the <strong>observed</strong> base moved differently again: Vermont
-          actually added <N>{fmt(TOTJ - LC.jobs21)}</N> jobs between 2021 and 2025 (
-          <N>+{((TOTJ / LC.jobs21 - 1) * 100).toFixed(1)}%</N>), faster than the forward projection
-          anticipates. Recent history and the forecast are telling different stories, so treat the
-          projection as the conservative case.
-        </p>
-        <p>
-          Read the alignment index as a screening device, not a verdict: postings skew toward
-          occupations that recruit online and churn often, so a high index can mean genuine unmet
-          demand or simply high turnover.
-        </p>
-      </Answer>
-
       <Callout label="How openings are defined here">
         <p>
           Openings are Lightcast&rsquo;s own <strong>{LC.window} Openings</strong> figure &mdash;{' '}
@@ -104,7 +73,7 @@ export default function Q3() {
 
       <Panel
         title="Three measures of demand, against the employment base"
-        cap="Each family's share of jobs, of annual openings, and of unique postings. Where the bars diverge, the measures disagree."
+        cap="Each family's share of jobs, of annual openings, and of unique postings."
         src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
       >
         <Legend
@@ -160,7 +129,7 @@ export default function Q3() {
 
       <Panel
         title="Observed change, 2021–2025"
-        cap="What actually happened over the study window, by family — the anchor any projection or postings measure should be read against."
+        cap="Observed change over the study window, by family."
         src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
       >
         <RankedBars
@@ -215,8 +184,8 @@ export default function Q3() {
       </Panel>
 
       <Panel
-        title="Independent cross-check: what CPS actually observed"
-        cap="Lightcast projections are modelled. CPS is a survey of what happened. Changes marked “ns” are not distinguishable from zero at 95% — which is most of them, so read this as corroboration of direction only."
+        title="CPS observed change, for comparison"
+        cap="Lightcast projections are modelled; CPS is a survey. Changes marked “ns” are not distinguishable from zero at 95%."
         src="CPS · 2025 is an 11-month average · SE of a weighted total approximated as e/√n at design effect ≈ 1"
       >
         <Legend labels={['2021', '2025']} colors={['--s3', '--s1']} />

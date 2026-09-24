@@ -5,7 +5,7 @@ import {
   lwAnnual, occByFamily, wageStats, occDots, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Panel, Legend, Table, VHead, N, DrillHint } from '../ui';
+import { Panel, Legend, Table, VHead, N, DrillHint } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip } from '../occCols';
@@ -28,10 +28,6 @@ export default function Q1({ lw }) {
       })
     );
   const fams = LC.families;
-  const top3 = fams.slice(0, 3);
-  const hiPay = fams.slice().sort((a, b) => (b.med || 0) - (a.med || 0))[0];
-  const loPay = fams.filter((r) => r.med).sort((a, b) => a.med - b.med)[0];
-  const top3Share = (top3.reduce((a, r) => a + r.jobs, 0) / TOTJ) * 100;
 
   // One dot per occupation, placed at its own median pay and sized by employment.
   // The solid line is the employment-weighted average, the dashed line the median:
@@ -91,36 +87,6 @@ export default function Q1({ lw }) {
 
       <ActiveFilters />
 
-      <Answer>
-        <p>
-          Vermont employment is <strong>broad, not concentrated</strong>. The three largest
-          families &mdash;{' '}
-          {top3.map((r, i) => (
-            <span key={r.f}>
-              {i > 0 ? ', ' : ''}
-              {r.f} (<N>{fmt(r.jobs)}</N>)
-            </span>
-          ))}{' '}
-          &mdash; hold just <N>{top3Share.toFixed(1)}%</N> of jobs between them, and the largest
-          single family is only <N>{((fams[0].jobs / TOTJ) * 100).toFixed(1)}%</N>.
-        </p>
-        <p>
-          <strong>Earnings vary far more than size does.</strong> Median earnings run from{' '}
-          <N>{money(loPay.med)}</N> in {loPay.f} to <N>{money(hiPay.med)}</N> in {hiPay.f} &mdash;
-          a {(hiPay.med / loPay.med).toFixed(1)}&times; spread across families of broadly similar
-          size. But the spread <em>within</em> Vermont is nearly as wide as the spread between
-          families: statewide the 10th percentile is <N>{money(PCT.statewide.p10)}</N> and the 90th
-          is <N>{money(PCT.statewide.p90)}</N>, a{' '}
-          <N>{(PCT.statewide.p90 / PCT.statewide.p10).toFixed(1)}&times;</N> range. A family median
-          alone hides that, which is why the distribution chart below matters more than the ranking.
-        </p>
-        <p>
-          By industry, Health Care &amp; Social Assistance and Educational Services anchor the
-          professional families. By entry credential the spread is equally wide, and the two do not
-          move together: some large families are majority high-school-entry, others majority BA.
-        </p>
-      </Answer>
-
       <Panel
         title="Jobs by occupational family"
         cap="Vermont 2025. Hover for earnings, concentration, openings and change since 2021."
@@ -147,8 +113,8 @@ export default function Q1({ lw }) {
       </Panel>
 
       <Panel
-        title="Where pay actually sits, by family"
-        cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average and the dashed line the median; the wider the gap, the more a handful of well-paid occupations is pulling the average up. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
+        title="Median pay by occupational family"
+        cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average, the dashed line the median. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
         src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
       >
         <DotLegend unit="one occupation" />

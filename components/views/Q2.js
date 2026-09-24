@@ -5,7 +5,7 @@ import {
   lwAnnual, wageStats, occDots, occBySize, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Answer, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
+import { Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
@@ -102,42 +102,11 @@ export default function Q2({ lw, setLw }) {
 
       <ActiveFilters />
 
-      <Answer>
-        <p>
-          <strong>Wage quality runs opposite to occupation size.</strong> Vermont&rsquo;s{' '}
-          <N>{big.nocc}</N> largest occupations (2,000+ jobs each) hold <N>{big.share.toFixed(1)}%</N>{' '}
-          of all employment at a median of <N>{money(big.med)}</N>, and only{' '}
-          <N>{big.above[lw].toFixed(0)}%</N> of those jobs clear the living wage. The{' '}
-          <N>{small.nocc}</N> smaller occupations pay a median of <N>{money(small.med)}</N>, with{' '}
-          <N>{small.above[lw].toFixed(0)}%</N> clearing it.
-        </p>
-        <p>
-          So the occupations that employ the most Vermonters are systematically the ones least
-          likely to pay a self-sufficient wage. That is the central tension in this question: scale
-          and wage quality point in opposite directions, and a program strategy aimed only at the
-          biggest occupations would concentrate graduates in the weakest-paying part of the market.
-        </p>
-        <p>
-          The percentile spread sharpens this. Large occupations are not just lower-paid, they are{' '}
-          <strong>compressed</strong>: their 90th percentile (
-          <N>{money(PCT.sizeTiers[big.s].p90)}</N>) barely clears the <em>median</em> of the medium
-          tier (<N>{money(PCT.sizeTiers[mid.s].p50)}</N>). Someone at the top of a large Vermont
-          occupation earns about what a typical worker in a mid-sized one earns. There is limited
-          upside inside the biggest occupations, which matters more for program design than the
-          median gap alone suggests.
-        </p>
-        <p>
-          The benchmark matters, so it is a control rather than an assumption &mdash; SOW section 7
-          leaves the choice to VSCS. Switch household type below and every wage-quality figure on
-          this page updates.
-        </p>
-      </Answer>
-
       <LwPicker value={lw} onChange={setLw} />
 
       <Panel
         title="Share of jobs above the living wage, by occupation size"
-        cap={`The inverse relationship, stated directly. Benchmark: ${lw} at ${money(LWA)}/yr.`}
+        cap={`Benchmark: ${lw} at ${money(LWA)}/yr.`}
         src="Lightcast · jobs-weighted · occupation median vs MIT living wage"
       >
         <RankedBars
@@ -165,7 +134,7 @@ export default function Q2({ lw, setLw }) {
       </Panel>
 
       <Panel
-        title="Where pay sits, by occupation size"
+        title="Median pay by occupation size"
         cap="One dot per occupation, placed at its median pay and sized by employment. The solid line is the employment-weighted average, the dashed line the median. The three columns on the right put Vermont as a whole beside its nearest comparable state and the nation. Click a Vermont column for the occupations behind it."
         src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
       >
@@ -183,8 +152,8 @@ export default function Q2({ lw, setLw }) {
       </Panel>
 
       <Panel
-        title="What people actually earn"
-        cap="The chart above is about jobs; this one is about people. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, which keeps this on the same footing as the occupation charts above. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
+        title="Worker earnings, ACS"
+        cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe of the occupation charts above. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
         src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
       >
         <DotLegend unit="one survey respondent" sized={false} />
@@ -264,7 +233,7 @@ export default function Q2({ lw, setLw }) {
 
       <Panel
         title="The 25 largest occupations — mean against median"
-        cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean. Wherever the ring sits to the right of the dot, a long upper tail is lifting the average above what a typical worker earns — the reason an average alone is a poor guide to pay. Where the whole line falls left of the living-wage mark, most people in that occupation earn below self-sufficiency, not just the bottom tail."
+        cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean; the distance between them is the pull of the upper tail. The dashed vertical is the living wage."
         src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
       >
         <LadderLegend />
