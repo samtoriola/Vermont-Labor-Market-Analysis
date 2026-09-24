@@ -27,17 +27,14 @@ export default function Q6({ lw }) {
           CIP-to-SOC is many-to-many: a program links to several occupations and an occupation draws
           from several programs. Each program&rsquo;s completions are divided across its linked
           occupations <strong>in proportion to those occupations&rsquo; Vermont employment</strong>,
-          so a broad program lands where the jobs actually are. Registered Nursing links to two
-          occupations and concentrates accordingly; Business Administration links to 23, and
-          weighting sends most of its graduates to the large management and business roles rather
-          than 4 apiece across all 23.
+          so a broad program lands in proportion to where the jobs are rather than evenly across
+          every occupation it links to.
         </p>
         <p>
-          That choice matters: it reallocates <N>{V.allocMovedPct}%</N> of all completions against
-          a flat split, and concentrates them into <N>{fmt(V.nSocLinked)}</N> occupations instead of
-          227. Weighting by employment is still a model of graduate behaviour, not an observation of
-          it &mdash; 21 programs link only to occupations with no Vermont employment at all, and
-          those fall back to an equal split.
+          Completions land in <N>{fmt(V.nSocLinked)}</N> occupations. Weighting by employment is a
+          model of graduate behaviour, not an observation of it &mdash; 21 programs link only to
+          occupations with no Vermont employment at all, and those fall back to an even split
+          across their linked occupations.
         </p>
         <p>
           This is also a <strong>single-year snapshot</strong> (IPEDS 2024 completions against
@@ -72,14 +69,13 @@ export default function Q6({ lw }) {
       <Panel
         title="Linked completions against annual openings, by family"
         cap="Click a row to list the occupations behind it. Openings are Vermont-wide; linked completions are VSCS output allocated across each program's occupations. Families whose occupations require no credential will show a low ratio by construction."
-        src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · employment-weighted allocation, equal split shown for comparison"
+        src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · employment-weighted allocation"
       >
         <Table
           cols={[
             'Occupational family',
             'Annual openings',
             'Linked completions',
-            'If split equally',
             'Completions per opening',
           ]}
           rows={V.byFamily.map((r) => ({
@@ -101,7 +97,6 @@ export default function Q6({ lw }) {
               r.f,
               fmt(r.open),
               r.linked.toFixed(1),
-              r.linkedEq.toFixed(1),
               r.ratio === null ? '—' : r.ratio.toFixed(3),
             ],
           }))}

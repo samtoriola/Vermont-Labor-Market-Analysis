@@ -29,31 +29,18 @@ export default function Q5({ lw }) {
 
       <ActiveFilters />
 
-      <Callout label="How this index was arrived at">
-        <p>It began as six indicators and was cut to four, each removal for a measured reason.</p>
+      <Callout label="How the index is built">
         <p>
-          <strong>Earnings relative to the living wage</strong> was dropped because the benchmark is
-          a constant, making the ratio a monotonic transform of median pay. The two components were
-          rank-identical (<N>r = 1.000</N>), so the wage dimension silently held <N>33%</N> of the
-          weight while the sixth component added nothing. Re-measuring adequacy at the 25th
-          percentile only brought the correlation to <N>0.966</N> &mdash; still redundant &mdash; so
-          the wage dimension is now represented once, by median pay.
+          Four components, <N>25%</N> each: employment, projected change 2025&ndash;2030,
+          postings per 100 jobs, and median pay. Each occupation is ranked by percentile
+          within every component and the index is the mean of those four ranks. Only
+          occupations with at least <N>100</N> jobs and a published wage are scored.
         </p>
         <p>
-          <strong>Openings</strong> was dropped next. As an absolute count it correlated{' '}
-          <N>0.92</N> with employment, double-counting scale. Rebased per 100 jobs it became a
-          turnover measure, and in Vermont turnover concentrates in low-wage work &mdash; it
-          correlated <N>&minus;0.68</N> with pay, contributed <N>&minus;4.7%</N> of composite
-          variance (actively cancelling the other components) and changed only 3 of the top 10.
-          Advertised demand is captured more cleanly by postings intensity.
-        </p>
-        <p>
-          What remains: four components whose strongest mutual correlation is <N>0.39</N>, with
-          effective influence spanning <N>18.6%</N> to <N>29.4%</N> against a nominal{' '}
-          <N>25%</N> &mdash; close enough that equal weighting means what it says. Living-wage
-          ratios and absolute openings are still reported per occupation for context; they are
-          simply not scored. A growth-only openings series, excluding replacement demand, would be a
-          legitimate fifth component if Lightcast can supply one.
+          The four measure different things: their strongest mutual correlation is{' '}
+          <N>0.39</N>, and effective influence spans <N>18.6%</N> to <N>29.4%</N> against a
+          nominal <N>25%</N>. Living-wage ratios and absolute openings are reported per
+          occupation but are not part of the score.
         </p>
       </Callout>
 

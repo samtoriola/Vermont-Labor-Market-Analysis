@@ -12,7 +12,7 @@ import sys
 from playwright.sync_api import sync_playwright
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-URL = "http://127.0.0.1:3129/"
+URL = "http://127.0.0.1:3130/"
 for _ in range(60):
     try:
         urllib.request.urlopen(URL, timeout=3).read(); break

@@ -204,9 +204,9 @@ function Methods() {
           <h4>Opportunity score</h4>
           <p>
             Mean of four percentile ranks, 25% each: employment, projected growth, postings per 100
-            jobs, median pay. Two candidates were dropped after measurement — a living-wage ratio
-            (rank-identical to pay, r = 1.000) and openings intensity (−0.68 against pay,
-            contributing −4.7% of variance). The four survivors correlate at most 0.39.
+            jobs, median pay. Scored only for occupations with at least 100 jobs and a published
+            wage. The four correlate at most 0.39 with each other, and effective influence spans
+            18.6% to 29.4% against the nominal 25%.
           </p>
         </div>
 
@@ -216,10 +216,10 @@ function Methods() {
             CIP-to-SOC is many-to-many, so each program’s completions are divided across its
             linked occupations in proportion to those occupations’ Vermont employment. All 149
             VSCS programs and 1,983 completions matched the crosswalk, and the total is preserved.
-            That weighting moves 32.5% of completions relative to a flat split — it is a model of
-            where graduates go, not an observation. 21 programs link only to occupations with no
-            Vermont employment and fall back to an equal split. One year; counts credentials, not
-            people; silent on whether graduates stay in Vermont.
+            It is a model of where graduates go, not an observation. 21 programs link only to
+            occupations with no Vermont employment, and those fall back to an even split across
+            their linked occupations. One year; counts credentials, not people; silent on whether
+            graduates stay in Vermont.
           </p>
         </div>
 
