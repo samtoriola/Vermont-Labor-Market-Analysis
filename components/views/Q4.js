@@ -139,7 +139,7 @@ export default function Q4({ lw, setLw }) {
 
       <Panel
         title="The credential ladder, by what people hold"
-        cap="The same ladder measured on people instead of jobs. Every dot is one Vermonter who answered the American Community Survey, placed at their own earnings for the year and grouped by the credential they actually hold. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
+        cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
         src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
       >
         <DotLegend unit="one survey respondent" sized={false} />

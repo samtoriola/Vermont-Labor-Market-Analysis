@@ -67,7 +67,7 @@ export function personTip(lwAnnual) {
   return (d) => ({
     title: 'One ACS respondent',
     rows: [
-      ['Earnings, 2024', money(d.v)],
+      ['Wage income, 2024', money(d.v)],
       ['vs living wage', (d.v / lwAnnual).toFixed(2) + '×'],
       ['Age', String(d.a)],
       ['Usual hours a week', String(d.h)],

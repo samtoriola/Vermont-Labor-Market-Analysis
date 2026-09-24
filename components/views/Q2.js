@@ -181,7 +181,7 @@ export default function Q2({ lw, setLw }) {
 
       <Panel
         title="What people actually earn"
-        cap="The chart above is about jobs; this one is about people. Every dot is one Vermonter who answered the American Community Survey, placed at their own earnings for the year. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
+        cap="The chart above is about jobs; this one is about people. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, which keeps this on the same footing as the occupation charts above. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
         src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
       >
         <DotLegend unit="one survey respondent" sized={false} />

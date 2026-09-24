@@ -7,13 +7,22 @@ sample drawn WITHOUT replacement with probability proportional to the survey wei
 raw respondent mix. The average and median lines are computed from the FULL weighted
 sample, not from the sampled dots, so they are the true population figures.
 
-Universe: employed, aged 25-64, usually 35+ hours a week and 48+ weeks a year, with
-positive earnings. Full-time year-round keeps the credential comparison from being a
-comparison of hours worked.
+Universe: wage and salary workers, aged 25-64, usually 35+ hours a week and 48+ weeks
+a year, in a civilian occupation, with positive wage income. Full-time year-round keeps
+the credential comparison from being a comparison of hours worked.
 
-Earnings is INCEARN -- wage and salary plus business and farm income -- not INCWAGE.
-Wage income alone reports zero for the self-employed, which in Vermont would have
-dropped 135 of 2,028 full-time year-round workers, 6.7% of them, and not at random.
+The self-employed are excluded (CLASSWKR = 1), which drops 252 of Vermont's 2,025
+full-time year-round workers, 12.4% -- a higher share than New Hampshire's 8.5% or the
+national 8.4%. Note that IPUMS counts the incorporated self-employed as self-employed
+(98 of Vermont's 252), while OEWS counts those who draw a salary as wage and salary
+workers, so this universe is very slightly tighter than the OEWS one.
+
+Military occupations (SOC 55) are excluded too: 4 records in Vermont. Neither Lightcast
+nor OEWS covers them, so this keeps the person charts on the same footing as the
+occupation charts.
+
+Earnings is INCWAGE, wage and salary income. With the self-employed removed, no kept
+record reports zero wage income, so business income is not needed to fill a gap.
 
 IPUMS top-codes the highest earnings per state (Vermont 2024: $954,000). Those records
 sit far above the chart ceiling and draw as off-scale marks, so the censoring does not
@@ -32,7 +41,7 @@ RNG = np.random.default_rng(20260924)
 
 AREA_DOTS = 1000   # dots per area column
 CRED_DOTS = 250    # dots per credential column
-NA_EARN = 9999998  # IPUMS INCEARN N/A sentinel sits above this
+NA_WAGE = 999998   # IPUMS INCWAGE N/A sentinel sits above this
 
 # IPUMS EDUCD -> the dashboard's attainment ladder. Ordered low to high.
 CREDS = [
@@ -63,20 +72,19 @@ MAJOR = {
     "45": "Farming, Fishing & Forestry", "47": "Construction & Extraction",
     "49": "Installation, Maintenance & Repair", "51": "Production",
     "53": "Transportation & Material Moving",
-    # ACS covers the armed forces; the Lightcast civilian export does not.
-    "55": "Military",
+    # No entry for SOC 55: military occupations are filtered out of the universe.
 }
-unknown = sorted(set(MAJOR.values()) - set(SOC2FAM) - {"Military"})
+unknown = sorted(set(MAJOR.values()) - set(SOC2FAM))
 assert not unknown, f"family labels do not match the app's list: {unknown}"
 
 SQL = """
 WITH g AS (SELECT DISTINCT SERIAL, STATEFIP FROM `strada-data-lab-c9d1.ipums_usa.2024_acs1_household_geographic`),
-i AS (SELECT SERIAL, PERNUM, PERWT, INCEARN FROM `strada-data-lab-c9d1.ipums_usa.2024_acs1_person_income`),
+i AS (SELECT SERIAL, PERNUM, PERWT, INCWAGE FROM `strada-data-lab-c9d1.ipums_usa.2024_acs1_person_income`),
 e AS (SELECT SERIAL, PERNUM, EDUCD FROM `strada-data-lab-c9d1.ipums_usa.2024_acs1_person_education`),
-w AS (SELECT SERIAL, PERNUM, EMPSTAT, UHRSWORK, WKSWORK2, OCCSOC FROM `strada-data-lab-c9d1.ipums_usa.2024_acs1_person_work`),
+w AS (SELECT SERIAL, PERNUM, EMPSTAT, UHRSWORK, WKSWORK2, CLASSWKR, OCCSOC FROM `strada-data-lab-c9d1.ipums_usa.2024_acs1_person_work`),
 d AS (SELECT SERIAL, PERNUM, AGE FROM `strada-data-lab-c9d1.ipums_usa.2024_acs1_person_demographic`)
 SELECT g.STATEFIP AS st, e.EDUCD AS educd, d.AGE AS age, i.PERWT AS wt,
-       i.INCEARN AS wage, w.UHRSWORK AS hrs, w.OCCSOC AS soc
+       i.INCWAGE AS wage, w.UHRSWORK AS hrs, w.OCCSOC AS soc
 FROM i
 JOIN e USING (SERIAL, PERNUM)
 JOIN w USING (SERIAL, PERNUM)
@@ -86,8 +94,10 @@ WHERE w.EMPSTAT = 1
   AND d.AGE BETWEEN 25 AND 64
   AND w.UHRSWORK >= 35
   AND w.WKSWORK2 >= 5
-  AND i.INCEARN > 0
-  AND i.INCEARN < 9999998
+  AND w.CLASSWKR = 2
+  AND NOT STARTS_WITH(CAST(w.OCCSOC AS STRING), '55')
+  AND i.INCWAGE > 0
+  AND i.INCWAGE < 999998
   AND i.PERWT > 0
 """
 
@@ -155,7 +165,7 @@ def column(sub, label, note, ndots):
 vt, nh = df[df["st"] == 50], df[df["st"] == 33]
 out = {
     "src": "IPUMS USA, ACS 1-year 2024",
-    "universe": "Employed, aged 25-64, 35+ usual hours and 48+ weeks a year, with positive earnings from wages or self-employment",
+    "universe": "Wage and salary workers aged 25-64 in civilian occupations, 35+ usual hours and 48+ weeks a year, with positive wage income; the self-employed and military occupations excluded",
     "creds": CRED_NAMES,
     "byArea": [],
     "byCred": [],
