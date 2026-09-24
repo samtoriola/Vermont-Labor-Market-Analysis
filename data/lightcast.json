@@ -38,6 +38,7 @@
 "g5pct":-0.1,
 "open":4855,
 "sep":17888,
+"turn":53.1,
 "post":30786,
 "med":51124,
 "lq":1.06,
@@ -77,6 +78,7 @@
 "g5pct":4.0,
 "open":3268,
 "sep":14778,
+"turn":53.9,
 "post":23864,
 "med":64286,
 "lq":1.6,
@@ -117,6 +119,7 @@
 "g5pct":2.3,
 "open":6065,
 "sep":35391,
+"turn":132.6,
 "post":19268,
 "med":43338,
 "lq":1.06,
@@ -156,6 +159,7 @@
 "g5pct":5.1,
 "open":3154,
 "sep":10475,
+"turn":39.4,
 "post":52863,
 "med":108251,
 "lq":1.28,
@@ -196,6 +200,7 @@
 "g5pct":0.0,
 "open":4190,
 "sep":18517,
+"turn":73.3,
 "post":41797,
 "med":48630,
 "lq":1.0,
@@ -235,6 +240,7 @@
 "g5pct":4.4,
 "open":2178,
 "sep":8898,
+"turn":39.8,
 "post":50801,
 "med":111896,
 "lq":1.26,
@@ -275,6 +281,7 @@
 "g5pct":4.2,
 "open":3638,
 "sep":14814,
+"turn":67.9,
 "post":29045,
 "med":47348,
 "lq":0.9,
@@ -315,6 +322,7 @@
 "g5pct":5.4,
 "open":2376,
 "sep":8984,
+"turn":47.5,
 "post":32866,
 "med":80232,
 "lq":1.15,
@@ -355,6 +363,7 @@
 "g5pct":1.2,
 "open":2834,
 "sep":7128,
+"turn":44.1,
 "post":13896,
 "med":51762,
 "lq":1.43,
@@ -394,6 +403,7 @@
 "g5pct":1.6,
 "open":2788,
 "sep":10707,
+"turn":67.7,
 "post":14263,
 "med":44669,
 "lq":1.01,
@@ -432,6 +442,7 @@
 "g5pct":3.8,
 "open":1769,
 "sep":8341,
+"turn":57.3,
 "post":9641,
 "med":59635,
 "lq":1.66,
@@ -470,6 +481,7 @@
 "g5pct":3.7,
 "open":2055,
 "sep":10106,
+"turn":83.6,
 "post":10024,
 "med":43398,
 "lq":1.32,
@@ -508,6 +520,7 @@
 "g5pct":3.8,
 "open":1511,
 "sep":5660,
+"turn":47.9,
 "post":16139,
 "med":61071,
 "lq":1.05,
@@ -546,6 +559,7 @@
 "g5pct":5.5,
 "open":1614,
 "sep":5569,
+"turn":53.9,
 "post":10771,
 "med":57858,
 "lq":4.23,
@@ -585,6 +599,7 @@
 "g5pct":5.6,
 "open":1927,
 "sep":8121,
+"turn":95.5,
 "post":4766,
 "med":41155,
 "lq":1.31,
@@ -624,6 +639,7 @@
 "g5pct":7.1,
 "open":808,
 "sep":3442,
+"turn":41.0,
 "post":39860,
 "med":98489,
 "lq":0.93,
@@ -663,6 +679,7 @@
 "g5pct":1.6,
 "open":698,
 "sep":1687,
+"turn":29.2,
 "post":11142,
 "med":95222,
 "lq":1.3,
@@ -702,6 +719,7 @@
 "g5pct":1.8,
 "open":850,
 "sep":3359,
+"turn":63.8,
 "post":4937,
 "med":58391,
 "lq":0.82,
@@ -742,6 +760,7 @@
 "g5pct":4.2,
 "open":835,
 "sep":3861,
+"turn":75.6,
 "post":13616,
 "med":63321,
 "lq":1.42,
@@ -782,6 +801,7 @@
 "g5pct":5.4,
 "open":582,
 "sep":1736,
+"turn":47.5,
 "post":7543,
 "med":76951,
 "lq":1.58,
@@ -822,6 +842,7 @@
 "g5pct":7.8,
 "open":510,
 "sep":2011,
+"turn":76.7,
 "post":1602,
 "med":37383,
 "lq":1.32,
@@ -861,6 +882,7 @@
 "g5pct":-0.8,
 "open":213,
 "sep":668,
+"turn":29.1,
 "post":2051,
 "med":107508,
 "lq":0.89,
@@ -903,6 +925,7 @@
 "g5pct":2.1,
 "open":13772,
 "sep":73093,
+"turn":105.6,
 "post":56322,
 "med":41178,
 "lq":1.08,
@@ -938,6 +961,7 @@
 "g5pct":2.5,
 "open":17507,
 "sep":63509,
+"turn":56.1,
 "post":129880,
 "med":53071,
 "lq":1.2,
@@ -973,6 +997,7 @@
 "g5pct":2.6,
 "open":5233,
 "sep":19494,
+"turn":53.0,
 "post":50598,
 "med":57371,
 "lq":1.26,
@@ -1008,6 +1033,7 @@
 "g5pct":5.0,
 "open":10024,
 "sep":37143,
+"turn":43.5,
 "post":174526,
 "med":89429,
 "lq":1.55,
@@ -1043,6 +1069,7 @@
 "g5pct":4.4,
 "open":2180,
 "sep":8899,
+"turn":43.6,
 "post":30215,
 "med":118831,
 "lq":1.53,
@@ -1080,6 +1107,7 @@
 "g5pct":2.1,
 "open":13772,
 "sep":73093,
+"turn":105.6,
 "post":56322,
 "med":41178,
 "lq":1.08,
@@ -1106,6 +1134,7 @@
 "g5pct":2.5,
 "open":17507,
 "sep":63509,
+"turn":56.1,
 "post":129880,
 "med":53071,
 "lq":1.2,
@@ -1132,6 +1161,7 @@
 "g5pct":1.0,
 "open":1392,
 "sep":6014,
+"turn":58.6,
 "post":8327,
 "med":50695,
 "lq":1.46,
@@ -1158,6 +1188,7 @@
 "g5pct":3.1,
 "open":2823,
 "sep":10353,
+"turn":52.9,
 "post":31278,
 "med":56260,
 "lq":1.18,
@@ -1184,6 +1215,7 @@
 "g5pct":3.4,
 "open":1018,
 "sep":3127,
+"turn":45.2,
 "post":10993,
 "med":70422,
 "lq":1.21,
@@ -1210,6 +1242,7 @@
 "g5pct":5.0,
 "open":10024,
 "sep":37143,
+"turn":43.5,
 "post":174526,
 "med":89429,
 "lq":1.55,
@@ -1236,6 +1269,7 @@
 "g5pct":5.7,
 "open":1049,
 "sep":4354,
+"turn":50.1,
 "post":16483,
 "med":89557,
 "lq":1.73,
@@ -1262,6 +1296,7 @@
 "g5pct":3.3,
 "open":1131,
 "sep":4545,
+"turn":38.8,
 "post":13732,
 "med":140559,
 "lq":1.39,
@@ -1293,6 +1328,8 @@
 "p":5360,
 "g":0.7,
 "lq":0.93,
+"sep":6274.9,
+"turn":70.6,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Healthcare Support"
@@ -1309,6 +1346,8 @@
 "p":11328,
 "g":0.1,
 "lq":1.05,
+"sep":5933.7,
+"turn":72.8,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Sales"
@@ -1325,6 +1364,8 @@
 "p":5676,
 "g":4.1,
 "lq":1.11,
+"sep":3249.9,
+"turn":40.7,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Management"
@@ -1341,6 +1382,8 @@
 "p":19169,
 "g":3.6,
 "lq":1.1,
+"sep":2535.8,
+"turn":33.6,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Healthcare Practitioners & Technical"
@@ -1357,6 +1400,8 @@
 "p":3474,
 "g":-3.2,
 "lq":1.16,
+"sep":7968.3,
+"turn":111.4,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Sales"
@@ -1373,6 +1418,8 @@
 "p":3199,
 "g":5.7,
 "lq":0.9,
+"sep":12094.3,
+"turn":175.4,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Food Preparation & Serving"
@@ -1389,6 +1436,8 @@
 "p":125,
 "g":-0.9,
 "lq":1.04,
+"sep":3227.9,
+"turn":58.0,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Office & Administrative Support"
@@ -1405,6 +1454,8 @@
 "p":3501,
 "g":4.6,
 "lq":1.57,
+"sep":2471.7,
+"turn":44.8,
 "e":"Doctoral or professional degree",
 "t":"Graduate / professional",
 "fam":"Educational Instruction & Library"
@@ -1421,6 +1472,8 @@
 "p":4012,
 "g":2.9,
 "lq":1.16,
+"sep":3937.0,
+"turn":72.5,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Building & Grounds Cleaning"
@@ -1437,6 +1490,8 @@
 "p":4031,
 "g":7.0,
 "lq":0.96,
+"sep":3999.9,
+"turn":74.1,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Transportation & Material Moving"
@@ -1453,6 +1508,8 @@
 "p":4502,
 "g":3.2,
 "lq":1.74,
+"sep":3537.8,
+"turn":71.8,
 "e":"Some college, no degree",
 "t":"Sub-baccalaureate",
 "fam":"Educational Instruction & Library"
@@ -1469,6 +1526,8 @@
 "p":1754,
 "g":-1.1,
 "lq":0.9,
+"sep":5923.0,
+"turn":144.8,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Food Preparation & Serving"
@@ -1485,6 +1544,8 @@
 "p":3682,
 "g":2.1,
 "lq":1.0,
+"sep":1686.5,
+"turn":44.4,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Office & Administrative Support"
@@ -1501,6 +1562,8 @@
 "p":1919,
 "g":2.5,
 "lq":1.33,
+"sep":1467.9,
+"turn":40.3,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Educational Instruction & Library"
@@ -1517,6 +1580,8 @@
 "p":9832,
 "g":2.3,
 "lq":0.87,
+"sep":1894.2,
+"turn":52.2,
 "e":"Postsecondary nondegree award",
 "t":"Sub-baccalaureate",
 "fam":"Transportation & Material Moving"
@@ -1533,6 +1598,8 @@
 "p":735,
 "g":4.0,
 "lq":1.67,
+"sep":2388.7,
+"turn":73.3,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Personal Care & Service"
@@ -1549,6 +1616,8 @@
 "p":4654,
 "g":4.4,
 "lq":0.53,
+"sep":2722.0,
+"turn":87.0,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Transportation & Material Moving"
@@ -1565,6 +1634,8 @@
 "p":3719,
 "g":1.3,
 "lq":1.05,
+"sep":2273.8,
+"turn":72.9,
 "e":"Postsecondary nondegree award",
 "t":"Sub-baccalaureate",
 "fam":"Healthcare Support"
@@ -1581,6 +1652,8 @@
 "p":1222,
 "g":-0.6,
 "lq":1.06,
+"sep":1320.8,
+"turn":42.9,
 "e":"Some college, no degree",
 "t":"Sub-baccalaureate",
 "fam":"Office & Administrative Support"
@@ -1597,6 +1670,8 @@
 "p":1277,
 "g":2.4,
 "lq":2.22,
+"sep":1636.8,
+"turn":54.1,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Construction & Extraction"
@@ -1613,6 +1688,8 @@
 "p":6300,
 "g":1.4,
 "lq":0.57,
+"sep":2040.8,
+"turn":68.2,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Office & Administrative Support"
@@ -1629,6 +1706,8 @@
 "p":4482,
 "g":4.3,
 "lq":0.89,
+"sep":1751.3,
+"turn":59.9,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Installation, Maintenance & Repair"
@@ -1645,6 +1724,8 @@
 "p":387,
 "g":2.7,
 "lq":11.69,
+"sep":1482.0,
+"turn":52.6,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Community & Social Service"
@@ -1661,6 +1742,8 @@
 "p":2944,
 "g":5.4,
 "lq":0.91,
+"sep":1246.0,
+"turn":45.8,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Business & Financial Operations"
@@ -1677,6 +1760,8 @@
 "p":1478,
 "g":7.4,
 "lq":1.41,
+"sep":2825.3,
+"turn":104.5,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Building & Grounds Cleaning"
@@ -1693,6 +1778,8 @@
 "p":2651,
 "g":0.4,
 "lq":1.17,
+"sep":2250.0,
+"turn":85.5,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Building & Grounds Cleaning"
@@ -1709,6 +1796,8 @@
 "p":851,
 "g":4.4,
 "lq":1.12,
+"sep":1384.9,
+"turn":54.3,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Business & Financial Operations"
@@ -1725,6 +1814,8 @@
 "p":3910,
 "g":2.7,
 "lq":1.19,
+"sep":917.4,
+"turn":36.6,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Educational Instruction & Library"
@@ -1741,6 +1832,8 @@
 "p":453,
 "g":2.0,
 "lq":1.25,
+"sep":709.2,
+"turn":29.2,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Office & Administrative Support"
@@ -1757,6 +1850,8 @@
 "p":2153,
 "g":4.4,
 "lq":0.85,
+"sep":2392.4,
+"turn":99.5,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Food Preparation & Serving"
@@ -1773,6 +1868,8 @@
 "p":9256,
 "g":-0.1,
 "lq":1.05,
+"sep":901.9,
+"turn":38.7,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Sales"
@@ -1789,6 +1886,8 @@
 "p":643,
 "g":2.3,
 "lq":1.04,
+"sep":1245.9,
+"turn":59.6,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Transportation & Material Moving"
@@ -1805,6 +1904,8 @@
 "p":903,
 "g":3.1,
 "lq":1.38,
+"sep":1894.0,
+"turn":91.4,
 "e":"No formal educational credential",
 "t":"No formal credential",
 "fam":"Food Preparation & Serving"
@@ -1821,6 +1922,8 @@
 "p":2233,
 "g":4.0,
 "lq":0.82,
+"sep":1155.9,
+"turn":57.6,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Food Preparation & Serving"
@@ -1837,6 +1940,8 @@
 "p":1433,
 "g":2.8,
 "lq":2.29,
+"sep":731.2,
+"turn":37.0,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Business & Financial Operations"
@@ -1853,6 +1958,8 @@
 "p":394,
 "g":5.3,
 "lq":2.1,
+"sep":1148.5,
+"turn":59.4,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Community & Social Service"
@@ -1869,6 +1976,8 @@
 "p":4263,
 "g":3.1,
 "lq":0.65,
+"sep":783.8,
+"turn":40.8,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Office & Administrative Support"
@@ -1885,6 +1994,8 @@
 "p":4963,
 "g":2.5,
 "lq":0.76,
+"sep":598.4,
+"turn":31.7,
 "e":"High school diploma or equivalent",
 "t":"High school",
 "fam":"Sales"
@@ -1901,6 +2012,8 @@
 "p":4340,
 "g":8.8,
 "lq":1.06,
+"sep":625.9,
+"turn":33.7,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Management"
@@ -1917,6 +2030,8 @@
 "p":10895,
 "g":13.0,
 "lq":0.53,
+"sep":721.5,
+"turn":40.1,
 "e":"Bachelor's degree",
 "t":"Bachelor's",
 "fam":"Computer & Mathematical"
@@ -1932,6 +2047,7 @@
 "g5pct":2.5,
 "open":21744,
 "sep":98742,
+"turn":70.8,
 "post":131815,
 "med":54627,
 "lq":1.33,
@@ -1967,6 +2083,7 @@
 "g5pct":4.0,
 "open":15409,
 "sep":65878,
+"turn":57.0,
 "post":172331,
 "med":70487,
 "lq":1.19,
@@ -2002,6 +2119,7 @@
 "g5pct":3.0,
 "open":11740,
 "sep":38250,
+"turn":53.4,
 "post":146988,
 "med":74710,
 "lq":1.38,
@@ -2042,6 +2160,8 @@
 "p":1068,
 "g5":31.5,
 "g":7.7,
+"sep":141.1,
+"turn":34.4,
 "lq":0.97,
 "t":"Bachelor's",
 "f":"Management"
@@ -2058,6 +2178,8 @@
 "p":5676,
 "g5":326.3,
 "g":4.1,
+"sep":3249.9,
+"turn":40.7,
 "lq":1.11,
 "t":"Bachelor's",
 "f":"Management"
@@ -2074,6 +2196,8 @@
 "p":0,
 "g5":1.0,
 "g":1.5,
+"sep":20.7,
+"turn":30.6,
 "lq":1.77,
 "t":"Bachelor's",
 "f":"Management"
@@ -2090,6 +2214,8 @@
 "p":65,
 "g5":-1.4,
 "g":-9.0,
+"sep":18.7,
+"turn":120.8,
 "lq":0.35,
 "t":"Bachelor's",
 "f":"Management"
@@ -2106,6 +2232,8 @@
 "p":5313,
 "g5":47.7,
 "g":3.8,
+"sep":575.1,
+"turn":45.8,
 "lq":1.57,
 "t":"Bachelor's",
 "f":"Management"
@@ -2122,6 +2250,8 @@
 "p":3936,
 "g5":43.5,
 "g":4.4,
+"sep":382.1,
+"turn":38.9,
 "lq":0.76,
 "t":"Bachelor's",
 "f":"Management"
@@ -2138,6 +2268,8 @@
 "p":1380,
 "g5":10.8,
 "g":3.8,
+"sep":157.3,
+"turn":54.9,
 "lq":1.83,
 "t":"Bachelor's",
 "f":"Management"
@@ -2154,6 +2286,8 @@
 "p":293,
 "g5":10.1,
 "g":5.3,
+"sep":110.1,
+"turn":57.7,
 "lq":2.0,
 "t":"Bachelor's",
 "f":"Management"
@@ -2170,6 +2304,8 @@
 "p":371,
 "g5":29.1,
 "g":5.8,
+"sep":171.1,
+"turn":34.1,
 "lq":0.92,
 "t":"Bachelor's",
 "f":"Management"
@@ -2186,6 +2322,8 @@
 "p":1164,
 "g5":17.3,
 "g":3.4,
+"sep":213.6,
+"turn":41.8,
 "lq":1.59,
 "t":"Bachelor's",
 "f":"Management"
@@ -2202,6 +2340,8 @@
 "p":453,
 "g5":112.7,
 "g":9.9,
+"sep":327.1,
+"turn":28.7,
 "lq":0.84,
 "t":"Bachelor's",
 "f":"Management"
@@ -2218,6 +2358,8 @@
 "p":4340,
 "g5":163.2,
 "g":8.8,
+"sep":625.9,
+"turn":33.7,
 "lq":1.06,
 "t":"Bachelor's",
 "f":"Management"
@@ -2234,6 +2376,8 @@
 "p":928,
 "g5":12.8,
 "g":2.7,
+"sep":116.2,
+"turn":24.2,
 "lq":0.99,
 "t":"Bachelor's",
 "f":"Management"
@@ -2250,6 +2394,8 @@
 "p":665,
 "g5":2.9,
 "g":2.5,
+"sep":33.8,
+"turn":29.0,
 "lq":0.68,
 "t":"Bachelor's",
 "f":"Management"
@@ -2266,6 +2412,8 @@
 "p":1229,
 "g5":11.2,
 "g":2.8,
+"sep":147.9,
+"turn":36.4,
 "lq":0.89,
 "t":"High school",
 "f":"Management"
@@ -2282,6 +2430,8 @@
 "p":537,
 "g5":0.6,
 "g":1.6,
+"sep":12.9,
+"turn":33.0,
 "lq":0.89,
 "t":"Bachelor's",
 "f":"Management"
@@ -2298,6 +2448,8 @@
 "p":1668,
 "g5":21.1,
 "g":5.1,
+"sep":198.9,
+"turn":48.2,
 "lq":0.89,
 "t":"Bachelor's",
 "f":"Management"
@@ -2314,6 +2466,8 @@
 "p":247,
 "g5":9.0,
 "g":4.4,
+"sep":63.8,
+"turn":31.4,
 "lq":1.98,
 "t":"Bachelor's",
 "f":"Management"
@@ -2330,6 +2484,8 @@
 "p":338,
 "g5":76.0,
 "g":10.0,
+"sep":229.5,
+"turn":30.3,
 "lq":1.85,
 "t":"High school",
 "f":"Management"
@@ -2346,6 +2502,8 @@
 "p":1406,
 "g5":53.2,
 "g":5.7,
+"sep":342.9,
+"turn":37.0,
 "lq":1.2,
 "t":"Bachelor's",
 "f":"Management"
@@ -2362,6 +2520,8 @@
 "p":230,
 "g5":21.0,
 "g":10.2,
+"sep":100.6,
+"turn":49.1,
 "lq":1.24,
 "t":"Bachelor's",
 "f":"Management"
@@ -2378,6 +2538,8 @@
 "p":1468,
 "g5":22.7,
 "g":2.2,
+"sep":389.1,
+"turn":38.2,
 "lq":1.54,
 "t":"Graduate / professional",
 "f":"Management"
@@ -2394,6 +2556,8 @@
 "p":1543,
 "g5":18.5,
 "g":2.5,
+"sep":404.3,
+"turn":54.4,
 "lq":1.59,
 "t":"Graduate / professional",
 "f":"Management"
@@ -2410,6 +2574,8 @@
 "p":0,
 "g5":15.0,
 "g":5.6,
+"sep":139.6,
+"turn":52.2,
 "lq":2.2,
 "t":"Bachelor's",
 "f":"Management"
@@ -2426,6 +2592,8 @@
 "p":1263,
 "g5":5.8,
 "g":1.6,
+"sep":67.0,
+"turn":18.6,
 "lq":0.82,
 "t":"Bachelor's",
 "f":"Management"
@@ -2442,6 +2610,8 @@
 "p":2744,
 "g5":18.4,
 "g":3.6,
+"sep":306.3,
+"turn":60.6,
 "lq":1.06,
 "t":"High school",
 "f":"Management"
@@ -2458,6 +2628,8 @@
 "p":2,
 "g5":1.0,
 "g":19390.5,
+"sep":0.4,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Management"
@@ -2474,6 +2646,8 @@
 "p":58,
 "g5":14.9,
 "g":5.5,
+"sep":196.5,
+"turn":72.4,
 "lq":3.3,
 "t":"Bachelor's",
 "f":"Management"
@@ -2490,6 +2664,8 @@
 "p":1302,
 "g5":8.2,
 "g":3.9,
+"sep":150.3,
+"turn":71.4,
 "lq":2.42,
 "t":"High school",
 "f":"Management"
@@ -2506,6 +2682,8 @@
 "p":6438,
 "g5":122.2,
 "g":13.5,
+"sep":259.4,
+"turn":28.7,
 "lq":0.74,
 "t":"Bachelor's",
 "f":"Management"
@@ -2522,6 +2700,8 @@
 "p":1060,
 "g5":16.2,
 "g":5.4,
+"sep":83.7,
+"turn":28.2,
 "lq":1.31,
 "t":"Bachelor's",
 "f":"Management"
@@ -2538,6 +2718,8 @@
 "p":25,
 "g5":-9.6,
 "g":-8.2,
+"sep":65.8,
+"turn":56.4,
 "lq":4.51,
 "t":"High school",
 "f":"Management"
@@ -2554,6 +2736,8 @@
 "p":578,
 "g5":20.6,
 "g":3.5,
+"sep":233.6,
+"turn":39.6,
 "lq":0.91,
 "t":"High school",
 "f":"Management"
@@ -2570,6 +2754,8 @@
 "p":160,
 "g5":50.6,
 "g":4.2,
+"sep":470.4,
+"turn":39.0,
 "lq":2.7,
 "t":"Bachelor's",
 "f":"Management"
@@ -2586,6 +2772,8 @@
 "p":124,
 "g5":0.6,
 "g":2.5,
+"sep":7.5,
+"turn":30.1,
 "lq":0.79,
 "t":"Bachelor's",
 "f":"Management"
@@ -2602,6 +2790,8 @@
 "p":7,
 "g5":-0.6,
 "g":-3.1,
+"sep":5.7,
+"turn":30.5,
 "lq":0.66,
 "t":"Sub-baccalaureate",
 "f":"Management"
@@ -2618,6 +2808,8 @@
 "p":186,
 "g5":1.1,
 "g":2.8,
+"sep":16.8,
+"turn":40.7,
 "lq":1.74,
 "t":"Bachelor's",
 "f":"Management"
@@ -2634,6 +2826,8 @@
 "p":4598,
 "g5":60.6,
 "g":4.9,
+"sep":439.4,
+"turn":35.2,
 "lq":0.91,
 "t":"Bachelor's",
 "f":"Management"
@@ -2650,6 +2844,8 @@
 "p":15,
 "g5":3.4,
 "g":11.8,
+"sep":69.5,
+"turn":240.2,
 "lq":1.09,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2666,6 +2862,8 @@
 "p":2462,
 "g5":47.0,
 "g":4.5,
+"sep":416.1,
+"turn":40.0,
 "lq":1.05,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2682,6 +2880,8 @@
 "p":1444,
 "g5":1.5,
 "g":0.5,
+"sep":90.4,
+"turn":28.1,
 "lq":0.46,
 "t":"High school",
 "f":"Business & Financial Operations"
@@ -2698,6 +2898,8 @@
 "p":58,
 "g5":-10.8,
 "g":-5.0,
+"sep":34.9,
+"turn":16.2,
 "lq":8.0,
 "t":"Sub-baccalaureate",
 "f":"Business & Financial Operations"
@@ -2714,6 +2916,8 @@
 "p":1433,
 "g5":55.9,
 "g":2.8,
+"sep":731.2,
+"turn":37.0,
 "lq":2.29,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2730,6 +2934,8 @@
 "p":397,
 "g5":1.2,
 "g":0.3,
+"sep":188.3,
+"turn":55.6,
 "lq":0.76,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2746,6 +2952,8 @@
 "p":2502,
 "g5":92.0,
 "g":6.4,
+"sep":983.1,
+"turn":68.3,
 "lq":0.74,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2762,6 +2970,8 @@
 "p":1,
 "g5":0.0,
 "g":7.1,
+"sep":0.2,
+"turn":null,
 "lq":0.38,
 "t":"No formal credential",
 "f":"Business & Financial Operations"
@@ -2778,6 +2988,8 @@
 "p":112,
 "g5":15.4,
 "g":12.3,
+"sep":118.0,
+"turn":93.6,
 "lq":0.97,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2794,6 +3006,8 @@
 "p":1370,
 "g5":32.3,
 "g":9.0,
+"sep":136.6,
+"turn":37.9,
 "lq":0.64,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2810,6 +3024,8 @@
 "p":4438,
 "g5":95.2,
 "g":7.6,
+"sep":489.5,
+"turn":39.1,
 "lq":0.58,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2826,6 +3042,8 @@
 "p":2970,
 "g5":102.4,
 "g":12.1,
+"sep":371.4,
+"turn":43.9,
 "lq":0.46,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2842,6 +3060,8 @@
 "p":433,
 "g5":26.4,
 "g":5.8,
+"sep":390.7,
+"turn":86.3,
 "lq":1.5,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2858,6 +3078,8 @@
 "p":176,
 "g5":30.7,
 "g":5.4,
+"sep":376.7,
+"turn":65.7,
 "lq":2.02,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2874,6 +3096,8 @@
 "p":894,
 "g5":10.6,
 "g":5.5,
+"sep":77.8,
+"turn":40.3,
 "lq":0.82,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2890,6 +3114,8 @@
 "p":809,
 "g5":68.8,
 "g":8.4,
+"sep":392.9,
+"turn":48.0,
 "lq":0.88,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2906,6 +3132,8 @@
 "p":2579,
 "g5":87.3,
 "g":8.8,
+"sep":653.4,
+"turn":65.8,
 "lq":0.54,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2922,6 +3150,8 @@
 "p":851,
 "g5":112.4,
 "g":4.4,
+"sep":1384.9,
+"turn":54.3,
 "lq":1.12,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2938,6 +3168,8 @@
 "p":2944,
 "g5":145.8,
 "g":5.4,
+"sep":1246.0,
+"turn":45.8,
 "lq":0.91,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2954,6 +3186,8 @@
 "p":189,
 "g5":5.2,
 "g":1.7,
+"sep":127.4,
+"turn":41.8,
 "lq":2.64,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2970,6 +3204,8 @@
 "p":75,
 "g5":4.5,
 "g":4.2,
+"sep":48.1,
+"turn":44.9,
 "lq":1.04,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -2986,6 +3222,8 @@
 "p":180,
 "g5":-3.5,
 "g":-3.8,
+"sep":20.1,
+"turn":21.9,
 "lq":0.7,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3002,6 +3240,8 @@
 "p":2702,
 "g5":28.1,
 "g":9.2,
+"sep":107.7,
+"turn":35.3,
 "lq":0.41,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3018,6 +3258,8 @@
 "p":849,
 "g5":40.1,
 "g":7.5,
+"sep":117.5,
+"turn":22.0,
 "lq":0.97,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3034,6 +3276,8 @@
 "p":435,
 "g5":-3.5,
 "g":-1.5,
+"sep":44.9,
+"turn":19.1,
 "lq":0.92,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3050,6 +3294,8 @@
 "p":739,
 "g5":3.8,
 "g":4.9,
+"sep":17.3,
+"turn":22.3,
 "lq":0.57,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3066,6 +3312,8 @@
 "p":25,
 "g5":12.3,
 "g":7.0,
+"sep":46.6,
+"turn":26.7,
 "lq":1.2,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3082,6 +3330,8 @@
 "p":108,
 "g5":2.8,
 "g":4.5,
+"sep":38.2,
+"turn":60.3,
 "lq":0.96,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3098,6 +3348,8 @@
 "p":449,
 "g5":-0.8,
 "g":-0.2,
+"sep":108.9,
+"turn":29.8,
 "lq":0.66,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3114,6 +3366,8 @@
 "p":527,
 "g5":3.4,
 "g":2.4,
+"sep":47.2,
+"turn":32.3,
 "lq":1.2,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3130,6 +3384,8 @@
 "p":577,
 "g5":3.2,
 "g":15.1,
+"sep":9.5,
+"turn":45.0,
 "lq":0.13,
 "t":"High school",
 "f":"Business & Financial Operations"
@@ -3146,6 +3402,8 @@
 "p":123,
 "g5":8.6,
 "g":3.3,
+"sep":99.0,
+"turn":38.1,
 "lq":0.93,
 "t":"Bachelor's",
 "f":"Business & Financial Operations"
@@ -3162,6 +3420,8 @@
 "p":1998,
 "g5":53.5,
 "g":8.4,
+"sep":227.3,
+"turn":35.5,
 "lq":0.61,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3178,6 +3438,8 @@
 "p":518,
 "g5":44.5,
 "g":17.3,
+"sep":102.2,
+"turn":39.9,
 "lq":0.62,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3194,6 +3456,8 @@
 "p":986,
 "g5":7.9,
 "g":8.9,
+"sep":45.5,
+"turn":51.5,
 "lq":1.05,
 "t":"Graduate / professional",
 "f":"Computer & Mathematical"
@@ -3210,6 +3474,8 @@
 "p":216,
 "g5":9.0,
 "g":5.5,
+"sep":68.0,
+"turn":42.0,
 "lq":0.54,
 "t":"Sub-baccalaureate",
 "f":"Computer & Mathematical"
@@ -3226,6 +3492,8 @@
 "p":2005,
 "g5":-0.5,
 "g":0.0,
+"sep":797.5,
+"turn":46.3,
 "lq":1.16,
 "t":"Sub-baccalaureate",
 "f":"Computer & Mathematical"
@@ -3242,6 +3510,8 @@
 "p":1783,
 "g5":20.7,
 "g":12.7,
+"sep":57.0,
+"turn":35.0,
 "lq":0.45,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3258,6 +3528,8 @@
 "p":1152,
 "g5":3.0,
 "g":2.2,
+"sep":61.7,
+"turn":45.8,
 "lq":0.94,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3274,6 +3546,8 @@
 "p":1780,
 "g5":7.1,
 "g":11.9,
+"sep":25.0,
+"turn":42.1,
 "lq":0.44,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3290,6 +3564,8 @@
 "p":1436,
 "g5":-4.2,
 "g":-0.7,
+"sep":224.2,
+"turn":36.1,
 "lq":0.96,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3306,6 +3582,8 @@
 "p":305,
 "g5":-1.6,
 "g":-0.8,
+"sep":59.9,
+"turn":32.6,
 "lq":0.98,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3322,6 +3600,8 @@
 "p":10895,
 "g5":233.4,
 "g":13.0,
+"sep":721.5,
+"turn":40.1,
 "lq":0.53,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3338,6 +3618,8 @@
 "p":978,
 "g5":20.4,
 "g":10.4,
+"sep":76.6,
+"turn":39.0,
 "lq":0.53,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3354,6 +3636,8 @@
 "p":473,
 "g5":8.7,
 "g":9.2,
+"sep":57.2,
+"turn":60.5,
 "lq":0.68,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3370,6 +3654,8 @@
 "p":1257,
 "g5":20.0,
 "g":7.4,
+"sep":115.1,
+"turn":42.4,
 "lq":1.19,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3386,6 +3672,8 @@
 "p":7715,
 "g5":78.7,
 "g":5.7,
+"sep":534.3,
+"turn":38.7,
 "lq":1.46,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3402,6 +3690,8 @@
 "p":541,
 "g5":4.3,
 "g":13.5,
+"sep":9.7,
+"turn":30.3,
 "lq":0.46,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3418,6 +3708,8 @@
 "p":11,
 "g5":0.0,
 "g":4.9,
+"sep":8.3,
+"turn":null,
 "lq":0.14,
 "t":"Graduate / professional",
 "f":"Computer & Mathematical"
@@ -3434,6 +3726,8 @@
 "p":610,
 "g5":26.6,
 "g":14.2,
+"sep":53.0,
+"turn":28.4,
 "lq":0.82,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3450,6 +3744,8 @@
 "p":403,
 "g5":7.3,
 "g":5.4,
+"sep":73.0,
+"turn":53.6,
 "lq":2.11,
 "t":"Graduate / professional",
 "f":"Computer & Mathematical"
@@ -3466,6 +3762,8 @@
 "p":4798,
 "g5":61.5,
 "g":22.8,
+"sep":123.0,
+"turn":45.6,
 "lq":0.51,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3482,6 +3780,8 @@
 "p":0,
 "g5":0.0,
 "g":0.4,
+"sep":1.9,
+"turn":null,
 "lq":0.33,
 "t":"Bachelor's",
 "f":"Computer & Mathematical"
@@ -3498,6 +3798,8 @@
 "p":23,
 "g5":15.4,
 "g":5.1,
+"sep":81.2,
+"turn":27.0,
 "lq":1.41,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3514,6 +3816,8 @@
 "p":34,
 "g5":5.1,
 "g":4.4,
+"sep":41.2,
+"turn":35.4,
 "lq":2.9,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3530,6 +3834,8 @@
 "p":0,
 "g5":0.7,
 "g":3.9,
+"sep":4.7,
+"turn":26.8,
 "lq":0.54,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3546,6 +3852,8 @@
 "p":260,
 "g5":8.3,
 "g":4.2,
+"sep":51.5,
+"turn":26.1,
 "lq":1.95,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3562,6 +3870,8 @@
 "p":127,
 "g5":16.0,
 "g":15.7,
+"sep":26.4,
+"turn":25.9,
 "lq":0.7,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3578,6 +3888,8 @@
 "p":14,
 "g5":0.0,
 "g":11.6,
+"sep":0.1,
+"turn":null,
 "lq":0.05,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3594,6 +3906,8 @@
 "p":46,
 "g5":2.5,
 "g":7.4,
+"sep":13.6,
+"turn":40.4,
 "lq":0.69,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3610,6 +3924,8 @@
 "p":410,
 "g5":-0.5,
 "g":-1.8,
+"sep":11.7,
+"turn":39.9,
 "lq":0.68,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3626,6 +3942,8 @@
 "p":1648,
 "g5":38.0,
 "g":4.9,
+"sep":266.5,
+"turn":34.2,
 "lq":1.03,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3642,6 +3960,8 @@
 "p":340,
 "g5":-13.1,
 "g":-10.0,
+"sep":33.5,
+"turn":25.5,
 "lq":0.84,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3658,6 +3978,8 @@
 "p":1499,
 "g5":-4.4,
 "g":-0.6,
+"sep":201.3,
+"turn":25.4,
 "lq":2.0,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3674,6 +3996,8 @@
 "p":252,
 "g5":2.7,
 "g":3.0,
+"sep":25.0,
+"turn":27.9,
 "lq":0.44,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3690,6 +4014,8 @@
 "p":179,
 "g5":4.1,
 "g":3.7,
+"sep":35.8,
+"turn":32.2,
 "lq":1.4,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3706,6 +4032,8 @@
 "p":84,
 "g5":-0.5,
 "g":-0.8,
+"sep":19.9,
+"turn":31.1,
 "lq":1.5,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3722,6 +4050,8 @@
 "p":2510,
 "g5":29.4,
 "g":6.3,
+"sep":130.5,
+"turn":28.0,
 "lq":0.64,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3738,6 +4068,8 @@
 "p":6,
 "g5":0.0,
 "g":0.5,
+"sep":2.4,
+"turn":null,
 "lq":0.29,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3754,6 +4086,8 @@
 "p":94,
 "g5":1.8,
 "g":2.8,
+"sep":15.4,
+"turn":24.2,
 "lq":1.4,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3770,6 +4104,8 @@
 "p":1206,
 "g5":29.5,
 "g":5.6,
+"sep":138.8,
+"turn":26.2,
 "lq":0.89,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3786,6 +4122,8 @@
 "p":146,
 "g5":0.3,
 "g":5.1,
+"sep":1.9,
+"turn":null,
 "lq":0.43,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3802,6 +4140,8 @@
 "p":47,
 "g5":1.4,
 "g":4.0,
+"sep":16.3,
+"turn":45.9,
 "lq":1.01,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3818,6 +4158,8 @@
 "p":45,
 "g5":0.4,
 "g":6.8,
+"sep":1.6,
+"turn":null,
 "lq":0.14,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3834,6 +4176,8 @@
 "p":304,
 "g5":2.6,
 "g":0.6,
+"sep":132.7,
+"turn":32.6,
 "lq":1.24,
 "t":"Bachelor's",
 "f":"Architecture & Engineering"
@@ -3850,6 +4194,8 @@
 "p":301,
 "g5":9.2,
 "g":4.1,
+"sep":74.2,
+"turn":33.3,
 "lq":1.1,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3866,6 +4212,8 @@
 "p":127,
 "g5":-12.2,
 "g":-14.1,
+"sep":20.4,
+"turn":23.4,
 "lq":2.4,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3882,6 +4230,8 @@
 "p":32,
 "g5":-0.7,
 "g":-1.0,
+"sep":18.0,
+"turn":26.6,
 "lq":0.87,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3898,6 +4248,8 @@
 "p":57,
 "g5":-6.3,
 "g":-7.4,
+"sep":35.6,
+"turn":41.5,
 "lq":3.07,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3914,6 +4266,8 @@
 "p":0,
 "g5":3.4,
 "g":14.7,
+"sep":3.7,
+"turn":15.8,
 "lq":0.98,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3930,6 +4284,8 @@
 "p":99,
 "g5":7.2,
 "g":3.5,
+"sep":60.2,
+"turn":29.1,
 "lq":1.41,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3946,6 +4302,8 @@
 "p":307,
 "g5":-37.3,
 "g":-12.2,
+"sep":79.8,
+"turn":26.1,
 "lq":1.53,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3962,6 +4320,8 @@
 "p":6,
 "g5":-0.6,
 "g":-3.8,
+"sep":3.2,
+"turn":21.4,
 "lq":0.48,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3978,6 +4338,8 @@
 "p":5,
 "g5":-0.4,
 "g":-0.8,
+"sep":15.3,
+"turn":28.8,
 "lq":2.05,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -3994,6 +4356,8 @@
 "p":629,
 "g5":-6.6,
 "g":-5.4,
+"sep":26.9,
+"turn":21.9,
 "lq":0.81,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -4010,6 +4374,8 @@
 "p":18,
 "g5":-5.3,
 "g":-6.0,
+"sep":22.5,
+"turn":25.7,
 "lq":1.21,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -4026,6 +4392,8 @@
 "p":24,
 "g5":-1.4,
 "g":-4.6,
+"sep":6.8,
+"turn":22.7,
 "lq":0.86,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -4042,6 +4410,8 @@
 "p":176,
 "g5":1.8,
 "g":1.2,
+"sep":52.1,
+"turn":36.1,
 "lq":1.11,
 "t":"Sub-baccalaureate",
 "f":"Architecture & Engineering"
@@ -4058,6 +4428,8 @@
 "p":87,
 "g5":4.2,
 "g":8.3,
+"sep":16.8,
+"turn":33.3,
 "lq":0.43,
 "t":"High school",
 "f":"Architecture & Engineering"
@@ -4074,6 +4446,8 @@
 "p":0,
 "g5":0.1,
 "g":4.1,
+"sep":1.2,
+"turn":null,
 "lq":0.3,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4090,6 +4464,8 @@
 "p":64,
 "g5":4.2,
 "g":5.9,
+"sep":24.8,
+"turn":34.8,
 "lq":2.43,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4106,6 +4482,8 @@
 "p":39,
 "g5":2.7,
 "g":8.5,
+"sep":21.2,
+"turn":67.8,
 "lq":0.8,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4122,6 +4500,8 @@
 "p":24,
 "g5":5.5,
 "g":14.7,
+"sep":12.5,
+"turn":33.5,
 "lq":0.52,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4138,6 +4518,8 @@
 "p":76,
 "g5":4.0,
 "g":4.6,
+"sep":32.0,
+"turn":37.4,
 "lq":2.04,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4154,6 +4536,8 @@
 "p":107,
 "g5":3.2,
 "g":4.4,
+"sep":32.0,
+"turn":43.3,
 "lq":1.77,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4170,6 +4554,8 @@
 "p":248,
 "g5":4.5,
 "g":4.5,
+"sep":49.4,
+"turn":49.1,
 "lq":0.83,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4186,6 +4572,8 @@
 "p":307,
 "g5":5.9,
 "g":5.5,
+"sep":59.9,
+"turn":56.2,
 "lq":1.79,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4202,6 +4590,8 @@
 "p":70,
 "g5":2.4,
 "g":3.0,
+"sep":40.0,
+"turn":50.6,
 "lq":3.16,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4218,6 +4608,8 @@
 "p":178,
 "g5":5.3,
 "g":15.8,
+"sep":16.7,
+"turn":49.4,
 "lq":1.2,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4234,6 +4626,8 @@
 "p":611,
 "g5":18.6,
 "g":11.0,
+"sep":81.2,
+"turn":48.1,
 "lq":0.46,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4250,6 +4644,8 @@
 "p":0,
 "g5":3.8,
 "g":4.6,
+"sep":50.0,
+"turn":60.3,
 "lq":4.79,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4266,6 +4662,8 @@
 "p":33,
 "g5":1.1,
 "g":56.8,
+"sep":1.5,
+"turn":null,
 "lq":0.29,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4282,6 +4680,8 @@
 "p":53,
 "g5":2.1,
 "g":4.2,
+"sep":29.4,
+"turn":57.3,
 "lq":1.09,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4298,6 +4698,8 @@
 "p":52,
 "g5":1.3,
 "g":3.4,
+"sep":18.2,
+"turn":47.3,
 "lq":1.39,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4314,6 +4716,8 @@
 "p":308,
 "g5":8.4,
 "g":9.3,
+"sep":31.7,
+"turn":35.0,
 "lq":0.54,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4330,6 +4734,8 @@
 "p":11,
 "g5":0.4,
 "g":9.9,
+"sep":1.5,
+"turn":null,
 "lq":0.24,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4346,6 +4752,8 @@
 "p":930,
 "g5":19.4,
 "g":3.9,
+"sep":212.6,
+"turn":43.2,
 "lq":2.69,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4362,6 +4770,8 @@
 "p":58,
 "g5":1.6,
 "g":5.9,
+"sep":10.9,
+"turn":40.7,
 "lq":0.53,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4378,6 +4788,8 @@
 "p":25,
 "g5":1.0,
 "g":2.2,
+"sep":17.9,
+"turn":38.6,
 "lq":3.3,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4394,6 +4806,8 @@
 "p":355,
 "g5":3.3,
 "g":7.7,
+"sep":30.5,
+"turn":71.3,
 "lq":0.8,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4410,6 +4824,8 @@
 "p":183,
 "g5":3.2,
 "g":3.3,
+"sep":30.2,
+"turn":31.8,
 "lq":2.39,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4426,6 +4842,8 @@
 "p":67,
 "g5":0.6,
 "g":2.7,
+"sep":12.5,
+"turn":57.7,
 "lq":1.22,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4442,6 +4860,8 @@
 "p":115,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4458,6 +4878,8 @@
 "p":105,
 "g5":9.4,
 "g":4.8,
+"sep":54.3,
+"turn":28.0,
 "lq":1.24,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4474,6 +4896,8 @@
 "p":180,
 "g5":5.7,
 "g":3.2,
+"sep":76.2,
+"turn":43.5,
 "lq":1.41,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4490,6 +4914,8 @@
 "p":250,
 "g5":0.7,
 "g":0.8,
+"sep":29.4,
+"turn":35.9,
 "lq":1.86,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4506,6 +4932,8 @@
 "p":0,
 "g5":0.3,
 "g":7.0,
+"sep":2.4,
+"turn":null,
 "lq":0.82,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4522,6 +4950,8 @@
 "p":217,
 "g5":2.2,
 "g":2.3,
+"sep":44.1,
+"turn":45.8,
 "lq":1.07,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4538,6 +4968,8 @@
 "p":91,
 "g5":0.9,
 "g":7.1,
+"sep":4.4,
+"turn":33.0,
 "lq":0.65,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4554,6 +4986,8 @@
 "p":2,
 "g5":0.0,
 "g":7.4,
+"sep":1.1,
+"turn":null,
 "lq":0.11,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4570,6 +5004,8 @@
 "p":24,
 "g5":1.1,
 "g":24.5,
+"sep":1.7,
+"turn":null,
 "lq":0.53,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4586,6 +5022,8 @@
 "p":300,
 "g5":0.1,
 "g":0.8,
+"sep":5.0,
+"turn":45.2,
 "lq":0.66,
 "t":"Graduate / professional",
 "f":"Life, Physical & Social Science"
@@ -4602,6 +5040,8 @@
 "p":101,
 "g5":3.1,
 "g":2.4,
+"sep":60.2,
+"turn":46.4,
 "lq":1.5,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4618,6 +5058,8 @@
 "p":114,
 "g5":3.8,
 "g":8.5,
+"sep":32.0,
+"turn":71.3,
 "lq":0.98,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4634,6 +5076,8 @@
 "p":3,
 "g5":5.0,
 "g":9.3,
+"sep":24.1,
+"turn":44.7,
 "lq":1.63,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4650,6 +5094,8 @@
 "p":55,
 "g5":11.2,
 "g":4.8,
+"sep":123.8,
+"turn":53.3,
 "lq":1.53,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4666,6 +5112,8 @@
 "p":64,
 "g5":6.4,
 "g":4.6,
+"sep":56.7,
+"turn":40.5,
 "lq":1.22,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4682,6 +5130,8 @@
 "p":210,
 "g5":2.9,
 "g":5.8,
+"sep":22.9,
+"turn":45.5,
 "lq":0.7,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4698,6 +5148,8 @@
 "p":23,
 "g5":1.1,
 "g":41.8,
+"sep":1.8,
+"turn":null,
 "lq":0.17,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4714,6 +5166,8 @@
 "p":6,
 "g5":-0.1,
 "g":-1.5,
+"sep":2.1,
+"turn":null,
 "lq":0.59,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4730,6 +5184,8 @@
 "p":18,
 "g5":-0.0,
 "g":-8.9,
+"sep":0.0,
+"turn":null,
 "lq":0.01,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4746,6 +5202,8 @@
 "p":280,
 "g5":5.4,
 "g":8.3,
+"sep":40.3,
+"turn":61.7,
 "lq":0.89,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4762,6 +5220,8 @@
 "p":32,
 "g5":2.3,
 "g":4.3,
+"sep":35.8,
+"turn":66.1,
 "lq":0.74,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4778,6 +5238,8 @@
 "p":96,
 "g5":2.2,
 "g":7.2,
+"sep":16.4,
+"turn":53.8,
 "lq":0.71,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4794,6 +5256,8 @@
 "p":175,
 "g5":9.2,
 "g":4.6,
+"sep":122.2,
+"turn":61.6,
 "lq":1.2,
 "t":"Sub-baccalaureate",
 "f":"Life, Physical & Social Science"
@@ -4810,6 +5274,8 @@
 "p":559,
 "g5":21.2,
 "g":10.8,
+"sep":113.3,
+"turn":57.8,
 "lq":0.7,
 "t":"Bachelor's",
 "f":"Life, Physical & Social Science"
@@ -4826,6 +5292,8 @@
 "p":724,
 "g5":0.2,
 "g":0.2,
+"sep":47.6,
+"turn":58.3,
 "lq":1.41,
 "t":"High school",
 "f":"Life, Physical & Social Science"
@@ -4842,6 +5310,8 @@
 "p":2165,
 "g5":61.4,
 "g":4.9,
+"sep":755.8,
+"turn":60.6,
 "lq":1.6,
 "t":"Graduate / professional",
 "f":"Community & Social Service"
@@ -4858,6 +5328,8 @@
 "p":350,
 "g5":11.2,
 "g":8.5,
+"sep":66.2,
+"turn":50.5,
 "lq":0.91,
 "t":"Graduate / professional",
 "f":"Community & Social Service"
@@ -4874,6 +5346,8 @@
 "p":242,
 "g5":15.2,
 "g":5.0,
+"sep":227.0,
+"turn":74.4,
 "lq":1.55,
 "t":"Graduate / professional",
 "f":"Community & Social Service"
@@ -4890,6 +5364,8 @@
 "p":1810,
 "g5":140.1,
 "g":12.0,
+"sep":553.6,
+"turn":47.4,
 "lq":1.15,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -4906,6 +5382,8 @@
 "p":993,
 "g5":5.9,
 "g":3.7,
+"sep":103.9,
+"turn":64.8,
 "lq":2.32,
 "t":"Graduate / professional",
 "f":"Community & Social Service"
@@ -4922,6 +5400,8 @@
 "p":2836,
 "g5":44.2,
 "g":6.6,
+"sep":343.0,
+"turn":51.0,
 "lq":0.85,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -4938,6 +5418,8 @@
 "p":279,
 "g5":9.5,
 "g":3.5,
+"sep":130.2,
+"turn":48.3,
 "lq":0.71,
 "t":"Graduate / professional",
 "f":"Community & Social Service"
@@ -4954,6 +5436,8 @@
 "p":367,
 "g5":32.8,
 "g":9.8,
+"sep":139.4,
+"turn":41.7,
 "lq":1.23,
 "t":"Graduate / professional",
 "f":"Community & Social Service"
@@ -4970,6 +5454,8 @@
 "p":0,
 "g5":6.5,
 "g":4.9,
+"sep":73.1,
+"turn":55.1,
 "lq":0.92,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -4986,6 +5472,8 @@
 "p":392,
 "g5":7.4,
 "g":3.8,
+"sep":84.8,
+"turn":43.5,
 "lq":1.4,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -5002,6 +5490,8 @@
 "p":269,
 "g5":7.9,
 "g":4.1,
+"sep":88.3,
+"turn":45.4,
 "lq":1.08,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -5018,6 +5508,8 @@
 "p":394,
 "g5":102.5,
 "g":5.3,
+"sep":1148.5,
+"turn":59.4,
 "lq":2.1,
 "t":"High school",
 "f":"Community & Social Service"
@@ -5034,6 +5526,8 @@
 "p":160,
 "g5":17.3,
 "g":9.8,
+"sep":78.2,
+"turn":44.1,
 "lq":1.38,
 "t":"High school",
 "f":"Community & Social Service"
@@ -5050,6 +5544,8 @@
 "p":387,
 "g5":76.5,
 "g":2.7,
+"sep":1482.0,
+"turn":52.6,
 "lq":11.69,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -5066,6 +5562,8 @@
 "p":114,
 "g5":14.1,
 "g":5.1,
+"sep":123.0,
+"turn":44.5,
 "lq":0.6,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -5082,6 +5580,8 @@
 "p":13,
 "g5":8.7,
 "g":4.2,
+"sep":106.9,
+"turn":52.3,
 "lq":0.73,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -5098,6 +5598,8 @@
 "p":0,
 "g5":7.6,
 "g":6.0,
+"sep":65.0,
+"turn":51.3,
 "lq":0.57,
 "t":"Bachelor's",
 "f":"Community & Social Service"
@@ -5114,6 +5616,8 @@
 "p":1399,
 "g5":-2.1,
 "g":-0.2,
+"sep":348.3,
+"turn":25.9,
 "lq":0.88,
 "t":"Graduate / professional",
 "f":"Legal"
@@ -5130,6 +5634,8 @@
 "p":68,
 "g5":-0.0,
 "g":-8.9,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"Graduate / professional",
 "f":"Legal"
@@ -5146,6 +5652,8 @@
 "p":33,
 "g5":1.8,
 "g":4.6,
+"sep":11.0,
+"turn":27.9,
 "lq":1.07,
 "t":"Graduate / professional",
 "f":"Legal"
@@ -5162,6 +5670,8 @@
 "p":3,
 "g5":1.3,
 "g":12.7,
+"sep":4.2,
+"turn":40.0,
 "lq":0.5,
 "t":"Bachelor's",
 "f":"Legal"
@@ -5178,6 +5688,8 @@
 "p":47,
 "g5":2.5,
 "g":3.1,
+"sep":27.4,
+"turn":34.2,
 "lq":1.51,
 "t":"Graduate / professional",
 "f":"Legal"
@@ -5194,6 +5706,8 @@
 "p":322,
 "g5":-24.2,
 "g":-3.6,
+"sep":224.3,
+"turn":33.6,
 "lq":0.85,
 "t":"Sub-baccalaureate",
 "f":"Legal"
@@ -5210,6 +5724,8 @@
 "p":74,
 "g5":0.1,
 "g":0.2,
+"sep":17.3,
+"turn":25.5,
 "lq":0.69,
 "t":"High school",
 "f":"Legal"
@@ -5226,6 +5742,8 @@
 "p":105,
 "g5":2.3,
 "g":2.8,
+"sep":35.5,
+"turn":43.7,
 "lq":0.8,
 "t":"Sub-baccalaureate",
 "f":"Legal"
@@ -5242,6 +5760,8 @@
 "p":3501,
 "g5":253.4,
 "g":4.6,
+"sep":2471.7,
+"turn":44.8,
 "lq":1.57,
 "t":"Graduate / professional",
 "f":"Educational Instruction & Library"
@@ -5258,6 +5778,8 @@
 "p":1447,
 "g5":157.0,
 "g":14.5,
+"sep":854.6,
+"turn":79.0,
 "lq":0.98,
 "t":"Sub-baccalaureate",
 "f":"Educational Instruction & Library"
@@ -5274,6 +5796,8 @@
 "p":230,
 "g5":7.2,
 "g":2.8,
+"sep":157.9,
+"turn":62.2,
 "lq":1.17,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5290,6 +5814,8 @@
 "p":1919,
 "g5":92.1,
 "g":2.5,
+"sep":1467.9,
+"turn":40.3,
 "lq":1.33,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5306,6 +5832,8 @@
 "p":348,
 "g5":40.4,
 "g":2.5,
+"sep":636.0,
+"turn":39.1,
 "lq":1.33,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5322,6 +5850,8 @@
 "p":345,
 "g5":0.1,
 "g":10.7,
+"sep":0.3,
+"turn":null,
 "lq":0.02,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5338,6 +5868,8 @@
 "p":3910,
 "g5":67.4,
 "g":2.7,
+"sep":917.4,
+"turn":36.6,
 "lq":1.19,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5354,6 +5886,8 @@
 "p":3,
 "g5":6.2,
 "g":3.0,
+"sep":77.4,
+"turn":36.9,
 "lq":0.97,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5370,6 +5904,8 @@
 "p":31,
 "g5":2.6,
 "g":3.7,
+"sep":28.5,
+"turn":40.5,
 "lq":1.08,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5386,6 +5922,8 @@
 "p":60,
 "g5":17.7,
 "g":2.4,
+"sep":295.3,
+"turn":39.8,
 "lq":1.49,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5402,6 +5940,8 @@
 "p":40,
 "g5":8.4,
 "g":1.9,
+"sep":174.6,
+"turn":38.7,
 "lq":2.47,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5418,6 +5958,8 @@
 "p":13,
 "g5":13.0,
 "g":2.0,
+"sep":275.8,
+"turn":42.6,
 "lq":2.04,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5434,6 +5976,8 @@
 "p":2569,
 "g5":2.1,
 "g":2.8,
+"sep":37.0,
+"turn":50.8,
 "lq":0.93,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5450,6 +5994,8 @@
 "p":226,
 "g5":-2.0,
 "g":-2.3,
+"sep":46.7,
+"turn":53.4,
 "lq":0.97,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5466,6 +6012,8 @@
 "p":1260,
 "g5":88.1,
 "g":7.3,
+"sep":1054.4,
+"turn":87.8,
 "lq":1.67,
 "t":"High school",
 "f":"Educational Instruction & Library"
@@ -5482,6 +6030,8 @@
 "p":1261,
 "g5":71.3,
 "g":5.1,
+"sep":827.7,
+"turn":59.5,
 "lq":1.35,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5498,6 +6048,8 @@
 "p":366,
 "g5":23.9,
 "g":13.2,
+"sep":271.9,
+"turn":150.5,
 "lq":0.49,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5514,6 +6066,8 @@
 "p":0,
 "g5":10.7,
 "g":4.8,
+"sep":137.9,
+"turn":61.2,
 "lq":0.78,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5530,6 +6084,8 @@
 "p":56,
 "g5":6.0,
 "g":3.0,
+"sep":84.9,
+"turn":42.8,
 "lq":10.18,
 "t":"Graduate / professional",
 "f":"Educational Instruction & Library"
@@ -5546,6 +6102,8 @@
 "p":89,
 "g5":3.5,
 "g":6.5,
+"sep":35.3,
+"turn":64.3,
 "lq":2.1,
 "t":"Graduate / professional",
 "f":"Educational Instruction & Library"
@@ -5562,6 +6120,8 @@
 "p":2,
 "g5":8.3,
 "g":4.0,
+"sep":152.8,
+"turn":72.5,
 "lq":7.68,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5578,6 +6138,8 @@
 "p":268,
 "g5":12.1,
 "g":2.0,
+"sep":276.4,
+"turn":44.9,
 "lq":2.2,
 "t":"Graduate / professional",
 "f":"Educational Instruction & Library"
@@ -5594,6 +6156,8 @@
 "p":50,
 "g5":-4.0,
 "g":-2.3,
+"sep":91.2,
+"turn":51.1,
 "lq":1.17,
 "t":"Sub-baccalaureate",
 "f":"Educational Instruction & Library"
@@ -5610,6 +6174,8 @@
 "p":8,
 "g5":0.2,
 "g":0.4,
+"sep":25.2,
+"turn":42.2,
 "lq":2.64,
 "t":"Graduate / professional",
 "f":"Educational Instruction & Library"
@@ -5626,6 +6192,8 @@
 "p":1281,
 "g5":36.1,
 "g":4.7,
+"sep":472.1,
+"turn":61.0,
 "lq":1.61,
 "t":"Graduate / professional",
 "f":"Educational Instruction & Library"
@@ -5642,6 +6210,8 @@
 "p":79,
 "g5":14.9,
 "g":5.8,
+"sep":205.6,
+"turn":80.5,
 "lq":0.6,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5658,6 +6228,8 @@
 "p":4502,
 "g5":155.4,
 "g":3.2,
+"sep":3537.8,
+"turn":71.8,
 "lq":1.74,
 "t":"Sub-baccalaureate",
 "f":"Educational Instruction & Library"
@@ -5674,6 +6246,8 @@
 "p":0,
 "g5":12.9,
 "g":5.0,
+"sep":163.3,
+"turn":63.2,
 "lq":0.91,
 "t":"Bachelor's",
 "f":"Educational Instruction & Library"
@@ -5690,6 +6264,8 @@
 "p":116,
 "g5":3.6,
 "g":4.5,
+"sep":33.9,
+"turn":41.6,
 "lq":0.78,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5706,6 +6282,8 @@
 "p":123,
 "g5":-0.1,
 "g":-3.5,
+"sep":1.4,
+"turn":null,
 "lq":0.19,
 "t":"No formal credential",
 "f":"Arts, Design, Entertainment & Media"
@@ -5722,6 +6300,8 @@
 "p":68,
 "g5":0.9,
 "g":3.0,
+"sep":25.4,
+"turn":90.7,
 "lq":1.36,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5738,6 +6318,8 @@
 "p":89,
 "g5":4.8,
 "g":8.6,
+"sep":26.3,
+"turn":47.6,
 "lq":1.4,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5754,6 +6336,8 @@
 "p":69,
 "g5":0.2,
 "g":2.2,
+"sep":4.9,
+"turn":43.2,
 "lq":0.67,
 "t":"No formal credential",
 "f":"Arts, Design, Entertainment & Media"
@@ -5770,6 +6354,8 @@
 "p":450,
 "g5":-1.8,
 "g":-1.6,
+"sep":36.4,
+"turn":32.3,
 "lq":1.73,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5786,6 +6372,8 @@
 "p":41,
 "g5":0.3,
 "g":0.6,
+"sep":20.2,
+"turn":38.8,
 "lq":1.13,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5802,6 +6390,8 @@
 "p":68,
 "g5":11.5,
 "g":11.0,
+"sep":77.1,
+"turn":73.3,
 "lq":1.34,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -5818,6 +6408,8 @@
 "p":204,
 "g5":10.3,
 "g":2.5,
+"sep":173.5,
+"turn":42.1,
 "lq":1.05,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5834,6 +6426,8 @@
 "p":111,
 "g5":3.0,
 "g":2.7,
+"sep":40.3,
+"turn":36.1,
 "lq":0.78,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5850,6 +6444,8 @@
 "p":5195,
 "g5":15.0,
 "g":7.6,
+"sep":114.1,
+"turn":57.9,
 "lq":0.6,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -5866,6 +6462,8 @@
 "p":73,
 "g5":3.0,
 "g":5.5,
+"sep":122.0,
+"turn":225.6,
 "lq":2.49,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5882,6 +6480,8 @@
 "p":0,
 "g5":-0.3,
 "g":-0.7,
+"sep":16.3,
+"turn":35.1,
 "lq":2.52,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5898,6 +6498,8 @@
 "p":73,
 "g5":3.5,
 "g":5.2,
+"sep":68.7,
+"turn":103.6,
 "lq":0.6,
 "t":"Sub-baccalaureate",
 "f":"Arts, Design, Entertainment & Media"
@@ -5914,6 +6516,8 @@
 "p":418,
 "g5":21.3,
 "g":7.8,
+"sep":223.4,
+"turn":82.3,
 "lq":0.93,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5930,6 +6534,8 @@
 "p":56,
 "g5":0.0,
 "g":7.6,
+"sep":14.9,
+"turn":null,
 "lq":0.02,
 "t":"No formal credential",
 "f":"Arts, Design, Entertainment & Media"
@@ -5946,6 +6552,8 @@
 "p":2794,
 "g5":46.7,
 "g":6.5,
+"sep":849.1,
+"turn":119.1,
 "lq":1.31,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -5962,6 +6570,8 @@
 "p":49,
 "g5":2.3,
 "g":3.0,
+"sep":102.4,
+"turn":136.7,
 "lq":2.14,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -5978,6 +6588,8 @@
 "p":39,
 "g5":1.3,
 "g":12.6,
+"sep":24.3,
+"turn":227.0,
 "lq":0.61,
 "t":"No formal credential",
 "f":"Arts, Design, Entertainment & Media"
@@ -5994,6 +6606,8 @@
 "p":15,
 "g5":0.4,
 "g":10.2,
+"sep":9.8,
+"turn":null,
 "lq":0.57,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -6010,6 +6624,8 @@
 "p":88,
 "g5":4.6,
 "g":7.4,
+"sep":59.3,
+"turn":95.0,
 "lq":0.8,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6026,6 +6642,8 @@
 "p":104,
 "g5":8.7,
 "g":7.8,
+"sep":130.9,
+"turn":117.4,
 "lq":0.62,
 "t":"No formal credential",
 "f":"Arts, Design, Entertainment & Media"
@@ -6042,6 +6660,8 @@
 "p":113,
 "g5":-0.0,
 "g":-0.3,
+"sep":9.3,
+"turn":null,
 "lq":0.55,
 "t":"No formal credential",
 "f":"Arts, Design, Entertainment & Media"
@@ -6058,6 +6678,8 @@
 "p":20,
 "g5":2.3,
 "g":7.5,
+"sep":53.1,
+"turn":169.5,
 "lq":0.87,
 "t":"No formal credential",
 "f":"Arts, Design, Entertainment & Media"
@@ -6074,6 +6696,8 @@
 "p":23,
 "g5":0.4,
 "g":0.4,
+"sep":43.1,
+"turn":42.0,
 "lq":2.41,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6090,6 +6714,8 @@
 "p":295,
 "g5":-4.8,
 "g":-6.1,
+"sep":33.2,
+"turn":42.1,
 "lq":0.99,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6106,6 +6732,8 @@
 "p":533,
 "g5":53.9,
 "g":4.3,
+"sep":892.8,
+"turn":70.7,
 "lq":2.08,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6122,6 +6750,8 @@
 "p":298,
 "g5":-8.9,
 "g":-3.9,
+"sep":83.3,
+"turn":36.1,
 "lq":1.21,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6138,6 +6768,8 @@
 "p":595,
 "g5":3.0,
 "g":4.9,
+"sep":34.0,
+"turn":55.2,
 "lq":0.71,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6154,6 +6786,8 @@
 "p":394,
 "g5":0.2,
 "g":0.2,
+"sep":57.9,
+"turn":57.0,
 "lq":1.05,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6170,6 +6804,8 @@
 "p":358,
 "g5":5.9,
 "g":6.5,
+"sep":48.6,
+"turn":53.7,
 "lq":0.77,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6186,6 +6822,8 @@
 "p":51,
 "g5":0.6,
 "g":3.8,
+"sep":5.4,
+"turn":32.0,
 "lq":0.6,
 "t":"Sub-baccalaureate",
 "f":"Arts, Design, Entertainment & Media"
@@ -6202,6 +6840,8 @@
 "p":0,
 "g5":2.1,
 "g":5.2,
+"sep":45.1,
+"turn":111.1,
 "lq":0.84,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -6218,6 +6858,8 @@
 "p":92,
 "g5":8.3,
 "g":4.5,
+"sep":129.6,
+"turn":70.3,
 "lq":1.15,
 "t":"Sub-baccalaureate",
 "f":"Arts, Design, Entertainment & Media"
@@ -6234,6 +6876,8 @@
 "p":143,
 "g5":1.3,
 "g":5.5,
+"sep":7.2,
+"turn":30.4,
 "lq":0.54,
 "t":"Sub-baccalaureate",
 "f":"Arts, Design, Entertainment & Media"
@@ -6250,6 +6894,8 @@
 "p":24,
 "g5":0.8,
 "g":9.3,
+"sep":8.6,
+"turn":null,
 "lq":0.31,
 "t":"Sub-baccalaureate",
 "f":"Arts, Design, Entertainment & Media"
@@ -6266,6 +6912,8 @@
 "p":70,
 "g5":0.2,
 "g":4.3,
+"sep":7.4,
+"turn":null,
 "lq":0.25,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -6282,6 +6930,8 @@
 "p":257,
 "g5":1.4,
 "g":2.4,
+"sep":22.6,
+"turn":38.4,
 "lq":0.59,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -6298,6 +6948,8 @@
 "p":66,
 "g5":3.0,
 "g":2.6,
+"sep":89.4,
+"turn":78.4,
 "lq":2.78,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6314,6 +6966,8 @@
 "p":41,
 "g5":3.8,
 "g":4.4,
+"sep":92.0,
+"turn":107.9,
 "lq":1.69,
 "t":"Bachelor's",
 "f":"Arts, Design, Entertainment & Media"
@@ -6330,6 +6984,8 @@
 "p":0,
 "g5":1.3,
 "g":8.7,
+"sep":23.7,
+"turn":157.6,
 "lq":0.51,
 "t":"High school",
 "f":"Arts, Design, Entertainment & Media"
@@ -6346,6 +7002,8 @@
 "p":18,
 "g5":4.9,
 "g":4.2,
+"sep":42.9,
+"turn":36.5,
 "lq":1.49,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6362,6 +7020,8 @@
 "p":300,
 "g5":1.3,
 "g":0.5,
+"sep":68.3,
+"turn":28.3,
 "lq":0.97,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6378,6 +7038,8 @@
 "p":27,
 "g5":-0.0,
 "g":-8.9,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6394,6 +7056,8 @@
 "p":6,
 "g5":0.0,
 "g":20.0,
+"sep":0.0,
+"turn":null,
 "lq":0.01,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6410,6 +7074,8 @@
 "p":12,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6426,6 +7092,8 @@
 "p":62,
 "g5":-0.0,
 "g":-0.3,
+"sep":3.8,
+"turn":null,
 "lq":0.49,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6442,6 +7110,8 @@
 "p":602,
 "g5":5.4,
 "g":3.1,
+"sep":62.0,
+"turn":36.3,
 "lq":1.08,
 "t":"Bachelor's",
 "f":"Healthcare Practitioners & Technical"
@@ -6458,6 +7128,8 @@
 "p":114,
 "g5":5.4,
 "g":5.7,
+"sep":33.2,
+"turn":35.0,
 "lq":1.09,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6474,6 +7146,8 @@
 "p":1444,
 "g5":18.6,
 "g":3.4,
+"sep":193.7,
+"turn":35.4,
 "lq":0.86,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6490,6 +7164,8 @@
 "p":603,
 "g5":41.2,
 "g":9.7,
+"sep":174.3,
+"turn":40.9,
 "lq":1.28,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6506,6 +7182,8 @@
 "p":29,
 "g5":1.0,
 "g":1.3,
+"sep":27.7,
+"turn":37.1,
 "lq":3.62,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6522,6 +7200,8 @@
 "p":923,
 "g5":12.4,
 "g":3.8,
+"sep":151.5,
+"turn":46.8,
 "lq":0.99,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6538,6 +7218,8 @@
 "p":2048,
 "g5":-0.5,
 "g":-0.1,
+"sep":286.1,
+"turn":37.9,
 "lq":1.4,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6554,6 +7236,8 @@
 "p":35,
 "g5":1.1,
 "g":2.3,
+"sep":18.7,
+"turn":40.5,
 "lq":1.24,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -6570,6 +7254,8 @@
 "p":217,
 "g5":1.5,
 "g":3.9,
+"sep":15.4,
+"turn":41.2,
 "lq":1.18,
 "t":"Bachelor's",
 "f":"Healthcare Practitioners & Technical"
@@ -6586,6 +7272,8 @@
 "p":663,
 "g5":19.4,
 "g":8.6,
+"sep":81.2,
+"turn":36.0,
 "lq":0.8,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -6602,6 +7290,8 @@
 "p":1342,
 "g5":23.1,
 "g":5.4,
+"sep":215.9,
+"turn":50.2,
 "lq":1.19,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6618,6 +7308,8 @@
 "p":59,
 "g5":0.7,
 "g":4.5,
+"sep":5.9,
+"turn":40.1,
 "lq":0.78,
 "t":"Bachelor's",
 "f":"Healthcare Practitioners & Technical"
@@ -6634,6 +7326,8 @@
 "p":64,
 "g5":3.5,
 "g":3.5,
+"sep":48.9,
+"turn":49.6,
 "lq":1.88,
 "t":"Bachelor's",
 "f":"Healthcare Practitioners & Technical"
@@ -6650,6 +7344,8 @@
 "p":290,
 "g5":21.5,
 "g":7.5,
+"sep":83.8,
+"turn":29.4,
 "lq":1.7,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6666,6 +7362,8 @@
 "p":19169,
 "g5":273.0,
 "g":3.6,
+"sep":2535.8,
+"turn":33.6,
 "lq":1.1,
 "t":"Bachelor's",
 "f":"Healthcare Practitioners & Technical"
@@ -6682,6 +7380,8 @@
 "p":162,
 "g5":4.2,
 "g":8.4,
+"sep":16.9,
+"turn":33.8,
 "lq":0.46,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6698,6 +7398,8 @@
 "p":90,
 "g5":1.6,
 "g":2.5,
+"sep":24.1,
+"turn":37.5,
 "lq":3.69,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6714,6 +7416,8 @@
 "p":1313,
 "g5":137.8,
 "g":19.1,
+"sep":305.6,
+"turn":42.4,
 "lq":1.1,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6730,6 +7434,8 @@
 "p":94,
 "g5":0.1,
 "g":0.2,
+"sep":30.4,
+"turn":42.1,
 "lq":2.51,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6746,6 +7452,8 @@
 "p":111,
 "g5":2.1,
 "g":2.3,
+"sep":32.2,
+"turn":35.9,
 "lq":1.08,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6762,6 +7470,8 @@
 "p":102,
 "g5":1.2,
 "g":1.7,
+"sep":18.8,
+"turn":26.9,
 "lq":1.85,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6778,6 +7488,8 @@
 "p":63,
 "g5":0.8,
 "g":3.8,
+"sep":4.6,
+"turn":22.9,
 "lq":0.84,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6794,6 +7506,8 @@
 "p":111,
 "g5":0.5,
 "g":0.4,
+"sep":40.5,
+"turn":30.8,
 "lq":1.84,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6810,6 +7524,8 @@
 "p":415,
 "g5":3.7,
 "g":1.5,
+"sep":96.4,
+"turn":38.2,
 "lq":1.15,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6826,6 +7542,8 @@
 "p":69,
 "g5":3.8,
 "g":1.9,
+"sep":72.5,
+"turn":37.3,
 "lq":1.35,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6842,6 +7560,8 @@
 "p":163,
 "g5":1.4,
 "g":3.1,
+"sep":14.5,
+"turn":32.9,
 "lq":1.83,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6858,6 +7578,8 @@
 "p":162,
 "g5":0.2,
 "g":0.2,
+"sep":29.2,
+"turn":30.5,
 "lq":2.07,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6874,6 +7596,8 @@
 "p":72,
 "g5":0.6,
 "g":0.4,
+"sep":47.6,
+"turn":35.5,
 "lq":1.63,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6890,6 +7614,8 @@
 "p":85,
 "g5":0.8,
 "g":3.5,
+"sep":6.1,
+"turn":27.6,
 "lq":0.87,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6906,6 +7632,8 @@
 "p":236,
 "g5":5.9,
 "g":6.5,
+"sep":33.1,
+"turn":36.5,
 "lq":1.47,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6922,6 +7650,8 @@
 "p":220,
 "g5":0.9,
 "g":5.4,
+"sep":4.5,
+"turn":26.9,
 "lq":0.29,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6938,6 +7668,8 @@
 "p":1126,
 "g5":16.9,
 "g":3.3,
+"sep":180.4,
+"turn":35.8,
 "lq":0.69,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6954,6 +7686,8 @@
 "p":62,
 "g5":0.6,
 "g":1.9,
+"sep":14.5,
+"turn":47.8,
 "lq":1.55,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6970,6 +7704,8 @@
 "p":134,
 "g5":1.1,
 "g":2.0,
+"sep":19.3,
+"turn":36.7,
 "lq":1.64,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -6986,6 +7722,8 @@
 "p":19,
 "g5":0.0,
 "g":3.5,
+"sep":0.5,
+"turn":null,
 "lq":0.06,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -7002,6 +7740,8 @@
 "p":84,
 "g5":1.7,
 "g":1.0,
+"sep":47.1,
+"turn":28.6,
 "lq":2.95,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -7018,6 +7758,8 @@
 "p":11,
 "g5":1.1,
 "g":10.2,
+"sep":2.8,
+"turn":25.4,
 "lq":0.61,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -7034,6 +7776,8 @@
 "p":318,
 "g5":7.7,
 "g":1.4,
+"sep":218.7,
+"turn":39.3,
 "lq":1.26,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7050,6 +7794,8 @@
 "p":68,
 "g5":2.7,
 "g":3.4,
+"sep":37.4,
+"turn":47.1,
 "lq":1.24,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -7066,6 +7812,8 @@
 "p":1343,
 "g5":16.1,
 "g":3.3,
+"sep":183.0,
+"turn":37.2,
 "lq":0.72,
 "t":"Bachelor's",
 "f":"Healthcare Practitioners & Technical"
@@ -7082,6 +7830,8 @@
 "p":304,
 "g5":3.8,
 "g":8.0,
+"sep":13.1,
+"turn":27.1,
 "lq":0.37,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7098,6 +7848,8 @@
 "p":605,
 "g5":12.0,
 "g":8.3,
+"sep":39.3,
+"turn":27.2,
 "lq":0.79,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7114,6 +7866,8 @@
 "p":209,
 "g5":3.7,
 "g":2.3,
+"sep":38.5,
+"turn":24.0,
 "lq":4.42,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7130,6 +7884,8 @@
 "p":1363,
 "g5":16.6,
 "g":3.5,
+"sep":131.0,
+"turn":27.6,
 "lq":1.02,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7146,6 +7902,8 @@
 "p":532,
 "g5":3.2,
 "g":5.0,
+"sep":16.7,
+"turn":26.5,
 "lq":0.71,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7162,6 +7920,8 @@
 "p":20,
 "g5":0.1,
 "g":2.0,
+"sep":2.0,
+"turn":null,
 "lq":0.7,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7178,6 +7938,8 @@
 "p":57,
 "g5":38.7,
 "g":5.0,
+"sep":525.6,
+"turn":67.6,
 "lq":2.16,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7194,6 +7956,8 @@
 "p":63,
 "g5":9.5,
 "g":4.3,
+"sep":142.7,
+"turn":64.3,
 "lq":0.93,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7210,6 +7974,8 @@
 "p":133,
 "g5":2.4,
 "g":2.3,
+"sep":61.4,
+"turn":59.9,
 "lq":1.48,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7226,6 +7992,8 @@
 "p":3258,
 "g5":27.3,
 "g":3.6,
+"sep":431.3,
+"turn":56.2,
 "lq":0.82,
 "t":"High school",
 "f":"Healthcare Practitioners & Technical"
@@ -7242,6 +8010,8 @@
 "p":368,
 "g5":70.3,
 "g":11.6,
+"sep":297.7,
+"turn":49.3,
 "lq":1.81,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7258,6 +8028,8 @@
 "p":298,
 "g5":7.8,
 "g":5.2,
+"sep":64.4,
+"turn":42.8,
 "lq":0.63,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7274,6 +8046,8 @@
 "p":254,
 "g5":33.1,
 "g":8.2,
+"sep":186.0,
+"turn":46.2,
 "lq":1.55,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7290,6 +8064,8 @@
 "p":115,
 "g5":16.9,
 "g":10.7,
+"sep":102.4,
+"turn":65.0,
 "lq":1.08,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7306,6 +8082,8 @@
 "p":3621,
 "g5":13.7,
 "g":1.2,
+"sep":710.4,
+"turn":61.3,
 "lq":0.87,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7322,6 +8100,8 @@
 "p":829,
 "g5":31.9,
 "g":4.6,
+"sep":200.4,
+"turn":29.1,
 "lq":1.75,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7338,6 +8118,8 @@
 "p":51,
 "g5":5.4,
 "g":7.6,
+"sep":38.8,
+"turn":54.2,
 "lq":0.49,
 "t":"High school",
 "f":"Healthcare Practitioners & Technical"
@@ -7354,6 +8136,8 @@
 "p":18,
 "g5":6.6,
 "g":7.7,
+"sep":40.2,
+"turn":46.6,
 "lq":4.21,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -7370,6 +8154,8 @@
 "p":35,
 "g5":0.5,
 "g":5.9,
+"sep":3.5,
+"turn":null,
 "lq":0.36,
 "t":"High school",
 "f":"Healthcare Practitioners & Technical"
@@ -7386,6 +8172,8 @@
 "p":3475,
 "g5":2.1,
 "g":0.5,
+"sep":123.8,
+"turn":28.3,
 "lq":1.18,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7402,6 +8190,8 @@
 "p":179,
 "g5":9.3,
 "g":11.1,
+"sep":28.5,
+"turn":33.8,
 "lq":1.07,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7418,6 +8208,8 @@
 "p":142,
 "g5":7.6,
 "g":5.2,
+"sep":95.0,
+"turn":65.6,
 "lq":2.13,
 "t":"Bachelor's",
 "f":"Healthcare Practitioners & Technical"
@@ -7434,6 +8226,8 @@
 "p":19,
 "g5":0.3,
 "g":5.2,
+"sep":1.9,
+"turn":null,
 "lq":0.64,
 "t":"Graduate / professional",
 "f":"Healthcare Practitioners & Technical"
@@ -7450,6 +8244,8 @@
 "p":160,
 "g5":0.5,
 "g":1.1,
+"sep":10.8,
+"turn":25.6,
 "lq":0.87,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7466,6 +8262,8 @@
 "p":33,
 "g5":4.9,
 "g":3.7,
+"sep":62.5,
+"turn":47.0,
 "lq":1.72,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Practitioners & Technical"
@@ -7482,6 +8280,8 @@
 "p":5360,
 "g5":61.1,
 "g":0.7,
+"sep":6274.9,
+"turn":70.6,
 "lq":0.93,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7498,6 +8298,8 @@
 "p":3719,
 "g5":39.6,
 "g":1.3,
+"sep":2273.8,
+"turn":72.9,
 "lq":1.05,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7514,6 +8316,8 @@
 "p":84,
 "g5":4.1,
 "g":6.0,
+"sep":25.3,
+"turn":37.0,
 "lq":0.63,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7530,6 +8334,8 @@
 "p":774,
 "g5":-8.6,
 "g":-2.7,
+"sep":171.4,
+"turn":52.7,
 "lq":3.97,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7546,6 +8352,8 @@
 "p":305,
 "g5":4.1,
 "g":5.2,
+"sep":55.4,
+"turn":70.4,
 "lq":0.75,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7562,6 +8370,8 @@
 "p":103,
 "g5":-1.4,
 "g":-5.9,
+"sep":10.9,
+"turn":47.6,
 "lq":2.26,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7578,6 +8388,8 @@
 "p":622,
 "g5":4.5,
 "g":4.5,
+"sep":84.9,
+"turn":84.3,
 "lq":0.44,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7594,6 +8406,8 @@
 "p":11,
 "g5":-2.5,
 "g":-4.6,
+"sep":44.6,
+"turn":83.3,
 "lq":0.53,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7610,6 +8424,8 @@
 "p":185,
 "g5":23.0,
 "g":13.3,
+"sep":90.5,
+"turn":52.4,
 "lq":0.85,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7626,6 +8442,8 @@
 "p":448,
 "g5":6.4,
 "g":1.1,
+"sep":374.8,
+"turn":63.9,
 "lq":0.75,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7642,6 +8460,8 @@
 "p":1593,
 "g5":77.4,
 "g":6.5,
+"sep":661.6,
+"turn":55.3,
 "lq":0.72,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7658,6 +8478,8 @@
 "p":172,
 "g5":9.8,
 "g":6.9,
+"sep":52.3,
+"turn":36.6,
 "lq":0.92,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7674,6 +8496,8 @@
 "p":56,
 "g5":-1.8,
 "g":-1.8,
+"sep":79.3,
+"turn":78.4,
 "lq":1.18,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7690,6 +8514,8 @@
 "p":19,
 "g5":-1.6,
 "g":-1.9,
+"sep":53.4,
+"turn":63.0,
 "lq":1.08,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7706,6 +8532,8 @@
 "p":132,
 "g5":31.0,
 "g":8.1,
+"sep":165.3,
+"turn":43.2,
 "lq":1.47,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7722,6 +8550,8 @@
 "p":511,
 "g5":6.5,
 "g":3.3,
+"sep":101.5,
+"turn":51.1,
 "lq":0.69,
 "t":"Sub-baccalaureate",
 "f":"Healthcare Support"
@@ -7738,6 +8568,8 @@
 "p":169,
 "g5":8.6,
 "g":2.8,
+"sep":187.3,
+"turn":60.8,
 "lq":1.35,
 "t":"High school",
 "f":"Healthcare Support"
@@ -7754,6 +8586,8 @@
 "p":95,
 "g5":2.7,
 "g":4.8,
+"sep":12.1,
+"turn":21.6,
 "lq":0.52,
 "t":"High school",
 "f":"Protective Service"
@@ -7770,6 +8604,8 @@
 "p":31,
 "g5":3.5,
 "g":1.5,
+"sep":51.5,
+"turn":22.5,
 "lq":0.69,
 "t":"High school",
 "f":"Protective Service"
@@ -7786,6 +8622,8 @@
 "p":72,
 "g5":1.8,
 "g":1.9,
+"sep":29.1,
+"turn":31.9,
 "lq":0.46,
 "t":"Sub-baccalaureate",
 "f":"Protective Service"
@@ -7802,6 +8640,8 @@
 "p":335,
 "g5":0.7,
 "g":0.9,
+"sep":36.8,
+"turn":46.7,
 "lq":0.49,
 "t":"High school",
 "f":"Protective Service"
@@ -7818,6 +8658,8 @@
 "p":0,
 "g5":1.2,
 "g":2.4,
+"sep":20.8,
+"turn":41.4,
 "lq":1.12,
 "t":"High school",
 "f":"Protective Service"
@@ -7834,6 +8676,8 @@
 "p":57,
 "g5":13.2,
 "g":1.7,
+"sep":242.6,
+"turn":30.5,
 "lq":1.12,
 "t":"Sub-baccalaureate",
 "f":"Protective Service"
@@ -7850,6 +8694,8 @@
 "p":45,
 "g5":0.5,
 "g":5.7,
+"sep":7.1,
+"turn":null,
 "lq":0.28,
 "t":"Sub-baccalaureate",
 "f":"Protective Service"
@@ -7866,6 +8712,8 @@
 "p":1,
 "g5":0.4,
 "g":8.0,
+"sep":21.2,
+"turn":null,
 "lq":0.62,
 "t":"High school",
 "f":"Protective Service"
@@ -7882,6 +8730,8 @@
 "p":50,
 "g5":0.1,
 "g":0.2,
+"sep":17.5,
+"turn":31.3,
 "lq":1.53,
 "t":"High school",
 "f":"Protective Service"
@@ -7898,6 +8748,8 @@
 "p":454,
 "g5":4.9,
 "g":1.1,
+"sep":166.2,
+"turn":36.4,
 "lq":0.59,
 "t":"High school",
 "f":"Protective Service"
@@ -7914,6 +8766,8 @@
 "p":153,
 "g5":4.8,
 "g":2.4,
+"sep":71.5,
+"turn":35.2,
 "lq":0.82,
 "t":"High school",
 "f":"Protective Service"
@@ -7930,6 +8784,8 @@
 "p":18,
 "g5":-0.0,
 "g":0.0,
+"sep":13.1,
+"turn":36.8,
 "lq":2.88,
 "t":"Bachelor's",
 "f":"Protective Service"
@@ -7946,6 +8802,8 @@
 "p":88,
 "g5":-0.5,
 "g":-1.5,
+"sep":12.0,
+"turn":38.9,
 "lq":1.48,
 "t":"High school",
 "f":"Protective Service"
@@ -7962,6 +8820,8 @@
 "p":809,
 "g5":17.5,
 "g":1.6,
+"sep":429.5,
+"turn":38.2,
 "lq":0.78,
 "t":"High school",
 "f":"Protective Service"
@@ -7978,6 +8838,8 @@
 "p":0,
 "g5":0.2,
 "g":2.4,
+"sep":2.4,
+"turn":null,
 "lq":0.68,
 "t":"High school",
 "f":"Protective Service"
@@ -7994,6 +8856,8 @@
 "p":17,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Protective Service"
@@ -8010,6 +8874,8 @@
 "p":132,
 "g5":2.8,
 "g":3.2,
+"sep":62.2,
+"turn":72.4,
 "lq":1.2,
 "t":"High school",
 "f":"Protective Service"
@@ -8026,6 +8892,8 @@
 "p":0,
 "g5":-0.1,
 "g":-2.4,
+"sep":3.0,
+"turn":null,
 "lq":0.31,
 "t":"High school",
 "f":"Protective Service"
@@ -8042,6 +8910,8 @@
 "p":1743,
 "g5":1.6,
 "g":0.1,
+"sep":913.4,
+"turn":85.1,
 "lq":0.41,
 "t":"High school",
 "f":"Protective Service"
@@ -8058,6 +8928,8 @@
 "p":263,
 "g5":13.6,
 "g":4.2,
+"sep":540.5,
+"turn":166.8,
 "lq":1.66,
 "t":"No formal credential",
 "f":"Protective Service"
@@ -8074,6 +8946,8 @@
 "p":161,
 "g5":17.0,
 "g":5.4,
+"sep":465.2,
+"turn":146.3,
 "lq":0.97,
 "t":"No formal credential",
 "f":"Protective Service"
@@ -8090,6 +8964,8 @@
 "p":89,
 "g5":1.6,
 "g":1.8,
+"sep":82.0,
+"turn":94.1,
 "lq":0.76,
 "t":"High school",
 "f":"Protective Service"
@@ -8106,6 +8982,8 @@
 "p":21,
 "g5":2.7,
 "g":3.8,
+"sep":65.1,
+"turn":92.6,
 "lq":0.44,
 "t":"High school",
 "f":"Protective Service"
@@ -8122,6 +9000,8 @@
 "p":303,
 "g5":3.5,
 "g":4.6,
+"sep":94.2,
+"turn":122.3,
 "lq":0.45,
 "t":"High school",
 "f":"Protective Service"
@@ -8138,6 +9018,8 @@
 "p":1283,
 "g5":15.7,
 "g":2.5,
+"sep":545.3,
+"turn":87.2,
 "lq":1.54,
 "t":"High school",
 "f":"Food Preparation & Serving"
@@ -8154,6 +9036,8 @@
 "p":2233,
 "g5":80.8,
 "g":4.0,
+"sep":1155.9,
+"turn":57.6,
 "lq":0.82,
 "t":"High school",
 "f":"Food Preparation & Serving"
@@ -8170,6 +9054,8 @@
 "p":1402,
 "g5":-4.6,
 "g":-0.7,
+"sep":514.8,
+"turn":78.5,
 "lq":0.51,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8186,6 +9072,8 @@
 "p":45,
 "g5":40.2,
 "g":2.9,
+"sep":1229.5,
+"turn":89.6,
 "lq":1.49,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8202,6 +9090,8 @@
 "p":1,
 "g5":0.1,
 "g":6.9,
+"sep":1.8,
+"turn":null,
 "lq":0.33,
 "t":"Sub-baccalaureate",
 "f":"Food Preparation & Serving"
@@ -8218,6 +9108,8 @@
 "p":2153,
 "g5":106.3,
 "g":4.4,
+"sep":2392.4,
+"turn":99.5,
 "lq":0.85,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8234,6 +9126,8 @@
 "p":231,
 "g5":-17.4,
 "g":-2.6,
+"sep":555.3,
+"turn":83.3,
 "lq":2.37,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8250,6 +9144,8 @@
 "p":36,
 "g5":1.9,
 "g":1.2,
+"sep":177.0,
+"turn":110.7,
 "lq":3.5,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8266,6 +9162,8 @@
 "p":1961,
 "g5":10.5,
 "g":0.7,
+"sep":1506.2,
+"turn":107.0,
 "lq":0.79,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8282,6 +9180,8 @@
 "p":903,
 "g5":64.9,
 "g":3.1,
+"sep":1894.0,
+"turn":91.4,
 "lq":1.38,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8298,6 +9198,8 @@
 "p":3199,
 "g5":389.6,
 "g":5.7,
+"sep":12094.3,
+"turn":175.4,
 "lq":0.9,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8314,6 +9216,8 @@
 "p":1754,
 "g5":-46.9,
 "g":-1.1,
+"sep":5923.0,
+"turn":144.8,
 "lq":0.9,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8330,6 +9234,8 @@
 "p":124,
 "g5":6.8,
 "g":0.9,
+"sep":749.3,
+"turn":94.5,
 "lq":1.33,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8346,6 +9252,8 @@
 "p":2164,
 "g5":24.1,
 "g":2.3,
+"sep":1192.0,
+"turn":115.7,
 "lq":0.95,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8362,6 +9270,8 @@
 "p":1337,
 "g5":-16.7,
 "g":-1.3,
+"sep":1777.7,
+"turn":137.3,
 "lq":1.36,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8378,6 +9288,8 @@
 "p":442,
 "g5":-32.2,
 "g":-3.0,
+"sep":3340.8,
+"turn":311.9,
 "lq":1.24,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8394,6 +9306,8 @@
 "p":0,
 "g5":3.8,
 "g":2.8,
+"sep":341.2,
+"turn":249.0,
 "lq":0.75,
 "t":"No formal credential",
 "f":"Food Preparation & Serving"
@@ -8410,6 +9324,8 @@
 "p":477,
 "g5":17.8,
 "g":3.9,
+"sep":280.1,
+"turn":61.3,
 "lq":1.25,
 "t":"High school",
 "f":"Building & Grounds Cleaning"
@@ -8426,6 +9342,8 @@
 "p":160,
 "g5":18.8,
 "g":10.7,
+"sep":88.9,
+"turn":50.4,
 "lq":0.69,
 "t":"High school",
 "f":"Building & Grounds Cleaning"
@@ -8442,6 +9360,8 @@
 "p":4012,
 "g5":156.6,
 "g":2.9,
+"sep":3937.0,
+"turn":72.5,
 "lq":1.16,
 "t":"No formal credential",
 "f":"Building & Grounds Cleaning"
@@ -8458,6 +9378,8 @@
 "p":2651,
 "g5":10.8,
 "g":0.4,
+"sep":2250.0,
+"turn":85.5,
 "lq":1.17,
 "t":"No formal credential",
 "f":"Building & Grounds Cleaning"
@@ -8474,6 +9396,8 @@
 "p":0,
 "g5":-0.7,
 "g":-4.2,
+"sep":17.5,
+"turn":106.5,
 "lq":0.45,
 "t":"No formal credential",
 "f":"Building & Grounds Cleaning"
@@ -8490,6 +9414,8 @@
 "p":374,
 "g5":16.9,
 "g":20.3,
+"sep":85.2,
+"turn":102.7,
 "lq":0.4,
 "t":"High school",
 "f":"Building & Grounds Cleaning"
@@ -8506,6 +9432,8 @@
 "p":1478,
 "g5":200.0,
 "g":7.4,
+"sep":2825.3,
+"turn":104.5,
 "lq":1.41,
 "t":"No formal credential",
 "f":"Building & Grounds Cleaning"
@@ -8522,6 +9450,8 @@
 "p":105,
 "g5":3.7,
 "g":7.0,
+"sep":50.3,
+"turn":94.2,
 "lq":0.9,
 "t":"High school",
 "f":"Building & Grounds Cleaning"
@@ -8538,6 +9468,8 @@
 "p":767,
 "g5":23.3,
 "g":5.6,
+"sep":408.8,
+"turn":98.5,
 "lq":3.81,
 "t":"High school",
 "f":"Building & Grounds Cleaning"
@@ -8554,6 +9486,8 @@
 "p":0,
 "g5":2.7,
 "g":2.3,
+"sep":162.8,
+"turn":137.9,
 "lq":3.75,
 "t":"No formal credential",
 "f":"Building & Grounds Cleaning"
@@ -8570,6 +9504,8 @@
 "p":17,
 "g5":-1.1,
 "g":-45.9,
+"sep":1.5,
+"turn":null,
 "lq":0.05,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8586,6 +9522,8 @@
 "p":60,
 "g5":14.6,
 "g":4.8,
+"sep":227.0,
+"turn":74.4,
 "lq":1.44,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8602,6 +9540,8 @@
 "p":0,
 "g5":16.3,
 "g":7.6,
+"sep":113.9,
+"turn":53.2,
 "lq":0.91,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8618,6 +9558,8 @@
 "p":110,
 "g5":4.3,
 "g":11.4,
+"sep":33.3,
+"turn":88.0,
 "lq":0.77,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8634,6 +9576,8 @@
 "p":461,
 "g5":81.3,
 "g":17.1,
+"sep":451.6,
+"turn":95.0,
 "lq":0.85,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8650,6 +9594,8 @@
 "p":19,
 "g5":0.9,
 "g":19.4,
+"sep":2.6,
+"turn":null,
 "lq":0.03,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8666,6 +9612,8 @@
 "p":0,
 "g5":0.1,
 "g":7.3,
+"sep":0.8,
+"turn":null,
 "lq":0.11,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8682,6 +9630,8 @@
 "p":72,
 "g5":0.6,
 "g":7.3,
+"sep":5.3,
+"turn":null,
 "lq":0.26,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8698,6 +9648,8 @@
 "p":2,
 "g5":-1.0,
 "g":-100.0,
+"sep":1.1,
+"turn":null,
 "lq":0.27,
 "t":"No formal credential",
 "f":"Personal Care & Service"
@@ -8714,6 +9666,8 @@
 "p":20,
 "g5":1.9,
 "g":1.3,
+"sep":313.6,
+"turn":205.8,
 "lq":0.6,
 "t":"No formal credential",
 "f":"Personal Care & Service"
@@ -8730,6 +9684,8 @@
 "p":165,
 "g5":69.4,
 "g":8.3,
+"sep":1539.2,
+"turn":185.1,
 "lq":1.01,
 "t":"No formal credential",
 "f":"Personal Care & Service"
@@ -8746,6 +9702,8 @@
 "p":48,
 "g5":0.8,
 "g":9.4,
+"sep":31.8,
+"turn":null,
 "lq":0.56,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8762,6 +9720,8 @@
 "p":1,
 "g5":4.7,
 "g":4.0,
+"sep":233.3,
+"turn":198.0,
 "lq":3.21,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8778,6 +9738,8 @@
 "p":0,
 "g5":0.3,
 "g":4.2,
+"sep":10.8,
+"turn":null,
 "lq":0.36,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8794,6 +9756,8 @@
 "p":0,
 "g5":-0.2,
 "g":-4.0,
+"sep":3.1,
+"turn":null,
 "lq":0.54,
 "t":"Sub-baccalaureate",
 "f":"Personal Care & Service"
@@ -8810,6 +9774,8 @@
 "p":5,
 "g5":0.1,
 "g":30.5,
+"sep":10.9,
+"turn":null,
 "lq":0.03,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8826,6 +9792,8 @@
 "p":7,
 "g5":-0.1,
 "g":-0.4,
+"sep":31.2,
+"turn":115.1,
 "lq":0.43,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8842,6 +9810,8 @@
 "p":2,
 "g5":-1.0,
 "g":-3.0,
+"sep":32.1,
+"turn":99.6,
 "lq":0.63,
 "t":"Sub-baccalaureate",
 "f":"Personal Care & Service"
@@ -8858,6 +9828,8 @@
 "p":24,
 "g5":-0.0,
 "g":-0.4,
+"sep":0.4,
+"turn":null,
 "lq":0.03,
 "t":"Sub-baccalaureate",
 "f":"Personal Care & Service"
@@ -8874,6 +9846,8 @@
 "p":491,
 "g5":16.5,
 "g":3.6,
+"sep":202.4,
+"turn":44.7,
 "lq":0.72,
 "t":"Sub-baccalaureate",
 "f":"Personal Care & Service"
@@ -8890,6 +9864,8 @@
 "p":28,
 "g5":0.0,
 "g":null,
+"sep":0.9,
+"turn":null,
 "lq":0.0,
 "t":"Sub-baccalaureate",
 "f":"Personal Care & Service"
@@ -8906,6 +9882,8 @@
 "p":46,
 "g5":6.1,
 "g":5.5,
+"sep":67.0,
+"turn":60.9,
 "lq":0.35,
 "t":"Sub-baccalaureate",
 "f":"Personal Care & Service"
@@ -8922,6 +9900,8 @@
 "p":0,
 "g5":0.0,
 "g":3.1,
+"sep":0.8,
+"turn":null,
 "lq":0.02,
 "t":"No formal credential",
 "f":"Personal Care & Service"
@@ -8938,6 +9918,8 @@
 "p":70,
 "g5":6.7,
 "g":8.2,
+"sep":55.4,
+"turn":67.2,
 "lq":0.55,
 "t":"Sub-baccalaureate",
 "f":"Personal Care & Service"
@@ -8954,6 +9936,8 @@
 "p":191,
 "g5":-0.7,
 "g":-0.7,
+"sep":109.0,
+"turn":115.7,
 "lq":1.51,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8970,6 +9954,8 @@
 "p":428,
 "g5":0.4,
 "g":0.4,
+"sep":114.9,
+"turn":110.0,
 "lq":1.0,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -8986,6 +9972,8 @@
 "p":282,
 "g5":15.8,
 "g":10.7,
+"sep":211.8,
+"turn":143.4,
 "lq":1.31,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -9002,6 +9990,8 @@
 "p":735,
 "g5":130.1,
 "g":4.0,
+"sep":2388.7,
+"turn":73.3,
 "lq":1.67,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -9018,6 +10008,8 @@
 "p":146,
 "g5":54.5,
 "g":7.5,
+"sep":730.7,
+"turn":100.1,
 "lq":1.09,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -9034,6 +10026,8 @@
 "p":829,
 "g5":38.4,
 "g":4.4,
+"sep":862.5,
+"turn":99.5,
 "lq":1.26,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -9050,6 +10044,8 @@
 "p":501,
 "g5":14.4,
 "g":7.0,
+"sep":156.9,
+"turn":76.1,
 "lq":1.05,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -9066,6 +10062,8 @@
 "p":6,
 "g5":1.7,
 "g":0.7,
+"sep":176.2,
+"turn":79.6,
 "lq":1.38,
 "t":"High school",
 "f":"Personal Care & Service"
@@ -9082,6 +10080,8 @@
 "p":9256,
 "g5":-2.6,
 "g":-0.1,
+"sep":901.9,
+"turn":38.7,
 "lq":1.05,
 "t":"High school",
 "f":"Sales"
@@ -9098,6 +10098,8 @@
 "p":573,
 "g5":6.5,
 "g":2.7,
+"sep":78.1,
+"turn":32.6,
 "lq":0.56,
 "t":"High school",
 "f":"Sales"
@@ -9114,6 +10116,8 @@
 "p":3474,
 "g5":-231.5,
 "g":-3.2,
+"sep":7968.3,
+"turn":111.4,
 "lq":1.16,
 "t":"No formal credential",
 "f":"Sales"
@@ -9130,6 +10134,8 @@
 "p":0,
 "g5":1.0,
 "g":4120.1,
+"sep":129.3,
+"turn":null,
 "lq":0.0,
 "t":"No formal credential",
 "f":"Sales"
@@ -9146,6 +10152,8 @@
 "p":202,
 "g5":18.7,
 "g":2.5,
+"sep":568.0,
+"turn":75.8,
 "lq":0.92,
 "t":"No formal credential",
 "f":"Sales"
@@ -9162,6 +10170,8 @@
 "p":661,
 "g5":9.5,
 "g":1.2,
+"sep":422.7,
+"turn":55.3,
 "lq":1.42,
 "t":"No formal credential",
 "f":"Sales"
@@ -9178,6 +10188,8 @@
 "p":11328,
 "g5":9.7,
 "g":0.1,
+"sep":5933.7,
+"turn":72.8,
 "lq":1.05,
 "t":"No formal credential",
 "f":"Sales"
@@ -9194,6 +10206,8 @@
 "p":408,
 "g5":-6.2,
 "g":-3.9,
+"sep":74.3,
+"turn":46.1,
 "lq":0.85,
 "t":"High school",
 "f":"Sales"
@@ -9210,6 +10224,8 @@
 "p":739,
 "g5":-15.7,
 "g":-1.6,
+"sep":189.9,
+"turn":19.3,
 "lq":0.74,
 "t":"High school",
 "f":"Sales"
@@ -9226,6 +10242,8 @@
 "p":1378,
 "g5":18.7,
 "g":6.8,
+"sep":65.0,
+"turn":23.7,
 "lq":0.27,
 "t":"Bachelor's",
 "f":"Sales"
@@ -9242,6 +10260,8 @@
 "p":157,
 "g5":18.2,
 "g":15.9,
+"sep":117.5,
+"turn":102.9,
 "lq":1.05,
 "t":"High school",
 "f":"Sales"
@@ -9258,6 +10278,8 @@
 "p":3415,
 "g5":91.8,
 "g":7.3,
+"sep":827.3,
+"turn":65.5,
 "lq":0.5,
 "t":"High school",
 "f":"Sales"
@@ -9274,6 +10296,8 @@
 "p":2988,
 "g5":15.6,
 "g":3.8,
+"sep":117.4,
+"turn":28.3,
 "lq":0.72,
 "t":"Bachelor's",
 "f":"Sales"
@@ -9290,6 +10314,8 @@
 "p":4963,
 "g5":46.7,
 "g":2.5,
+"sep":598.4,
+"turn":31.7,
 "lq":0.76,
 "t":"High school",
 "f":"Sales"
@@ -9306,6 +10332,8 @@
 "p":519,
 "g5":13.3,
 "g":8.9,
+"sep":136.4,
+"turn":91.9,
 "lq":1.11,
 "t":"No formal credential",
 "f":"Sales"
@@ -9322,6 +10350,8 @@
 "p":93,
 "g5":0.1,
 "g":2.1,
+"sep":29.6,
+"turn":null,
 "lq":0.35,
 "t":"No formal credential",
 "f":"Sales"
@@ -9338,6 +10368,8 @@
 "p":79,
 "g5":2.5,
 "g":3.2,
+"sep":32.4,
+"turn":41.1,
 "lq":0.77,
 "t":"High school",
 "f":"Sales"
@@ -9354,6 +10386,8 @@
 "p":230,
 "g5":10.3,
 "g":10.6,
+"sep":49.9,
+"turn":51.1,
 "lq":0.23,
 "t":"High school",
 "f":"Sales"
@@ -9370,6 +10404,8 @@
 "p":396,
 "g5":1.5,
 "g":1.1,
+"sep":55.2,
+"turn":41.9,
 "lq":1.27,
 "t":"Bachelor's",
 "f":"Sales"
@@ -9386,6 +10422,8 @@
 "p":72,
 "g5":-10.9,
 "g":-10.1,
+"sep":69.4,
+"turn":64.5,
 "lq":0.89,
 "t":"No formal credential",
 "f":"Sales"
@@ -9402,6 +10440,8 @@
 "p":148,
 "g5":0.0,
 "g":null,
+"sep":0.5,
+"turn":null,
 "lq":0.0,
 "t":"No formal credential",
 "f":"Sales"
@@ -9418,6 +10458,8 @@
 "p":718,
 "g5":8.3,
 "g":3.9,
+"sep":152.0,
+"turn":71.8,
 "lq":1.1,
 "t":"High school",
 "f":"Sales"
@@ -9434,6 +10476,8 @@
 "p":4263,
 "g5":59.8,
 "g":3.1,
+"sep":783.8,
+"turn":40.8,
 "lq":0.65,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9450,6 +10494,8 @@
 "p":149,
 "g5":-8.6,
 "g":-11.1,
+"sep":49.0,
+"turn":63.1,
 "lq":1.1,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9466,6 +10512,8 @@
 "p":13,
 "g5":-0.6,
 "g":-13.0,
+"sep":3.5,
+"turn":null,
 "lq":0.57,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9482,6 +10530,8 @@
 "p":0,
 "g5":-1.2,
 "g":-8.9,
+"sep":6.8,
+"turn":52.1,
 "lq":0.69,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9498,6 +10548,8 @@
 "p":102,
 "g5":-1.2,
 "g":-1.1,
+"sep":46.3,
+"turn":42.2,
 "lq":0.35,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9514,6 +10566,8 @@
 "p":602,
 "g5":16.9,
 "g":1.9,
+"sep":397.1,
+"turn":43.8,
 "lq":1.12,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9530,6 +10584,8 @@
 "p":1222,
 "g5":-18.6,
 "g":-0.6,
+"sep":1320.8,
+"turn":42.9,
 "lq":1.06,
 "t":"Sub-baccalaureate",
 "f":"Office & Administrative Support"
@@ -9546,6 +10602,8 @@
 "p":0,
 "g5":-0.1,
 "g":-1.2,
+"sep":1.9,
+"turn":null,
 "lq":0.16,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9562,6 +10620,8 @@
 "p":326,
 "g5":-15.5,
 "g":-5.3,
+"sep":150.2,
+"turn":51.0,
 "lq":0.97,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9578,6 +10638,8 @@
 "p":75,
 "g5":-2.0,
 "g":-2.0,
+"sep":43.8,
+"turn":44.3,
 "lq":0.93,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9594,6 +10656,8 @@
 "p":1336,
 "g5":-86.3,
 "g":-9.0,
+"sep":316.4,
+"turn":33.1,
 "lq":1.44,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9610,6 +10674,8 @@
 "p":0,
 "g5":-1.2,
 "g":-1.8,
+"sep":32.5,
+"turn":49.7,
 "lq":0.82,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9626,6 +10692,8 @@
 "p":61,
 "g5":-2.2,
 "g":-6.1,
+"sep":14.3,
+"turn":39.9,
 "lq":0.47,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9642,6 +10710,8 @@
 "p":14,
 "g5":-0.0,
 "g":-1.9,
+"sep":0.8,
+"turn":null,
 "lq":0.01,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9658,6 +10728,8 @@
 "p":238,
 "g5":20.0,
 "g":2.2,
+"sep":586.9,
+"turn":65.1,
 "lq":2.49,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9674,6 +10746,8 @@
 "p":69,
 "g5":-2.6,
 "g":-3.9,
+"sep":34.7,
+"turn":51.7,
 "lq":2.88,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9690,6 +10764,8 @@
 "p":6300,
 "g5":42.6,
 "g":1.4,
+"sep":2040.8,
+"turn":68.2,
 "lq":0.57,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9706,6 +10782,8 @@
 "p":477,
 "g5":13.2,
 "g":4.0,
+"sep":229.2,
+"turn":70.2,
 "lq":1.02,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9722,6 +10800,8 @@
 "p":34,
 "g5":-5.5,
 "g":-6.0,
+"sep":66.6,
+"turn":72.9,
 "lq":0.62,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9738,6 +10818,8 @@
 "p":1175,
 "g5":20.3,
 "g":3.3,
+"sep":821.8,
+"turn":135.5,
 "lq":1.16,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9754,6 +10836,8 @@
 "p":211,
 "g5":-12.7,
 "g":-3.1,
+"sep":242.4,
+"turn":59.1,
 "lq":1.31,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9770,6 +10854,8 @@
 "p":110,
 "g5":-10.0,
 "g":-2.7,
+"sep":254.2,
+"turn":68.1,
 "lq":2.03,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9786,6 +10872,8 @@
 "p":489,
 "g5":-9.5,
 "g":-3.2,
+"sep":115.9,
+"turn":39.4,
 "lq":0.89,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9802,6 +10890,8 @@
 "p":94,
 "g5":-18.5,
 "g":-9.7,
+"sep":60.5,
+"turn":31.7,
 "lq":2.56,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9818,6 +10908,8 @@
 "p":175,
 "g5":-32.6,
 "g":-8.5,
+"sep":253.8,
+"turn":66.2,
 "lq":2.63,
 "t":"Sub-baccalaureate",
 "f":"Office & Administrative Support"
@@ -9834,6 +10926,8 @@
 "p":752,
 "g5":-3.2,
 "g":-1.9,
+"sep":134.7,
+"turn":80.7,
 "lq":0.89,
 "t":"Sub-baccalaureate",
 "f":"Office & Administrative Support"
@@ -9850,6 +10944,8 @@
 "p":681,
 "g5":39.9,
 "g":3.1,
+"sep":1114.0,
+"turn":86.3,
 "lq":0.68,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9866,6 +10962,8 @@
 "p":173,
 "g5":9.3,
 "g":7.0,
+"sep":181.2,
+"turn":136.7,
 "lq":0.54,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9882,6 +10980,8 @@
 "p":0,
 "g5":8.0,
 "g":2.5,
+"sep":252.3,
+"turn":79.4,
 "lq":1.09,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9898,6 +10998,8 @@
 "p":156,
 "g5":-0.9,
 "g":-1.1,
+"sep":28.1,
+"turn":32.9,
 "lq":0.41,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9914,6 +11016,8 @@
 "p":364,
 "g5":-0.4,
 "g":-0.7,
+"sep":48.9,
+"turn":78.7,
 "lq":0.45,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9930,6 +11034,8 @@
 "p":56,
 "g5":5.7,
 "g":2.0,
+"sep":136.1,
+"turn":48.1,
 "lq":1.35,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9946,6 +11052,8 @@
 "p":383,
 "g5":9.4,
 "g":3.2,
+"sep":154.1,
+"turn":53.4,
 "lq":0.71,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9962,6 +11070,8 @@
 "p":48,
 "g5":-0.5,
 "g":-2.4,
+"sep":12.2,
+"turn":64.0,
 "lq":0.47,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9978,6 +11088,8 @@
 "p":1520,
 "g5":-29.7,
 "g":-7.9,
+"sep":191.7,
+"turn":50.7,
 "lq":2.71,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -9994,6 +11106,8 @@
 "p":30,
 "g5":-37.4,
 "g":-5.7,
+"sep":310.2,
+"turn":47.3,
 "lq":1.05,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10010,6 +11124,8 @@
 "p":69,
 "g5":-4.1,
 "g":-4.1,
+"sep":55.5,
+"turn":55.1,
 "lq":0.5,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10026,6 +11142,8 @@
 "p":1761,
 "g5":13.3,
 "g":2.6,
+"sep":211.8,
+"turn":40.6,
 "lq":0.66,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10042,6 +11160,8 @@
 "p":1575,
 "g5":-6.9,
 "g":-0.8,
+"sep":457.8,
+"turn":51.0,
 "lq":0.55,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10058,6 +11178,8 @@
 "p":0,
 "g5":-2.6,
 "g":-2.0,
+"sep":60.6,
+"turn":48.2,
 "lq":1.18,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10074,6 +11196,8 @@
 "p":414,
 "g5":21.1,
 "g":2.4,
+"sep":349.1,
+"turn":40.4,
 "lq":0.9,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10090,6 +11214,8 @@
 "p":47,
 "g5":-7.2,
 "g":-5.4,
+"sep":56.6,
+"turn":42.0,
 "lq":0.43,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10106,6 +11232,8 @@
 "p":453,
 "g5":47.7,
 "g":2.0,
+"sep":709.2,
+"turn":29.2,
 "lq":1.25,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10122,6 +11250,8 @@
 "p":3682,
 "g5":81.6,
 "g":2.1,
+"sep":1686.5,
+"turn":44.4,
 "lq":1.0,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10138,6 +11268,8 @@
 "p":258,
 "g5":-28.2,
 "g":-9.6,
+"sep":178.2,
+"turn":60.6,
 "lq":1.16,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10154,6 +11286,8 @@
 "p":71,
 "g5":-11.7,
 "g":-17.6,
+"sep":35.3,
+"turn":53.3,
 "lq":0.8,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10170,6 +11304,8 @@
 "p":0,
 "g5":-9.0,
 "g":-20.8,
+"sep":14.0,
+"turn":32.4,
 "lq":6.79,
 "t":"Sub-baccalaureate",
 "f":"Office & Administrative Support"
@@ -10186,6 +11322,8 @@
 "p":546,
 "g5":-3.8,
 "g":-0.9,
+"sep":115.7,
+"turn":28.6,
 "lq":0.87,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10202,6 +11340,8 @@
 "p":32,
 "g5":-5.4,
 "g":-4.2,
+"sep":68.7,
+"turn":53.3,
 "lq":1.09,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10218,6 +11358,8 @@
 "p":125,
 "g5":-49.8,
 "g":-0.9,
+"sep":3227.9,
+"turn":58.0,
 "lq":1.04,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10234,6 +11376,8 @@
 "p":0,
 "g5":-3.1,
 "g":-5.0,
+"sep":31.9,
+"turn":51.5,
 "lq":1.23,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10250,6 +11394,8 @@
 "p":51,
 "g5":-0.4,
 "g":-10.5,
+"sep":1.0,
+"turn":null,
 "lq":0.4,
 "t":"Bachelor's",
 "f":"Office & Administrative Support"
@@ -10266,6 +11412,8 @@
 "p":4,
 "g5":-0.1,
 "g":-0.9,
+"sep":5.1,
+"turn":null,
 "lq":0.51,
 "t":"Bachelor's",
 "f":"Office & Administrative Support"
@@ -10282,6 +11430,8 @@
 "p":0,
 "g5":-5.0,
 "g":-1.5,
+"sep":185.2,
+"turn":55.9,
 "lq":0.74,
 "t":"High school",
 "f":"Office & Administrative Support"
@@ -10298,6 +11448,8 @@
 "p":0,
 "g5":13.6,
 "g":10.2,
+"sep":100.7,
+"turn":75.6,
 "lq":1.22,
 "t":"High school",
 "f":"Farming, Fishing & Forestry"
@@ -10314,6 +11466,8 @@
 "p":112,
 "g5":2.2,
 "g":3.7,
+"sep":27.4,
+"turn":44.9,
 "lq":1.87,
 "t":"Bachelor's",
 "f":"Farming, Fishing & Forestry"
@@ -10330,6 +11484,8 @@
 "p":0,
 "g5":1.7,
 "g":11.6,
+"sep":13.1,
+"turn":90.4,
 "lq":1.33,
 "t":"High school",
 "f":"Farming, Fishing & Forestry"
@@ -10346,6 +11502,8 @@
 "p":0,
 "g5":5.4,
 "g":7.7,
+"sep":59.4,
+"turn":85.3,
 "lq":0.81,
 "t":"No formal credential",
 "f":"Farming, Fishing & Forestry"
@@ -10362,6 +11520,8 @@
 "p":161,
 "g5":23.5,
 "g":13.2,
+"sep":141.8,
+"turn":79.8,
 "lq":1.18,
 "t":"No formal credential",
 "f":"Farming, Fishing & Forestry"
@@ -10378,6 +11538,8 @@
 "p":558,
 "g5":90.7,
 "g":6.9,
+"sep":1009.5,
+"turn":77.2,
 "lq":1.1,
 "t":"No formal credential",
 "f":"Farming, Fishing & Forestry"
@@ -10394,6 +11556,8 @@
 "p":166,
 "g5":25.9,
 "g":5.4,
+"sep":386.5,
+"turn":80.8,
 "lq":1.65,
 "t":"No formal credential",
 "f":"Farming, Fishing & Forestry"
@@ -10410,6 +11574,8 @@
 "p":0,
 "g5":25.7,
 "g":11.8,
+"sep":180.6,
+"turn":82.8,
 "lq":1.68,
 "t":"No formal credential",
 "f":"Farming, Fishing & Forestry"
@@ -10426,6 +11592,8 @@
 "p":480,
 "g5":0.0,
 "g":1.1,
+"sep":0.7,
+"turn":null,
 "lq":0.07,
 "t":"No formal credential",
 "f":"Farming, Fishing & Forestry"
@@ -10442,6 +11610,8 @@
 "p":80,
 "g5":2.4,
 "g":3.9,
+"sep":33.3,
+"turn":55.6,
 "lq":1.6,
 "t":"High school",
 "f":"Farming, Fishing & Forestry"
@@ -10458,6 +11628,8 @@
 "p":0,
 "g5":2.7,
 "g":12.0,
+"sep":12.2,
+"turn":55.4,
 "lq":3.21,
 "t":"High school",
 "f":"Farming, Fishing & Forestry"
@@ -10474,6 +11646,8 @@
 "p":45,
 "g5":11.5,
 "g":17.8,
+"sep":40.7,
+"turn":63.0,
 "lq":1.46,
 "t":"High school",
 "f":"Farming, Fishing & Forestry"
@@ -10490,6 +11664,8 @@
 "p":0,
 "g5":-0.5,
 "g":-4.1,
+"sep":4.4,
+"turn":36.1,
 "lq":1.88,
 "t":"High school",
 "f":"Farming, Fishing & Forestry"
@@ -10506,6 +11682,8 @@
 "p":0,
 "g5":0.1,
 "g":30.1,
+"sep":0.2,
+"turn":null,
 "lq":0.08,
 "t":"High school",
 "f":"Farming, Fishing & Forestry"
@@ -10522,6 +11700,8 @@
 "p":278,
 "g5":56.9,
 "g":5.4,
+"sep":392.7,
+"turn":37.4,
 "lq":0.64,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10538,6 +11718,8 @@
 "p":7,
 "g5":-1.3,
 "g":-2.7,
+"sep":23.8,
+"turn":49.3,
 "lq":2.16,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10554,6 +11736,8 @@
 "p":50,
 "g5":6.8,
 "g":7.4,
+"sep":44.2,
+"turn":47.7,
 "lq":0.9,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10570,6 +11754,8 @@
 "p":14,
 "g5":-0.5,
 "g":-0.6,
+"sep":31.1,
+"turn":43.2,
 "lq":4.33,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10586,6 +11772,8 @@
 "p":1277,
 "g5":73.6,
 "g":2.4,
+"sep":1636.8,
+"turn":54.1,
 "lq":2.22,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10602,6 +11790,8 @@
 "p":9,
 "g5":-2.5,
 "g":-8.1,
+"sep":16.3,
+"turn":52.5,
 "lq":1.06,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10618,6 +11808,8 @@
 "p":130,
 "g5":5.0,
 "g":8.7,
+"sep":32.9,
+"turn":57.6,
 "lq":1.2,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10634,6 +11826,8 @@
 "p":0,
 "g5":1.7,
 "g":2.3,
+"sep":35.8,
+"turn":47.3,
 "lq":9.56,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10650,6 +11844,8 @@
 "p":76,
 "g5":10.7,
 "g":8.0,
+"sep":53.2,
+"turn":39.7,
 "lq":1.85,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10666,6 +11862,8 @@
 "p":204,
 "g5":-0.1,
 "g":0.0,
+"sep":166.6,
+"turn":61.2,
 "lq":0.66,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10682,6 +11880,8 @@
 "p":0,
 "g5":0.0,
 "g":17.4,
+"sep":0.0,
+"turn":null,
 "lq":0.02,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10698,6 +11898,8 @@
 "p":693,
 "g5":104.0,
 "g":7.1,
+"sep":1111.2,
+"turn":76.0,
 "lq":0.66,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10714,6 +11916,8 @@
 "p":11,
 "g5":1.2,
 "g":1.5,
+"sep":49.9,
+"turn":66.4,
 "lq":0.86,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10730,6 +11934,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":1.1,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10746,6 +11952,8 @@
 "p":581,
 "g5":35.6,
 "g":2.8,
+"sep":688.9,
+"turn":54.1,
 "lq":1.31,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10762,6 +11970,8 @@
 "p":111,
 "g5":-2.0,
 "g":-2.2,
+"sep":67.7,
+"turn":72.0,
 "lq":0.56,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10778,6 +11988,8 @@
 "p":0,
 "g5":-1.3,
 "g":-7.3,
+"sep":10.1,
+"turn":57.6,
 "lq":0.63,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10794,6 +12006,8 @@
 "p":826,
 "g5":85.7,
 "g":6.5,
+"sep":537.5,
+"turn":40.9,
 "lq":0.84,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10810,6 +12024,8 @@
 "p":244,
 "g5":6.2,
 "g":5.5,
+"sep":54.9,
+"turn":48.7,
 "lq":0.95,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10826,6 +12042,8 @@
 "p":73,
 "g5":-6.7,
 "g":-6.4,
+"sep":65.1,
+"turn":62.3,
 "lq":1.17,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10842,6 +12060,8 @@
 "p":0,
 "g5":0.5,
 "g":1.7,
+"sep":17.0,
+"turn":52.2,
 "lq":0.61,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10858,6 +12078,8 @@
 "p":384,
 "g5":-0.6,
 "g":-0.1,
+"sep":416.0,
+"turn":74.8,
 "lq":1.23,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10874,6 +12096,8 @@
 "p":3,
 "g5":0.0,
 "g":29.1,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10890,6 +12114,8 @@
 "p":18,
 "g5":0.4,
 "g":0.8,
+"sep":31.3,
+"turn":62.4,
 "lq":0.69,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10906,6 +12132,8 @@
 "p":353,
 "g5":49.2,
 "g":4.9,
+"sep":421.3,
+"turn":41.8,
 "lq":1.06,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10922,6 +12150,8 @@
 "p":10,
 "g5":-0.1,
 "g":-0.3,
+"sep":18.8,
+"turn":52.7,
 "lq":0.86,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10938,6 +12168,8 @@
 "p":6,
 "g5":0.6,
 "g":2.7,
+"sep":11.3,
+"turn":52.1,
 "lq":0.73,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10954,6 +12186,8 @@
 "p":362,
 "g5":-0.4,
 "g":-0.2,
+"sep":150.0,
+"turn":72.6,
 "lq":0.77,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -10970,6 +12204,8 @@
 "p":36,
 "g5":10.6,
 "g":2.9,
+"sep":181.3,
+"turn":50.1,
 "lq":1.49,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -10986,6 +12222,8 @@
 "p":918,
 "g5":3.9,
 "g":6.2,
+"sep":31.8,
+"turn":49.7,
 "lq":0.46,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11002,6 +12240,8 @@
 "p":139,
 "g5":40.0,
 "g":16.3,
+"sep":134.0,
+"turn":54.6,
 "lq":3.62,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11018,6 +12258,8 @@
 "p":24,
 "g5":-1.3,
 "g":-2.0,
+"sep":99.3,
+"turn":160.8,
 "lq":2.19,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11034,6 +12276,8 @@
 "p":264,
 "g5":5.6,
 "g":2.9,
+"sep":363.0,
+"turn":190.0,
 "lq":4.28,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11050,6 +12294,8 @@
 "p":97,
 "g5":1.1,
 "g":0.8,
+"sep":181.8,
+"turn":143.5,
 "lq":0.97,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11066,6 +12312,8 @@
 "p":0,
 "g5":0.8,
 "g":6.0,
+"sep":29.4,
+"turn":216.6,
 "lq":0.86,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11082,6 +12330,8 @@
 "p":9,
 "g5":5.9,
 "g":4.3,
+"sep":150.9,
+"turn":110.5,
 "lq":1.51,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11098,6 +12348,8 @@
 "p":13,
 "g5":0.0,
 "g":6.8,
+"sep":0.5,
+"turn":null,
 "lq":0.02,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11114,6 +12366,8 @@
 "p":7,
 "g5":0.6,
 "g":1.0,
+"sep":128.1,
+"turn":200.9,
 "lq":1.19,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11130,6 +12384,8 @@
 "p":930,
 "g5":4.7,
 "g":3.4,
+"sep":50.9,
+"turn":37.2,
 "lq":0.47,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11146,6 +12402,8 @@
 "p":2,
 "g5":0.7,
 "g":4.1,
+"sep":5.7,
+"turn":33.6,
 "lq":0.34,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11162,6 +12420,8 @@
 "p":12,
 "g5":1.0,
 "g":6.5,
+"sep":9.1,
+"turn":59.4,
 "lq":0.3,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11178,6 +12438,8 @@
 "p":323,
 "g5":6.4,
 "g":9.2,
+"sep":45.9,
+"turn":65.8,
 "lq":0.64,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11194,6 +12456,8 @@
 "p":315,
 "g5":21.9,
 "g":1.9,
+"sep":476.9,
+"turn":40.5,
 "lq":3.8,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11210,6 +12474,8 @@
 "p":0,
 "g5":1.4,
 "g":5.3,
+"sep":14.7,
+"turn":57.1,
 "lq":0.55,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11226,6 +12492,8 @@
 "p":0,
 "g5":9.5,
 "g":7.0,
+"sep":74.2,
+"turn":54.6,
 "lq":1.99,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11242,6 +12510,8 @@
 "p":314,
 "g5":3.0,
 "g":2.6,
+"sep":80.7,
+"turn":69.9,
 "lq":1.87,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11258,6 +12528,8 @@
 "p":0,
 "g5":0.0,
 "g":16.2,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11274,6 +12546,8 @@
 "p":70,
 "g5":0.0,
 "g":16.6,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11290,6 +12564,8 @@
 "p":0,
 "g5":0.9,
 "g":62.0,
+"sep":1.6,
+"turn":null,
 "lq":0.02,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11306,6 +12582,8 @@
 "p":49,
 "g5":6.7,
 "g":2.8,
+"sep":115.3,
+"turn":48.9,
 "lq":3.43,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11322,6 +12600,8 @@
 "p":71,
 "g5":2.8,
 "g":4.3,
+"sep":50.6,
+"turn":76.9,
 "lq":1.61,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11338,6 +12618,8 @@
 "p":135,
 "g5":-1.9,
 "g":-7.8,
+"sep":15.1,
+"turn":61.5,
 "lq":0.66,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11354,6 +12636,8 @@
 "p":8,
 "g5":1.4,
 "g":5.3,
+"sep":6.3,
+"turn":24.3,
 "lq":0.87,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11370,6 +12654,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11386,6 +12672,8 @@
 "p":46,
 "g5":0.0,
 "g":21.1,
+"sep":0.0,
+"turn":null,
 "lq":0.01,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11402,6 +12690,8 @@
 "p":0,
 "g5":1.2,
 "g":null,
+"sep":0.4,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11418,6 +12708,8 @@
 "p":14,
 "g5":0.1,
 "g":13.6,
+"sep":0.2,
+"turn":null,
 "lq":0.06,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11434,6 +12726,8 @@
 "p":77,
 "g5":0.3,
 "g":5.5,
+"sep":3.7,
+"turn":null,
 "lq":0.06,
 "t":"No formal credential",
 "f":"Construction & Extraction"
@@ -11450,6 +12744,8 @@
 "p":48,
 "g5":0.2,
 "g":5.0,
+"sep":3.2,
+"turn":null,
 "lq":0.3,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11466,6 +12762,8 @@
 "p":0,
 "g5":0.3,
 "g":6.0,
+"sep":1.4,
+"turn":null,
 "lq":0.4,
 "t":"High school",
 "f":"Construction & Extraction"
@@ -11482,6 +12780,8 @@
 "p":1224,
 "g5":43.1,
 "g":5.5,
+"sep":253.4,
+"turn":32.6,
 "lq":0.61,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11498,6 +12798,8 @@
 "p":350,
 "g5":-3.5,
 "g":-4.0,
+"sep":35.6,
+"turn":40.6,
 "lq":0.63,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11514,6 +12816,8 @@
 "p":3,
 "g5":-0.3,
 "g":-0.4,
+"sep":22.6,
+"turn":38.9,
 "lq":2.06,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11530,6 +12834,8 @@
 "p":641,
 "g5":-18.2,
 "g":-5.9,
+"sep":105.2,
+"turn":34.1,
 "lq":1.03,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11546,6 +12852,8 @@
 "p":31,
 "g5":3.6,
 "g":6.2,
+"sep":19.6,
+"turn":33.5,
 "lq":0.82,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11562,6 +12870,8 @@
 "p":0,
 "g5":-0.5,
 "g":-5.1,
+"sep":6.4,
+"turn":null,
 "lq":0.27,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11578,6 +12888,8 @@
 "p":83,
 "g5":0.0,
 "g":0.9,
+"sep":5.1,
+"turn":null,
 "lq":0.29,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11594,6 +12906,8 @@
 "p":138,
 "g5":-5.2,
 "g":-4.2,
+"sep":49.7,
+"turn":40.0,
 "lq":0.85,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11610,6 +12924,8 @@
 "p":66,
 "g5":3.8,
 "g":11.8,
+"sep":11.3,
+"turn":35.0,
 "lq":0.66,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11626,6 +12942,8 @@
 "p":7,
 "g5":-0.9,
 "g":-12.9,
+"sep":4.7,
+"turn":null,
 "lq":0.36,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11642,6 +12960,8 @@
 "p":17,
 "g5":2.0,
 "g":13.4,
+"sep":10.0,
+"turn":65.3,
 "lq":0.37,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11658,6 +12978,8 @@
 "p":120,
 "g5":15.0,
 "g":14.4,
+"sep":58.6,
+"turn":56.1,
 "lq":0.6,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11674,6 +12996,8 @@
 "p":136,
 "g5":7.8,
 "g":2.8,
+"sep":93.0,
+"turn":33.2,
 "lq":0.65,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11690,6 +13014,8 @@
 "p":124,
 "g5":3.2,
 "g":1.0,
+"sep":152.9,
+"turn":47.7,
 "lq":1.06,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11706,6 +13032,8 @@
 "p":150,
 "g5":0.3,
 "g":10.7,
+"sep":1.4,
+"turn":null,
 "lq":0.07,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11722,6 +13050,8 @@
 "p":2225,
 "g5":69.2,
 "g":4.1,
+"sep":769.3,
+"turn":46.1,
 "lq":1.16,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11738,6 +13068,8 @@
 "p":1053,
 "g5":10.7,
 "g":1.9,
+"sep":253.0,
+"turn":43.9,
 "lq":0.96,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11754,6 +13086,8 @@
 "p":2,
 "g5":1.0,
 "g":0.9,
+"sep":40.2,
+"turn":33.7,
 "lq":1.49,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11770,6 +13104,8 @@
 "p":513,
 "g5":15.3,
 "g":4.4,
+"sep":186.6,
+"turn":53.2,
 "lq":0.96,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11786,6 +13122,8 @@
 "p":0,
 "g5":1.2,
 "g":4.4,
+"sep":13.2,
+"turn":47.2,
 "lq":0.57,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11802,6 +13140,8 @@
 "p":28,
 "g5":2.3,
 "g":5.4,
+"sep":32.4,
+"turn":76.7,
 "lq":0.85,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11818,6 +13158,8 @@
 "p":1,
 "g5":0.4,
 "g":0.9,
+"sep":22.5,
+"turn":46.0,
 "lq":1.84,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11834,6 +13176,8 @@
 "p":26,
 "g5":5.8,
 "g":5.5,
+"sep":66.2,
+"turn":63.1,
 "lq":1.46,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11850,6 +13194,8 @@
 "p":133,
 "g5":-1.4,
 "g":-5.6,
+"sep":50.9,
+"turn":201.2,
 "lq":1.0,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11866,6 +13212,8 @@
 "p":25,
 "g5":1.4,
 "g":4.9,
+"sep":18.1,
+"turn":63.7,
 "lq":0.79,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11882,6 +13230,8 @@
 "p":124,
 "g5":4.0,
 "g":3.5,
+"sep":97.6,
+"turn":84.9,
 "lq":0.53,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11898,6 +13248,8 @@
 "p":0,
 "g5":5.1,
 "g":9.8,
+"sep":23.3,
+"turn":45.0,
 "lq":0.91,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11914,6 +13266,8 @@
 "p":44,
 "g5":2.4,
 "g":6.0,
+"sep":12.3,
+"turn":31.0,
 "lq":0.41,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11930,6 +13284,8 @@
 "p":861,
 "g5":50.7,
 "g":5.1,
+"sep":401.6,
+"turn":40.5,
 "lq":1.19,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -11946,6 +13302,8 @@
 "p":48,
 "g5":-0.7,
 "g":-1.1,
+"sep":29.9,
+"turn":50.5,
 "lq":0.91,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11962,6 +13320,8 @@
 "p":168,
 "g5":65.5,
 "g":9.2,
+"sep":218.5,
+"turn":30.7,
 "lq":0.8,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11978,6 +13338,8 @@
 "p":2,
 "g5":1.1,
 "g":1.7,
+"sep":23.1,
+"turn":34.8,
 "lq":0.55,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -11994,6 +13356,8 @@
 "p":223,
 "g5":-0.7,
 "g":-1.2,
+"sep":23.9,
+"turn":39.8,
 "lq":0.71,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12010,6 +13374,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12026,6 +13392,8 @@
 "p":180,
 "g5":26.9,
 "g":10.5,
+"sep":94.4,
+"turn":36.8,
 "lq":0.96,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12042,6 +13410,8 @@
 "p":417,
 "g5":-13.0,
 "g":-4.3,
+"sep":112.9,
+"turn":37.9,
 "lq":1.48,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12058,6 +13428,8 @@
 "p":0,
 "g5":-0.0,
 "g":-8.9,
+"sep":0.2,
+"turn":null,
 "lq":0.1,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12074,6 +13446,8 @@
 "p":137,
 "g5":3.6,
 "g":5.2,
+"sep":25.6,
+"turn":36.8,
 "lq":0.52,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -12090,6 +13464,8 @@
 "p":13,
 "g5":-1.0,
 "g":-2.8,
+"sep":22.1,
+"turn":62.0,
 "lq":3.18,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12106,6 +13482,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12122,6 +13500,8 @@
 "p":449,
 "g5":-1.4,
 "g":-5.9,
+"sep":10.8,
+"turn":45.3,
 "lq":1.05,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12138,6 +13518,8 @@
 "p":4482,
 "g5":124.9,
 "g":4.3,
+"sep":1751.3,
+"turn":59.9,
 "lq":0.89,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12154,6 +13536,8 @@
 "p":65,
 "g5":11.9,
 "g":29.1,
+"sep":28.8,
+"turn":70.1,
 "lq":1.81,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -12170,6 +13554,8 @@
 "p":0,
 "g5":1.5,
 "g":4.6,
+"sep":15.9,
+"turn":49.5,
 "lq":0.66,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12186,6 +13572,8 @@
 "p":11,
 "g5":2.3,
 "g":3.1,
+"sep":61.8,
+"turn":85.1,
 "lq":8.63,
 "t":"Sub-baccalaureate",
 "f":"Installation, Maintenance & Repair"
@@ -12202,6 +13590,8 @@
 "p":56,
 "g5":0.4,
 "g":1.8,
+"sep":13.8,
+"turn":56.2,
 "lq":0.79,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12218,6 +13608,8 @@
 "p":0,
 "g5":0.4,
 "g":9.3,
+"sep":2.1,
+"turn":null,
 "lq":0.65,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12234,6 +13626,8 @@
 "p":13,
 "g5":1.1,
 "g":6.5,
+"sep":10.6,
+"turn":61.4,
 "lq":0.36,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12250,6 +13644,8 @@
 "p":0,
 "g5":0.4,
 "g":3.2,
+"sep":8.2,
+"turn":64.3,
 "lq":0.57,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12266,6 +13662,8 @@
 "p":1749,
 "g5":3.8,
 "g":3.0,
+"sep":67.2,
+"turn":54.1,
 "lq":0.65,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12282,6 +13680,8 @@
 "p":1,
 "g5":6.4,
 "g":1.1,
+"sep":321.5,
+"turn":53.8,
 "lq":1.61,
 "t":"High school",
 "f":"Installation, Maintenance & Repair"
@@ -12298,6 +13698,8 @@
 "p":682,
 "g5":42.7,
 "g":4.1,
+"sep":258.3,
+"turn":24.7,
 "lq":0.78,
 "t":"High school",
 "f":"Production"
@@ -12314,6 +13716,8 @@
 "p":0,
 "g5":5.9,
 "g":6.0,
+"sep":36.8,
+"turn":37.7,
 "lq":1.35,
 "t":"High school",
 "f":"Production"
@@ -12330,6 +13734,8 @@
 "p":0,
 "g5":-0.6,
 "g":-3.3,
+"sep":5.7,
+"turn":29.9,
 "lq":0.63,
 "t":"High school",
 "f":"Production"
@@ -12346,6 +13752,8 @@
 "p":163,
 "g5":-48.8,
 "g":-10.6,
+"sep":139.3,
+"turn":30.3,
 "lq":0.92,
 "t":"High school",
 "f":"Production"
@@ -12362,6 +13770,8 @@
 "p":82,
 "g5":-21.7,
 "g":-14.1,
+"sep":42.5,
+"turn":27.6,
 "lq":2.03,
 "t":"High school",
 "f":"Production"
@@ -12378,6 +13788,8 @@
 "p":10,
 "g5":-12.4,
 "g":-4.0,
+"sep":123.8,
+"turn":40.0,
 "lq":2.92,
 "t":"High school",
 "f":"Production"
@@ -12394,6 +13806,8 @@
 "p":0,
 "g5":0.7,
 "g":7.4,
+"sep":5.4,
+"turn":54.2,
 "lq":0.28,
 "t":"High school",
 "f":"Production"
@@ -12410,6 +13824,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Production"
@@ -12426,6 +13842,8 @@
 "p":1030,
 "g5":48.1,
 "g":3.5,
+"sep":728.6,
+"turn":52.5,
 "lq":0.49,
 "t":"High school",
 "f":"Production"
@@ -12442,6 +13860,8 @@
 "p":1095,
 "g5":30.7,
 "g":5.4,
+"sep":325.7,
+"turn":56.9,
 "lq":1.22,
 "t":"No formal credential",
 "f":"Production"
@@ -12458,6 +13878,8 @@
 "p":320,
 "g5":9.9,
 "g":2.6,
+"sep":150.2,
+"turn":39.9,
 "lq":1.38,
 "t":"No formal credential",
 "f":"Production"
@@ -12474,6 +13896,8 @@
 "p":474,
 "g5":5.1,
 "g":13.3,
+"sep":19.5,
+"turn":51.4,
 "lq":0.13,
 "t":"No formal credential",
 "f":"Production"
@@ -12490,6 +13914,8 @@
 "p":412,
 "g5":3.1,
 "g":7.0,
+"sep":29.3,
+"turn":66.9,
 "lq":0.31,
 "t":"No formal credential",
 "f":"Production"
@@ -12506,6 +13932,8 @@
 "p":5,
 "g5":2.1,
 "g":2.9,
+"sep":44.0,
+"turn":60.4,
 "lq":1.56,
 "t":"No formal credential",
 "f":"Production"
@@ -12522,6 +13950,8 @@
 "p":27,
 "g5":64.5,
 "g":6.7,
+"sep":517.4,
+"turn":54.0,
 "lq":2.73,
 "t":"High school",
 "f":"Production"
@@ -12538,6 +13968,8 @@
 "p":0,
 "g5":2.8,
 "g":4.7,
+"sep":27.4,
+"turn":46.4,
 "lq":0.86,
 "t":"High school",
 "f":"Production"
@@ -12554,6 +13986,8 @@
 "p":109,
 "g5":7.8,
 "g":6.4,
+"sep":94.3,
+"turn":77.5,
 "lq":0.89,
 "t":"No formal credential",
 "f":"Production"
@@ -12570,6 +14004,8 @@
 "p":12,
 "g5":7.5,
 "g":6.6,
+"sep":36.6,
+"turn":32.1,
 "lq":0.93,
 "t":"High school",
 "f":"Production"
@@ -12586,6 +14022,8 @@
 "p":4,
 "g5":-1.0,
 "g":-5.6,
+"sep":8.0,
+"turn":46.9,
 "lq":0.86,
 "t":"High school",
 "f":"Production"
@@ -12602,6 +14040,8 @@
 "p":0,
 "g5":0.4,
 "g":0.8,
+"sep":16.6,
+"turn":29.5,
 "lq":1.05,
 "t":"High school",
 "f":"Production"
@@ -12618,6 +14058,8 @@
 "p":25,
 "g5":4.3,
 "g":3.9,
+"sep":39.0,
+"turn":35.5,
 "lq":0.32,
 "t":"High school",
 "f":"Production"
@@ -12634,6 +14076,8 @@
 "p":12,
 "g5":-1.1,
 "g":-45.6,
+"sep":1.1,
+"turn":null,
 "lq":0.25,
 "t":"High school",
 "f":"Production"
@@ -12650,6 +14094,8 @@
 "p":41,
 "g5":-7.2,
 "g":-2.5,
+"sep":89.2,
+"turn":31.3,
 "lq":2.09,
 "t":"High school",
 "f":"Production"
@@ -12666,6 +14112,8 @@
 "p":6,
 "g5":-0.0,
 "g":-0.1,
+"sep":8.1,
+"turn":36.4,
 "lq":0.61,
 "t":"High school",
 "f":"Production"
@@ -12682,6 +14130,8 @@
 "p":3,
 "g5":-2.3,
 "g":-7.9,
+"sep":12.1,
+"turn":41.5,
 "lq":1.09,
 "t":"High school",
 "f":"Production"
@@ -12698,6 +14148,8 @@
 "p":271,
 "g5":25.6,
 "g":10.2,
+"sep":79.8,
+"turn":31.7,
 "lq":0.44,
 "t":"High school",
 "f":"Production"
@@ -12714,6 +14166,8 @@
 "p":0,
 "g5":3.6,
 "g":4.5,
+"sep":25.1,
+"turn":30.8,
 "lq":2.36,
 "t":"High school",
 "f":"Production"
@@ -12730,6 +14184,8 @@
 "p":0,
 "g5":0.0,
 "g":15.2,
+"sep":0.1,
+"turn":null,
 "lq":0.02,
 "t":"High school",
 "f":"Production"
@@ -12746,6 +14202,8 @@
 "p":0,
 "g5":-0.6,
 "g":-3.7,
+"sep":2.6,
+"turn":16.4,
 "lq":3.0,
 "t":"High school",
 "f":"Production"
@@ -12762,6 +14220,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.3,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Production"
@@ -12778,6 +14238,8 @@
 "p":0,
 "g5":0.2,
 "g":7.6,
+"sep":1.4,
+"turn":null,
 "lq":0.1,
 "t":"High school",
 "f":"Production"
@@ -12794,6 +14256,8 @@
 "p":2,
 "g5":3.4,
 "g":2.5,
+"sep":57.9,
+"turn":42.7,
 "lq":0.45,
 "t":"High school",
 "f":"Production"
@@ -12810,6 +14274,8 @@
 "p":0,
 "g5":4.2,
 "g":3.2,
+"sep":60.5,
+"turn":46.8,
 "lq":0.51,
 "t":"High school",
 "f":"Production"
@@ -12826,6 +14292,8 @@
 "p":176,
 "g5":2.9,
 "g":2.0,
+"sep":40.7,
+"turn":28.9,
 "lq":1.22,
 "t":"Sub-baccalaureate",
 "f":"Production"
@@ -12842,6 +14310,8 @@
 "p":150,
 "g5":21.8,
 "g":5.9,
+"sep":176.6,
+"turn":48.2,
 "lq":0.44,
 "t":"High school",
 "f":"Production"
@@ -12858,6 +14328,8 @@
 "p":20,
 "g5":-32.4,
 "g":-17.7,
+"sep":55.8,
+"turn":30.5,
 "lq":2.67,
 "t":"High school",
 "f":"Production"
@@ -12874,6 +14346,8 @@
 "p":30,
 "g5":-1.5,
 "g":-2.2,
+"sep":22.6,
+"turn":33.3,
 "lq":2.31,
 "t":"High school",
 "f":"Production"
@@ -12890,6 +14364,8 @@
 "p":0,
 "g5":0.3,
 "g":5.6,
+"sep":1.2,
+"turn":null,
 "lq":0.36,
 "t":"High school",
 "f":"Production"
@@ -12906,6 +14382,8 @@
 "p":29,
 "g5":-10.4,
 "g":-14.8,
+"sep":24.3,
+"turn":34.5,
 "lq":1.07,
 "t":"High school",
 "f":"Production"
@@ -12922,6 +14400,8 @@
 "p":4,
 "g5":-0.0,
 "g":-0.4,
+"sep":3.0,
+"turn":null,
 "lq":0.72,
 "t":"High school",
 "f":"Production"
@@ -12938,6 +14418,8 @@
 "p":0,
 "g5":-1.3,
 "g":-4.1,
+"sep":23.2,
+"turn":75.4,
 "lq":0.92,
 "t":"High school",
 "f":"Production"
@@ -12954,6 +14436,8 @@
 "p":76,
 "g5":-5.8,
 "g":-16.9,
+"sep":12.6,
+"turn":36.8,
 "lq":0.72,
 "t":"Sub-baccalaureate",
 "f":"Production"
@@ -12970,6 +14454,8 @@
 "p":27,
 "g5":-20.4,
 "g":-10.4,
+"sep":78.2,
+"turn":39.7,
 "lq":0.71,
 "t":"High school",
 "f":"Production"
@@ -12986,6 +14472,8 @@
 "p":231,
 "g5":-12.9,
 "g":-17.4,
+"sep":32.9,
+"turn":44.5,
 "lq":1.15,
 "t":"High school",
 "f":"Production"
@@ -13002,6 +14490,8 @@
 "p":321,
 "g5":11.0,
 "g":3.6,
+"sep":200.1,
+"turn":65.0,
 "lq":0.76,
 "t":"No formal credential",
 "f":"Production"
@@ -13018,6 +14508,8 @@
 "p":0,
 "g5":-6.1,
 "g":-8.2,
+"sep":33.9,
+"turn":45.7,
 "lq":1.36,
 "t":"No formal credential",
 "f":"Production"
@@ -13034,6 +14526,8 @@
 "p":31,
 "g5":4.4,
 "g":2.1,
+"sep":96.3,
+"turn":46.1,
 "lq":0.99,
 "t":"No formal credential",
 "f":"Production"
@@ -13050,6 +14544,8 @@
 "p":14,
 "g5":3.4,
 "g":9.9,
+"sep":16.1,
+"turn":47.3,
 "lq":2.01,
 "t":"High school",
 "f":"Production"
@@ -13066,6 +14562,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Production"
@@ -13082,6 +14580,8 @@
 "p":9,
 "g5":0.0,
 "g":2.5,
+"sep":0.3,
+"turn":null,
 "lq":0.29,
 "t":"No formal credential",
 "f":"Production"
@@ -13098,6 +14598,8 @@
 "p":43,
 "g5":-1.0,
 "g":-3.5,
+"sep":20.8,
+"turn":72.3,
 "lq":0.96,
 "t":"No formal credential",
 "f":"Production"
@@ -13114,6 +14616,8 @@
 "p":1,
 "g5":0.0,
 "g":9.4,
+"sep":6.7,
+"turn":null,
 "lq":0.02,
 "t":"High school",
 "f":"Production"
@@ -13130,6 +14634,8 @@
 "p":38,
 "g5":1.8,
 "g":4.7,
+"sep":12.9,
+"turn":33.8,
 "lq":2.06,
 "t":"High school",
 "f":"Production"
@@ -13146,6 +14652,8 @@
 "p":0,
 "g5":11.2,
 "g":12.2,
+"sep":26.9,
+"turn":29.3,
 "lq":3.39,
 "t":"High school",
 "f":"Production"
@@ -13162,6 +14670,8 @@
 "p":0,
 "g5":2.2,
 "g":22.7,
+"sep":4.3,
+"turn":null,
 "lq":0.2,
 "t":"High school",
 "f":"Production"
@@ -13178,6 +14688,8 @@
 "p":0,
 "g5":0.6,
 "g":15.6,
+"sep":3.6,
+"turn":null,
 "lq":0.14,
 "t":"High school",
 "f":"Production"
@@ -13194,6 +14706,8 @@
 "p":4,
 "g5":0.1,
 "g":7.7,
+"sep":0.4,
+"turn":null,
 "lq":0.19,
 "t":"High school",
 "f":"Production"
@@ -13210,6 +14724,8 @@
 "p":50,
 "g5":-0.6,
 "g":-0.9,
+"sep":29.8,
+"turn":46.1,
 "lq":1.53,
 "t":"High school",
 "f":"Production"
@@ -13226,6 +14742,8 @@
 "p":0,
 "g5":6.3,
 "g":17.3,
+"sep":14.6,
+"turn":40.1,
 "lq":1.22,
 "t":"High school",
 "f":"Production"
@@ -13242,6 +14760,8 @@
 "p":89,
 "g5":-13.0,
 "g":-3.8,
+"sep":117.2,
+"turn":34.2,
 "lq":2.26,
 "t":"High school",
 "f":"Production"
@@ -13258,6 +14778,8 @@
 "p":192,
 "g5":-1.4,
 "g":-4.8,
+"sep":16.5,
+"turn":54.6,
 "lq":1.01,
 "t":"High school",
 "f":"Production"
@@ -13274,6 +14796,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Production"
@@ -13290,6 +14814,8 @@
 "p":0,
 "g5":0.0,
 "g":null,
+"sep":0.0,
+"turn":null,
 "lq":0.0,
 "t":"High school",
 "f":"Production"
@@ -13306,6 +14832,8 @@
 "p":71,
 "g5":-10.7,
 "g":-5.1,
+"sep":80.2,
+"turn":37.9,
 "lq":2.59,
 "t":"High school",
 "f":"Production"
@@ -13322,6 +14850,8 @@
 "p":1,
 "g5":-13.6,
 "g":-7.1,
+"sep":87.1,
+"turn":45.8,
 "lq":1.55,
 "t":"High school",
 "f":"Production"
@@ -13338,6 +14868,8 @@
 "p":0,
 "g5":-2.4,
 "g":-8.1,
+"sep":11.1,
+"turn":37.0,
 "lq":2.27,
 "t":"High school",
 "f":"Production"
@@ -13354,6 +14886,8 @@
 "p":0,
 "g5":-0.1,
 "g":-5.5,
+"sep":0.5,
+"turn":null,
 "lq":0.13,
 "t":"High school",
 "f":"Production"
@@ -13370,6 +14904,8 @@
 "p":4,
 "g5":0.7,
 "g":4.6,
+"sep":2.8,
+"turn":17.6,
 "lq":0.81,
 "t":"High school",
 "f":"Production"
@@ -13386,6 +14922,8 @@
 "p":158,
 "g5":3.6,
 "g":2.6,
+"sep":36.4,
+"turn":26.0,
 "lq":2.21,
 "t":"High school",
 "f":"Production"
@@ -13402,6 +14940,8 @@
 "p":158,
 "g5":2.7,
 "g":3.5,
+"sep":38.3,
+"turn":50.1,
 "lq":1.17,
 "t":"High school",
 "f":"Production"
@@ -13418,6 +14958,8 @@
 "p":188,
 "g5":-5.1,
 "g":-1.6,
+"sep":146.4,
+"turn":46.9,
 "lq":1.21,
 "t":"High school",
 "f":"Production"
@@ -13434,6 +14976,8 @@
 "p":118,
 "g5":0.6,
 "g":5.3,
+"sep":4.1,
+"turn":35.4,
 "lq":0.33,
 "t":"High school",
 "f":"Production"
@@ -13450,6 +14994,8 @@
 "p":6,
 "g5":-0.1,
 "g":-2.8,
+"sep":1.9,
+"turn":null,
 "lq":0.06,
 "t":"High school",
 "f":"Production"
@@ -13466,6 +15012,8 @@
 "p":5,
 "g5":0.6,
 "g":3.5,
+"sep":9.5,
+"turn":56.1,
 "lq":0.24,
 "t":"High school",
 "f":"Production"
@@ -13482,6 +15030,8 @@
 "p":243,
 "g5":0.0,
 "g":0.1,
+"sep":9.2,
+"turn":42.7,
 "lq":0.7,
 "t":"High school",
 "f":"Production"
@@ -13498,6 +15048,8 @@
 "p":262,
 "g5":20.3,
 "g":15.4,
+"sep":39.9,
+"turn":30.2,
 "lq":0.47,
 "t":"High school",
 "f":"Production"
@@ -13514,6 +15066,8 @@
 "p":101,
 "g5":11.1,
 "g":5.0,
+"sep":108.8,
+"turn":48.5,
 "lq":1.83,
 "t":"High school",
 "f":"Production"
@@ -13530,6 +15084,8 @@
 "p":1,
 "g5":-4.0,
 "g":-2.7,
+"sep":63.0,
+"turn":42.8,
 "lq":2.79,
 "t":"High school",
 "f":"Production"
@@ -13546,6 +15102,8 @@
 "p":86,
 "g5":-3.2,
 "g":-7.3,
+"sep":10.5,
+"turn":24.1,
 "lq":1.94,
 "t":"No formal credential",
 "f":"Production"
@@ -13562,6 +15120,8 @@
 "p":85,
 "g5":4.8,
 "g":1.8,
+"sep":92.3,
+"turn":34.9,
 "lq":1.4,
 "t":"High school",
 "f":"Production"
@@ -13578,6 +15138,8 @@
 "p":0,
 "g5":-0.3,
 "g":-10.6,
+"sep":12.6,
+"turn":null,
 "lq":0.25,
 "t":"No formal credential",
 "f":"Production"
@@ -13594,6 +15156,8 @@
 "p":2,
 "g5":-5.1,
 "g":-4.9,
+"sep":56.7,
+"turn":54.9,
 "lq":1.15,
 "t":"High school",
 "f":"Production"
@@ -13610,6 +15174,8 @@
 "p":62,
 "g5":-2.8,
 "g":-2.0,
+"sep":57.4,
+"turn":39.9,
 "lq":1.22,
 "t":"High school",
 "f":"Production"
@@ -13626,6 +15192,8 @@
 "p":2,
 "g5":-1.9,
 "g":-4.3,
+"sep":16.9,
+"turn":39.1,
 "lq":1.46,
 "t":"High school",
 "f":"Production"
@@ -13642,6 +15210,8 @@
 "p":1398,
 "g5":23.3,
 "g":2.5,
+"sep":357.3,
+"turn":38.7,
 "lq":0.77,
 "t":"High school",
 "f":"Production"
@@ -13658,6 +15228,8 @@
 "p":35,
 "g5":0.1,
 "g":0.3,
+"sep":15.4,
+"turn":32.8,
 "lq":1.01,
 "t":"High school",
 "f":"Production"
@@ -13674,6 +15246,8 @@
 "p":40,
 "g5":2.6,
 "g":4.0,
+"sep":18.0,
+"turn":28.2,
 "lq":0.92,
 "t":"High school",
 "f":"Production"
@@ -13690,6 +15264,8 @@
 "p":21,
 "g5":1.3,
 "g":30.9,
+"sep":0.9,
+"turn":null,
 "lq":0.18,
 "t":"High school",
 "f":"Production"
@@ -13706,6 +15282,8 @@
 "p":0,
 "g5":1.4,
 "g":6.1,
+"sep":8.3,
+"turn":35.2,
 "lq":0.59,
 "t":"High school",
 "f":"Production"
@@ -13722,6 +15300,8 @@
 "p":506,
 "g5":74.1,
 "g":8.6,
+"sep":510.8,
+"turn":59.3,
 "lq":1.13,
 "t":"High school",
 "f":"Production"
@@ -13738,6 +15318,8 @@
 "p":27,
 "g5":0.9,
 "g":18.9,
+"sep":2.3,
+"turn":null,
 "lq":0.32,
 "t":"No formal credential",
 "f":"Production"
@@ -13754,6 +15336,8 @@
 "p":17,
 "g5":6.6,
 "g":3.7,
+"sep":80.0,
+"turn":45.3,
 "lq":0.56,
 "t":"High school",
 "f":"Production"
@@ -13770,6 +15354,8 @@
 "p":42,
 "g5":3.7,
 "g":9.2,
+"sep":11.2,
+"turn":28.0,
 "lq":0.63,
 "t":"High school",
 "f":"Production"
@@ -13786,6 +15372,8 @@
 "p":0,
 "g5":0.1,
 "g":3.0,
+"sep":1.8,
+"turn":null,
 "lq":0.22,
 "t":"High school",
 "f":"Production"
@@ -13802,6 +15390,8 @@
 "p":173,
 "g5":-54.4,
 "g":-4.8,
+"sep":403.4,
+"turn":35.5,
 "lq":3.36,
 "t":"High school",
 "f":"Production"
@@ -13818,6 +15408,8 @@
 "p":72,
 "g5":10.7,
 "g":8.2,
+"sep":45.6,
+"turn":35.0,
 "lq":2.24,
 "t":"Sub-baccalaureate",
 "f":"Production"
@@ -13834,6 +15426,8 @@
 "p":222,
 "g5":-0.9,
 "g":-7.9,
+"sep":6.3,
+"turn":56.0,
 "lq":0.42,
 "t":"High school",
 "f":"Production"
@@ -13850,6 +15444,8 @@
 "p":6,
 "g5":1.7,
 "g":7.5,
+"sep":9.7,
+"turn":41.5,
 "lq":0.7,
 "t":"High school",
 "f":"Production"
@@ -13866,6 +15462,8 @@
 "p":0,
 "g5":2.7,
 "g":17.4,
+"sep":7.6,
+"turn":48.4,
 "lq":0.97,
 "t":"High school",
 "f":"Production"
@@ -13882,6 +15480,8 @@
 "p":49,
 "g5":0.3,
 "g":1.0,
+"sep":16.3,
+"turn":47.0,
 "lq":2.17,
 "t":"High school",
 "f":"Production"
@@ -13898,6 +15498,8 @@
 "p":301,
 "g5":-4.9,
 "g":-2.1,
+"sep":86.8,
+"turn":38.1,
 "lq":3.34,
 "t":"High school",
 "f":"Production"
@@ -13914,6 +15516,8 @@
 "p":0,
 "g5":-14.6,
 "g":-12.4,
+"sep":35.3,
+"turn":29.8,
 "lq":0.61,
 "t":"High school",
 "f":"Production"
@@ -13930,6 +15534,8 @@
 "p":21,
 "g5":-0.7,
 "g":-6.9,
+"sep":3.0,
+"turn":null,
 "lq":0.24,
 "t":"High school",
 "f":"Production"
@@ -13946,6 +15552,8 @@
 "p":8,
 "g5":-7.6,
 "g":-2.9,
+"sep":153.9,
+"turn":58.9,
 "lq":0.79,
 "t":"High school",
 "f":"Production"
@@ -13962,6 +15570,8 @@
 "p":3085,
 "g5":13.9,
 "g":2.9,
+"sep":410.6,
+"turn":84.7,
 "lq":0.93,
 "t":"High school",
 "f":"Production"
@@ -13978,6 +15588,8 @@
 "p":0,
 "g5":0.1,
 "g":9.2,
+"sep":0.3,
+"turn":null,
 "lq":0.08,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -13994,6 +15606,8 @@
 "p":904,
 "g5":29.7,
 "g":3.1,
+"sep":378.9,
+"turn":39.8,
 "lq":0.76,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14010,6 +15624,8 @@
 "p":33,
 "g5":-6.3,
 "g":-7.3,
+"sep":33.3,
+"turn":39.0,
 "lq":0.29,
 "t":"Bachelor's",
 "f":"Transportation & Material Moving"
@@ -14026,6 +15642,8 @@
 "p":25,
 "g5":1.8,
 "g":2.7,
+"sep":27.9,
+"turn":43.4,
 "lq":0.49,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14042,6 +15660,8 @@
 "p":59,
 "g5":0.8,
 "g":1.7,
+"sep":18.8,
+"turn":40.4,
 "lq":0.68,
 "t":"Sub-baccalaureate",
 "f":"Transportation & Material Moving"
@@ -14058,6 +15678,8 @@
 "p":231,
 "g5":0.1,
 "g":1.1,
+"sep":1.3,
+"turn":null,
 "lq":0.14,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14074,6 +15696,8 @@
 "p":21,
 "g5":-0.8,
 "g":-4.5,
+"sep":5.7,
+"turn":32.9,
 "lq":0.06,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14090,6 +15714,8 @@
 "p":4,
 "g5":2.3,
 "g":6.4,
+"sep":20.4,
+"turn":57.6,
 "lq":1.24,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14106,6 +15732,8 @@
 "p":3755,
 "g5":33.5,
 "g":6.1,
+"sep":279.2,
+"turn":51.3,
 "lq":0.66,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14122,6 +15750,8 @@
 "p":9832,
 "g5":82.8,
 "g":2.3,
+"sep":1894.2,
+"turn":52.2,
 "lq":0.87,
 "t":"Sub-baccalaureate",
 "f":"Transportation & Material Moving"
@@ -14138,6 +15768,8 @@
 "p":643,
 "g5":48.2,
 "g":2.3,
+"sep":1245.9,
+"turn":59.6,
 "lq":1.04,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14154,6 +15786,8 @@
 "p":325,
 "g5":16.4,
 "g":1.9,
+"sep":299.0,
+"turn":35.2,
 "lq":1.09,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14170,6 +15804,8 @@
 "p":324,
 "g5":48.5,
 "g":11.1,
+"sep":158.7,
+"turn":36.2,
 "lq":1.3,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14186,6 +15822,8 @@
 "p":359,
 "g5":27.3,
 "g":5.3,
+"sep":316.1,
+"turn":61.0,
 "lq":0.96,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14202,6 +15840,8 @@
 "p":139,
 "g5":-0.6,
 "g":-7.3,
+"sep":7.2,
+"turn":null,
 "lq":0.09,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14218,6 +15858,8 @@
 "p":12,
 "g5":4.4,
 "g":3.5,
+"sep":104.4,
+"turn":81.7,
 "lq":1.22,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14234,6 +15876,8 @@
 "p":0,
 "g5":2.7,
 "g":6.0,
+"sep":15.0,
+"turn":33.4,
 "lq":0.57,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14250,6 +15894,8 @@
 "p":2,
 "g5":0.2,
 "g":7.5,
+"sep":1.0,
+"turn":null,
 "lq":0.37,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14266,6 +15912,8 @@
 "p":115,
 "g5":0.9,
 "g":6.5,
+"sep":5.3,
+"turn":38.9,
 "lq":0.47,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14282,6 +15930,8 @@
 "p":34,
 "g5":3.5,
 "g":6.1,
+"sep":22.8,
+"turn":39.8,
 "lq":0.51,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14298,6 +15948,8 @@
 "p":122,
 "g5":-0.0,
 "g":-3.5,
+"sep":5.6,
+"turn":null,
 "lq":0.01,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14314,6 +15966,8 @@
 "p":0,
 "g5":0.0,
 "g":1.6,
+"sep":0.1,
+"turn":null,
 "lq":0.04,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14330,6 +15984,8 @@
 "p":51,
 "g5":-2.3,
 "g":-3.9,
+"sep":46.3,
+"turn":79.7,
 "lq":0.61,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14346,6 +16002,8 @@
 "p":34,
 "g5":-1.5,
 "g":-2.8,
+"sep":60.3,
+"turn":114.3,
 "lq":0.53,
 "t":"Sub-baccalaureate",
 "f":"Transportation & Material Moving"
@@ -14362,6 +16020,8 @@
 "p":4,
 "g5":0.2,
 "g":5.1,
+"sep":2.6,
+"turn":null,
 "lq":0.47,
 "t":"Sub-baccalaureate",
 "f":"Transportation & Material Moving"
@@ -14378,6 +16038,8 @@
 "p":1,
 "g5":-0.5,
 "g":-4.3,
+"sep":9.4,
+"turn":74.4,
 "lq":0.43,
 "t":"Sub-baccalaureate",
 "f":"Transportation & Material Moving"
@@ -14394,6 +16056,8 @@
 "p":2,
 "g5":0.0,
 "g":7.6,
+"sep":2.9,
+"turn":null,
 "lq":0.06,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14410,6 +16074,8 @@
 "p":555,
 "g5":18.3,
 "g":15.6,
+"sep":125.2,
+"turn":107.0,
 "lq":0.4,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14426,6 +16092,8 @@
 "p":148,
 "g5":2.2,
 "g":1.3,
+"sep":173.6,
+"turn":100.7,
 "lq":0.79,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14442,6 +16110,8 @@
 "p":0,
 "g5":10.7,
 "g":3.5,
+"sep":200.4,
+"turn":65.5,
 "lq":4.6,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14458,6 +16128,8 @@
 "p":668,
 "g5":0.3,
 "g":2.3,
+"sep":9.0,
+"turn":68.5,
 "lq":0.7,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14474,6 +16146,8 @@
 "p":97,
 "g5":2.0,
 "g":4.5,
+"sep":27.9,
+"turn":64.1,
 "lq":0.75,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14490,6 +16164,8 @@
 "p":101,
 "g5":2.5,
 "g":8.6,
+"sep":20.3,
+"turn":68.7,
 "lq":0.48,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14506,6 +16182,8 @@
 "p":0,
 "g5":1.1,
 "g":27.5,
+"sep":3.9,
+"turn":null,
 "lq":0.14,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14522,6 +16200,8 @@
 "p":0,
 "g5":2.1,
 "g":4.6,
+"sep":51.9,
+"turn":114.1,
 "lq":0.84,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14538,6 +16218,8 @@
 "p":40,
 "g5":2.4,
 "g":1.5,
+"sep":127.8,
+"turn":80.8,
 "lq":1.73,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14554,6 +16236,8 @@
 "p":0,
 "g5":0.0,
 "g":1.6,
+"sep":0.8,
+"turn":null,
 "lq":0.59,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14570,6 +16254,8 @@
 "p":0,
 "g5":0.0,
 "g":9.0,
+"sep":0.2,
+"turn":null,
 "lq":0.04,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14586,6 +16272,8 @@
 "p":454,
 "g5":23.7,
 "g":2.5,
+"sep":597.3,
+"turn":61.7,
 "lq":0.63,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14602,6 +16290,8 @@
 "p":338,
 "g5":36.9,
 "g":5.8,
+"sep":478.1,
+"turn":75.5,
 "lq":0.81,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14618,6 +16308,8 @@
 "p":4654,
 "g5":136.9,
 "g":4.4,
+"sep":2722.0,
+"turn":87.0,
 "lq":0.53,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14634,6 +16326,8 @@
 "p":0,
 "g5":-4.1,
 "g":-9.8,
+"sep":34.4,
+"turn":82.9,
 "lq":0.45,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14650,6 +16344,8 @@
 "p":637,
 "g5":10.0,
 "g":1.1,
+"sep":1134.0,
+"turn":129.7,
 "lq":0.77,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14666,6 +16362,8 @@
 "p":4031,
 "g5":377.8,
 "g":7.0,
+"sep":3999.9,
+"turn":74.1,
 "lq":0.96,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14682,6 +16380,8 @@
 "p":0,
 "g5":-0.1,
 "g":-2.3,
+"sep":3.5,
+"turn":null,
 "lq":0.49,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14698,6 +16398,8 @@
 "p":71,
 "g5":-0.1,
 "g":-1.1,
+"sep":8.7,
+"turn":null,
 "lq":0.37,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14714,6 +16416,8 @@
 "p":0,
 "g5":-0.1,
 "g":-7.5,
+"sep":0.8,
+"turn":null,
 "lq":0.03,
 "t":"High school",
 "f":"Transportation & Material Moving"
@@ -14730,6 +16434,8 @@
 "p":1,
 "g5":0.4,
 "g":0.2,
+"sep":100.0,
+"turn":61.9,
 "lq":0.54,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14746,6 +16452,8 @@
 "p":215,
 "g5":-1.1,
 "g":-25.4,
+"sep":5.7,
+"turn":null,
 "lq":0.18,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"
@@ -14762,6 +16470,8 @@
 "p":4,
 "g5":2.4,
 "g":6.3,
+"sep":25.6,
+"turn":66.0,
 "lq":0.68,
 "t":"No formal credential",
 "f":"Transportation & Material Moving"

@@ -1,8 +1,9 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { fmt, money } from '@/lib/format';
-import { Table, ExportButton } from './ui';
+import { fmt } from '@/lib/format';
+import DataTable from './DataTable';
+import { occCols } from './occCols';
 
 const DrillContext = createContext({ open: () => {}, close: () => {} });
 
@@ -54,14 +55,9 @@ export function DrillProvider({ children }) {
                 {d.label ? <span className="dlabel">{d.label}</span> : null}
                 <h3>{d.title}</h3>
               </div>
-              <div className="drill-actions">
-                {d.rows && d.rows.length ? (
-                  <ExportButton label={d.title} cols={d.cols} rows={d.rows} />
-                ) : null}
-                <button type="button" className="dclose" onClick={close}>
-                  Close
-                </button>
-              </div>
+              <button type="button" className="dclose" onClick={close}>
+                Close
+              </button>
             </div>
             {d.cap ? <p className="dcap">{d.cap}</p> : null}
             {d.stats && d.stats.length ? (
@@ -74,7 +70,16 @@ export function DrillProvider({ children }) {
                 ))}
               </div>
             ) : null}
-            {d.rows && d.rows.length ? <Table cols={d.cols} rows={d.rows} /> : null}
+            {d.occ && d.occ.length ? (
+              <DataTable
+                cols={d.cols}
+                rows={d.occ}
+                initialSort={{ k: 'j', dir: -1 }}
+                exportLabel={d.title}
+                rowKey={(r) => r.s}
+                pageSize={25}
+              />
+            ) : null}
             {d.src ? <div className="srcline">{d.src}</div> : null}
           </div>
         </div>
@@ -91,36 +96,25 @@ export function occDrill({ label, title, cap, occ, lwAnnual, extraStats = [] }) 
   const wAbove = priced.length
     ? (above.reduce((a, o) => a + o.j, 0) / priced.reduce((a, o) => a + o.j, 0)) * 100
     : 0;
+  const withTurn = occ.filter((o) => o.turn !== null && o.turn !== undefined && o.j > 0);
+  const turn = withTurn.length
+    ? withTurn.reduce((a, o) => a + o.turn * o.j, 0) / withTurn.reduce((a, o) => a + o.j, 0)
+    : null;
+
   return {
     label,
     title,
     cap,
+    occ,
+    cols: occCols(lwAnnual),
     stats: [
       ['Occupations', fmt(occ.length)],
       ['Jobs, 2025', fmt(jobs)],
       ['Above living wage', wAbove.toFixed(1) + '%'],
+      ['Turnover', turn === null ? '—' : turn.toFixed(1) + '%'],
       ...extraStats,
     ],
-    cols: ['Occupation', 'Jobs 2025', 'Change 2021-25', 'Projected 25-30', 'Median',
-           'vs LW', 'Openings', 'Postings /100', 'Entry credential'],
-    rows: occ.slice(0, 200).map((o) => ({
-      cells: [
-        o.n,
-        fmt(o.j),
-        o.chgPct === null || o.chgPct === undefined
-          ? '—'
-          : (o.chgPct > 0 ? '+' : '') + o.chgPct + '%',
-        o.g === null || o.g === undefined ? '—' : (o.g > 0 ? '+' : '') + o.g + '%',
-        o.m ? money(o.m) : '—',
-        o.m ? (o.m / lwAnnual).toFixed(2) + '×' : '—',
-        fmt(o.o),
-        o.j ? ((o.p / o.j) * 100).toFixed(1) : '—',
-        o.t,
-      ],
-    })),
     src:
-      occ.length > 200
-        ? `Lightcast · 200 largest of ${fmt(occ.length)} shown; export covers the same rows`
-        : 'Lightcast · export downloads these rows as CSV',
+      'Lightcast · search, filter and sort above; export downloads the filtered rows',
   };
 }

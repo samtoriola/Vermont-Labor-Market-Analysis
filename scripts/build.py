@@ -83,6 +83,7 @@ o = pd.DataFrame({
     "chg": upd["2021 - 2025 Change"].astype(float),
     "openTot": upd["2021 - 2025 Openings"].astype(float),
     "sep25": upd["2025 Separations"].astype(float),
+    "turnRate": upd["2025 Turnover Rate"].astype(float),
     "med": upd["Median Annual Earnings"].astype(float),
     "p10": upd["Pct. 10 Annual Earnings"].astype(float),
     "p25": upd["Pct. 25 Annual Earnings"].astype(float),
@@ -98,6 +99,17 @@ o["open"] = o["openTot"] / OPEN_YEARS
 o["chgPct"] = np.where(o["jobs21"] > 0, o["chg"] / o["jobs21"], np.nan)
 o["g5"] = o["jobs30"] - o["jobs25"]
 o["g5pct"] = np.where(o["jobs25"] > 0, o["g5"] / o["jobs25"], np.nan)
+# Turnover: Lightcast's own 2025 rate, with separations/jobs as fallback where blank.
+# Churn-inclusive -- separations count job-to-job transfers, not just exits -- so this
+# reads as a stability signal, not unmet hiring need.
+# Suppressed below 10 jobs: a rate on a fractional headcount is meaningless and
+# produces absurd values. Gambling Change Persons carries 0.02 jobs against 129
+# separations in the source, i.e. 5,281x -- an artefact of Lightcast's own modelling,
+# not a Vermont signal. 47 occupations sit under 1 job and hold 7 jobs between them.
+TURN_MIN_JOBS = 10
+o["turn"] = np.where(o["turnRate"].notna(), o["turnRate"],
+                     np.where(o["jobs25"] > 0, o["sep25"] / o["jobs25"], np.nan))
+o["turn"] = np.where(o["jobs25"] >= TURN_MIN_JOBS, o["turn"], np.nan)
 
 # carry LQ forward from the previous export (verified same snapshot)
 lq = prev[["SOC", "2025 Employment Concentration"]].copy()
@@ -165,6 +177,8 @@ def rollup(d):
                   if d["jobs25"].sum() else None),
         "open": round(float(d["open"].sum())),
         "sep": round(float(d["sep25"].sum())),
+        "turn": (round(float(d["sep25"].sum() / d["jobs25"].sum()) * 1000) / 10
+                 if d["jobs25"].sum() else None),
         "post": round(float(d["postings"].sum())),
         "med": (round(wavg(d, "med")) if wavg(d, "med") else None),
         "lq": (round(wavg(d, "lq"), 2) if wavg(d, "lq") else None),
@@ -228,6 +242,8 @@ def occrow(r):
             "o": round(r["open"]), "p": int(r["postings"]),
             "g": (round(r["g5pct"] * 1000) / 10 if pd.notna(r["g5pct"]) else None),
             "lq": (round(r["lq"], 2) if pd.notna(r["lq"]) else None),
+            "sep": round(r["sep25"], 1),
+            "turn": (round(r["turn"] * 1000) / 10 if pd.notna(r["turn"]) else None),
             "e": r["edu_detail"], "t": r["tier"], "fam": r["family"]}
 out["topOcc"] = [occrow(r) for _, r in
                  o.sort_values("jobs25", ascending=False).head(40).iterrows()]
@@ -258,6 +274,8 @@ out["allOcc"] = [
      "o": round(r["open"], 1), "p": int(r["postings"]),
      "g5": round(r["g5"], 1),
      "g": (round(r["g5pct"] * 1000) / 10 if pd.notna(r["g5pct"]) else None),
+     "sep": round(r["sep25"], 1),
+     "turn": (round(r["turn"] * 1000) / 10 if pd.notna(r["turn"]) else None),
      "lq": (round(r["lq"], 2) if pd.notna(r["lq"]) else None),
      "t": r["tier"], "f": r["family"]}
     for _, r in o.iterrows() if r["family"] not in ("Military", "Other")]
