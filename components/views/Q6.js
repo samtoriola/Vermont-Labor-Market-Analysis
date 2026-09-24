@@ -3,6 +3,7 @@
 import { SOW, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Callout, Panel, Table, VHead, N } from '../ui';
+import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars } from '../charts';
 
@@ -20,6 +21,8 @@ export default function Q6({ lw }) {
       >
         How VSCS credential production compares with Vermont occupational demand, and where the relationship warrants a closer look.
       </VHead>
+
+      <ActiveFilters />
 
       <Answer>
         <p>

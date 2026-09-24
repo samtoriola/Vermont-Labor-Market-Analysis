@@ -246,11 +246,19 @@ for s in ["Large (2,000+)", "Medium (500-2,000)", "Smaller (<500)"]:
     sz.append(r)
 out["sizeTiers"] = sz
 
+# j21/chg/chgPct = OBSERVED employment change 2021-2025 (what happened).
+# g5/g = PROJECTED change 2025-2030 (what Lightcast forecasts). Both are carried
+# because they disagree: Vermont grew faster over the window than the forecast implies.
 out["allOcc"] = [
     {"s": r["soc"], "n": r["name"], "j": round(r["jobs25"], 1),
+     "j21": round(r["jobs21"], 1),
+     "chg": round(r["chg"], 1),
+     "chgPct": (round(r["chgPct"] * 1000) / 10 if pd.notna(r["chgPct"]) else None),
      "m": (round(r["med"]) if r["med"] > 0 else None),
      "o": round(r["open"], 1), "p": int(r["postings"]),
+     "g5": round(r["g5"], 1),
      "g": (round(r["g5pct"] * 1000) / 10 if pd.notna(r["g5pct"]) else None),
+     "lq": (round(r["lq"], 2) if pd.notna(r["lq"]) else None),
      "t": r["tier"], "f": r["family"]}
     for _, r in o.iterrows() if r["family"] not in ("Military", "Other")]
 

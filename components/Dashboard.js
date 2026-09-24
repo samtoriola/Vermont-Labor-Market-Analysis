@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { DEFAULT_LW, LC, SERIES_HEX, ORDINAL_HEX, GOOD_HEX, BAD_HEX } from '@/lib/data';
+import { DEFAULT_LW, LC, SERIES_HEX, ORDINAL_HEX, GOOD_HEX, BAD_HEX, lwAnnual } from '@/lib/data';
 import { TooltipProvider } from './Tooltip';
 import { DrillProvider } from './Drill';
+import { FilterProvider } from './FilterContext';
 import Overview from './views/Overview';
 import Structure from './views/Q1';
 import WageQuality from './views/Q2';
@@ -65,6 +66,7 @@ export default function Dashboard() {
   return (
     <TooltipProvider>
       <DrillProvider>
+        <FilterProvider lwAnnual={lwAnnual(lw)}>
         <header className="top">
           <div className="top-in">
             <div className="eyebrow">Strada Education Foundation</div>
@@ -105,6 +107,7 @@ export default function Dashboard() {
           ))}
           <Methods />
         </div>
+        </FilterProvider>
       </DrillProvider>
     </TooltipProvider>
   );

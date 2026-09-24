@@ -1,18 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { LC, PCT, lwAnnual, filterOcc, occByTier } from '@/lib/data';
+import { LC, PCT, lwAnnual } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
-import Filters from '../Filters';
+import Filters, { ActiveFilters } from '../Filters';
+import { useFilters } from '../FilterContext';
+import OccTable from '../OccTable';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, BoxPlot, BoxLegend, Scatter } from '../charts';
 
 export default function Q2({ lw, setLw }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
-  const [f, setF] = useState({ tiers: [], wage: 'all', minJobs: 0 });
-  const filtered = filterOcc(LC.allOcc, { ...f, lwAnnual: LWA });
+  const { apply } = useFilters();
+  const filtered = apply(LC.allOcc);
 
   const sizeDrill = (tier) => {
     const lo = tier === 'Large (2,000+)' ? 2000 : tier === 'Medium (500-2,000)' ? 500 : 0;
@@ -82,6 +83,8 @@ export default function Q2({ lw, setLw }) {
       >
         Which occupations employ the most Vermonters, and how pay compares with a self-sufficiency benchmark across large, medium and smaller occupations.
       </VHead>
+
+      <ActiveFilters />
 
       <Answer>
         <p>
@@ -242,7 +245,7 @@ export default function Q2({ lw, setLw }) {
         />
       </Panel>
 
-      <Filters f={f} setF={setF} shown={filtered.length} total={LC.allOcc.length} />
+      <Filters shown={filtered.length} total={LC.allOcc.length} showFamilies />
 
       <Panel
         title="Every occupation: size against pay"
@@ -274,6 +277,7 @@ export default function Q2({ lw, setLw }) {
           }}
         />
       </Panel>
+      <OccTable lw={lw} />
     </>
   );
 }

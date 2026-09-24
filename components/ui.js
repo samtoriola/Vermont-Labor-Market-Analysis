@@ -2,15 +2,40 @@
 
 import { LC, SERIES, SERIES_HEX } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
+import { downloadCsv, exportName } from '@/lib/csv';
 
-export function Panel({ title, cap, src, children }) {
+export function Panel({ title, cap, src, exportData, children }) {
   return (
     <div className="panel">
-      <h3>{title}</h3>
+      <div className="panel-head">
+        <h3>{title}</h3>
+        {exportData ? (
+          <ExportButton
+            label={exportData.name || title}
+            cols={exportData.cols}
+            rows={exportData.rows}
+          />
+        ) : null}
+      </div>
       {cap ? <p className="cap">{cap}</p> : null}
       {children}
       {src ? <div className="srcline">{src}</div> : null}
     </div>
+  );
+}
+
+/** Downloads the panel's underlying rows as CSV. Client-side; nothing is uploaded. */
+export function ExportButton({ label, cols, rows }) {
+  if (!rows || !rows.length) return null;
+  return (
+    <button
+      type="button"
+      className="exportbtn"
+      onClick={() => downloadCsv(exportName(label), cols, rows)}
+      title={`Download ${rows.length} rows as CSV`}
+    >
+      Export CSV
+    </button>
   );
 }
 

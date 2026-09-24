@@ -957,3 +957,105 @@ footer.meth .swatches i {
     animation: none !important;
   }
 }
+
+/* ---------- panel header with export action ---------- */
+.panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.panel-head h3 {
+  margin: 0 0 3px;
+}
+
+.exportbtn {
+  appearance: none;
+  flex: none;
+  background: var(--panel-2);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: var(--ink-2);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 4px 10px;
+}
+
+.exportbtn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.exportbtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.drill-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+/* ---------- cross-filter additions ---------- */
+.fgroup-wide {
+  flex-basis: 100%;
+}
+
+.chip-sm {
+  font-size: 11px;
+  padding: 3px 9px;
+}
+
+.activebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 16px;
+  padding: 9px 12px;
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border-radius: 6px;
+}
+
+.activebar .flab {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
+  margin-right: 2px;
+}
+
+.chip-active {
+  background: var(--panel);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.chip-active:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+/* growth cells: direction carried by colour as well as sign */
+td.up,
+td.down {
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+}
+
+td.up {
+  color: var(--good);
+}
+
+td.down {
+  color: var(--bad);
+}

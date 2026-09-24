@@ -1,22 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-import { SOW, TIER_ORDER, lwAnnual, filterOcc } from '@/lib/data';
+import { SOW, TIER_ORDER, lwAnnual } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Callout, Panel, Table, VHead, N } from '../ui';
-import Filters from '../Filters';
+import Filters, { ActiveFilters } from '../Filters';
+import { useFilters } from '../FilterContext';
+import OccTable from '../OccTable';
 import { RankedBars } from '../charts';
 
 export default function Q5({ lw }) {
   const LWA = lwAnnual(lw);
-  const [f, setF] = useState({ tiers: [], wage: 'all', minJobs: 0 });
+  const { apply } = useFilters();
   const O = SOW.opp;
   const top = O.top;
   // Filters narrow the scored list; the composite itself is unchanged.
-  const shown = filterOcc(
-    O.top.map((r) => ({ ...r, lwAnnual: LWA })),
-    { ...f, lwAnnual: LWA }
-  );
+  const shown = apply(O.top.map((r) => ({ ...r, f: r.fam })));
   const baCount = top.filter((r) => r.t === "Bachelor's").length;
   const tierLead = {};
   TIER_ORDER.forEach((t) => {
@@ -31,6 +29,8 @@ export default function Q5({ lw }) {
       >
         Occupations combining scale, growth, advertised demand and pay — scored transparently, and read at each level of educational accessibility.
       </VHead>
+
+      <ActiveFilters />
 
       <Answer>
         <p>
@@ -103,7 +103,7 @@ export default function Q5({ lw }) {
         </p>
       </Callout>
 
-      <Filters f={f} setF={setF} shown={shown.length} total={O.top.length} note="of the top 30 scored" />
+      <Filters shown={shown.length} total={O.top.length} note="of the top 30 scored" showFamilies />
 
       <Panel
         title="Highest-scoring occupations"
@@ -176,6 +176,7 @@ export default function Q5({ lw }) {
           />
         </Panel>
       ))}
+      <OccTable lw={lw} />
     </>
   );
 }

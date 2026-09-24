@@ -3,6 +3,7 @@
 import { DATA, LC, PCT, TIER_ORDER, SERIES, lwAnnual, occByTier } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Callout, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
+import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, BoxPlot, BoxLegend } from '../charts';
 
@@ -59,6 +60,8 @@ export default function Q4({ lw, setLw }) {
       >
         The share of Vermont employment at each entry credential, and how those requirements relate to earnings.
       </VHead>
+
+      <ActiveFilters />
 
       <Answer>
         <p>

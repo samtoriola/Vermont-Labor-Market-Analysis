@@ -3,6 +3,7 @@
 import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { Answer, Callout, Panel, Legend, VHead, N } from '../ui';
+import { ActiveFilters } from '../Filters';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 
 export default function Q3() {
@@ -53,6 +54,8 @@ export default function Q3() {
       >
         Where projected growth, annual openings and advertised demand concentrate — and how closely each tracks the existing employment base.
       </VHead>
+
+      <ActiveFilters />
 
       <Answer>
         <p>

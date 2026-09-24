@@ -3,6 +3,7 @@
 import { DATA, LC, PCT, TOTJ, TIER_ORDER, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Answer, Panel, Legend, Table, VHead, N, DrillHint } from '../ui';
+import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, StackedRows, BoxPlot, BoxLegend } from '../charts';
 
@@ -80,6 +81,8 @@ export default function Q1({ lw }) {
       >
         How Vermont’s jobs distribute across occupational families, and how that varies by industry, earnings and entry credential.
       </VHead>
+
+      <ActiveFilters />
 
       <Answer>
         <p>
