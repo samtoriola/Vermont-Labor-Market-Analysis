@@ -2,8 +2,8 @@
 
 import { DATA, LC, TOTJ, tierRow, cpsSubBacc, cpsHsOrLess, lwHourly } from '@/lib/data';
 import { fmt } from '@/lib/format';
-import { Panel, Legend, Table, Tiles, N } from '../ui';
-import { RankedBars, TrendLine } from '../charts';
+import { Panel, Legend, Tiles } from '../ui';
+import { RankedBars } from '../charts';
 
 export default function Overview({ lw }) {
   const lastCps = DATA.trend[DATA.trend.length - 1];
@@ -56,41 +56,6 @@ export default function Overview({ lw }) {
         />
       </Panel>
 
-      <div className="grid2">
-        <Panel
-          title="CPS employment, 2021–2025"
-          cap="Independent read on the employment base. 2025 is an 11-month average."
-          src="CPS · SUM(WTFINL)/months"
-        >
-          <TrendLine
-            series={{ x: DATA.trend.map((r) => r.y), y: DATA.trend.map((r) => r.emp) }}
-            opts={{
-              min: 300000,
-              max: 360000,
-              color: '--s3',
-              aria: 'CPS employment',
-              fmtY: (x) => Math.round(x / 1000) + 'k',
-            }}
-          />
-        </Panel>
-
-        <Panel
-          title="Lightcast and CPS side by side"
-          cap="Lightcast counts jobs; CPS counts employed residents. The ~3% difference is definitional, not an error."
-          src="Neither is wrong; the universes differ"
-        >
-          <Table
-            cols={['Measure', 'Value']}
-            rows={[
-              { cells: ['Lightcast jobs, 2025', fmt(LC.totalJobs)] },
-              { cells: ['CPS employment, 2025', fmt(lastCps.emp)] },
-              { cells: ['Difference', fmt(lastCps.emp - LC.totalJobs)] },
-              { cells: ['Detailed occupations (Lightcast)', fmt(798)] },
-              { cells: ['Occupational families (CPS)', fmt(DATA.families.length)] },
-            ]}
-          />
-        </Panel>
-      </div>
     </>
   );
 }

@@ -918,58 +918,71 @@ td.num {
   font-weight: 600;
 }
 
-/* ---------- methods footer ---------- */
-footer.meth {
-  margin-top: 34px;
-  padding-top: 22px;
-  border-top: 2px solid var(--accent);
-}
-
-footer.meth h3 {
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: 19px;
-  margin: 0 0 12px;
-}
-
-footer.meth .mgrid {
+/* ---------- methods tab ---------- */
+/* Term on the left, one line of definition on the right: scans far faster than a
+   wall of paragraphs, and collapses to stacked rows on a phone. */
+.defs {
+  margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
-  gap: 16px 22px;
+  gap: 10px 0;
 }
 
-footer.meth h4 {
-  font-size: 10px;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: var(--accent);
+.defs > div {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 4px 20px;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.defs > div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.defs dt {
   font-weight: 600;
-  margin: 0 0 5px;
-}
-
-footer.meth p {
-  font-size: 12.5px;
-  color: var(--ink-2);
-  margin: 0 0 7px;
-}
-
-footer.meth code {
-  font-family: var(--fig);
-  font-size: 11.5px;
-  background: var(--panel-2);
-  padding: 1px 5px;
-  border-radius: 3px;
+  font-size: 13px;
   color: var(--ink);
 }
 
-footer.meth .swatches {
+.defs dd {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-2);
+  max-width: 76ch;
+}
+
+th.thtext {
+  text-align: left;
+}
+
+ul.lim {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 7px;
+}
+
+ul.lim li {
+  font-size: 13px;
+  color: var(--ink-2);
+  max-width: 82ch;
+}
+
+ul.lim strong {
+  color: var(--ink);
+}
+
+.swatches {
   display: flex;
   flex-wrap: wrap;
   gap: 5px 12px;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
-footer.meth .swatches span {
+.swatches span {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -978,12 +991,18 @@ footer.meth .swatches span {
   color: var(--ink-2);
 }
 
-footer.meth .swatches i {
+.swatches i {
   width: 10px;
   height: 10px;
   border-radius: 2px;
   display: block;
   flex: none;
+}
+
+@media (max-width: 620px) {
+  .defs > div {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

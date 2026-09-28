@@ -90,14 +90,21 @@ export function Tiles({ items }) {
   );
 }
 
-export function Table({ cols, rows }) {
+/**
+ * Columns after the first are right-aligned as figures, which is right for almost
+ * every table here. `text` lists the indices that hold prose instead.
+ */
+export function Table({ cols, rows, text = [] }) {
+  const isText = (j) => j === 0 || text.includes(j);
   return (
     <div className="tblwrap">
       <table>
         <thead>
           <tr>
-            {cols.map((c) => (
-              <th key={c}>{c}</th>
+            {cols.map((c, j) => (
+              <th key={c} className={isText(j) ? 'thtext' : undefined}>
+                {c}
+              </th>
             ))}
           </tr>
         </thead>
@@ -105,7 +112,7 @@ export function Table({ cols, rows }) {
           {rows.map((r, i) => (
             <tr key={i} onClick={r.onClick} style={r.onClick ? { cursor: 'pointer' } : undefined}>
               {r.cells.map((c, j) => (
-                <td key={j} className={j ? 'num' : undefined}>
+                <td key={j} className={isText(j) ? undefined : 'num'}>
                   {c}
                 </td>
               ))}
