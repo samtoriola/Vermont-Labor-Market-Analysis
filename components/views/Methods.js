@@ -122,8 +122,16 @@ export default function Methods({ lw }) {
               'Columns hold more respondents than a chart can draw, so dots are a random draw made in proportion to survey weight. Average and median lines come from every respondent, not the dots shown.',
             ],
             [
+              'Full-time and part-time',
+              'Full-time is usual hours of 35 or more, taken from reported hours rather than the summary status code. 9.5% of employed Vermonters report that their hours vary and cannot be placed either side, so the split is shown over those with reportable hours.',
+            ],
+            [
               'CPS precision',
-              'October 2025 is missing nationally, so 2025 is an 11-month average. Vermont weights are near-uniform (Kish 0.94), so intervals assume a design effect near 1. 80,569 person-month records cover 16,887 distinct people.',
+              'October 2025 is missing nationally, so 2025 is an 11-month average. Vermont weights are near-uniform (Kish 0.94), so intervals assume a design effect near 1. 80,569 person-month records cover 16,887 distinct people, and rate intervals use the person count, not the record count, because the survey re-interviews the same households.',
+            ],
+            [
+              'Unemployment',
+              'The rate shown is the direct CPS estimate. Vermont\u2019s official rate comes from LAUS, which is model-based, so the two differ by construction rather than by error.',
             ],
           ]}
         />

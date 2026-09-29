@@ -78,8 +78,7 @@ export default function Overview({ lw }) {
 
       <Panel
         title="Labour force at a glance"
-        cap={`Vermont, ${G.year}, averaged over ${G.months} months. Full-time is usual hours of 35 or more. A further ${G.varyShare.toFixed(1)}% of workers report that their hours vary and cannot be placed either side, so the split is shown over those with reportable hours. The unemployment interval uses ${fmt(G.nPeopleLf)} distinct people rather than ${fmt(G.nLf)} person-month records, because CPS re-interviews the same households.`}
-        src={`CPS · SUM(WTFINL)/${G.months} · ${fmt(G.nUnemp)} unemployed person-month records · Vermont's official rate comes from LAUS, which is model-based; this is the direct CPS estimate`}
+        src={`CPS, Vermont ${G.year} · ${G.months}-month average`}
       >
         <Tiles items={glanceTiles} />
       </Panel>
