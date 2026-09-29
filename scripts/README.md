@@ -152,3 +152,18 @@ Note that `build.py` writes `lc_data.js` here, not `../data/lightcast.json`. Run
 `mk_app_data.py` afterwards to convert. It now converts whatever `*_data.js` files are
 present and leaves the other committed JSONs alone, so a Lightcast-only change does not
 require re-running the CPS and percentile builds against BigQuery.
+
+## build_glance.py
+
+CPS Vermont labour-force structure for the overview panel, written to
+`../data/glance.json`. One source, one vintage -- no survey mixing on that panel.
+
+Two decisions it makes explicitly. Full-time comes from `UHRSWORKT >= 35`, not
+`WKSTAT`, whose level codes are easy to misread; 690 of 6,976 employed records report
+997 ("hours vary") and are reported as their own group rather than folded into either
+side. And the unemployment interval uses distinct `CPSIDP` (2,726 people) rather than
+person-month records (7,166), because the 4-8-4 rotation re-interviews the same
+households -- that widens it from +/-0.38pp to +/-0.62pp.
+
+`WTFINL` sums over every month present, so divide by the month count for a monthly
+average. 2025 has 11 months: October is missing nationally.

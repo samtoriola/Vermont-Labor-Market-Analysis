@@ -1,6 +1,8 @@
 'use client';
 
-import { DATA, LC, TOTJ, tierRow, cpsSubBacc, cpsHsOrLess, lwHourly } from '@/lib/data';
+import {
+  DATA, LC, TOTJ, GLANCE, tierRow, cpsSubBacc, cpsHsOrLess, lwHourly,
+} from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { Panel, Legend, Tiles } from '../ui';
 import { RankedBars } from '../charts';
@@ -32,6 +34,24 @@ export default function Overview({ lw }) {
     { label: 'Workers holding HS or less', value: cpsHsOrLess(), color: '--s3' },
   ];
 
+  // CPS only, one vintage, so nothing on this panel mixes surveys. Total employment
+  // is already in the tile row above, so this covers the structure around it.
+  const G = GLANCE;
+  const glanceTiles = [
+    ['Full-time', G.ftShare.toFixed(1) + '%', fmt(G.ft) + ' working 35+ hours'],
+    ['Part-time', G.ptShare.toFixed(1) + '%', fmt(G.pt) + ' working under 35'],
+    [
+      'Labour force participation',
+      G.lfpr.toFixed(1) + '%',
+      fmt(G.lf) + ' of ' + fmt(G.pop16) + ' aged 16+',
+    ],
+    [
+      'Unemployment',
+      G.ur.toFixed(2) + '%',
+      '±' + G.urCi.toFixed(2) + ' points, 95% interval',
+    ],
+  ];
+
   return (
     <>
       <Tiles items={tiles} />
@@ -54,6 +74,14 @@ export default function Overview({ lw }) {
             aria: 'Requirements versus attainment',
           }}
         />
+      </Panel>
+
+      <Panel
+        title="Labour force at a glance"
+        cap={`Vermont, ${G.year}, averaged over ${G.months} months. Full-time is usual hours of 35 or more. A further ${G.varyShare.toFixed(1)}% of workers report that their hours vary and cannot be placed either side, so the split is shown over those with reportable hours. The unemployment interval uses ${fmt(G.nPeopleLf)} distinct people rather than ${fmt(G.nLf)} person-month records, because CPS re-interviews the same households.`}
+        src={`CPS · SUM(WTFINL)/${G.months} · ${fmt(G.nUnemp)} unemployed person-month records · Vermont's official rate comes from LAUS, which is model-based; this is the direct CPS estimate`}
+      >
+        <Tiles items={glanceTiles} />
       </Panel>
 
     </>

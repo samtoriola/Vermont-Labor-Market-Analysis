@@ -132,7 +132,7 @@ KNOWN = [
     "LC", "PCT", "DATA", "SOW", "MAP", "TOTJ", "TIER_ORDER", "SIZE_ORDER", "DEFAULT_LW",
     "lwAnnual", "lwHourly", "tierRow", "cpsSubBacc", "cpsHsOrLess", "filterOcc",
     "occByFamily", "occByTier", "rampStep", "rampHex",
-    "COMPARE", "PEOPLE", "wageStats", "occDots", "occBySize", "sizeBand", "compareCol",
+    "COMPARE", "PEOPLE", "GLANCE", "wageStats", "occDots", "occBySize", "sizeBand", "compareCol",
     "fmt", "money", "pct", "niceMax", "trunc", "fmtVal",
     "useDrill", "occDrill", "useTip", "useTipHandlers",
     "RankedBars", "StackedRows", "Dumbbell", "TrendLine", "Scatter", "GroupedBars",
