@@ -10,6 +10,7 @@ import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip } from '../occCols';
 import { RankedBars, StackedRows } from '../charts';
+import Sections from '../Sections';
 import { DotRows, DotLegend } from '../dots';
 
 export default function Q1({ lw }) {
@@ -87,95 +88,126 @@ export default function Q1({ lw }) {
 
       <ActiveFilters />
 
-      <Panel
-        title="Jobs by occupational family"
-        cap="Vermont 2025. Hover for earnings, concentration, openings and change since 2021."
-        src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
-      >
-        <DrillHint />
-        <RankedBars
-          rows={fams.map((r) => ({
-            label: r.f,
-            value: r.jobs,
-            color: '--s1',
-            onClick: () => famDrill(r),
-            extra: [
-              ['Median earnings', r.med ? money(r.med) : '—'],
-              ['Employment concentration', r.lq !== null ? r.lq + '× US' : '—'],
-              ['Change 2021–2025', (r.chg >= 0 ? '+' : '') + fmt(r.chg) + ` (${r.chgPct}%)`],
-              ['Annual openings', fmt(r.open)],
-              ['Unique postings, 5 yr', fmt(r.post)],
-              ['Detailed occupations', fmt(r.nocc)],
-            ],
-          }))}
-          opts={{ aria: 'Jobs by occupational family' }}
-        />
-      </Panel>
-
-      <Panel
-        title="Median pay by occupational family"
-        cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average, the dashed line the median. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
-        src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
-      >
-        <DotLegend unit="one occupation" />
-        <DotRows
-          rows={famDots.concat(famRefs)}
-          opts={{
-            xMax: COMPARE.yMax,
-            rule: LWA,
-            ruleLabel: 'Living wage ' + money(LWA),
-            dotTip: occDotTip(LWA),
-            aria: 'Median pay of every occupation, grouped by family',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="Typical entry credential, by family"
-        cap="Share of each family's jobs at each entry-credential tier, sorted by the BA+ share. This is the requirement attached to the job, not the credential its workers hold."
-        src="Lightcast · Typical Entry Level Education, jobs-weighted"
-      >
-        <Legend labels={TIER_ORDER} colors={SERIES} />
-        <StackedRows
-          rows={credRows}
-          opts={{
-            rightLabel: 'BA+',
-            tierNames: TIER_ORDER,
-            aria: 'Entry credential mix by family',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="Jobs by industry sector"
-        cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
-        src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
-      >
-        <RankedBars
-          rows={LC.sectors.map((r) => ({
-            label: r.s,
-            value: r.j,
-            color: '--s3',
-            extra: [
-              ['Share of jobs', r.share + '%'],
-              ['Avg. earnings per job', r.earn ? money(r.earn) : '—'],
-              ['NAICS codes in sector', fmt(r.nnaics)],
-            ],
-          }))}
-          opts={{ labelWidth: 236, aria: 'Jobs by industry sector' }}
-        />
-      </Panel>
-
-      <Panel
-        title="Which industries each family works in"
-        cap="Neither Lightcast export carries an occupation-by-industry staffing pattern, so this cross comes from CPS microdata — the only source here that observes both on the same person. Top 12 families by CPS employment."
-        src="CPS 2021–2025 pooled · annual-average employment · complementary to the Lightcast levels above"
-      >
-        <Table
-          cols={['Family', 'CPS employment', 'Largest industry', '2nd', '3rd']}
-          rows={cpsRows}
-        />
-      </Panel>
+      <Sections
+        id="structure"
+        items={[
+          {
+            id: 'jobs',
+            label: 'Jobs by family',
+            render: () => (
+              <Panel
+                title="Jobs by occupational family"
+                cap="Vermont 2025. Hover for earnings, concentration, openings and change since 2021."
+                src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
+              >
+                <DrillHint />
+                <RankedBars
+                  rows={fams.map((r) => ({
+                    label: r.f,
+                    value: r.jobs,
+                    color: '--s1',
+                    onClick: () => famDrill(r),
+                    extra: [
+                      ['Median earnings', r.med ? money(r.med) : '—'],
+                      ['Employment concentration', r.lq !== null ? r.lq + '× US' : '—'],
+                      ['Change 2021–2025', (r.chg >= 0 ? '+' : '') + fmt(r.chg) + ` (${r.chgPct}%)`],
+                      ['Annual openings', fmt(r.open)],
+                      ['Unique postings, 5 yr', fmt(r.post)],
+                      ['Detailed occupations', fmt(r.nocc)],
+                    ],
+                  }))}
+                  opts={{ aria: 'Jobs by occupational family' }}
+                />
+              </Panel>
+            ),
+          },
+          {
+            id: 'pay',
+            label: 'Median pay',
+            render: () => (
+              <Panel
+                title="Median pay by occupational family"
+                cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average, the dashed line the median. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
+                src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
+              >
+                <DotLegend unit="one occupation" />
+                <DotRows
+                  rows={famDots.concat(famRefs)}
+                  opts={{
+                    xMax: COMPARE.yMax,
+                    rule: LWA,
+                    ruleLabel: 'Living wage ' + money(LWA),
+                    dotTip: occDotTip(LWA),
+                    aria: 'Median pay of every occupation, grouped by family',
+                  }}
+                />
+              </Panel>
+            ),
+          },
+          {
+            id: 'credential',
+            label: 'Entry credential',
+            render: () => (
+              <Panel
+                title="Typical entry credential, by family"
+                cap="Share of each family's jobs at each entry-credential tier, sorted by the BA+ share. This is the requirement attached to the job, not the credential its workers hold."
+                src="Lightcast · Typical Entry Level Education, jobs-weighted"
+              >
+                <Legend labels={TIER_ORDER} colors={SERIES} />
+                <StackedRows
+                  rows={credRows}
+                  opts={{
+                    rightLabel: 'BA+',
+                    tierNames: TIER_ORDER,
+                    aria: 'Entry credential mix by family',
+                  }}
+                />
+              </Panel>
+            ),
+          },
+          {
+            id: 'sectors',
+            label: 'Industry sectors',
+            render: () => (
+              <Panel
+                title="Jobs by industry sector"
+                cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
+                src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
+              >
+                <RankedBars
+                  rows={LC.sectors.map((r) => ({
+                    label: r.s,
+                    value: r.j,
+                    color: '--s3',
+                    extra: [
+                      ['Share of jobs', r.share + '%'],
+                      ['Avg. earnings per job', r.earn ? money(r.earn) : '—'],
+                      ['NAICS codes in sector', fmt(r.nnaics)],
+                    ],
+                  }))}
+                  opts={{ labelWidth: 236, aria: 'Jobs by industry sector' }}
+                />
+              </Panel>
+            ),
+          },
+          {
+            id: 'cross',
+            label: 'Family by industry',
+            render: () => (
+              <Panel
+                title="Which industries each family works in"
+                cap="Neither Lightcast export carries an occupation-by-industry staffing pattern, so this cross comes from CPS microdata — the only source here that observes both on the same person. Top 12 families by CPS employment."
+                src="CPS 2021–2025 pooled · annual-average employment · complementary to the Lightcast levels above"
+              >
+                <Table
+                  cols={['Family', 'CPS employment', 'Largest industry', '2nd', '3rd']}
+                  rows={cpsRows}
+                />
+              </Panel>
+            ),
+          },
+        ]}
+      />
     </>
   );
 }

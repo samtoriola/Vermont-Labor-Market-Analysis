@@ -5,6 +5,7 @@ import { fmt } from '@/lib/format';
 import { Callout, Panel, Legend, VHead, N } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
+import Sections from '../Sections';
 
 export default function Q3() {
   const fams = LC.families.slice();
@@ -55,142 +56,178 @@ export default function Q3() {
 
       <ActiveFilters />
 
-      <Callout label="How openings are defined here">
-        <p>
-          Openings are Lightcast&rsquo;s own <strong>{LC.window} Openings</strong> figure &mdash;{' '}
-          <N>{fmt(LC.openTotal)}</N> across the window &mdash; divided by <N>{LC.openYears}</N> to
-          give an annual rate of <N>{fmt(LC.openTotal / LC.openYears)}</N>, or{' '}
-          <N>{((LC.openTotal / LC.openYears / TOTJ) * 100).toFixed(1)}%</N> of employment. That
-          divisor is the one assumption here; change it and every openings figure scales linearly.
-        </p>
-        <p>
-          Do not confuse this with <strong>separations</strong>, which Lightcast also reports (
-          <N>{fmt(LC.sepTotal)}</N> in 2025, <N>{LC.sepPct}%</N> of employment). Separations include
-          job-to-job transfers, so they measure churn rather than hiring need and run roughly four
-          times the openings figure. Openings is the measure to use for demand.
-        </p>
-      </Callout>
-
-      <Panel
-        title="Three measures of demand, against the employment base"
-        cap="Each family's share of jobs, of annual openings, and of unique postings."
-        src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
-      >
-        <Legend
-          labels={['Share of jobs', 'Share of annual openings', 'Share of postings']}
-          colors={['--s1', '--s4', '--s3']}
-        />
-        <GroupedBars
-          rows={align
-            .slice()
-            .sort((a, b) => b.jobsSh - a.jobsSh)
-            .map((r) => ({
-              label: r.f,
-              parts: [{ v: r.jobsSh }, { v: r.openSh }, { v: r.postSh }],
-              extra: [
-                ['Jobs share', r.jobsSh.toFixed(1) + '%'],
-                ['Openings share', r.openSh.toFixed(1) + '%'],
-                ['Postings share', r.postSh.toFixed(1) + '%'],
-              ],
-            }))}
-          opts={{
-            colors: ['--s1', '--s4', '--s3'],
-            aria: 'Jobs, openings and postings shares by family',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="Postings demand relative to employment share"
-        cap="The alignment index: a family's share of postings divided by its share of jobs. Above 1.0 means employers advertise more than the employment base would predict."
-        src={`Lightcast · ${fmt(totPost)} unique postings over ${LC.postWindow}`}
-      >
-        <RankedBars
-          rows={hot.map((r) => ({
-            label: r.f,
-            value: r.idx,
-            color: r.idx >= 1 ? '--s3' : '--s2',
-            dec: 2,
-            extra: [
-              ['Postings share', r.postSh.toFixed(1) + '%'],
-              ['Jobs share', r.jobsSh.toFixed(1) + '%'],
-              ['Jobs', fmt(r.jobs)],
-            ],
-          }))}
-          opts={{
-            dec: 2,
-            rule: 1,
-            ruleLabel: 'Parity',
-            valueLabel: 'Index',
-            aria: 'Postings alignment index',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="Observed change, 2021–2025"
-        cap="Observed change over the study window, by family."
-        src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
-      >
-        <RankedBars
-          rows={fams
-            .filter((r) => r.chgPct !== null)
-            .sort((a, b) => b.chgPct - a.chgPct)
-            .map((r) => ({
-              label: r.f,
-              value: r.chgPct,
-              color: r.chgPct >= 0 ? '--s3' : '--s2',
-              mode: 'pct',
-              extra: [
-                ['2021 jobs', fmt(r.jobs21)],
-                ['2025 jobs', fmt(r.jobs)],
-                ['Change', (r.chg >= 0 ? '+' : '') + fmt(r.chg) + ' jobs'],
-                ['Annual openings', fmt(r.open)],
-              ],
-            }))}
-          opts={{
-            mode: 'pct',
-            signed: true,
-            valueLabel: '2021–25 change',
-            aria: 'Observed change 2021 to 2025 by family',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="Projected growth, 2025–2030"
-        cap="Five-year projected change in jobs by family. Negative bars are projected contraction."
-        src="Lightcast · 2030 Jobs vs 2025 Jobs"
-      >
-        <RankedBars
-          rows={growers.map((r) => ({
-            label: r.f,
-            value: r.g5pct,
-            color: r.g5pct >= 0 ? '--s3' : '--s2',
-            mode: 'pct',
-            extra: [
-              ['2025 jobs', fmt(r.jobs)],
-              ['Projected change', fmt(r.g5) + ' jobs'],
-              ['Annual openings', fmt(r.open)],
-            ],
-          }))}
-          opts={{
-            mode: 'pct',
-            signed: true,
-            valueLabel: '5-yr growth',
-            aria: 'Projected five-year growth by family',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="CPS observed change, for comparison"
-        cap="Lightcast projections are modeled; CPS is a survey. Changes marked “ns” are not distinguishable from zero at 95%."
-        src="CPS · 2025 is an 11-month average · SE of a weighted total approximated as e/√n at design effect ≈ 1"
-      >
-        <Legend labels={['2021', '2025']} colors={['--s3', '--s1']} />
-        <Dumbbell rows={cpsRows} />
-      </Panel>
+      <Sections
+        id="demand"
+        items={[
+          {
+            id: 'three-demand-measures',
+            label: 'Three demand measures',
+            render: () => (
+                <Panel
+                  title="Three measures of demand, against the employment base"
+                  cap="Each family's share of jobs, of annual openings, and of unique postings."
+                  src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
+                >
+                  <Legend
+                    labels={['Share of jobs', 'Share of annual openings', 'Share of postings']}
+                    colors={['--s1', '--s4', '--s3']}
+                  />
+                  <GroupedBars
+                    rows={align
+                      .slice()
+                      .sort((a, b) => b.jobsSh - a.jobsSh)
+                      .map((r) => ({
+                        label: r.f,
+                        parts: [{ v: r.jobsSh }, { v: r.openSh }, { v: r.postSh }],
+                        extra: [
+                          ['Jobs share', r.jobsSh.toFixed(1) + '%'],
+                          ['Openings share', r.openSh.toFixed(1) + '%'],
+                          ['Postings share', r.postSh.toFixed(1) + '%'],
+                        ],
+                      }))}
+                    opts={{
+                      colors: ['--s1', '--s4', '--s3'],
+                      aria: 'Jobs, openings and postings shares by family',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'postings-index',
+            label: 'Postings index',
+            render: () => (
+                <Panel
+                  title="Postings demand relative to employment share"
+                  cap="The alignment index: a family's share of postings divided by its share of jobs. Above 1.0 means employers advertise more than the employment base would predict."
+                  src={`Lightcast · ${fmt(totPost)} unique postings over ${LC.postWindow}`}
+                >
+                  <RankedBars
+                    rows={hot.map((r) => ({
+                      label: r.f,
+                      value: r.idx,
+                      color: r.idx >= 1 ? '--s3' : '--s2',
+                      dec: 2,
+                      extra: [
+                        ['Postings share', r.postSh.toFixed(1) + '%'],
+                        ['Jobs share', r.jobsSh.toFixed(1) + '%'],
+                        ['Jobs', fmt(r.jobs)],
+                      ],
+                    }))}
+                    opts={{
+                      dec: 2,
+                      rule: 1,
+                      ruleLabel: 'Parity',
+                      valueLabel: 'Index',
+                      aria: 'Postings alignment index',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'observed-change',
+            label: 'Observed change',
+            render: () => (
+                <Panel
+                  title="Observed change, 2021–2025"
+                  cap="Observed change over the study window, by family."
+                  src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
+                >
+                  <RankedBars
+                    rows={fams
+                      .filter((r) => r.chgPct !== null)
+                      .sort((a, b) => b.chgPct - a.chgPct)
+                      .map((r) => ({
+                        label: r.f,
+                        value: r.chgPct,
+                        color: r.chgPct >= 0 ? '--s3' : '--s2',
+                        mode: 'pct',
+                        extra: [
+                          ['2021 jobs', fmt(r.jobs21)],
+                          ['2025 jobs', fmt(r.jobs)],
+                          ['Change', (r.chg >= 0 ? '+' : '') + fmt(r.chg) + ' jobs'],
+                          ['Annual openings', fmt(r.open)],
+                        ],
+                      }))}
+                    opts={{
+                      mode: 'pct',
+                      signed: true,
+                      valueLabel: '2021–25 change',
+                      aria: 'Observed change 2021 to 2025 by family',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'projected-growth',
+            label: 'Projected growth',
+            render: () => (
+                <Panel
+                  title="Projected growth, 2025–2030"
+                  cap="Five-year projected change in jobs by family. Negative bars are projected contraction."
+                  src="Lightcast · 2030 Jobs vs 2025 Jobs"
+                >
+                  <RankedBars
+                    rows={growers.map((r) => ({
+                      label: r.f,
+                      value: r.g5pct,
+                      color: r.g5pct >= 0 ? '--s3' : '--s2',
+                      mode: 'pct',
+                      extra: [
+                        ['2025 jobs', fmt(r.jobs)],
+                        ['Projected change', fmt(r.g5) + ' jobs'],
+                        ['Annual openings', fmt(r.open)],
+                      ],
+                    }))}
+                    opts={{
+                      mode: 'pct',
+                      signed: true,
+                      valueLabel: '5-yr growth',
+                      aria: 'Projected five-year growth by family',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'cps-cross-check',
+            label: 'CPS cross-check',
+            render: () => (
+                <Panel
+                  title="CPS observed change, for comparison"
+                  cap="Lightcast projections are modeled; CPS is a survey. Changes marked “ns” are not distinguishable from zero at 95%."
+                  src="CPS · 2025 is an 11-month average · SE of a weighted total approximated as e/√n at design effect ≈ 1"
+                >
+                  <Legend labels={['2021', '2025']} colors={['--s3', '--s1']} />
+                  <Dumbbell rows={cpsRows} />
+                </Panel>
+            ),
+          },
+          {
+            id: 'how-openings-are-defined',
+            label: 'How openings are defined',
+            render: () => (
+                <Callout label="How openings are defined here">
+                  <p>
+                    Openings are Lightcast&rsquo;s own <strong>{LC.window} Openings</strong> figure &mdash;{' '}
+                    <N>{fmt(LC.openTotal)}</N> across the window &mdash; divided by <N>{LC.openYears}</N> to
+                    give an annual rate of <N>{fmt(LC.openTotal / LC.openYears)}</N>, or{' '}
+                    <N>{((LC.openTotal / LC.openYears / TOTJ) * 100).toFixed(1)}%</N> of employment. That
+                    divisor is the one assumption here; change it and every openings figure scales linearly.
+                  </p>
+                  <p>
+                    Do not confuse this with <strong>separations</strong>, which Lightcast also reports (
+                    <N>{fmt(LC.sepTotal)}</N> in 2025, <N>{LC.sepPct}%</N> of employment). Separations include
+                    job-to-job transfers, so they measure churn rather than hiring need and run roughly four
+                    times the openings figure. Openings is the measure to use for demand.
+                  </p>
+                </Callout>
+            ),
+          },
+        ]}
+      />
     </>
   );
 }

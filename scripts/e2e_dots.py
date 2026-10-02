@@ -2,7 +2,7 @@
 import pathlib, time, urllib.request
 from playwright.sync_api import sync_playwright
 
-URL = "http://127.0.0.1:3138/"
+URL = "http://127.0.0.1:3140/"
 OUT = pathlib.Path(__file__).resolve().parent.parent / "_shots"
 OUT.mkdir(exist_ok=True)
 TABS = ["overview", "structure", "wage", "demand", "pathways",
@@ -14,6 +14,18 @@ for _ in range(60):
         break
     except Exception:
         time.sleep(1)
+
+def open_section(pg, tab, label):
+    """Click a tab, then the sub-section whose label starts with `label`."""
+    pg.click(f"#tab-{tab}")
+    pg.wait_for_timeout(420)
+    btns = pg.locator(f"#view-{tab} .subnav button")
+    for i in range(btns.count()):
+        if btns.nth(i).inner_text().strip().lower().startswith(label.lower()):
+            btns.nth(i).click()
+            pg.wait_for_timeout(480)
+            return True
+    raise AssertionError(f"no section starting {label!r} on {tab}")
 
 errs, perrs = [], []
 with sync_playwright() as pw:
@@ -50,23 +62,26 @@ with sync_playwright() as pw:
 
     print("")
     print("--- dot charts ---")
-    for view, label in [("structure", "families"), ("wage", "size bands + people"),
-                        ("pathways", "credential tiers + people")]:
-        pg.click(f"#tab-{view}")
-        pg.wait_for_timeout(700)
+    for view, section, label in [
+        ("structure", "Median pay", "families"),
+        ("wage", "Median pay by size", "size bands"),
+        ("wage", "Worker earnings", "people"),
+        ("pathways", "What the job requires", "credential tiers"),
+        ("pathways", "What people hold", "people"),
+    ]:
+        open_section(pg, view, section)
         dots = count(view, "svg circle.dot")
         over = count(view, "svg path.dot.over")
         cols = count(view, "svg .dotcol")
         rows = count(view, "svg .dotrow")
-        print(f"  {view:10s} {label:28s} dots={dots:5d} off-scale={over:4d} "
-              f"columns={cols} rows={rows}")
+        print(f"  {view:10s} {section:24s} {label:16s} dots={dots:5d} "
+              f"off-scale={over:4d} columns={cols} rows={rows}")
         if dots < 50:
             errs.append(f"{view}: only {dots} dots drawn")
 
     print("")
     print("--- percentile ladder (wage tab) ---")
-    pg.click("#tab-wage")
-    pg.wait_for_timeout(700)
+    open_section(pg, "wage", "Mean against median")
     lad = pg.locator("#view-wage svg g.ladder")
     print(f"  ladder rows: {lad.count()}")
     meds = pg.locator("#view-wage svg g.ladder circle[stroke-width='1.2']").count()
@@ -79,8 +94,7 @@ with sync_playwright() as pw:
 
     print("")
     print("--- hover a dot gives quick stats ---")
-    pg.click("#tab-pathways")
-    pg.wait_for_timeout(700)
+    open_section(pg, "pathways", "What the job requires")
     d = pg.locator("#view-pathways svg.dotcols circle.dot").nth(40)
     d.hover()
     pg.wait_for_timeout(350)
@@ -92,16 +106,15 @@ with sync_playwright() as pw:
 
     print("")
     print("--- hover a person dot ---")
-    # The legends also carry .chart, so target the dot chart itself; the person-level
-    # panel is the second and last one on this tab.
-    ppl = pg.locator("#view-pathways svg.dotcols").last
-    pd = ppl.locator("circle.dot").nth(30)
+    open_section(pg, "pathways", "What people hold")
+    pd = pg.locator("#view-pathways svg.dotcols circle.dot").nth(30)
     pd.hover()
     pg.wait_for_timeout(350)
     print(f"  tooltip text: {pg.locator('#tip').inner_text()[:150]!r}")
 
     print("")
     print("--- click a dot column opens the drill-down ---")
+    open_section(pg, "pathways", "What the job requires")
     pg.locator("#view-pathways svg.dotcols .collabel.clickable").first.click()
     pg.wait_for_timeout(700)
     dr = pg.locator(".drill")
@@ -116,9 +129,10 @@ with sync_playwright() as pw:
     pg.keyboard.press("Escape")
     pg.wait_for_timeout(300)
 
-    for t, name in [("structure", "families"), ("wage", "wage"), ("pathways", "pathways")]:
-        pg.click(f"#tab-{t}")
-        pg.wait_for_timeout(600)
+    for t, sec, name in [("structure", "Median pay", "families"),
+                         ("wage", "Median pay by size", "wage"),
+                         ("pathways", "What the job requires", "pathways")]:
+        open_section(pg, t, sec)
         pg.screenshot(path=str(OUT / f"dots-{name}.png"), full_page=True)
 
     print("")

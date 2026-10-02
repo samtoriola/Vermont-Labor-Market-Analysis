@@ -11,6 +11,7 @@ import { useDrill, occDrill } from '../Drill';
 import { occDotTip, personTip } from '../occCols';
 import { RankedBars } from '../charts';
 import { DotColumns, DotLegend } from '../dots';
+import Sections from '../Sections';
 
 export default function Q4({ lw, setLw }) {
   const LWA = lwAnnual(lw);
@@ -64,7 +65,6 @@ export default function Q4({ lw, setLw }) {
     color: c.med >= LWA ? '--s3' : '--s2',
   }));
 
-
   return (
     <>
       <VHead
@@ -77,201 +77,242 @@ export default function Q4({ lw, setLw }) {
 
       <LwPicker value={lw} onChange={setLw} />
 
-      <Panel
-        title="The credential ladder, by what the job requires"
-        cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Click a column to list its occupations."
-        src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
-      >
-        <DotLegend unit="one occupation" />
-        <DotColumns
-          groups={tierDots}
-          opts={{
-            yMax: COMPARE.yMax,
-            rule: LWA,
-            ruleLabel: 'Living wage ' + money(LWA),
-            dotTip: occDotTip(LWA),
-            aria: 'Median pay of every occupation, by entry-credential tier',
-          }}
-        />
-      </Panel>
+      <Sections
+        id="pathways"
+        items={[
+          {
+            id: 'what-the-job-requires',
+            label: 'What the job requires',
+            render: () => (
+                <Panel
+                  title="The credential ladder, by what the job requires"
+                  cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Click a column to list its occupations."
+                  src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
+                >
+                  <DotLegend unit="one occupation" />
+                  <DotColumns
+                    groups={tierDots}
+                    opts={{
+                      yMax: COMPARE.yMax,
+                      rule: LWA,
+                      ruleLabel: 'Living wage ' + money(LWA),
+                      dotTip: occDotTip(LWA),
+                      aria: 'Median pay of every occupation, by entry-credential tier',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'what-people-hold',
+            label: 'What people hold',
+            render: () => (
+                <Panel
+                  title="The credential ladder, by what people hold"
+                  cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
+                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+                >
+                  <DotLegend unit="one survey respondent" sized={false} />
+                  <DotColumns
+                    groups={credPeople}
+                    opts={{
+                      yMax: PEOPLE.yMax,
+                      rule: LWA,
+                      ruleLabel: 'Living wage ' + money(LWA),
+                      dotTip: personTip(LWA),
+                      aria: 'Earnings of individual survey respondents, by credential held',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'the-ladder-in-full',
+            label: 'The ladder in full',
+            render: () => (
+                <Panel
+                  title="The credential ladder in full"
+                  cap={`Employment, the full wage distribution, and demand at each tier. Benchmark: ${lw}.`}
+                  src="Lightcast · Typical Entry Level Education, jobs-weighted"
+                >
+                  <Table
+                    cols={[
+                      'Entry credential',
+                      'Jobs',
+                      'Share',
+                      '10th',
+                      '25th',
+                      'Median',
+                      '75th',
+                      '90th',
+                      'Above living wage',
+                      'Annual openings',
+                    ]}
+                    rows={TIER_ORDER.map((k) => {
+                      const r = t[k];
+                      const b = P[k] || {};
+                      return {
+                        cells: [
+                          r.t,
+                          fmt(r.jobs),
+                          r.share + '%',
+                          money(b.p10),
+                          money(b.p25),
+                          money(b.p50),
+                          money(b.p75),
+                          money(b.p90),
+                          r.above[lw].toFixed(1) + '%',
+                          fmt(r.open),
+                        ],
+                      };
+                    })}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'employment-and-dispersion',
+            label: 'Employment and dispersion',
+            render: () => (
+                <div className="grid2">
+                  <Panel
+                    title="Share of employment"
+                    cap="Where Vermont's jobs sit on the credential ladder."
+                    src={`Lightcast · ${fmt(LC.totalJobs)} jobs`}
+                  >
+                    <RankedBars
+                      rows={TIER_ORDER.map((k, i) => {
+                        const r = t[k];
+                        return {
+                          label: r.t,
+                          value: r.share,
+                          color: SERIES[i],
+                          mode: 'pct',
+                          extra: [
+                            ['Jobs', fmt(r.jobs)],
+                            ['Occupations', fmt(r.nocc)],
+                          ],
+                        };
+                      })}
+                      opts={{
+                        mode: 'pct',
+                        labelWidth: 176,
+                        width: 470,
+                        valueLabel: 'Share of jobs',
+                        aria: 'Employment share by credential tier',
+                      }}
+                    />
+                  </Panel>
 
-      <Panel
-        title="The credential ladder, by what people hold"
-        cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
-        src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
-      >
-        <DotLegend unit="one survey respondent" sized={false} />
-        <DotColumns
-          groups={credPeople}
-          opts={{
-            yMax: PEOPLE.yMax,
-            rule: LWA,
-            ruleLabel: 'Living wage ' + money(LWA),
-            dotTip: personTip(LWA),
-            aria: 'Earnings of individual survey respondents, by credential held',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="The credential ladder in full"
-        cap={`Employment, the full wage distribution, and demand at each tier. Benchmark: ${lw}.`}
-        src="Lightcast · Typical Entry Level Education, jobs-weighted"
-      >
-        <Table
-          cols={[
-            'Entry credential',
-            'Jobs',
-            'Share',
-            '10th',
-            '25th',
-            'Median',
-            '75th',
-            '90th',
-            'Above living wage',
-            'Annual openings',
-          ]}
-          rows={TIER_ORDER.map((k) => {
-            const r = t[k];
-            const b = P[k] || {};
-            return {
-              cells: [
-                r.t,
-                fmt(r.jobs),
-                r.share + '%',
-                money(b.p10),
-                money(b.p25),
-                money(b.p50),
-                money(b.p75),
-                money(b.p90),
-                r.above[lw].toFixed(1) + '%',
-                fmt(r.open),
-              ],
-            };
-          })}
-        />
-      </Panel>
-
-      <div className="grid2">
-        <Panel
-          title="Share of employment"
-          cap="Where Vermont's jobs sit on the credential ladder."
-          src={`Lightcast · ${fmt(LC.totalJobs)} jobs`}
-        >
-          <RankedBars
-            rows={TIER_ORDER.map((k, i) => {
-              const r = t[k];
-              return {
-                label: r.t,
-                value: r.share,
-                color: SERIES[i],
-                mode: 'pct',
-                extra: [
-                  ['Jobs', fmt(r.jobs)],
-                  ['Occupations', fmt(r.nocc)],
-                ],
-              };
-            })}
-            opts={{
-              mode: 'pct',
-              labelWidth: 176,
-              width: 470,
-              valueLabel: 'Share of jobs',
-              aria: 'Employment share by credential tier',
-            }}
-          />
-        </Panel>
-
-        <Panel
-          title="Earnings dispersion"
-          cap="The 90th percentile divided by the 10th: the width of the earnings range at each entry credential."
-          src="Lightcast · ratio of 90th to 10th percentile"
-        >
-          <RankedBars
-            rows={TIER_ORDER.filter((k) => P[k]).map((k, i) => {
-              const b = P[k];
-              return {
-                label: k,
-                value: b.p90 / b.p10,
-                color: SERIES[i],
-                dec: 2,
-                extra: [
-                  ['10th percentile', money(b.p10)],
-                  ['90th percentile', money(b.p90)],
-                  ['Median', money(b.p50)],
-                ],
-              };
-            })}
-            opts={{
-              dec: 2,
-              labelWidth: 176,
-              width: 470,
-              valueLabel: 'p90 ÷ p10',
-              aria: 'Earnings dispersion by credential tier',
-            }}
-          />
-        </Panel>
-      </div>
-
-      <Panel
-        title="Share of jobs paying above the living wage"
-        cap={`The wage-quality payoff to each credential tier. Benchmark: ${lw} at ${money(LWA)}/yr — change it above.`}
-        src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
-      >
-        <RankedBars
-          rows={TIER_ORDER.map((k, i) => {
-            const r = t[k];
-            return {
-              label: r.t,
-              value: r.above[lw],
-              color: SERIES[i],
-              mode: 'pct',
-              extra: [
-                ['Jobs', fmt(r.jobs)],
-                ['Median earnings', money(r.med)],
-              ],
-            };
-          })}
-          opts={{
-            mode: 'pct',
-            labelWidth: 176,
-            max: 100,
-            valueLabel: 'Above living wage',
-            aria: 'Living-wage share by credential tier',
-          }}
-        />
-      </Panel>
-
-      <Panel
-        title="All eight credential categories"
-        cap="The five tiers unpacked into the credential labels Lightcast assigns. Sub-baccalaureate covers three distinct categories."
-        src="Lightcast · 2 of 798 occupations carry no education assignment"
-      >
-        <Table
-          cols={[
-            'Lightcast entry credential',
-            'SOW tier',
-            'Jobs',
-            'Share',
-            'Median earnings',
-            'Occupations',
-          ]}
-          rows={LC.eduDetail.map((r) => ({
-            cells: [r.e, r.tier, fmt(r.jobs), r.share + '%', r.med ? money(r.med) : '—', fmt(r.nocc)],
-          }))}
-        />
-      </Panel>
-
-      <Callout label="What this measures">
-        <p>
-          These are job <em>requirements</em>, not worker <em>attainment</em>: a property of the
-          job, not of the person holding it.{' '}
-          <N>{(ba.share + grad.share).toFixed(1)}%</N> of Vermont jobs ask for a bachelor&rsquo;s
-          or more, while <N>{lastCps.ba.toFixed(1)}%</N> of Vermont workers 25+ hold one, a
-          difference of <N>{(lastCps.ba - ba.share - grad.share).toFixed(1)} points</N>. The two
-          come from different sources and count different things.
-        </p>
-      </Callout>
+                  <Panel
+                    title="Earnings dispersion"
+                    cap="The 90th percentile divided by the 10th: the width of the earnings range at each entry credential."
+                    src="Lightcast · ratio of 90th to 10th percentile"
+                  >
+                    <RankedBars
+                      rows={TIER_ORDER.filter((k) => P[k]).map((k, i) => {
+                        const b = P[k];
+                        return {
+                          label: k,
+                          value: b.p90 / b.p10,
+                          color: SERIES[i],
+                          dec: 2,
+                          extra: [
+                            ['10th percentile', money(b.p10)],
+                            ['90th percentile', money(b.p90)],
+                            ['Median', money(b.p50)],
+                          ],
+                        };
+                      })}
+                      opts={{
+                        dec: 2,
+                        labelWidth: 176,
+                        width: 470,
+                        valueLabel: 'p90 ÷ p10',
+                        aria: 'Earnings dispersion by credential tier',
+                      }}
+                    />
+                  </Panel>
+                </div>
+            ),
+          },
+          {
+            id: 'above-the-living-wage',
+            label: 'Above the living wage',
+            render: () => (
+                <Panel
+                  title="Share of jobs paying above the living wage"
+                  cap={`The wage-quality payoff to each credential tier. Benchmark: ${lw} at ${money(LWA)}/yr — change it above.`}
+                  src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
+                >
+                  <RankedBars
+                    rows={TIER_ORDER.map((k, i) => {
+                      const r = t[k];
+                      return {
+                        label: r.t,
+                        value: r.above[lw],
+                        color: SERIES[i],
+                        mode: 'pct',
+                        extra: [
+                          ['Jobs', fmt(r.jobs)],
+                          ['Median earnings', money(r.med)],
+                        ],
+                      };
+                    })}
+                    opts={{
+                      mode: 'pct',
+                      labelWidth: 176,
+                      max: 100,
+                      valueLabel: 'Above living wage',
+                      aria: 'Living-wage share by credential tier',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'all-credential-categories',
+            label: 'All credential categories',
+            render: () => (
+                <Panel
+                  title="All eight credential categories"
+                  cap="The five tiers unpacked into the credential labels Lightcast assigns. Sub-baccalaureate covers three distinct categories."
+                  src="Lightcast · 2 of 798 occupations carry no education assignment"
+                >
+                  <Table
+                    cols={[
+                      'Lightcast entry credential',
+                      'SOW tier',
+                      'Jobs',
+                      'Share',
+                      'Median earnings',
+                      'Occupations',
+                    ]}
+                    rows={LC.eduDetail.map((r) => ({
+                      cells: [r.e, r.tier, fmt(r.jobs), r.share + '%', r.med ? money(r.med) : '—', fmt(r.nocc)],
+                    }))}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'what-this-measures',
+            label: 'What this measures',
+            render: () => (
+                <Callout label="What this measures">
+                  <p>
+                    These are job <em>requirements</em>, not worker <em>attainment</em>: a property of the
+                    job, not of the person holding it.{' '}
+                    <N>{(ba.share + grad.share).toFixed(1)}%</N> of Vermont jobs ask for a bachelor&rsquo;s
+                    or more, while <N>{lastCps.ba.toFixed(1)}%</N> of Vermont workers 25+ hold one, a
+                    difference of <N>{(lastCps.ba - ba.share - grad.share).toFixed(1)} points</N>. The two
+                    come from different sources and count different things.
+                  </p>
+                </Callout>
+            ),
+          },
+        ]}
+      />
     </>
   );
 }

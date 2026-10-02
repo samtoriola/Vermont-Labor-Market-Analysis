@@ -13,6 +13,7 @@ import { useDrill, occDrill } from '../Drill';
 import { occDotTip, personTip } from '../occCols';
 import { RankedBars, Scatter } from '../charts';
 import { DotColumns, DotLegend, PercentileLadder, LadderLegend } from '../dots';
+import Sections from '../Sections';
 
 export default function Q2({ lw, setLw }) {
   const LWA = lwAnnual(lw);
@@ -104,183 +105,236 @@ export default function Q2({ lw, setLw }) {
 
       <LwPicker value={lw} onChange={setLw} />
 
-      <Panel
-        title="Share of jobs above the living wage, by occupation size"
-        cap={`Benchmark: ${lw} at ${money(LWA)}/yr.`}
-        src="Lightcast · jobs-weighted · occupation median vs MIT living wage"
-      >
-        <RankedBars
-          rows={sz.map((r) => ({
-            label: r.s,
-            value: r.above[lw],
-            color: '--s1',
-            mode: 'pct',
-            onClick: () => sizeDrill(r.s),
-            extra: [
-              ['Occupations', fmt(r.nocc)],
-              ['Jobs', fmt(r.jobs)],
-              ['Share of employment', r.share + '%'],
-              ['Median earnings', money(r.med)],
-              ['Annual openings', fmt(r.open)],
-            ],
-          }))}
-          opts={{
-            mode: 'pct',
-            labelWidth: 196,
-            valueLabel: 'Above living wage',
-            aria: 'Wage quality by size tier',
-          }}
-        />
-      </Panel>
 
-      <Panel
-        title="Median pay by occupation size"
-        cap="One dot per occupation, placed at its median pay and sized by employment. The solid line is the employment-weighted average, the dashed line the median. The three columns on the right put Vermont as a whole beside its nearest comparable state and the nation. Click a Vermont column for the occupations behind it."
-        src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
-      >
-        <DotLegend unit="one occupation" />
-        <DotColumns
-          groups={szDots.concat(areaRefs)}
-          opts={{
-            yMax: COMPARE.yMax,
-            rule: LWA,
-            ruleLabel: 'Living wage ' + money(LWA),
-            dotTip: occDotTip(LWA),
-            aria: 'Median pay of every occupation, by size band and by area',
-          }}
-        />
-      </Panel>
 
-      <Panel
-        title="Worker earnings, ACS"
-        cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe of the occupation charts above. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
-        src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
-      >
-        <DotLegend unit="one survey respondent" sized={false} />
-        <DotColumns
-          groups={peopleAreas}
-          opts={{
-            yMax: PEOPLE.yMax,
-            rule: LWA,
-            ruleLabel: 'Living wage ' + money(LWA),
-            dotTip: personTip(LWA),
-            aria: 'Earnings of individual survey respondents, by area',
-          }}
-        />
-      </Panel>
 
-      <Panel
-        title="Size tiers in full"
-        cap="Each tier's scale, pay, spread and demand side by side."
-        src="Lightcast · tiers cut at 500 and 2,000 jobs"
-      >
-        <Table
-          cols={[
-            'Size tier',
-            'Occupations',
-            'Jobs',
-            'Share',
-            '10th',
-            '25th',
-            'Median',
-            '75th',
-            '90th',
-            'Above living wage',
-          ]}
-          rows={sz.map((r) => {
-            const b = PCT.sizeTiers[r.s] || {};
-            return {
-              cells: [
-                r.s,
-                fmt(r.nocc),
-                fmt(r.jobs),
-                r.share + '%',
-                money(b.p10),
-                money(b.p25),
-                money(b.p50),
-                money(b.p75),
-                money(b.p90),
-                r.above[lw].toFixed(1) + '%',
-              ],
-            };
-          })}
-        />
-      </Panel>
 
-      <Panel
-        title="The 25 largest occupations — employment"
-        cap="Ranked by 2025 jobs. Green clears the living wage at the median, amber does not."
-        src="Lightcast · hover for SOC, earnings, entry credential and demand"
-      >
-        <RankedBars
-          rows={top.map((r) => ({
-            label: r.n.length > 42 ? r.n.slice(0, 40) + '…' : r.n,
-            value: r.j,
-            color: r.m && r.m >= LWA ? '--s3' : '--s2',
-            extra: [
-              ['SOC', r.soc],
-              ['Median earnings', r.m ? money(r.m) : '—'],
-              ['vs living wage', r.m ? (r.m / LWA).toFixed(2) + '×' : '—'],
-              ['Typical entry education', r.e],
-              ['Annual openings', fmt(r.o)],
-              ['Unique postings, 5 yr', fmt(r.p)],
-              ['5-yr projected growth', r.g !== null ? r.g + '%' : '—'],
-            ],
-          }))}
-          opts={{ labelWidth: 262, aria: '25 largest occupations by employment' }}
-        />
-      </Panel>
 
-      <Panel
-        title="The 25 largest occupations — mean against median"
-        cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean; the distance between them is the pull of the upper tail. The dashed vertical is the living wage."
-        src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
-      >
-        <LadderLegend />
-        <PercentileLadder
-          rows={ladder}
-          opts={{
-            labelWidth: 262,
-            rule: LWA,
-            ruleLabel: 'Living wage',
-            aria: 'Percentile range, median and mean for the 25 largest occupations',
-          }}
-        />
-      </Panel>
 
       <Filters shown={filtered.length} total={LC.allOcc.length} showFamilies />
 
-      <Panel
-        title="Every occupation: size against pay"
-        cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Colored by size tier.`}
-        src="Lightcast · occupations with usable median earnings · log y-axis"
-      >
-        <Scatter
-          pts={filtered
-            .filter((r) => r.m)
-            .map((r) => ({
-              x: r.m,
-              y: r.j,
-              label: r.n,
-              series: r.j >= 2000 ? 0 : r.j >= 500 ? 1 : 2,
-              extra: [
-                ['Median earnings', money(r.m)],
-                ['Jobs', fmt(r.j)],
-                ['Entry education', r.t],
-                ['Family', r.f],
-              ],
-            }))}
-          opts={{
-            xLabel: 'Median annual earnings',
-            yLabel: 'Jobs (log scale)',
-            logY: true,
-            vRule: LWA,
-            vRuleLabel: 'Living wage',
-            aria: 'Occupation size against median earnings',
-          }}
-        />
-      </Panel>
-      <OccTable lw={lw} />
+      <Sections
+        id="wage"
+        items={[
+          {
+            id: 'wage-quality-by-size',
+            label: 'Wage quality by size',
+            render: () => (
+                <Panel
+                  title="Share of jobs above the living wage, by occupation size"
+                  cap={`Benchmark: ${lw} at ${money(LWA)}/yr.`}
+                  src="Lightcast · jobs-weighted · occupation median vs MIT living wage"
+                >
+                  <RankedBars
+                    rows={sz.map((r) => ({
+                      label: r.s,
+                      value: r.above[lw],
+                      color: '--s1',
+                      mode: 'pct',
+                      onClick: () => sizeDrill(r.s),
+                      extra: [
+                        ['Occupations', fmt(r.nocc)],
+                        ['Jobs', fmt(r.jobs)],
+                        ['Share of employment', r.share + '%'],
+                        ['Median earnings', money(r.med)],
+                        ['Annual openings', fmt(r.open)],
+                      ],
+                    }))}
+                    opts={{
+                      mode: 'pct',
+                      labelWidth: 196,
+                      valueLabel: 'Above living wage',
+                      aria: 'Wage quality by size tier',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'median-pay-by-size',
+            label: 'Median pay by size',
+            render: () => (
+                <Panel
+                  title="Median pay by occupation size"
+                  cap="One dot per occupation, placed at its median pay and sized by employment. The solid line is the employment-weighted average, the dashed line the median. The three columns on the right put Vermont as a whole beside its nearest comparable state and the nation. Click a Vermont column for the occupations behind it."
+                  src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
+                >
+                  <DotLegend unit="one occupation" />
+                  <DotColumns
+                    groups={szDots.concat(areaRefs)}
+                    opts={{
+                      yMax: COMPARE.yMax,
+                      rule: LWA,
+                      ruleLabel: 'Living wage ' + money(LWA),
+                      dotTip: occDotTip(LWA),
+                      aria: 'Median pay of every occupation, by size band and by area',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'worker-earnings',
+            label: 'Worker earnings',
+            render: () => (
+                <Panel
+                  title="Worker earnings, ACS"
+                  cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe of the occupation charts above. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
+                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+                >
+                  <DotLegend unit="one survey respondent" sized={false} />
+                  <DotColumns
+                    groups={peopleAreas}
+                    opts={{
+                      yMax: PEOPLE.yMax,
+                      rule: LWA,
+                      ruleLabel: 'Living wage ' + money(LWA),
+                      dotTip: personTip(LWA),
+                      aria: 'Earnings of individual survey respondents, by area',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'size-tiers-in-full',
+            label: 'Size tiers in full',
+            render: () => (
+                <Panel
+                  title="Size tiers in full"
+                  cap="Each tier's scale, pay, spread and demand side by side."
+                  src="Lightcast · tiers cut at 500 and 2,000 jobs"
+                >
+                  <Table
+                    cols={[
+                      'Size tier',
+                      'Occupations',
+                      'Jobs',
+                      'Share',
+                      '10th',
+                      '25th',
+                      'Median',
+                      '75th',
+                      '90th',
+                      'Above living wage',
+                    ]}
+                    rows={sz.map((r) => {
+                      const b = PCT.sizeTiers[r.s] || {};
+                      return {
+                        cells: [
+                          r.s,
+                          fmt(r.nocc),
+                          fmt(r.jobs),
+                          r.share + '%',
+                          money(b.p10),
+                          money(b.p25),
+                          money(b.p50),
+                          money(b.p75),
+                          money(b.p90),
+                          r.above[lw].toFixed(1) + '%',
+                        ],
+                      };
+                    })}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: '25-largest-by-jobs',
+            label: '25 largest by jobs',
+            render: () => (
+                <Panel
+                  title="The 25 largest occupations — employment"
+                  cap="Ranked by 2025 jobs. Green clears the living wage at the median, amber does not."
+                  src="Lightcast · hover for SOC, earnings, entry credential and demand"
+                >
+                  <RankedBars
+                    rows={top.map((r) => ({
+                      label: r.n.length > 42 ? r.n.slice(0, 40) + '…' : r.n,
+                      value: r.j,
+                      color: r.m && r.m >= LWA ? '--s3' : '--s2',
+                      extra: [
+                        ['SOC', r.soc],
+                        ['Median earnings', r.m ? money(r.m) : '—'],
+                        ['vs living wage', r.m ? (r.m / LWA).toFixed(2) + '×' : '—'],
+                        ['Typical entry education', r.e],
+                        ['Annual openings', fmt(r.o)],
+                        ['Unique postings, 5 yr', fmt(r.p)],
+                        ['5-yr projected growth', r.g !== null ? r.g + '%' : '—'],
+                      ],
+                    }))}
+                    opts={{ labelWidth: 262, aria: '25 largest occupations by employment' }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'mean-against-median',
+            label: 'Mean against median',
+            render: () => (
+                <Panel
+                  title="The 25 largest occupations — mean against median"
+                  cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean; the distance between them is the pull of the upper tail. The dashed vertical is the living wage."
+                  src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
+                >
+                  <LadderLegend />
+                  <PercentileLadder
+                    rows={ladder}
+                    opts={{
+                      labelWidth: 262,
+                      rule: LWA,
+                      ruleLabel: 'Living wage',
+                      aria: 'Percentile range, median and mean for the 25 largest occupations',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'size-against-pay',
+            label: 'Size against pay',
+            render: () => (
+                <Panel
+                  title="Every occupation: size against pay"
+                  cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Colored by size tier.`}
+                  src="Lightcast · occupations with usable median earnings · log y-axis"
+                >
+                  <Scatter
+                    pts={filtered
+                      .filter((r) => r.m)
+                      .map((r) => ({
+                        x: r.m,
+                        y: r.j,
+                        label: r.n,
+                        series: r.j >= 2000 ? 0 : r.j >= 500 ? 1 : 2,
+                        extra: [
+                          ['Median earnings', money(r.m)],
+                          ['Jobs', fmt(r.j)],
+                          ['Entry education', r.t],
+                          ['Family', r.f],
+                        ],
+                      }))}
+                    opts={{
+                      xLabel: 'Median annual earnings',
+                      yLabel: 'Jobs (log scale)',
+                      logY: true,
+                      vRule: LWA,
+                      vRuleLabel: 'Living wage',
+                      aria: 'Occupation size against median earnings',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'all-occupations',
+            label: 'All occupations',
+            render: () => (
+                <OccTable lw={lw} />
+            ),
+          },
+        ]}
+      />
     </>
   );
 }

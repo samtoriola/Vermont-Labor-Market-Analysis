@@ -12,7 +12,7 @@ import sys
 from playwright.sync_api import sync_playwright
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-URL = "http://127.0.0.1:3138/"
+URL = "http://127.0.0.1:3140/"
 for _ in range(60):
     try:
         urllib.request.urlopen(URL, timeout=3).read(); break
@@ -24,7 +24,13 @@ with sync_playwright() as pw:
     errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(URL, wait_until="networkidle")
-    pg.click("#tab-opportunity"); pg.wait_for_timeout(900)
+    # The full occupation table is behind its own sub-section now.
+    pg.click("#tab-opportunity"); pg.wait_for_timeout(420)
+    btns = pg.locator("#view-opportunity .subnav button")
+    for i in range(btns.count()):
+        if btns.nth(i).inner_text().strip().lower().startswith("all occupations"):
+            btns.nth(i).click(); break
+    pg.wait_for_timeout(700)
 
     tbl = pg.locator("#view-opportunity table").last
     hdrs = [h.inner_text().split("\n")[0].strip()

@@ -167,3 +167,14 @@ households -- that widens it from +/-0.38pp to +/-0.62pp.
 
 `WTFINL` sums over every month present, so divide by the month count for a monthly
 average. 2025 has 11 months: October is missing nationally.
+
+## Sub-sections and the e2e suites
+
+Every visual tab now puts its panels behind an in-tab sub-navigation
+(`components/Sections.js`), so only one panel is in the DOM at a time. Any browser
+test that clicks a tab and then looks for a chart will find nothing until it opens the
+right section first -- `e2e_dots.py` has an `open_section(pg, tab, label)` helper for
+exactly that, and `e2e_rates.py` opens "All occupations" before reading the table.
+
+`Sections` takes `render` functions rather than nodes, so a chart with a few thousand
+marks is never built for a section nobody is looking at.
