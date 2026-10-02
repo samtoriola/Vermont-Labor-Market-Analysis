@@ -92,6 +92,31 @@ export default function Q1({ lw }) {
         id="structure"
         items={[
           {
+            id: 'sectors',
+            label: 'Industry sectors',
+            render: () => (
+              <Panel
+                title="Jobs by industry sector"
+                cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
+                src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
+              >
+                <RankedBars
+                  rows={LC.sectors.map((r) => ({
+                    label: r.s,
+                    value: r.j,
+                    color: '--s3',
+                    extra: [
+                      ['Share of jobs', r.share + '%'],
+                      ['Avg. earnings per job', r.earn ? money(r.earn) : '—'],
+                      ['NAICS codes in sector', fmt(r.nnaics)],
+                    ],
+                  }))}
+                  opts={{ labelWidth: 236, aria: 'Jobs by industry sector' }}
+                />
+              </Panel>
+            ),
+          },
+          {
             id: 'jobs',
             label: 'Jobs by family',
             render: () => (
@@ -166,38 +191,13 @@ export default function Q1({ lw }) {
             ),
           },
           {
-            id: 'sectors',
-            label: 'Industry sectors',
-            render: () => (
-              <Panel
-                title="Jobs by industry sector"
-                cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
-                src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
-              >
-                <RankedBars
-                  rows={LC.sectors.map((r) => ({
-                    label: r.s,
-                    value: r.j,
-                    color: '--s3',
-                    extra: [
-                      ['Share of jobs', r.share + '%'],
-                      ['Avg. earnings per job', r.earn ? money(r.earn) : '—'],
-                      ['NAICS codes in sector', fmt(r.nnaics)],
-                    ],
-                  }))}
-                  opts={{ labelWidth: 236, aria: 'Jobs by industry sector' }}
-                />
-              </Panel>
-            ),
-          },
-          {
             id: 'cross',
             label: 'Family by industry',
             render: () => (
               <Panel
                 title="Which industries each family works in"
                 cap="Neither Lightcast export carries an occupation-by-industry staffing pattern, so this cross comes from CPS microdata — the only source here that observes both on the same person. Top 12 families by CPS employment."
-                src="CPS 2021–2025 pooled · annual-average employment · complementary to the Lightcast levels above"
+                src="CPS 2021–2025 pooled · annual-average employment · complementary to the Lightcast industry levels"
               >
                 <Table
                   cols={['Family', 'CPS employment', 'Largest industry', '2nd', '3rd']}

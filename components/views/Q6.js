@@ -184,7 +184,7 @@ export default function Q6({ lw }) {
                   <p>
                     This is also a <strong>single-year snapshot</strong> (IPEDS 2024 completions against
                     Lightcast 2025 openings), it counts credentials rather than people, and it says nothing
-                    about whether graduates stay in Vermont. Treat every ratio below as a screening signal for
+                    about whether graduates stay in Vermont. Treat every ratio here as a screening signal for
                     further investigation, never as a supply-demand verdict.
                   </p>
                 </Callout>

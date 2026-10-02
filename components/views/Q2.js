@@ -174,29 +174,6 @@ export default function Q2({ lw, setLw }) {
             ),
           },
           {
-            id: 'worker-earnings',
-            label: 'Worker earnings',
-            render: () => (
-                <Panel
-                  title="Worker earnings, ACS"
-                  cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe of the occupation charts above. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
-                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
-                >
-                  <DotLegend unit="one survey respondent" sized={false} />
-                  <DotColumns
-                    groups={peopleAreas}
-                    opts={{
-                      yMax: PEOPLE.yMax,
-                      rule: LWA,
-                      ruleLabel: 'Living wage ' + money(LWA),
-                      dotTip: personTip(LWA),
-                      aria: 'Earnings of individual survey respondents, by area',
-                    }}
-                  />
-                </Panel>
-            ),
-          },
-          {
             id: 'size-tiers-in-full',
             label: 'Size tiers in full',
             render: () => (
@@ -235,6 +212,29 @@ export default function Q2({ lw, setLw }) {
                         ],
                       };
                     })}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'worker-earnings',
+            label: 'Worker earnings',
+            render: () => (
+                <Panel
+                  title="Worker earnings, ACS"
+                  cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe used by the occupation charts. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
+                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+                >
+                  <DotLegend unit="one survey respondent" sized={false} />
+                  <DotColumns
+                    groups={peopleAreas}
+                    opts={{
+                      yMax: PEOPLE.yMax,
+                      rule: LWA,
+                      ruleLabel: 'Living wage ' + money(LWA),
+                      dotTip: personTip(LWA),
+                      aria: 'Earnings of individual survey respondents, by area',
+                    }}
                   />
                 </Panel>
             ),

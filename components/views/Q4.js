@@ -81,96 +81,6 @@ export default function Q4({ lw, setLw }) {
         id="pathways"
         items={[
           {
-            id: 'what-the-job-requires',
-            label: 'What the job requires',
-            render: () => (
-                <Panel
-                  title="The credential ladder, by what the job requires"
-                  cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Click a column to list its occupations."
-                  src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
-                >
-                  <DotLegend unit="one occupation" />
-                  <DotColumns
-                    groups={tierDots}
-                    opts={{
-                      yMax: COMPARE.yMax,
-                      rule: LWA,
-                      ruleLabel: 'Living wage ' + money(LWA),
-                      dotTip: occDotTip(LWA),
-                      aria: 'Median pay of every occupation, by entry-credential tier',
-                    }}
-                  />
-                </Panel>
-            ),
-          },
-          {
-            id: 'what-people-hold',
-            label: 'What people hold',
-            render: () => (
-                <Panel
-                  title="The credential ladder, by what people hold"
-                  cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
-                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
-                >
-                  <DotLegend unit="one survey respondent" sized={false} />
-                  <DotColumns
-                    groups={credPeople}
-                    opts={{
-                      yMax: PEOPLE.yMax,
-                      rule: LWA,
-                      ruleLabel: 'Living wage ' + money(LWA),
-                      dotTip: personTip(LWA),
-                      aria: 'Earnings of individual survey respondents, by credential held',
-                    }}
-                  />
-                </Panel>
-            ),
-          },
-          {
-            id: 'the-ladder-in-full',
-            label: 'The ladder in full',
-            render: () => (
-                <Panel
-                  title="The credential ladder in full"
-                  cap={`Employment, the full wage distribution, and demand at each tier. Benchmark: ${lw}.`}
-                  src="Lightcast · Typical Entry Level Education, jobs-weighted"
-                >
-                  <Table
-                    cols={[
-                      'Entry credential',
-                      'Jobs',
-                      'Share',
-                      '10th',
-                      '25th',
-                      'Median',
-                      '75th',
-                      '90th',
-                      'Above living wage',
-                      'Annual openings',
-                    ]}
-                    rows={TIER_ORDER.map((k) => {
-                      const r = t[k];
-                      const b = P[k] || {};
-                      return {
-                        cells: [
-                          r.t,
-                          fmt(r.jobs),
-                          r.share + '%',
-                          money(b.p10),
-                          money(b.p25),
-                          money(b.p50),
-                          money(b.p75),
-                          money(b.p90),
-                          r.above[lw].toFixed(1) + '%',
-                          fmt(r.open),
-                        ],
-                      };
-                    })}
-                  />
-                </Panel>
-            ),
-          },
-          {
             id: 'employment-and-dispersion',
             label: 'Employment and dispersion',
             render: () => (
@@ -237,12 +147,58 @@ export default function Q4({ lw, setLw }) {
             ),
           },
           {
+            id: 'what-the-job-requires',
+            label: 'What the job requires',
+            render: () => (
+                <Panel
+                  title="The credential ladder, by what the job requires"
+                  cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Click a column to list its occupations."
+                  src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
+                >
+                  <DotLegend unit="one occupation" />
+                  <DotColumns
+                    groups={tierDots}
+                    opts={{
+                      yMax: COMPARE.yMax,
+                      rule: LWA,
+                      ruleLabel: 'Living wage ' + money(LWA),
+                      dotTip: occDotTip(LWA),
+                      aria: 'Median pay of every occupation, by entry-credential tier',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'what-people-hold',
+            label: 'What people hold',
+            render: () => (
+                <Panel
+                  title="The credential ladder, by what people hold"
+                  cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
+                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+                >
+                  <DotLegend unit="one survey respondent" sized={false} />
+                  <DotColumns
+                    groups={credPeople}
+                    opts={{
+                      yMax: PEOPLE.yMax,
+                      rule: LWA,
+                      ruleLabel: 'Living wage ' + money(LWA),
+                      dotTip: personTip(LWA),
+                      aria: 'Earnings of individual survey respondents, by credential held',
+                    }}
+                  />
+                </Panel>
+            ),
+          },
+          {
             id: 'above-the-living-wage',
             label: 'Above the living wage',
             render: () => (
                 <Panel
                   title="Share of jobs paying above the living wage"
-                  cap={`The wage-quality payoff to each credential tier. Benchmark: ${lw} at ${money(LWA)}/yr — change it above.`}
+                  cap={`The wage-quality payoff to each credential tier. Benchmark: ${lw} at ${money(LWA)}/yr, set by the selector at the top of this tab.`}
                   src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
                 >
                   <RankedBars
@@ -266,6 +222,50 @@ export default function Q4({ lw, setLw }) {
                       valueLabel: 'Above living wage',
                       aria: 'Living-wage share by credential tier',
                     }}
+                  />
+                </Panel>
+            ),
+          },
+          {
+            id: 'the-ladder-in-full',
+            label: 'The ladder in full',
+            render: () => (
+                <Panel
+                  title="The credential ladder in full"
+                  cap={`Employment, the full wage distribution, and demand at each tier. Benchmark: ${lw}.`}
+                  src="Lightcast · Typical Entry Level Education, jobs-weighted"
+                >
+                  <Table
+                    cols={[
+                      'Entry credential',
+                      'Jobs',
+                      'Share',
+                      '10th',
+                      '25th',
+                      'Median',
+                      '75th',
+                      '90th',
+                      'Above living wage',
+                      'Annual openings',
+                    ]}
+                    rows={TIER_ORDER.map((k) => {
+                      const r = t[k];
+                      const b = P[k] || {};
+                      return {
+                        cells: [
+                          r.t,
+                          fmt(r.jobs),
+                          r.share + '%',
+                          money(b.p10),
+                          money(b.p25),
+                          money(b.p50),
+                          money(b.p75),
+                          money(b.p90),
+                          r.above[lw].toFixed(1) + '%',
+                          fmt(r.open),
+                        ],
+                      };
+                    })}
                   />
                 </Panel>
             ),
