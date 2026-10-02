@@ -1,42 +1,56 @@
 'use client';
 
-import { LC, TOTJ, DATA, SOW } from '@/lib/data';
+import { LC, TOTJ, DATA, SOW, GLANCE } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { Panel, Table, VHead, Defs } from '../ui';
 
 export default function About() {
   return (
     <>
-      <VHead title="About this dashboard">
-        What it covers, how to read it, and where each number comes from.
+      <VHead title="About the Vermont Labor Market Overview">
+        Scope, sources and methodology
       </VHead>
 
-      <Panel title="Purpose">
+      <Panel title="Overview">
+        <p className="lede">
+          The Vermont Labor Market Overview, developed by Strada Education Foundation for the
+          Vermont State Colleges System, covers <strong>{fmt(LC.allOcc.length)}</strong> detailed
+          occupations and <strong>{fmt(TOTJ)}</strong> jobs across Vermont&rsquo;s 14 counties,
+          with employment and wages for 2025 and change measured from 2021.
+        </p>
+        <p className="lede">
+          It lets workforce planners, institutional researchers and policymakers see what the
+          state employs, what that work pays against a self-sufficiency benchmark, where employers
+          are hiring, and how VSCS credential production sits against occupational demand.
+        </p>
+      </Panel>
+
+      <Panel title="Dataset overview">
         <Defs
           items={[
             [
-              'What this is',
-              'A view of the Vermont labour market built for Strada Education Foundation and the Vermont State Colleges System: what the state employs, what that work pays, where employers are hiring, and how VSCS credential production sits against occupational demand.',
+              'Sources',
+              'Lightcast Vermont exports for occupations, industries and job postings; BLS OEWS for wage percentiles; Census CPS and ACS microdata for workers and earnings; IPEDS for credential production; MIT Living Wage for the self-sufficiency benchmark.',
             ],
             [
-              'Scope',
-              `Vermont only. ${fmt(LC.allOcc.length)} detailed occupations covering ${fmt(TOTJ)} jobs, ${fmt(DATA.families.length)} occupational families, all 14 counties, and the two VSCS institutions — the Community College of Vermont and Vermont State University.`,
+              'Filter',
+              `Vermont only. ${fmt(LC.allOcc.length)} detailed occupations, ${fmt(DATA.families.length)} occupational families, all 14 counties, and the two VSCS institutions — the Community College of Vermont and Vermont State University.`,
             ],
             [
-              'Period',
-              `Employment and wages are 2025, change is measured over 2021–2025, and projections run to 2030.`,
+              'Unit of analysis',
+              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry. CPS and ACS count people and what they hold or earn. Each panel states which it uses; the Overview sets the two side by side deliberately.',
             ],
             [
-              'What it is not',
-              'Not a forecast and not a program recommendation. It reports what the sources say and states where they disagree.',
+              'When outcomes are measured',
+              `Employment and wages are 2025. Change is measured over 2021–2025, projections run to 2030, job postings cover ${LC.postWindow}, and credential production is the 2024 academic year.`,
             ],
             [
-              'Not live',
-              'Build scripts pull from BigQuery and the Lightcast exports and write a small set of JSON files that the app reads at build time. Numbers change only when a script is re-run and the app redeployed.',
+              'How the data gets in',
+              'Nothing is queried live. Build scripts pull from BigQuery and the Lightcast exports and write a small set of JSON files that the app reads at build time. Numbers change only when a script is re-run and the app redeployed.',
             ],
             [
-              'Where the detail is',
-              'Sources, measure definitions and every suppression rule are on the Methods \u0026 limits tab. Each panel also carries its own source line.',
+              'What this is not',
+              'Not a forecast and not a program recommendation. It reports what the sources say and states where they disagree. Sources, measure definitions and every suppression rule are on the Methods & limits tab.',
             ],
           ]}
         />
@@ -50,7 +64,7 @@ export default function About() {
             {
               cells: [
                 'Overview',
-                'Headline scale of the labour market, and the gap between what jobs require and what workers hold',
+                'Headline scale of the labor market, and the gap between what jobs require and what workers hold',
               ],
             },
             {
@@ -86,7 +100,7 @@ export default function About() {
             {
               cells: [
                 'VSCS alignment',
-                'VSCS completions set against annual openings, by family and by occupation',
+                `How ${fmt(SOW.vscs.totalCompletions)} VSCS completions sit against ${fmt(SOW.vscs.openAll)} annual openings, by family and by occupation`,
               ],
             },
             {
@@ -132,7 +146,6 @@ export default function About() {
           ]}
         />
       </Panel>
-
     </>
   );
 }

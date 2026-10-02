@@ -41,7 +41,7 @@ export default function Overview({ lw }) {
     ['Full-time', G.ftShare.toFixed(1) + '%', fmt(G.ft) + ' working 35+ hours'],
     ['Part-time', G.ptShare.toFixed(1) + '%', fmt(G.pt) + ' working under 35'],
     [
-      'Labour force participation',
+      'Labor force participation',
       G.lfpr.toFixed(1) + '%',
       fmt(G.lf) + ' of ' + fmt(G.pop16) + ' aged 16+',
     ],
@@ -77,7 +77,7 @@ export default function Overview({ lw }) {
       </Panel>
 
       <Panel
-        title="Labour force at a glance"
+        title="Labor force at a glance"
         src={`CPS, Vermont ${G.year} · ${G.months}-month average`}
       >
         <Tiles items={glanceTiles} />

@@ -33,7 +33,7 @@ export function render(kind, v) {
   }
 }
 
-/** pct cells carry direction in colour as well as sign. */
+/** pct cells carry direction in color as well as sign. */
 function cellClass(kind, v) {
   if (kind === 'text') return undefined;
   if (kind === 'pct' && typeof v === 'number') {

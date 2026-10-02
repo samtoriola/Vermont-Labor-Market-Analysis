@@ -6,7 +6,7 @@ from record-level microdata; OEWS publishes five percentiles per occupation, so
 occupation-level dots are the honest equivalent. Nothing here is simulated.
 
 New Hampshire is the neighbour comparison: same OEWS vintage (2025 state file) and a
-similar small-state labour market. The US column comes from the 2024 national file --
+similar small-state labor market. The US column comes from the 2024 national file --
 a year older, which is flagged in the UI.
 """
 import json, os, pathlib, re

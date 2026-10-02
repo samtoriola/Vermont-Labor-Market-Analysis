@@ -1,4 +1,4 @@
-"""Vermont labour-force structure for the overview panel, CPS 2025.
+"""Vermont labor-force structure for the overview panel, CPS 2025.
 
 One source, one vintage, so nothing on this panel mixes surveys. Earnings are not
 here: they live on the wage tab, where the ACS universe is stated in full.
@@ -12,7 +12,7 @@ reportable hours and the unclassified group is reported alongside rather than si
 folded into one side.
 
 The unemployment rate carries an interval. CPS re-interviews the same households on a
-4-8-4 rotation, so 7,166 person-month records in the 2025 Vermont labour force come
+4-8-4 rotation, so 7,166 person-month records in the 2025 Vermont labor force come
 from only 2,726 distinct people. The interval uses the distinct-person count, which
 widens it from +/-0.38pp to +/-0.62pp -- the honest figure. Note also that Vermont's
 official rate comes from LAUS, which is model-based; this is the direct CPS estimate
@@ -76,12 +76,12 @@ ci = 1.96 * se
 
 print(f"Vermont CPS {YEAR}, {m}-month average")
 print(f"  population 16+           {pop16:>10,.0f}")
-print(f"  labour force             {lf:>10,.0f}   LFPR {lfpr*100:5.1f}%")
+print(f"  labor force             {lf:>10,.0f}   LFPR {lfpr*100:5.1f}%")
 print(f"  employed                 {emp:>10,.0f}")
 print(f"  unemployed               {unemp:>10,.0f}   rate {ur*100:5.2f}% "
       f"+/-{ci*100:.2f}pp  [{(ur-ci)*100:.2f}%, {(ur+ci)*100:.2f}%]")
 print(f"    records: {int(r.rec_unemp)} unemployed person-months, "
-      f"{int(r.rec_lf)} in the labour force, {n_eff} distinct people")
+      f"{int(r.rec_lf)} in the labor force, {n_eff} distinct people")
 print(f"  full-time (35+ hrs)      {ft:>10,.0f}   {ft_share*100:5.1f}% "
       f"of workers with reportable hours (n={int(r.rec_ft)})")
 print(f"  part-time (<35 hrs)      {pt:>10,.0f}   {(1-ft_share)*100:5.1f}% "

@@ -148,7 +148,7 @@ export default function Q1({ lw }) {
 
       <Panel
         title="Jobs by industry sector"
-        cap={`The same ${fmt(TOTJ)} jobs, organised by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
+        cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
         src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
       >
         <RankedBars

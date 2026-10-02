@@ -252,7 +252,7 @@ export default function Q2({ lw, setLw }) {
 
       <Panel
         title="Every occupation: size against pay"
-        cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Coloured by size tier.`}
+        cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Colored by size tier.`}
         src="Lightcast · occupations with usable median earnings · log y-axis"
       >
         <Scatter

@@ -59,8 +59,8 @@ export function VHead({ title, children }) {
 }
 
 /**
- * Legend. Pass hexes to print the colour code beside each label — worth doing
- * where the colour itself carries meaning (a threshold, a ramp position).
+ * Legend. Pass hexes to print the color code beside each label — worth doing
+ * where the color itself carries meaning (a threshold, a ramp position).
  */
 export function Legend({ labels, colors, hexes }) {
   return (

@@ -185,7 +185,7 @@ export default function Q3() {
 
       <Panel
         title="CPS observed change, for comparison"
-        cap="Lightcast projections are modelled; CPS is a survey. Changes marked “ns” are not distinguishable from zero at 95%."
+        cap="Lightcast projections are modeled; CPS is a survey. Changes marked “ns” are not distinguishable from zero at 95%."
         src="CPS · 2025 is an 11-month average · SE of a weighted total approximated as e/√n at design effect ≈ 1"
       >
         <Legend labels={['2021', '2025']} colors={['--s3', '--s1']} />

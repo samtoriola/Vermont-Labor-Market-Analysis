@@ -6,7 +6,7 @@ Source: Occupation_Table_..._37191a85abaf7e4a_Updated.csv
   (Verified identical to the previous export's hourly percentiles x 2,080.)
 
 Rollups are EMPLOYMENT-WEIGHTED MEANS of the constituent occupations' percentiles,
-not a pooled wage distribution. Labelled as such in the UI.
+not a pooled wage distribution. Labeled as such in the UI.
 """
 import pandas as pd, numpy as np, json, os
 

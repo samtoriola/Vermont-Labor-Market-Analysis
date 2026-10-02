@@ -138,13 +138,13 @@ export default function Methods({ lw }) {
             graduates take a related job, or stay in Vermont.
           </li>
           <li>
-            <strong>Public and civic value.</strong> Programs serving need that labour demand does
+            <strong>Public and civic value.</strong> Programs serving need that labor demand does
             not price. Absence of a signal is not evidence of low value.
           </li>
         </ul>
       </Panel>
 
-      <Panel title="Colour" cap="Colour follows the entity, never its rank. Ordered measures use one hue.">
+      <Panel title="Color" cap="Color follows the entity, never its rank. Ordered measures use one hue.">
         <Swatches
           items={[
             [GOOD_HEX, 'At or above living wage'],

@@ -919,6 +919,23 @@ td.num {
 }
 
 /* ---------- methods tab ---------- */
+/* Intro paragraphs on the About tab: narrative, so they get a measure rather than
+   running the full width of the panel. */
+p.lede {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: var(--ink-2);
+  max-width: 88ch;
+}
+
+p.lede:last-child {
+  margin-bottom: 0;
+}
+
+p.lede strong {
+  color: var(--ink);
+}
+
 /* Term on the left, one line of definition on the right: scans far faster than a
    wall of paragraphs, and collapses to stacked rows on a phone. */
 .defs {
@@ -1107,7 +1124,7 @@ ul.lim strong {
   color: #ffffff;
 }
 
-/* growth cells: direction carried by colour as well as sign */
+/* growth cells: direction carried by color as well as sign */
 td.up,
 td.down {
   font-family: var(--fig);

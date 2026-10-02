@@ -32,7 +32,7 @@ export default function Q6({ lw }) {
         </p>
         <p>
           Completions land in <N>{fmt(V.nSocLinked)}</N> occupations. Weighting by employment is a
-          model of graduate behaviour, not an observation of it &mdash; 21 programs link only to
+          model of graduate behavior, not an observation of it &mdash; 21 programs link only to
           occupations with no Vermont employment at all, and those fall back to an even split
           across their linked occupations.
         </p>

@@ -155,7 +155,7 @@ require re-running the CPS and percentile builds against BigQuery.
 
 ## build_glance.py
 
-CPS Vermont labour-force structure for the overview panel, written to
+CPS Vermont labor-force structure for the overview panel, written to
 `../data/glance.json`. One source, one vintage -- no survey mixing on that panel.
 
 Two decisions it makes explicitly. Full-time comes from `UHRSWORKT >= 35`, not
