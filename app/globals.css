@@ -954,8 +954,16 @@ td.num {
   max-width: 76ch;
 }
 
-th.thtext {
+/* Figures are right-aligned by default, which is wrong for a column of prose: it also
+   inherits white-space: nowrap and so refuses to wrap. */
+th.thtext,
+td.tdtext {
   text-align: left;
+}
+
+td.tdtext {
+  white-space: normal;
+  min-width: 22ch;
 }
 
 ul.lim {

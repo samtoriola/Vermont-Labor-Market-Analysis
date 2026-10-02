@@ -2,7 +2,7 @@
 
 import { SERIES_HEX, ORDINAL_HEX, GOOD_HEX, BAD_HEX, lwHourly, lwAnnual } from '@/lib/data';
 import { money } from '@/lib/format';
-import { Panel, Table, VHead } from '../ui';
+import { Panel, Table, VHead, Defs } from '../ui';
 
 function Swatches({ items }) {
   return (
@@ -14,20 +14,6 @@ function Swatches({ items }) {
         </span>
       ))}
     </div>
-  );
-}
-
-/** Term and one-line definition. Reads faster than a paragraph. */
-function Defs({ items }) {
-  return (
-    <dl className="defs">
-      {items.map(([term, body]) => (
-        <div key={term}>
-          <dt>{term}</dt>
-          <dd>{body}</dd>
-        </div>
-      ))}
-    </dl>
   );
 }
 
@@ -91,6 +77,10 @@ export default function Methods({ lw }) {
               'As published. One occupation shows its own percentiles and mean. Family, tier and size figures are the employment-weighted mean of their occupations’ percentiles — a faithful range, not an exact group quantile.',
             ],
             [
+              'Projected growth',
+              'A Lightcast model of change to 2030, not an observation. Change over 2021–2025 is what happened, and the two are kept in separate panels for that reason.',
+            ],
+            [
               'Opportunity index',
               'Mean of four percentile ranks, 25% each: employment, projected growth, postings per 100 jobs, median pay. Occupations with 100+ jobs and a published wage.',
             ],
@@ -127,11 +117,7 @@ export default function Methods({ lw }) {
             ],
             [
               'CPS precision',
-              'October 2025 is missing nationally, so 2025 is an 11-month average. Vermont weights are near-uniform (Kish 0.94), so intervals assume a design effect near 1. 80,569 person-month records cover 16,887 distinct people, and rate intervals use the person count, not the record count, because the survey re-interviews the same households.',
-            ],
-            [
-              'Unemployment',
-              'The rate shown is the direct CPS estimate. Vermont\u2019s official rate comes from LAUS, which is model-based, so the two differ by construction rather than by error.',
+              'October 2025 is missing nationally, so 2025 is an 11-month average. Vermont weights are near-uniform (Kish 0.94), so intervals assume a design effect near 1. 80,569 person-month records cover 16,887 distinct people, and rate intervals use the person count, not the record count, because the survey re-interviews the same households. The unemployment rate shown is the direct CPS estimate; Vermont’s official rate comes from the model-based LAUS series, so the two differ by construction.',
             ],
           ]}
         />

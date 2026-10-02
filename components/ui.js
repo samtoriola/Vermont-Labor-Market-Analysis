@@ -112,7 +112,7 @@ export function Table({ cols, rows, text = [] }) {
           {rows.map((r, i) => (
             <tr key={i} onClick={r.onClick} style={r.onClick ? { cursor: 'pointer' } : undefined}>
               {r.cells.map((c, j) => (
-                <td key={j} className={isText(j) ? undefined : 'num'}>
+                <td key={j} className={isText(j) ? (j ? 'tdtext' : undefined) : 'num'}>
                   {c}
                 </td>
               ))}
@@ -125,6 +125,20 @@ export function Table({ cols, rows, text = [] }) {
 }
 
 /** Numeric span in the tabular figure style. */
+/** Term and one-line definition. Reads faster than a paragraph. */
+export function Defs({ items }) {
+  return (
+    <dl className="defs">
+      {items.map(([term, body]) => (
+        <div key={term}>
+          <dt>{term}</dt>
+          <dd>{body}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export function N({ children }) {
   return <span className="num">{children}</span>;
 }
