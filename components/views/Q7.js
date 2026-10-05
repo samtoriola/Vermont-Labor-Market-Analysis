@@ -58,8 +58,7 @@ export default function Q7() {
   return (
     <>
       <VHead title="Regional variation">
-        How opportunity differs across Vermont’s 14 counties — attainment, earnings and the local
-        cost floor.
+        How does labor market opportunity vary across Vermont’s regions, including differences in occupational demand, wage sufficiency, educational attainment, and occupation-specific wage premiums?
       </VHead>
 
       <Sections
@@ -71,7 +70,7 @@ export default function Q7() {
             render: () => (
               <>
                 <Panel
-                  title="Vermont by county"
+                  title="How does opportunity differ across Vermont’s counties?"
                   cap="Switch the shading metric, then click a county to pin it."
                   src="ACS 2016–2020 5-year · MIT Living Wage 2025 · outlines from Census TIGER, simplified"
                 >
@@ -93,7 +92,7 @@ export default function Q7() {
             render: () => (
               <>
                 <Panel
-                  title="All 14 counties"
+                  title="How does each county compare?"
                   cap="Click a row to pin that county."
                   src="ACS 2016–2020 5-year · MIT Living Wage 2025"
                 >

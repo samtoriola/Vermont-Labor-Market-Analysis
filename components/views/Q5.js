@@ -25,7 +25,7 @@ export default function Q5({ lw }) {
       <VHead
         title="Opportunity index"
       >
-        Occupations scored on scale, growth, advertised demand and pay, at each level of educational accessibility.
+        Which occupations represent high-demand and high-value opportunities based on employment, projected growth, annual openings, job postings, earnings, and educational accessibility?
       </VHead>
 
       <ActiveFilters />
@@ -41,7 +41,7 @@ export default function Q5({ lw }) {
             label: 'Highest scoring',
             render: () => (
                 <Panel
-                  title="Highest-scoring occupations"
+                  title="Which occupations combine scale, growth, demand and pay?"
                   cap={`Composite of four percentile ranks at ${O.weightEach}% each. Hover for the full breakdown — the score is simply the mean of those four numbers.`}
                   src={`Lightcast · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
                 >
@@ -87,7 +87,7 @@ export default function Q5({ lw }) {
                   {TIER_ORDER.filter((t) => O.byTier[t]).map((t) => (
                     <Panel
                       key={t}
-                      title={'Strongest opportunities — ' + t}
+                      title={'Which occupations score highest for ' + t + '?'}
                       cap={`Top ${O.byTier[t].length} by composite score within this entry-credential tier.`}
                       src="Lightcast · same four-indicator composite, ranked within tier · openings shown for context, not scored"
                     >

@@ -70,7 +70,7 @@ export default function Q4({ lw, setLw }) {
       <VHead
         title="Education pathways"
       >
-        The share of Vermont employment at each entry credential, and how those requirements relate to earnings.
+        What share of Vermont employment is associated with bachelor’s-level, sub-baccalaureate, high school, and other educational pathways, and how are these requirements related to earnings and employment opportunity?
       </VHead>
 
       <ActiveFilters />
@@ -86,7 +86,7 @@ export default function Q4({ lw, setLw }) {
             render: () => (
                 <div className="grid2">
                   <Panel
-                    title="Share of employment"
+                    title="How much Vermont employment sits at each credential level?"
                     cap="Where Vermont's jobs sit on the credential ladder."
                     src={`Lightcast · ${fmt(LC.totalJobs)} jobs`}
                   >
@@ -115,7 +115,7 @@ export default function Q4({ lw, setLw }) {
                   </Panel>
 
                   <Panel
-                    title="Earnings dispersion"
+                    title="How wide is the range of outcomes at each credential level?"
                     cap="The 90th percentile divided by the 10th: the width of the earnings range at each entry credential."
                     src="Lightcast · ratio of 90th to 10th percentile"
                   >
@@ -151,7 +151,7 @@ export default function Q4({ lw, setLw }) {
             label: 'What the job requires',
             render: () => (
                 <Panel
-                  title="The credential ladder, by what the job requires"
+                  title="What does each rung pay, by what the job asks for?"
                   cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Click a column to list its occupations."
                   src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
                 >
@@ -174,7 +174,7 @@ export default function Q4({ lw, setLw }) {
             label: 'What people hold',
             render: () => (
                 <Panel
-                  title="The credential ladder, by what people hold"
+                  title="What does each rung pay, by the credential workers hold?"
                   cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
                   src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
                 >
@@ -197,7 +197,7 @@ export default function Q4({ lw, setLw }) {
             label: 'Above the living wage',
             render: () => (
                 <Panel
-                  title="Share of jobs paying above the living wage"
+                  title="Which credential levels clear the living wage?"
                   cap={`The wage-quality payoff to each credential tier. Benchmark: ${lw} at ${money(LWA)}/yr, set by the selector at the top of this tab.`}
                   src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
                 >
@@ -231,7 +231,7 @@ export default function Q4({ lw, setLw }) {
             label: 'The ladder in full',
             render: () => (
                 <Panel
-                  title="The credential ladder in full"
+                  title="What does each credential tier look like side by side?"
                   cap={`Employment, the full wage distribution, and demand at each tier. Benchmark: ${lw}.`}
                   src="Lightcast · Typical Entry Level Education, jobs-weighted"
                 >
@@ -275,7 +275,7 @@ export default function Q4({ lw, setLw }) {
             label: 'All credential categories',
             render: () => (
                 <Panel
-                  title="All eight credential categories"
+                  title="What sits inside each of the five tiers?"
                   cap="The five tiers unpacked into the credential labels Lightcast assigns. Sub-baccalaureate covers three distinct categories."
                   src="Lightcast · 2 of 798 occupations carry no education assignment"
                 >

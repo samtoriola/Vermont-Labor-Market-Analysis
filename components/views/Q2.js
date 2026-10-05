@@ -98,7 +98,7 @@ export default function Q2({ lw, setLw }) {
       <VHead
         title="Occupation size and wage quality"
       >
-        Which occupations employ the most Vermonters, and how pay compares with a self-sufficiency benchmark across large, medium and smaller occupations.
+        Which occupations employ the largest numbers of Vermont workers, and how does wage quality — measured against a self-sufficiency benchmark — vary across large, medium, and smaller occupations?
       </VHead>
 
       <ActiveFilters />
@@ -121,7 +121,7 @@ export default function Q2({ lw, setLw }) {
             label: 'Wage quality by size',
             render: () => (
                 <Panel
-                  title="Share of jobs above the living wage, by occupation size"
+                  title="Do the largest occupations pay a living wage?"
                   cap={`Benchmark: ${lw} at ${money(LWA)}/yr.`}
                   src="Lightcast · jobs-weighted · occupation median vs MIT living wage"
                 >
@@ -155,7 +155,7 @@ export default function Q2({ lw, setLw }) {
             label: 'Median pay by size',
             render: () => (
                 <Panel
-                  title="Median pay by occupation size"
+                  title="How does pay spread within large, medium and smaller occupations?"
                   cap="One dot per occupation, placed at its median pay and sized by employment. The solid line is the employment-weighted average, the dashed line the median. The three columns on the right put Vermont as a whole beside its nearest comparable state and the nation. Click a Vermont column for the occupations behind it."
                   src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
                 >
@@ -178,7 +178,7 @@ export default function Q2({ lw, setLw }) {
             label: 'Size tiers in full',
             render: () => (
                 <Panel
-                  title="Size tiers in full"
+                  title="What does each size tier look like side by side?"
                   cap="Each tier's scale, pay, spread and demand side by side."
                   src="Lightcast · tiers cut at 500 and 2,000 jobs"
                 >
@@ -221,7 +221,7 @@ export default function Q2({ lw, setLw }) {
             label: 'Worker earnings',
             render: () => (
                 <Panel
-                  title="Worker earnings, ACS"
+                  title="What do individual Vermonters actually earn?"
                   cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe used by the occupation charts. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
                   src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
                 >
@@ -244,7 +244,7 @@ export default function Q2({ lw, setLw }) {
             label: '25 largest by jobs',
             render: () => (
                 <Panel
-                  title="The 25 largest occupations — employment"
+                  title="Which 25 occupations employ the most Vermonters?"
                   cap="Ranked by 2025 jobs. Green clears the living wage at the median, amber does not."
                   src="Lightcast · hover for SOC, earnings, entry credential and demand"
                 >
@@ -273,7 +273,7 @@ export default function Q2({ lw, setLw }) {
             label: 'Mean against median',
             render: () => (
                 <Panel
-                  title="The 25 largest occupations — mean against median"
+                  title="In the largest occupations, how far is the average above the typical worker?"
                   cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean; the distance between them is the pull of the upper tail. The dashed vertical is the living wage."
                   src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
                 >
@@ -295,7 +295,7 @@ export default function Q2({ lw, setLw }) {
             label: 'Size against pay',
             render: () => (
                 <Panel
-                  title="Every occupation: size against pay"
+                  title="Does a bigger occupation pay better or worse?"
                   cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Colored by size tier.`}
                   src="Lightcast · occupations with usable median earnings · log y-axis"
                 >

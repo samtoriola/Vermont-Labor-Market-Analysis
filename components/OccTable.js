@@ -23,10 +23,10 @@ export default function OccTable({ lw }) {
   return (
     <div className="panel">
       <div className="panel-head">
-        <h3>All occupations</h3>
+        <h3>What does every Vermont occupation look like?</h3>
       </div>
       <p className="cap">
-        Every Vermont occupation passing the filters above. Search, filter on any numeric
+        Every Vermont occupation passing the active filters. Search, filter on any numeric
         column, or click a heading to sort — then export exactly what you are looking at.
         Click a row to open its occupational family.
       </p>

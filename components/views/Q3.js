@@ -51,7 +51,7 @@ export default function Q3() {
       <VHead
         title="Employer demand and growth"
       >
-        Where projected growth, annual openings and advertised demand concentrate — and how closely each tracks the existing employment base.
+        Where are projected job growth, annual openings, and current employer demand concentrated, and how closely do these measures align with Vermont’s existing employment base?
       </VHead>
 
       <ActiveFilters />
@@ -64,7 +64,7 @@ export default function Q3() {
             label: 'Three demand measures',
             render: () => (
                 <Panel
-                  title="Three measures of demand, against the employment base"
+                  title="Do jobs, openings and postings point at the same families?"
                   cap="Each family's share of jobs, of annual openings, and of unique postings."
                   src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
                 >
@@ -98,7 +98,7 @@ export default function Q3() {
             label: 'Postings index',
             render: () => (
                 <Panel
-                  title="Postings demand relative to employment share"
+                  title="Where do employers advertise more than their employment share would predict?"
                   cap="The alignment index: a family's share of postings divided by its share of jobs. Above 1.0 means employers advertise more than the employment base would predict."
                   src={`Lightcast · ${fmt(totPost)} unique postings over ${LC.postWindow}`}
                 >
@@ -130,7 +130,7 @@ export default function Q3() {
             label: 'Observed change',
             render: () => (
                 <Panel
-                  title="Observed change, 2021–2025"
+                  title="Which families grew, and which shrank, over the study window?"
                   cap="Observed change over the study window, by family."
                   src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
                 >
@@ -165,7 +165,7 @@ export default function Q3() {
             label: 'Projected growth',
             render: () => (
                 <Panel
-                  title="Projected growth, 2025–2030"
+                  title="Which families are projected to grow over the next five years?"
                   cap="Five-year projected change in jobs by family. Negative bars are projected contraction."
                   src="Lightcast · 2030 Jobs vs 2025 Jobs"
                 >
@@ -196,7 +196,7 @@ export default function Q3() {
             label: 'CPS cross-check',
             render: () => (
                 <Panel
-                  title="CPS observed change, for comparison"
+                  title="Does an independent survey agree on the direction of change?"
                   cap="Lightcast projections are modeled; CPS is a survey. Changes marked “ns” are not distinguishable from zero at 95%."
                   src="CPS · 2025 is an 11-month average · SE of a weighted total approximated as e/√n at design effect ≈ 1"
                 >

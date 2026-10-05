@@ -57,7 +57,7 @@ export default function Overview({ lw }) {
       <Tiles items={tiles} />
 
       <Panel
-        title="Requirements versus attainment"
+        title="Do Vermont’s jobs ask for the credentials its workers hold?"
         cap="Two different questions, two different sources. Lightcast assigns each occupation a typical entry credential (a property of the job). CPS records the credential each worker holds (a property of the person). They are not the same measure."
         src="Lightcast occupation table, 2025 jobs · CPS 2025, age 25+ · CPS and Lightcast universes differ; compare shares, not levels"
       >
@@ -77,7 +77,7 @@ export default function Overview({ lw }) {
       </Panel>
 
       <Panel
-        title="Labor force at a glance"
+        title="How many Vermonters are working, and on what terms?"
         src={`CPS, Vermont ${G.year} · ${G.months}-month average`}
       >
         <Tiles items={glanceTiles} />

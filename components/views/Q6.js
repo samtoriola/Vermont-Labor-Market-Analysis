@@ -18,7 +18,7 @@ export default function Q6({ lw }) {
       <VHead
         title="VSCS program alignment"
       >
-        VSCS credential production set against Vermont occupational demand.
+        How well does VSCS graduate production align with occupational demand, and where do program-to-occupation relationships suggest strong pipelines, diffuse career pathways, potential undersupply, or limited labor market opportunity?
       </VHead>
 
       <ActiveFilters />
@@ -31,7 +31,7 @@ export default function Q6({ lw }) {
             label: 'Production by award',
             render: () => (
                 <Panel
-                  title="VSCS production by award level"
+                  title="What credentials does VSCS award?"
                   cap="Completions by award level."
                   src="IPEDS 2024 Completions · MAJORNUM=1, CIPCODE≠99 · CCV + Vermont State University"
                 >
@@ -58,7 +58,7 @@ export default function Q6({ lw }) {
             label: 'Against openings',
             render: () => (
                 <Panel
-                  title="Linked completions against annual openings, by family"
+                  title="Where does VSCS production line up with openings?"
                   cap="Click a row to list the occupations behind it. Openings are Vermont-wide; linked completions are VSCS output allocated across each program's occupations. Families whose occupations require no credential will show a low ratio by construction."
                   src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · employment-weighted allocation"
                 >
@@ -100,7 +100,7 @@ export default function Q6({ lw }) {
             label: 'Lowest ratios',
             render: () => (
                 <Panel
-                  title="Lowest linked-completion ratios, openings above the living wage"
+                  title="Where is demand strong, pay adequate, and VSCS production thinnest?"
                   cap="Occupations with at least 50 annual openings that pay above the living wage, ranked by the lowest linked-completion ratio."
                   src="Filtered to openings ≥ 50 and median earnings at or above the living wage"
                 >
@@ -134,7 +134,7 @@ export default function Q6({ lw }) {
             label: 'Highest ratios',
             render: () => (
                 <Panel
-                  title="Highest linked-completion ratios"
+                  title="Where is VSCS production most concentrated relative to demand?"
                   cap="Highest linked-completion ratios among occupations with at least 50 annual openings. A high ratio may indicate a strong pipeline or a saturated one; the data cannot distinguish them."
                   src="Same universe, ranked by highest ratio"
                 >

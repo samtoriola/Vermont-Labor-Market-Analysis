@@ -83,7 +83,7 @@ export default function Q1({ lw }) {
       <VHead
         title="Employment structure"
       >
-        How Vermont’s jobs distribute across occupational families, and how that varies by industry, earnings and entry credential.
+        How is Vermont employment distributed across occupational families, and how does that distribution vary by industry, earnings, and typical entry-level education?
       </VHead>
 
       <ActiveFilters />
@@ -96,7 +96,7 @@ export default function Q1({ lw }) {
             label: 'Industry sectors',
             render: () => (
               <Panel
-                title="Jobs by industry sector"
+                title="Which industries employ Vermonters?"
                 cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
                 src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
               >
@@ -121,7 +121,7 @@ export default function Q1({ lw }) {
             label: 'Jobs by family',
             render: () => (
               <Panel
-                title="Jobs by occupational family"
+                title="Which occupational families employ the most Vermonters?"
                 cap="Vermont 2025. Hover for earnings, concentration, openings and change since 2021."
                 src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
               >
@@ -151,7 +151,7 @@ export default function Q1({ lw }) {
             label: 'Median pay',
             render: () => (
               <Panel
-                title="Median pay by occupational family"
+                title="What does each occupational family pay?"
                 cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average, the dashed line the median. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
                 src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
               >
@@ -174,7 +174,7 @@ export default function Q1({ lw }) {
             label: 'Entry credential',
             render: () => (
               <Panel
-                title="Typical entry credential, by family"
+                title="What credential does each family ask for at entry?"
                 cap="Share of each family's jobs at each entry-credential tier, sorted by the BA+ share. This is the requirement attached to the job, not the credential its workers hold."
                 src="Lightcast · Typical Entry Level Education, jobs-weighted"
               >
@@ -195,7 +195,7 @@ export default function Q1({ lw }) {
             label: 'Family by industry',
             render: () => (
               <Panel
-                title="Which industries each family works in"
+                title="Which industries does each occupational family work in?"
                 cap="Neither Lightcast export carries an occupation-by-industry staffing pattern, so this cross comes from CPS microdata — the only source here that observes both on the same person. Top 12 families by CPS employment."
                 src="CPS 2021–2025 pooled · annual-average employment · complementary to the Lightcast industry levels"
               >
