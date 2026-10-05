@@ -19,8 +19,11 @@ export function Panel({ title, cap, src, note, exportData, children }) {
       </div>
       {cap ? <p className="cap">{cap}</p> : null}
       {children}
-      {/* The computed answer to "so what". Null when no rule cleared its margin. */}
-      {note ? <p className="pnote">{note}</p> : null}
+      {/* The computed answer to "so what". A rule that ran and found nothing notable
+          says so in a muted line; null means it could not run at all. */}
+      {note ? (
+        <p className={note.muted ? 'pnote muted' : 'pnote'}>{note.text}</p>
+      ) : null}
       {src ? <div className="srcline">{src}</div> : null}
     </div>
   );

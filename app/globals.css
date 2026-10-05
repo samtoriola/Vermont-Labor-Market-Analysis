@@ -933,6 +933,15 @@ td.num {
   max-width: 86ch;
 }
 
+/* The rule ran and found nothing notable. Still shown, because an absence a reader
+   can see beats a line that silently disappears -- but set back, so it never reads
+   as a finding. */
+.pnote.muted {
+  color: var(--ink-2);
+  background: transparent;
+  border-left-color: var(--rule-strong);
+}
+
 /* ---------- in-tab sub-navigation ---------- */
 /* Topics down the left, one panel at a time on the right, so a tab is read by
    choosing rather than by scrolling. */
