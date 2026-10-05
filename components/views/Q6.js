@@ -6,12 +6,29 @@ import { Callout, Panel, Table, VHead, N } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars } from '../charts';
+import DataTable from '../DataTable';
 import Sections from '../Sections';
 
 export default function Q6({ lw }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
   const V = SOW.vscs;
+
+  // Both ends of the linked-completion ratio in one sortable table. `under` is the
+  // lowest ratios among occupations paying above the living wage; `over` the highest
+  // overall, so the two can overlap and are de-duplicated on SOC.
+  const ratioRows = V.under.concat(
+    V.over.filter((r) => !V.under.some((u) => u.soc === r.soc))
+  );
+  const ratioCols = [
+    { k: 'n', label: 'Occupation', kind: 'text', get: (r) => r.n },
+    { k: 'open', label: 'Annual openings', kind: 'num', get: (r) => r.open },
+    { k: 'linked', label: 'Linked completions', kind: 'num1', get: (r) => r.linked },
+    { k: 'ratio', label: 'Completions per opening', kind: 'num3', get: (r) => r.ratio },
+    { k: 'm', label: 'Median', kind: 'money', get: (r) => r.m },
+    { k: 'lw', label: 'vs living wage', kind: 'x', get: (r) => r.lw },
+    { k: 't', label: 'Entry credential', kind: 'text', get: (r) => r.t },
+  ];
 
   return (
     <>
@@ -96,71 +113,23 @@ export default function Q6({ lw }) {
             ),
           },
           {
-            id: 'lowest-ratios',
-            label: 'Lowest ratios',
+            id: 'production-against-demand',
+            label: 'Production vs demand',
             render: () => (
-                <Panel
-                  title="Where is demand strong, pay adequate, and VSCS production thinnest?"
-                  cap="Occupations with at least 50 annual openings that pay above the living wage, ranked by the lowest linked-completion ratio."
-                  src="Filtered to openings ≥ 50 and median earnings at or above the living wage"
-                >
-                  <Table
-                    cols={[
-                      'Occupation',
-                      'Annual openings',
-                      'Linked completions',
-                      'Ratio',
-                      'Median',
-                      'vs LW',
-                      'Entry credential',
-                    ]}
-                    rows={V.under.map((r) => ({
-                      cells: [
-                        r.n,
-                        fmt(r.open),
-                        r.linked.toFixed(1),
-                        r.ratio.toFixed(3),
-                        money(r.m),
-                        r.lw + '×',
-                        r.t,
-                      ],
-                    }))}
-                  />
-                </Panel>
-            ),
-          },
-          {
-            id: 'highest-ratios',
-            label: 'Highest ratios',
-            render: () => (
-                <Panel
-                  title="Where is VSCS production most concentrated relative to demand?"
-                  cap="Highest linked-completion ratios among occupations with at least 50 annual openings. A high ratio may indicate a strong pipeline or a saturated one; the data cannot distinguish them."
-                  src="Same universe, ranked by highest ratio"
-                >
-                  <Table
-                    cols={[
-                      'Occupation',
-                      'Annual openings',
-                      'Linked completions',
-                      'Ratio',
-                      'Median',
-                      'vs LW',
-                      'Entry credential',
-                    ]}
-                    rows={V.over.map((r) => ({
-                      cells: [
-                        r.n,
-                        fmt(r.open),
-                        r.linked.toFixed(1),
-                        r.ratio.toFixed(3),
-                        money(r.m),
-                        r.lw + '×',
-                        r.t,
-                      ],
-                    }))}
-                  />
-                </Panel>
+              <Panel
+                title="Where does VSCS production sit relative to demand?"
+                cap="Occupations with at least 50 annual openings, at both ends of the ratio: the lowest among those paying above the living wage, and the highest overall. Sort any column or search for an occupation. A high ratio may mean a strong pipeline or a saturated one; the data cannot tell them apart."
+                src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · openings ≥ 50"
+              >
+                <DataTable
+                  cols={ratioCols}
+                  rows={ratioRows}
+                  initialSort={{ k: 'ratio', dir: 1 }}
+                  exportLabel="vscs-production-against-demand"
+                  rowKey={(r) => r.soc}
+                  pageSize={30}
+                />
+              </Panel>
             ),
           },
           {

@@ -20,6 +20,8 @@ export function render(kind, v) {
       return fmt(v);
     case 'num1':
       return v.toFixed(1);
+    case 'num3':
+      return v.toFixed(3);
     case 'money':
       return money(v);
     case 'pct':

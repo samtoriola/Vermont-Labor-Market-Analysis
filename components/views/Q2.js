@@ -5,7 +5,7 @@ import {
   lwAnnual, wageStats, occDots, occBySize, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
+import { Panel, VHead, LwPicker } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
@@ -168,49 +168,6 @@ export default function Q2({ lw, setLw }) {
                       dotTip: occDotTip(LWA),
                       aria: 'Median pay of every occupation, by size band and by area',
                     }}
-                  />
-                </Panel>
-            ),
-          },
-          {
-            id: 'size-tiers-in-full',
-            label: 'Size tiers in full',
-            render: () => (
-                <Panel
-                  title="What does each size tier look like side by side?"
-                  cap="Each tier's scale, pay, spread and demand side by side."
-                  src="Lightcast · tiers cut at 500 and 2,000 jobs"
-                >
-                  <Table
-                    cols={[
-                      'Size tier',
-                      'Occupations',
-                      'Jobs',
-                      'Share',
-                      '10th',
-                      '25th',
-                      'Median',
-                      '75th',
-                      '90th',
-                      'Above living wage',
-                    ]}
-                    rows={sz.map((r) => {
-                      const b = PCT.sizeTiers[r.s] || {};
-                      return {
-                        cells: [
-                          r.s,
-                          fmt(r.nocc),
-                          fmt(r.jobs),
-                          r.share + '%',
-                          money(b.p10),
-                          money(b.p25),
-                          money(b.p50),
-                          money(b.p75),
-                          money(b.p90),
-                          r.above[lw].toFixed(1) + '%',
-                        ],
-                      };
-                    })}
                   />
                 </Panel>
             ),

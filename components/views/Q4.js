@@ -5,7 +5,7 @@ import {
   lwAnnual, occByTier, wageStats, occDots,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Callout, Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
+import { Callout, Panel, Table, VHead, LwPicker, N } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip, personTip } from '../occCols';
@@ -222,50 +222,6 @@ export default function Q4({ lw, setLw }) {
                       valueLabel: 'Above living wage',
                       aria: 'Living-wage share by credential tier',
                     }}
-                  />
-                </Panel>
-            ),
-          },
-          {
-            id: 'the-ladder-in-full',
-            label: 'The ladder in full',
-            render: () => (
-                <Panel
-                  title="What does each credential tier look like side by side?"
-                  cap={`Employment, the full wage distribution, and demand at each tier. Benchmark: ${lw}.`}
-                  src="Lightcast · Typical Entry Level Education, jobs-weighted"
-                >
-                  <Table
-                    cols={[
-                      'Entry credential',
-                      'Jobs',
-                      'Share',
-                      '10th',
-                      '25th',
-                      'Median',
-                      '75th',
-                      '90th',
-                      'Above living wage',
-                      'Annual openings',
-                    ]}
-                    rows={TIER_ORDER.map((k) => {
-                      const r = t[k];
-                      const b = P[k] || {};
-                      return {
-                        cells: [
-                          r.t,
-                          fmt(r.jobs),
-                          r.share + '%',
-                          money(b.p10),
-                          money(b.p25),
-                          money(b.p50),
-                          money(b.p75),
-                          money(b.p90),
-                          r.above[lw].toFixed(1) + '%',
-                          fmt(r.open),
-                        ],
-                      };
-                    })}
                   />
                 </Panel>
             ),
