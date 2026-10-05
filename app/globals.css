@@ -919,6 +919,20 @@ td.num {
 }
 
 /* ---------- methods tab ---------- */
+/* The computed one-line answer under a chart. Set apart from the caption above the
+   chart, which describes method, so a reader can tell a claim from a definition. */
+.pnote {
+  margin: 14px 0 0;
+  padding: 9px 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--panel-2);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  max-width: 86ch;
+}
+
 /* ---------- in-tab sub-navigation ---------- */
 /* Topics down the left, one panel at a time on the right, so a tab is read by
    choosing rather than by scrolling. */

@@ -4,7 +4,7 @@ import { LC, SERIES, SERIES_HEX } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { downloadCsv, exportName } from '@/lib/csv';
 
-export function Panel({ title, cap, src, exportData, children }) {
+export function Panel({ title, cap, src, note, exportData, children }) {
   return (
     <div className="panel">
       <div className="panel-head">
@@ -19,6 +19,8 @@ export function Panel({ title, cap, src, exportData, children }) {
       </div>
       {cap ? <p className="cap">{cap}</p> : null}
       {children}
+      {/* The computed answer to "so what". Null when no rule cleared its margin. */}
+      {note ? <p className="pnote">{note}</p> : null}
       {src ? <div className="srcline">{src}</div> : null}
     </div>
   );

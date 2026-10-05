@@ -11,6 +11,7 @@ import { useDrill, occDrill } from '../Drill';
 import { occDotTip } from '../occCols';
 import { RankedBars, StackedRows } from '../charts';
 import Sections from '../Sections';
+import { vsNation, topConcentration } from '@/lib/insight';
 import { DotRows, DotLegend } from '../dots';
 
 export default function Q1({ lw }) {
@@ -97,6 +98,7 @@ export default function Q1({ lw }) {
             render: () => (
               <Panel
                 title="Which industries employ Vermonters?"
+                note={topConcentration(LC.sectors, TOTJ)}
                 cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
                 src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
               >
@@ -152,6 +154,7 @@ export default function Q1({ lw }) {
             render: () => (
               <Panel
                 title="What does each occupational family pay?"
+                note={vsNation(COMPARE.areas)}
                 cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average, the dashed line the median. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
                 src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
               >

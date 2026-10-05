@@ -13,6 +13,7 @@ import { occDotTip, personTip } from '../occCols';
 import { RankedBars, Scatter } from '../charts';
 import { DotColumns, DotLegend, PercentileLadder, LadderLegend } from '../dots';
 import Sections from '../Sections';
+import { sizeWageGap, meanMedianGap } from '@/lib/insight';
 
 export default function Q2({ lw, setLw }) {
   const LWA = lwAnnual(lw);
@@ -121,6 +122,7 @@ export default function Q2({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="Do the largest occupations pay a living wage?"
+                  note={sizeWageGap(LC.sizeTiers, lw)}
                   cap={`Benchmark: ${lw} at ${money(LWA)}/yr.`}
                   src="Lightcast · jobs-weighted · occupation median vs MIT living wage"
                 >
@@ -178,6 +180,7 @@ export default function Q2({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="What do individual Vermonters actually earn?"
+                  note={meanMedianGap(PEOPLE.byArea[0])}
                   cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe used by the occupation charts. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
                   src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
                 >
