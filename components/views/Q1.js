@@ -11,7 +11,7 @@ import { useDrill, occDrill } from '../Drill';
 import { occDotTip } from '../occCols';
 import { RankedBars, StackedRows } from '../charts';
 import Sections from '../Sections';
-import { vsNation, topConcentration } from '@/lib/insight';
+import { credentialSpread, familyConcentration, topConcentration, vsNation } from '@/lib/insight';
 import { DotRows, DotLegend } from '../dots';
 
 export default function Q1({ lw }) {
@@ -124,6 +124,7 @@ export default function Q1({ lw }) {
             render: () => (
               <Panel
                 title="Which occupational families employ the most Vermonters?"
+                note={familyConcentration(fams, TOTJ)}
                 cap="Vermont 2025. Hover for earnings, concentration, openings and change since 2021."
                 src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
               >
@@ -178,6 +179,7 @@ export default function Q1({ lw }) {
             render: () => (
               <Panel
                 title="What credential does each family ask for at entry?"
+                note={credentialSpread(fams)}
                 cap="Share of each family's jobs at each entry-credential tier, sorted by the BA+ share. This is the requirement attached to the job, not the credential its workers hold."
                 src="Lightcast · Typical Entry Level Education, jobs-weighted"
               >

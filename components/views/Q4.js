@@ -12,6 +12,7 @@ import { occDotTip, personTip } from '../occCols';
 import { RankedBars } from '../charts';
 import { DotColumns, DotLegend } from '../dots';
 import Sections from '../Sections';
+import { ladderStep, peopleLadderStep, livingWageJump, largestCategory } from '@/lib/insight';
 
 export default function Q4({ lw, setLw }) {
   const LWA = lwAnnual(lw);
@@ -152,6 +153,7 @@ export default function Q4({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="What does each rung pay, by what the job asks for?"
+                  note={ladderStep(LC.tiers, TIER_ORDER)}
                   cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Click a column to list its occupations."
                   src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
                 >
@@ -175,6 +177,7 @@ export default function Q4({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="What does each rung pay, by the credential workers hold?"
+                  note={peopleLadderStep(PEOPLE.byCred)}
                   cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
                   src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
                 >
@@ -198,6 +201,7 @@ export default function Q4({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="Which credential levels clear the living wage?"
+                  note={livingWageJump(LC.tiers, TIER_ORDER, lw)}
                   cap={`The wage-quality payoff to each credential tier. Benchmark: ${lw} at ${money(LWA)}/yr, set by the selector at the top of this tab.`}
                   src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
                 >
@@ -232,6 +236,7 @@ export default function Q4({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="What sits inside each of the five tiers?"
+                  note={largestCategory(LC.eduDetail)}
                   cap="The five tiers unpacked into the credential labels Lightcast assigns. Sub-baccalaureate covers three distinct categories."
                   src="Lightcast · 2 of 798 occupations carry no education assignment"
                 >

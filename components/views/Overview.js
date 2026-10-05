@@ -6,6 +6,7 @@ import {
 import { fmt } from '@/lib/format';
 import { Panel, Legend, Tiles } from '../ui';
 import { RankedBars } from '../charts';
+import { requirementsGap } from '@/lib/insight';
 
 export default function Overview({ lw }) {
   const lastCps = DATA.trend[DATA.trend.length - 1];
@@ -58,6 +59,7 @@ export default function Overview({ lw }) {
 
       <Panel
         title="Do Vermont’s jobs ask for the credentials its workers hold?"
+        note={requirementsGap(baReq, lastCps.ba)}
         cap="Two different questions, two different sources. Lightcast assigns each occupation a typical entry credential (a property of the job). CPS records the credential each worker holds (a property of the person). They are not the same measure."
         src="Lightcast occupation table, 2025 jobs · CPS 2025, age 25+ · CPS and Lightcast universes differ; compare shares, not levels"
       >

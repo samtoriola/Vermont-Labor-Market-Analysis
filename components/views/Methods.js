@@ -100,6 +100,10 @@ export default function Methods({ lw }) {
               `Default ${money(lwAnnual(lw))} a year — $${lwHourly(lw).toFixed(2)} an hour at 2,080 hours, ${lw}. MIT’s Vermont figures run $17.06 to $63.91 depending on household. Every wage-quality number moves with this choice.`,
             ],
             [
+              'Computed notes',
+              'The line under a chart is generated from the data, not written. It appears only when a comparison clears a stated margin; otherwise it says there is no material difference. It never recommends an action.',
+            ],
+            [
               'Rates need a real base',
               'Lightcast models employment to a fraction of a job, so growth, change and turnover are left blank below 10 jobs. Without the rule Gambling Managers reads 19,390% growth on 0.005 jobs. Suppresses ~120 of 796 occupations per measure, 0.11% of employment. A blank means the base was too small, not zero.',
             ],

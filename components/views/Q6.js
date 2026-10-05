@@ -8,6 +8,7 @@ import { useDrill, occDrill } from '../Drill';
 import { RankedBars } from '../charts';
 import DataTable from '../DataTable';
 import Sections from '../Sections';
+import { awardMix, familiesNoCompletions } from '@/lib/insight';
 
 export default function Q6({ lw }) {
   const LWA = lwAnnual(lw);
@@ -49,6 +50,7 @@ export default function Q6({ lw }) {
             render: () => (
                 <Panel
                   title="What credentials does VSCS award?"
+                  note={awardMix(V.byAward, V.totalCompletions)}
                   cap="Completions by award level."
                   src="IPEDS 2024 Completions · MAJORNUM=1, CIPCODE≠99 · CCV + Vermont State University"
                 >
@@ -76,6 +78,7 @@ export default function Q6({ lw }) {
             render: () => (
                 <Panel
                   title="Where does VSCS production line up with openings?"
+                  note={familiesNoCompletions(V.byFamily)}
                   cap="Click a row to list the occupations behind it. Openings are Vermont-wide; linked completions are VSCS output allocated across each program's occupations. Families whose occupations require no credential will show a low ratio by construction."
                   src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · employment-weighted allocation"
                 >

@@ -6,6 +6,7 @@ import { Callout, Panel, Legend, VHead, N } from '../ui';
 import { ActiveFilters } from '../Filters';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 import Sections from '../Sections';
+import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
 
 export default function Q3() {
   const fams = LC.families.slice();
@@ -65,6 +66,7 @@ export default function Q3() {
             render: () => (
                 <Panel
                   title="Do jobs, openings and postings point at the same families?"
+                  note={demandDivergence(align)}
                   cap="Each family's share of jobs, of annual openings, and of unique postings."
                   src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
                 >
@@ -131,6 +133,7 @@ export default function Q3() {
             render: () => (
                 <Panel
                   title="Which families grew, and which shrank, over the study window?"
+                  note={observedSplit(fams)}
                   cap="Observed change over the study window, by family."
                   src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
                 >
@@ -166,6 +169,7 @@ export default function Q3() {
             render: () => (
                 <Panel
                   title="Which families are projected to grow over the next five years?"
+                  note={growthSplit(fams)}
                   cap="Five-year projected change in jobs by family. Negative bars are projected contraction."
                   src="Lightcast · 2030 Jobs vs 2025 Jobs"
                 >

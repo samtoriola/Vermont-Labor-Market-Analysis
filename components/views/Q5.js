@@ -8,6 +8,7 @@ import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
 import { RankedBars } from '../charts';
 import Sections from '../Sections';
+import { topScoreCredentials } from '@/lib/insight';
 
 export default function Q5({ lw }) {
   const { apply } = useFilters();
@@ -42,6 +43,7 @@ export default function Q5({ lw }) {
             render: () => (
                 <Panel
                   title="Which occupations combine scale, growth, demand and pay?"
+                  note={topScoreCredentials(O.top)}
                   cap={`Composite of four percentile ranks at ${O.weightEach}% each. Hover for the full breakdown — the score is simply the mean of those four numbers.`}
                   src={`Lightcast · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
                 >

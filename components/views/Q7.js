@@ -7,6 +7,7 @@ import { fmt, money } from '@/lib/format';
 import { Callout, Panel, Table, VHead, N } from '../ui';
 import VermontMap from '../VermontMap';
 import Sections from '../Sections';
+import { countySpread, countyIncomeRange } from '@/lib/insight';
 
 export default function Q7() {
   const [metric, setMetric] = useState('ba');
@@ -71,6 +72,7 @@ export default function Q7() {
               <>
                 <Panel
                   title="How does opportunity differ across Vermont’s counties?"
+                  note={countySpread(R)}
                   cap="Switch the shading metric, then click a county to pin it."
                   src="ACS 2016–2020 5-year · MIT Living Wage 2025 · outlines from Census TIGER, simplified"
                 >
@@ -93,6 +95,7 @@ export default function Q7() {
               <>
                 <Panel
                   title="How does each county compare?"
+                  note={countyIncomeRange(R)}
                   cap="Click a row to pin that county."
                   src="ACS 2016–2020 5-year · MIT Living Wage 2025"
                 >

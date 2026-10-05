@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  LC, PCT, COMPARE, PEOPLE, SIZE_ORDER,
+  LC, PCT, COMPARE, PEOPLE, SIZE_ORDER, TOTJ,
   lwAnnual, wageStats, occDots, occBySize, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
@@ -13,7 +13,7 @@ import { occDotTip, personTip } from '../occCols';
 import { RankedBars, Scatter } from '../charts';
 import { DotColumns, DotLegend, PercentileLadder, LadderLegend } from '../dots';
 import Sections from '../Sections';
-import { sizeWageGap, meanMedianGap } from '@/lib/insight';
+import { meanAboveMedian, meanMedianGap, sizePayStep, sizeWageGap, topOccShare } from '@/lib/insight';
 
 export default function Q2({ lw, setLw }) {
   const LWA = lwAnnual(lw);
@@ -157,6 +157,7 @@ export default function Q2({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="How does pay spread within large, medium and smaller occupations?"
+                  note={sizePayStep(PCT.sizeTiers, SIZE_ORDER)}
                   cap="One dot per occupation, placed at its median pay and sized by employment. The solid line is the employment-weighted average, the dashed line the median. The three columns on the right put Vermont as a whole beside its nearest comparable state and the nation. Click a Vermont column for the occupations behind it."
                   src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
                 >
@@ -204,6 +205,7 @@ export default function Q2({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="Which 25 occupations employ the most Vermonters?"
+                  note={topOccShare(top, TOTJ, LC.allOcc.length)}
                   cap="Ranked by 2025 jobs. Green clears the living wage at the median, amber does not."
                   src="Lightcast · hover for SOC, earnings, entry credential and demand"
                 >
@@ -233,6 +235,7 @@ export default function Q2({ lw, setLw }) {
             render: () => (
                 <Panel
                   title="In the largest occupations, how far is the average above the typical worker?"
+                  note={meanAboveMedian(ladder)}
                   cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean; the distance between them is the pull of the upper tail. The dashed vertical is the living wage."
                   src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
                 >
