@@ -115,6 +115,6 @@ export function occDrill({ label, title, cap, occ, lwAnnual, extraStats = [] }) 
       ...extraStats,
     ],
     src:
-      'Lightcast · search, filter and sort above; export downloads the filtered rows',
+      'Lightcast · search, filter and sort with the controls at the top; export downloads the filtered rows',
   };
 }

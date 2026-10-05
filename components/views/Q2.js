@@ -8,7 +8,6 @@ import { fmt, money } from '@/lib/format';
 import { Panel, Table, VHead, LwPicker, N, DrillHint } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
-import OccTable from '../OccTable';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip, personTip } from '../occCols';
 import { RankedBars, Scatter } from '../charts';
@@ -50,7 +49,7 @@ export default function Q2({ lw, setLw }) {
 
   const areaRefs = ['Vermont', 'New Hampshire', 'United States'].map(compareCol).filter(Boolean);
 
-  // The occupation dots above are job-level: what a role pays. These are people --
+  // The occupation dot charts are job-level: what a role pays. These are people --
   // one dot per ACS respondent, at their own wage income. Vermont leads, the
   // neighbouring state and the nation follow as reference.
   const peopleAreas = PEOPLE.byArea.map((a, i) => ({
@@ -324,13 +323,6 @@ export default function Q2({ lw, setLw }) {
                     }}
                   />
                 </Panel>
-            ),
-          },
-          {
-            id: 'all-occupations',
-            label: 'All occupations',
-            render: () => (
-                <OccTable lw={lw} />
             ),
           },
         ]}
