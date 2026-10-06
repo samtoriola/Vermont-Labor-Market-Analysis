@@ -55,10 +55,17 @@ export function RankedBars({ rows, opts = {} }) {
 
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.value)));
   const max = opts.max !== undefined ? opts.max : niceMax(maxAbs);
-  const zeroX = signed ? labW + plotW / 2 : labW;
-  const scale = signed ? plotW / 2 / max : plotW / max;
 
-  const ticks = signed
+  // A zero-centred axis is right only when the bars actually straddle zero.
+  // `signed` is the caller saying negatives are possible and values carry a sign;
+  // whether any are present is a property of the rows, which a top or bottom slice
+  // changes. Reading it from the data stops a slice of all-positive bars from
+  // being drawn into half the plot with the other half empty.
+  const twoSided = signed && rows.some((r) => r.value < 0);
+  const zeroX = twoSided ? labW + plotW / 2 : labW;
+  const scale = twoSided ? plotW / 2 / max : plotW / max;
+
+  const ticks = twoSided
     ? [-max, -max / 2, 0, max / 2, max]
     : [0, max / 4, max / 2, (3 * max) / 4, max];
 
@@ -79,7 +86,7 @@ export function RankedBars({ rows, opts = {} }) {
               y1={padT - 9}
               x2={gx}
               y2={h - 4}
-              className={tv === 0 && signed ? 'axis' : 'grid'}
+              className={tv === 0 && twoSided ? 'axis' : 'grid'}
               strokeWidth={1}
             />
             <text x={gx} y={padT - 15} className="nbadge" textAnchor="middle" fontSize={10}>

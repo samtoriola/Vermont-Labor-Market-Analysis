@@ -5,6 +5,7 @@ import { LC, SERIES, SERIES_HEX } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { downloadCsv, exportName } from '@/lib/csv';
 import { downloadPanelPng } from '@/lib/png';
+import { rankViews, defaultView, applyView } from '@/lib/rank';
 
 export function Panel({ title, cap, src, note, exportData, children }) {
   const body = useRef(null);
@@ -32,6 +33,71 @@ export function Panel({ title, cap, src, note, exportData, children }) {
       ) : null}
       {src ? <div className="srcline">{src}</div> : null}
     </div>
+  );
+}
+
+/**
+ * Wraps a long ranked chart in a top / bottom / all control.
+ *
+ * A render prop rather than a prop on the chart components, because the choice is
+ * state and the sections render through plain functions -- a hook called in there
+ * would run only while that section is open, which is not a hook at all.
+ *
+ * `rows` is the whole pool. `show` is how many the chart drew before it had a
+ * control, and leaving it out means the chart was already drawing everything.
+ */
+export function Ranked({ id, rows, show, children }) {
+  const views = rankViews(rows ? rows.length : 0, show);
+  const [view, setView] = useState(defaultView(show));
+
+  const key = `vt-rank-${id}`;
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(key);
+      if (v && views.some((x) => x.id === v)) setView(v);
+    } catch (e) {
+      /* blocked storage -- keep the default */
+    }
+    // The ids are what matter; `views` is rebuilt every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, views.map((v) => v.id).join('|')]);
+
+  const pick = useCallback(
+    (next) => {
+      setView(next);
+      try {
+        localStorage.setItem(key, next);
+      } catch (e) {
+        /* non-fatal */
+      }
+    },
+    [key]
+  );
+
+  // A filter can leave too few rows to be worth splitting.
+  if (!views.length) return children(rows);
+  const current = views.some((v) => v.id === view) ? view : views[0].id;
+
+  return (
+    <>
+      <div className="rankctl">
+        <span className="sclab">Show</span>
+        <div className="chips">
+          {views.map((v) => (
+            <button
+              key={v.id}
+              type="button"
+              className={v.id === current ? 'on' : undefined}
+              aria-pressed={v.id === current}
+              onClick={() => pick(v.id)}
+            >
+              {v.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      {children(applyView(rows, current, show))}
+    </>
   );
 }
 

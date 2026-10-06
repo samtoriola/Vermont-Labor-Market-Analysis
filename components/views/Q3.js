@@ -2,7 +2,7 @@
 
 import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
-import { Callout, Panel, Legend, VHead, N } from '../ui';
+import { Callout, Panel, Legend, Ranked, VHead, N } from '../ui';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 import Sections from '../Sections';
 import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
@@ -72,10 +72,10 @@ export default function Q3({ section }) {
                     labels={['Share of jobs', 'Share of annual openings', 'Share of postings']}
                     colors={['--s1', '--s4', '--s3']}
                   />
+                  <Ranked id="q3-align" rows={align.slice().sort((a, b) => b.jobsSh - a.jobsSh)}>
+                    {(pick) => (
                   <GroupedBars
-                    rows={align
-                      .slice()
-                      .sort((a, b) => b.jobsSh - a.jobsSh)
+                    rows={pick
                       .map((r) => ({
                         label: r.f,
                         parts: [{ v: r.jobsSh }, { v: r.openSh }, { v: r.postSh }],
@@ -90,6 +90,8 @@ export default function Q3({ section }) {
                       aria: 'Jobs, openings and postings shares by family',
                     }}
                   />
+                  )}
+                </Ranked>
                 </Panel>
             ),
           },
@@ -102,8 +104,10 @@ export default function Q3({ section }) {
                   cap="The alignment index: a family's share of postings divided by its share of jobs. Above 1.0 means employers advertise more than the employment base would predict."
                   src={`Lightcast · ${fmt(totPost)} unique postings over ${LC.postWindow}`}
                 >
+                  <Ranked id="q3-postings" rows={hot}>
+                    {(pick) => (
                   <RankedBars
-                    rows={hot.map((r) => ({
+                    rows={pick.map((r) => ({
                       label: r.f,
                       value: r.idx,
                       color: r.idx >= 1 ? '--s3' : '--s2',
@@ -122,6 +126,8 @@ export default function Q3({ section }) {
                       aria: 'Postings alignment index',
                     }}
                   />
+                  )}
+                </Ranked>
                 </Panel>
             ),
           },
@@ -135,10 +141,13 @@ export default function Q3({ section }) {
                   cap="Observed change over the study window, by family."
                   src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
                 >
+                  <Ranked
+                    id="q3-observed"
+                    rows={fams.filter((r) => r.chgPct !== null).sort((a, b) => b.chgPct - a.chgPct)}
+                  >
+                    {(pick) => (
                   <RankedBars
-                    rows={fams
-                      .filter((r) => r.chgPct !== null)
-                      .sort((a, b) => b.chgPct - a.chgPct)
+                    rows={pick
                       .map((r) => ({
                         label: r.f,
                         value: r.chgPct,
@@ -158,6 +167,8 @@ export default function Q3({ section }) {
                       aria: 'Observed change 2021 to 2025 by family',
                     }}
                   />
+                  )}
+                </Ranked>
                 </Panel>
             ),
           },
@@ -171,8 +182,10 @@ export default function Q3({ section }) {
                   cap="Five-year projected change in jobs by family. Negative bars are projected contraction."
                   src="Lightcast · 2030 Jobs vs 2025 Jobs"
                 >
+                  <Ranked id="q3-growth" rows={growers}>
+                    {(pick) => (
                   <RankedBars
-                    rows={growers.map((r) => ({
+                    rows={pick.map((r) => ({
                       label: r.f,
                       value: r.g5pct,
                       color: r.g5pct >= 0 ? '--s3' : '--s2',
@@ -190,6 +203,8 @@ export default function Q3({ section }) {
                       aria: 'Projected five-year growth by family',
                     }}
                   />
+                  )}
+                </Ranked>
                 </Panel>
             ),
           },

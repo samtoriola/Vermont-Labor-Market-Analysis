@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { LC, SOW, TIER_ORDER, lwAnnual, occByFamily } from '@/lib/data';
 import { opportunityScreen, screenCols, SCREEN_TIERS, SUPPLY } from '@/lib/screen';
 import { fmt, money } from '@/lib/format';
-import { Callout, Panel, Table, VHead, N } from '../ui';
+import { Callout, Panel, Ranked, Table, VHead, N } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
@@ -111,8 +111,10 @@ export default function Q5({ lw, setLw, section }) {
                   cap={`Composite of four percentile ranks at ${O.weightEach}% each. Hover for the full breakdown — the score is simply the mean of those four numbers.`}
                   src={`Lightcast · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
                 >
+                  <Ranked id="q5-score" rows={shown} show={20}>
+                    {(pick) => (
                   <RankedBars
-                    rows={shown.slice(0, 20).map((r) => ({
+                    rows={pick.map((r) => ({
                       label: r.n,
                       value: r.sc,
                       color: '--s1',
@@ -142,6 +144,8 @@ export default function Q5({ lw, setLw, section }) {
                       aria: 'Highest-scoring occupations',
                     }}
                   />
+                    )}
+                  </Ranked>
                 </Panel>
               </>
             ),

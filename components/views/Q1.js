@@ -5,7 +5,7 @@ import {
   lwAnnual, occByFamily, wageStats, occDots, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Panel, Legend, Table, VHead, N, DrillHint } from '../ui';
+import { Panel, Legend, Ranked, Table, VHead, N, DrillHint } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip } from '../occCols';
 import { RankedBars, StackedRows } from '../charts';
@@ -100,8 +100,10 @@ export default function Q1({ lw, section }) {
                 cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
                 src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
               >
+                <Ranked id="q1-sectors" rows={LC.sectors}>
+                  {(pick) => (
                 <RankedBars
-                  rows={LC.sectors.map((r) => ({
+                  rows={pick.map((r) => ({
                     label: r.s,
                     value: r.j,
                     color: '--s3',
@@ -113,6 +115,8 @@ export default function Q1({ lw, section }) {
                   }))}
                   opts={{ labelWidth: 236, aria: 'Jobs by industry sector' }}
                 />
+                  )}
+                </Ranked>
               </Panel>
             ),
           },
@@ -127,8 +131,10 @@ export default function Q1({ lw, section }) {
                 src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
               >
                 <DrillHint />
+                <Ranked id="q1-jobs" rows={fams}>
+                  {(pick) => (
                 <RankedBars
-                  rows={fams.map((r) => ({
+                  rows={pick.map((r) => ({
                     label: r.f,
                     value: r.jobs,
                     color: '--s1',
@@ -144,6 +150,8 @@ export default function Q1({ lw, section }) {
                   }))}
                   opts={{ aria: 'Jobs by occupational family' }}
                 />
+                  )}
+                </Ranked>
               </Panel>
             ),
           },
@@ -158,8 +166,10 @@ export default function Q1({ lw, section }) {
                 src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
               >
                 <DotLegend unit="one occupation" />
+                <Ranked id="q1-pay" rows={famDots}>
+                  {(pick) => (
                 <DotRows
-                  rows={famDots.concat(famRefs)}
+                  rows={pick.concat(famRefs)}
                   opts={{
                     xMax: COMPARE.yMax,
                     rule: LWA,
@@ -168,6 +178,8 @@ export default function Q1({ lw, section }) {
                     aria: 'Median pay of every occupation, grouped by family',
                   }}
                 />
+                  )}
+                </Ranked>
               </Panel>
             ),
           },
@@ -182,14 +194,18 @@ export default function Q1({ lw, section }) {
                 src="Lightcast · Typical Entry Level Education, jobs-weighted"
               >
                 <Legend labels={TIER_ORDER} colors={SERIES} />
+                <Ranked id="q1-cred" rows={credRows}>
+                  {(pick) => (
                 <StackedRows
-                  rows={credRows}
+                  rows={pick}
                   opts={{
                     rightLabel: 'BA+',
                     tierNames: TIER_ORDER,
                     aria: 'Entry credential mix by family',
                   }}
                 />
+                  )}
+                </Ranked>
               </Panel>
             ),
           },

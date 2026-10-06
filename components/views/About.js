@@ -136,6 +136,10 @@ export default function About() {
               'The download button on a table exports the rows you are looking at, not the whole dataset — filter first, then export.',
             ],
             [
+              'Show the top or the bottom of a ranking',
+              'Long ranked charts carry a Show control. The default is the view the chart has always had; the other options take the same rows from the other end, or the whole list, and the count is on each button.',
+            ],
+            [
               'Save a chart as an image',
               'The PNG button on a chart saves what is on screen, carrying the question, the read-out and the source with it, so a chart dropped into a deck stays attributable.',
             ],

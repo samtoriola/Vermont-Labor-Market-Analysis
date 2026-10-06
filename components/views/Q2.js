@@ -5,7 +5,7 @@ import {
   lwAnnual, wageStats, occDots, occBySize, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Panel, VHead, LwPicker } from '../ui';
+import { Panel, Ranked, VHead, LwPicker } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
@@ -34,6 +34,7 @@ export default function Q2({ lw, setLw, section }) {
   const sz = LC.sizeTiers;
   const [big, mid, small] = sz;
   const top = LC.topOcc.slice(0, 25);
+  const topPool = LC.topOcc;
 
   const szDots = SIZE_ORDER.map((band) => {
     const occ = occBySize(band);
@@ -207,8 +208,10 @@ export default function Q2({ lw, setLw, section }) {
                   cap="Ranked by 2025 jobs. Green clears the living wage at the median, amber does not."
                   src="Lightcast · hover for SOC, earnings, entry credential and demand"
                 >
+                  <Ranked id="q2-top" rows={topPool} show={25}>
+                    {(pick) => (
                   <RankedBars
-                    rows={top.map((r) => ({
+                    rows={pick.map((r) => ({
                       // Full name: the chart shortens and, if it still has to, truncates.
                       label: r.n,
                       value: r.j,
@@ -225,6 +228,8 @@ export default function Q2({ lw, setLw, section }) {
                     }))}
                     opts={{ labelWidth: 262, aria: '25 largest occupations by employment' }}
                   />
+                    )}
+                  </Ranked>
                 </Panel>
             ),
           },
@@ -241,8 +246,10 @@ export default function Q2({ lw, setLw, section }) {
                   src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
                 >
                   <LadderLegend />
+                  <Ranked id="q2-ladder" rows={ladder}>
+                    {(pick) => (
                   <PercentileLadder
-                    rows={ladder}
+                    rows={pick}
                     opts={{
                       labelWidth: 262,
                       rule: LWA,
@@ -250,6 +257,8 @@ export default function Q2({ lw, setLw, section }) {
                       aria: 'Percentile range, median and mean for the 25 largest occupations',
                     }}
                   />
+                    )}
+                  </Ranked>
                 </Panel>
               </>
             ),
