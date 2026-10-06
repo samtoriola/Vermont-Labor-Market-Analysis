@@ -6,7 +6,6 @@ import {
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Callout, Panel, Table, VHead, LwPicker, N } from '../ui';
-import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip, personTip } from '../occCols';
 import { RankedBars } from '../charts';
@@ -80,10 +79,6 @@ export default function Q4({ lw, setLw, section }) {
       >
         What share of Vermont employment is associated with bachelor’s-level, sub-baccalaureate, high school, and other educational pathways, and how are these requirements related to earnings and employment opportunity?
       </VHead>
-
-      <ActiveFilters />
-
-      <LwPicker value={lw} onChange={setLw} />
 
       <Sections
         id="pathways"
@@ -159,6 +154,8 @@ export default function Q4({ lw, setLw, section }) {
             id: 'what-the-job-requires',
             label: 'What the job requires',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
                 <Panel
                   title="What does each rung pay, by what the job asks for?"
                   note={ladderStep(LC.tiers, TIER_ORDER)}
@@ -177,12 +174,15 @@ export default function Q4({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
             id: 'what-people-hold',
             label: 'What people hold',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
                 <Panel
                   title="What does each rung pay, by the credential workers hold?"
                   note={peopleLadderStep(PEOPLE.byCred)}
@@ -201,12 +201,15 @@ export default function Q4({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
             id: 'above-the-living-wage',
             label: 'Above the living wage',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
                 <Panel
                   title="Which credential levels clear the living wage?"
                   note={livingWageJump(LC.tiers, TIER_ORDER, lw)}
@@ -236,12 +239,15 @@ export default function Q4({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
             id: 'which-credentials-pay',
             label: 'Which credentials pay',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
               <Panel
                 title="Which credentials lead to a job that both hires and pays?"
                 cap={`Every Vermont occupation at each entry credential, narrowed twice: first to those hiring at scale — at least ${MIN_OPEN} annual openings — then to those paying at or above the living wage. Counts are occupations, not jobs, so this reads as how many doors a credential opens. Benchmark: ${lw}.`}
@@ -269,6 +275,7 @@ export default function Q4({ lw, setLw, section }) {
                   }))}
                 />
               </Panel>
+              </>
             ),
           },
           {

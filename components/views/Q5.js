@@ -94,11 +94,6 @@ export default function Q5({ lw, setLw, section }) {
         Which occupations represent high-demand and high-value opportunities based on employment, projected growth, annual openings, job postings, earnings, and educational accessibility?
       </VHead>
 
-      <ActiveFilters />
-
-
-      <Filters shown={shown.length} total={O.top.length} note="of the top 30 scored" showFamilies />
-
       <Sections
         id="opportunity"
         active={section}
@@ -107,6 +102,9 @@ export default function Q5({ lw, setLw, section }) {
             id: 'highest-scoring',
             label: 'Highest scoring',
             render: () => (
+              <>
+                <ActiveFilters />
+                <Filters shown={shown.length} total={O.top.length} note="of the top 30 scored" showFamilies />
                 <Panel
                   title="Which occupations combine scale, growth, demand and pay?"
                   note={topScoreCredentials(O.top)}
@@ -145,6 +143,7 @@ export default function Q5({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
@@ -239,7 +238,11 @@ export default function Q5({ lw, setLw, section }) {
             id: 'all-occupations',
             label: 'All occupations',
             render: () => (
+              <>
+                <ActiveFilters />
+                <Filters shown={shown.length} total={O.top.length} note="of the top 30 scored" showFamilies />
                 <OccTable lw={lw} />
+              </>
             ),
           },
           {

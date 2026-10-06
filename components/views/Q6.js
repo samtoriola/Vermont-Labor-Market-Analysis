@@ -3,7 +3,6 @@
 import { SOW, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Callout, Panel, Table, VHead, N } from '../ui';
-import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars } from '../charts';
 import DataTable from '../DataTable';
@@ -38,8 +37,6 @@ export default function Q6({ lw, section }) {
       >
         How well does VSCS graduate production align with occupational demand, and where do program-to-occupation relationships suggest strong pipelines, diffuse career pathways, potential undersupply, or limited labor market opportunity?
       </VHead>
-
-      <ActiveFilters />
 
       <Sections
         id="alignment"

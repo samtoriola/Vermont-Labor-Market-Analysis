@@ -101,18 +101,6 @@ export default function Q2({ lw, setLw, section }) {
         Which occupations employ the largest numbers of Vermont workers, and how does wage quality — measured against a self-sufficiency benchmark — vary across large, medium, and smaller occupations?
       </VHead>
 
-      <ActiveFilters />
-
-      <LwPicker value={lw} onChange={setLw} />
-
-
-
-
-
-
-
-      <Filters shown={filtered.length} total={LC.allOcc.length} showFamilies />
-
       <Sections
         id="wage"
         active={section}
@@ -121,6 +109,8 @@ export default function Q2({ lw, setLw, section }) {
             id: 'wage-quality-by-size',
             label: 'Wage quality by size',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
                 <Panel
                   title="Do the largest occupations pay a living wage?"
                   note={sizeWageGap(LC.sizeTiers, lw)}
@@ -150,12 +140,15 @@ export default function Q2({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
             id: 'median-pay-by-size',
             label: 'Median pay by size',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
                 <Panel
                   title="How does pay spread within large, medium and smaller occupations?"
                   note={sizePayStep(PCT.sizeTiers, SIZE_ORDER)}
@@ -174,12 +167,15 @@ export default function Q2({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
             id: 'worker-earnings',
             label: 'Worker earnings',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
                 <Panel
                   title="What do individual Vermonters actually earn?"
                   note={meanMedianGap(PEOPLE.byArea[0])}
@@ -198,6 +194,7 @@ export default function Q2({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
@@ -234,6 +231,8 @@ export default function Q2({ lw, setLw, section }) {
             id: 'mean-against-median',
             label: 'Mean against median',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
                 <Panel
                   title="In the largest occupations, how far is the average above the typical worker?"
                   note={meanAboveMedian(ladder)}
@@ -251,12 +250,18 @@ export default function Q2({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
             id: 'size-against-pay',
             label: 'Size against pay',
             render: () => (
+              <>
+                <LwPicker value={lw} onChange={setLw} />
+              <>
+                <ActiveFilters />
+                <Filters shown={filtered.length} total={LC.allOcc.length} showFamilies />
                 <Panel
                   title="Does a bigger occupation pay better or worse?"
                   cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Colored by size tier.`}
@@ -287,6 +292,8 @@ export default function Q2({ lw, setLw, section }) {
                     }}
                   />
                 </Panel>
+              </>
+              </>
             ),
           },
         ]}

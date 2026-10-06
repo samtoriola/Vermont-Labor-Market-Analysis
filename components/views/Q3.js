@@ -3,7 +3,6 @@
 import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { Callout, Panel, Legend, VHead, N } from '../ui';
-import { ActiveFilters } from '../Filters';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 import Sections from '../Sections';
 import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
@@ -54,8 +53,6 @@ export default function Q3({ section }) {
       >
         Where are projected job growth, annual openings, and current employer demand concentrated, and how closely do these measures align with Vermont’s existing employment base?
       </VHead>
-
-      <ActiveFilters />
 
       <Sections
         id="demand"

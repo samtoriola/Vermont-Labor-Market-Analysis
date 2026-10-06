@@ -6,7 +6,6 @@ import {
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Panel, Legend, Table, VHead, N, DrillHint } from '../ui';
-import { ActiveFilters } from '../Filters';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip } from '../occCols';
 import { RankedBars, StackedRows } from '../charts';
@@ -86,8 +85,6 @@ export default function Q1({ lw, section }) {
       >
         How is Vermont employment distributed across occupational families, and how does that distribution vary by industry, earnings, and typical entry-level education?
       </VHead>
-
-      <ActiveFilters />
 
       <Sections
         id="structure"
