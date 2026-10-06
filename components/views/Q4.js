@@ -2,7 +2,7 @@
 
 import {
   DATA, LC, PCT, TIER_ORDER, SERIES, COMPARE, PEOPLE,
-  lwAnnual, occByTier, wageStats, occDots,
+  lwAnnual, occByTier, wageStats, occDots, credentialFunnel,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Callout, Panel, Table, VHead, LwPicker, N } from '../ui';
@@ -12,11 +12,18 @@ import { occDotTip, personTip } from '../occCols';
 import { RankedBars } from '../charts';
 import { DotColumns, DotLegend } from '../dots';
 import Sections from '../Sections';
-import { ladderStep, peopleLadderStep, livingWageJump, largestCategory } from '@/lib/insight';
+import {
+  funnelContrast, ladderStep, peopleLadderStep, livingWageJump, largestCategory,
+} from '@/lib/insight';
 
 export default function Q4({ lw, setLw }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
+
+  // Counts occupations, not jobs: the question is whether a credential opens a
+  // door, not how many people are already through it.
+  const MIN_OPEN = 50;
+  const funnel = credentialFunnel(LWA, MIN_OPEN);
 
   const tierDrill = (k) =>
     open(
@@ -228,6 +235,39 @@ export default function Q4({ lw, setLw }) {
                     }}
                   />
                 </Panel>
+            ),
+          },
+          {
+            id: 'which-credentials-pay',
+            label: 'Which credentials pay',
+            render: () => (
+              <Panel
+                title="Which credentials lead to a job that both hires and pays?"
+                cap={`Every Vermont occupation at each entry credential, narrowed twice: first to those hiring at scale — at least ${MIN_OPEN} annual openings — then to those paying at or above the living wage. Counts are occupations, not jobs, so this reads as how many doors a credential opens. Benchmark: ${lw}.`}
+                src={`Lightcast · Typical Entry Level Education · openings ≥ ${MIN_OPEN}/yr · benchmark: MIT Living Wage 2025`}
+                note={funnelContrast(funnel)}
+              >
+                <Table
+                  cols={[
+                    'Entry credential',
+                    'Occupations',
+                    `Hiring (${MIN_OPEN}+ openings)`,
+                    'Paying a living wage',
+                    'Openings',
+                    'Share of tier',
+                  ]}
+                  rows={funnel.map((r) => ({
+                    cells: [
+                      r.t,
+                      fmt(r.nAll),
+                      fmt(r.nHiring),
+                      fmt(r.nPaying),
+                      fmt(r.open),
+                      r.shareOpen === null ? '\u2014' : r.shareOpen.toFixed(1) + '%',
+                    ],
+                  }))}
+                />
+              </Panel>
             ),
           },
           {
