@@ -283,6 +283,24 @@ out["vscs"] = {
     "openingsCovered": round(float(al.loc[al["linked"] > 0, "open"].sum()
                                    / al["open"].sum()) * 1000) / 10,
 }
+# Per-occupation supply, which is what an opportunity screen has to filter on. The
+# family roll-up below is kept for the family view, but a family ratio cannot
+# distinguish the occupations inside it: every one of them inherits the same number.
+# Zeros are carried explicitly -- an occupation with no linked completions is the
+# finding, so it must not be absent from the map.
+out["vscs"]["bySoc"] = {
+    r["soc"]: {
+        "linked": round(float(r["linked"]), 1),
+        "ratio": (round(float(r["ratio"]), 4) if pd.notna(r["ratio"]) else None),
+    }
+    for _, r in al.iterrows()
+}
+n_zero = int((al["linked"] == 0).sum())
+print("\nper-occupation supply: %d occupations, %d with no linked completions"
+      % (len(out["vscs"]["bySoc"]), n_zero))
+print("  of those zeros, %d have 50+ annual openings and pay at or above the living wage"
+      % int(((al["linked"] == 0) & (al["open"] >= 50) & (al["lwRatio"] >= 1)).sum()))
+
 # family-level supply vs demand
 famal = al.groupby("family").agg(linked=("linked", "sum"),
                                  linked_eq=("linked_eq", "sum"),
