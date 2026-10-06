@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { LC, SOW, TIER_ORDER, lwAnnual, occByFamily } from '@/lib/data';
 import { opportunityScreen, screenCols, SCREEN_TIERS, SUPPLY } from '@/lib/screen';
 import { fmt, money } from '@/lib/format';
-import { Callout, Panel, Ranked, Table, VHead, N } from '../ui';
+import { Callout, Panel, Picker, Ranked, Table, VHead, N } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
@@ -154,41 +154,44 @@ export default function Q5({ lw, setLw, section }) {
             id: 'by-credential-tier',
             label: 'By credential tier',
             render: () => (
-              <>
-                  {TIER_ORDER.filter((t) => O.byTier[t]).map((t) => (
-                    <Panel
-                      key={t}
-                      title={'Which occupations score highest for ' + t + '?'}
-                      cap={`Top ${O.byTier[t].length} by composite score within this entry-credential tier.`}
-                      src="Lightcast · same four-indicator composite, ranked within tier · openings shown for context, not scored"
-                    >
-                      <Table
-                        cols={[
-                          'Occupation',
-                          'Score',
-                          'Jobs',
-                          'Median',
-                          'Median vs LW',
-                          'Postings /100',
-                          '5-yr growth',
-                          'Annual openings',
-                        ]}
-                        rows={O.byTier[t].map((r) => ({
-                          cells: [
-                            r.n,
-                            r.sc.toFixed(1),
-                            fmt(r.j),
-                            money(r.m),
-                            r.lw + '×',
-                            r.pp,
-                            r.g + '%',
-                            fmt(r.o),
-                          ],
-                        }))}
-                      />
-                    </Panel>
-                  ))}
-              </>
+              <Panel
+                title="Which occupations score highest within a credential tier?"
+                cap="The same composite, ranked inside one entry-credential tier at a time rather than across all of them, so a tier is judged against its own field. Pick a tier."
+                src="Lightcast · same four-indicator composite, ranked within tier · openings shown for context, not scored"
+              >
+                <Picker
+                  id="q5-tier"
+                  label="Entry credential"
+                  options={TIER_ORDER.filter((t) => O.byTier[t]).map((t) => ({ id: t, label: t }))}
+                >
+                  {(t) => (
+                    <Table
+                      cols={[
+                        'Occupation',
+                        'Score',
+                        'Jobs',
+                        'Median',
+                        'Median vs LW',
+                        'Postings /100',
+                        '5-yr growth',
+                        'Annual openings',
+                      ]}
+                      rows={O.byTier[t].map((r) => ({
+                        cells: [
+                          r.n,
+                          r.sc.toFixed(1),
+                          fmt(r.j),
+                          money(r.m),
+                          r.lw + '×',
+                          r.pp,
+                          r.g + '%',
+                          fmt(r.o),
+                        ],
+                      }))}
+                    />
+                  )}
+                </Picker>
+              </Panel>
             ),
           },
           {

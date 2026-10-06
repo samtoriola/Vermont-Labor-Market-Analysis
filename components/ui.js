@@ -37,6 +37,68 @@ export function Panel({ title, cap, src, note, exportData, children }) {
 }
 
 /**
+ * One of several views of the same shape, chosen with a row of buttons.
+ *
+ * Where a section would otherwise stack a panel per category -- five credential
+ * tiers, say -- this shows one and lets the reader pick, which is the difference
+ * between a page that scrolls and a panel that fits.
+ *
+ * A component rather than a prop, for the same reason as `Ranked`: the choice is
+ * state, and the sections render through plain functions.
+ */
+export function Picker({ id, label, options, children }) {
+  const [active, setActive] = useState(options.length ? options[0].id : null);
+
+  const key = `vt-pick-${id}`;
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(key);
+      if (v && options.some((o) => o.id === v)) setActive(v);
+    } catch (e) {
+      /* blocked storage -- keep the first option */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, options.map((o) => o.id).join('|')]);
+
+  const pick = useCallback(
+    (next) => {
+      setActive(next);
+      try {
+        localStorage.setItem(key, next);
+      } catch (e) {
+        /* non-fatal */
+      }
+    },
+    [key]
+  );
+
+  if (!options.length) return null;
+  const current = options.some((o) => o.id === active) ? active : options[0].id;
+
+  return (
+    <>
+      <div className="rankctl">
+        {label ? <span className="sclab">{label}</span> : null}
+        <div className="chips">
+          {options.map((o) => (
+            <button
+              key={o.id}
+              type="button"
+              className={o.id === current ? 'on' : undefined}
+              aria-pressed={o.id === current}
+              onClick={() => pick(o.id)}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      {children(current)}
+    </>
+  );
+}
+
+/**
  * Wraps a long ranked chart in a top / bottom / all control.
  *
  * A render prop rather than a prop on the chart components, because the choice is

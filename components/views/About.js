@@ -136,6 +136,10 @@ export default function About() {
               'The download button on a table exports the rows you are looking at, not the whole dataset — filter first, then export.',
             ],
             [
+              'Pick a category instead of scrolling past them',
+              'Where a section would otherwise stack one panel per category — the credential tiers on Opportunities, for instance — it shows one and gives you buttons to switch.',
+            ],
+            [
               'Show the top or the bottom of a ranking',
               'Long ranked charts carry a Show control. The default is the view the chart has always had; the other options take the same rows from the other end, or the whole list, and the count is on each button.',
             ],
