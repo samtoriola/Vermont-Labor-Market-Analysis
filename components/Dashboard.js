@@ -13,22 +13,23 @@ import Pathways from './views/Q4';
 import Opportunity from './views/Q5';
 import Alignment from './views/Q6';
 import Regions from './views/Q7';
-import Opportunities8 from './views/Q8';
 import About from './views/About';
 import Methods from './views/Methods';
 
+// Regions sits next to Overview: both are statewide orientation before the analysis
+// narrows. Program opportunities folded into Opportunities, which carries the index
+// and the screen together.
 const VIEWS = [
   ['overview', 'Overview', Overview],
-  ['structure', 'Employment structure', Structure],
+  ['regions', 'Regions', Regions],
+  ['structure', 'Employment', Structure],
   ['wage', 'Wage quality', WageQuality],
   ['demand', 'Demand & growth', Demand],
   ['pathways', 'Pathways', Pathways],
-  ['opportunity', 'Opportunity index', Opportunity],
+  ['opportunity', 'Opportunities', Opportunity],
   ['alignment', 'VSCS alignment', Alignment],
-  ['regions', 'Regions', Regions],
-  ['implications', 'Program opportunities', Opportunities8],
   ['about', 'About', About],
-  ['methods', 'Methods & limits', Methods],
+  ['methods', 'Methods', Methods],
 ];
 
 function readStored(key, fallback, valid) {

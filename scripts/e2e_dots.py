@@ -2,11 +2,11 @@
 import pathlib, time, urllib.request
 from playwright.sync_api import sync_playwright
 
-URL = "http://127.0.0.1:3156/"
+URL = "http://127.0.0.1:3159/"
 OUT = pathlib.Path(__file__).resolve().parent.parent / "_shots"
 OUT.mkdir(exist_ok=True)
-TABS = ["overview", "structure", "wage", "demand", "pathways",
-        "opportunity", "alignment", "regions", "implications", "about", "methods"]
+TABS = ["overview", "regions", "structure", "wage", "demand", "pathways",
+        "opportunity", "alignment", "about", "methods"]
 
 for _ in range(60):
     try:

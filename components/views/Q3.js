@@ -196,20 +196,6 @@ export default function Q3() {
             ),
           },
           {
-            id: 'cps-cross-check',
-            label: 'CPS cross-check',
-            render: () => (
-                <Panel
-                  title="Does an independent survey agree on the direction of change?"
-                  cap="Lightcast projections are modeled; CPS is a survey. Changes marked “ns” are not distinguishable from zero at 95%."
-                  src="CPS · 2025 is an 11-month average · SE of a weighted total approximated as e/√n at design effect ≈ 1"
-                >
-                  <Legend labels={['2021', '2025']} colors={['--s3', '--s1']} />
-                  <Dumbbell rows={cpsRows} />
-                </Panel>
-            ),
-          },
-          {
             id: 'how-openings-are-defined',
             label: 'How openings are defined',
             render: () => (

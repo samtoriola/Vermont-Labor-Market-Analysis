@@ -50,7 +50,7 @@ export default function About() {
             ],
             [
               'What this is not',
-              'Not a forecast and not a program recommendation. It reports what the sources say and states where they disagree. Sources, measure definitions and every suppression rule are on the Methods & limits tab.',
+              'Not a forecast and not a program recommendation. It reports what the sources say and states where they disagree. Sources, measure definitions and every suppression rule are on the Methods tab.',
             ],
           ]}
         />
@@ -93,8 +93,8 @@ export default function About() {
             },
             {
               cells: [
-                'Opportunity index',
-                'Occupations scoring highest on scale, growth, advertised demand and pay together, at each credential level',
+                'Opportunities',
+                'Occupations scoring highest on scale, growth, demand and pay — and which of them VSCS could act on',
               ],
             },
             {
@@ -108,13 +108,7 @@ export default function About() {
             },
             {
               cells: [
-                'Program opportunities',
-                'Which occupations VSCS could act on: real hiring, adequate pay, a credential it awards, and a thin or absent pipeline',
-              ],
-            },
-            {
-              cells: [
-                'Methods & limits',
+                'Methods',
                 'Sources, what each measure means, the rules applied to the data, and what is not covered',
               ],
             },

@@ -1,6 +1,8 @@
 'use client';
 
-import { SOW, TIER_ORDER, lwAnnual } from '@/lib/data';
+import { useState } from 'react';
+import { LC, SOW, TIER_ORDER, lwAnnual, occByFamily } from '@/lib/data';
+import { opportunityScreen, screenCols, SCREEN_TIERS, SUPPLY } from '@/lib/screen';
 import { fmt, money } from '@/lib/format';
 import { Callout, Panel, Table, VHead, N } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
@@ -8,10 +10,73 @@ import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
 import { RankedBars } from '../charts';
 import Sections from '../Sections';
-import { topScoreCredentials } from '@/lib/insight';
+import { topScoreCredentials, screenYield, screenNarration } from '@/lib/insight';
+import DataTable from '../DataTable';
+import { useDrill, occDrill } from '../Drill';
+import { LwPicker } from '../ui';
 
-export default function Q5({ lw }) {
+export default function Q5({ lw, setLw }) {
   const { apply } = useFilters();
+  const { open } = useDrill();
+  const LWA = lwAnnual(lw);
+
+  // The screen's own criteria. Held here because two sections read them, and rendered
+  // inside the panel they govern rather than above the whole tab.
+  const [minOpen, setMinOpen] = useState(50);
+  const [screenTiers, setScreenTiers] = useState(SCREEN_TIERS);
+  const [excludeObvious, setExcludeObvious] = useState(true);
+  const screened = opportunityScreen({
+    lwAnnual: LWA, minOpen, tiers: screenTiers, excludeObvious,
+  });
+  const acted = screened.filter((r) => r.nSignals >= 2 && r.supply !== SUPPLY.established);
+  const toggleTier = (t) =>
+    setScreenTiers((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : cur.concat(t)));
+  const screenDrill = (r) =>
+    open(
+      occDrill({
+        label: 'Occupational family',
+        title: r.f,
+        cap: `Opened from ${r.n}. Every occupation in this family.`,
+        occ: occByFamily(r.f),
+        lwAnnual: LWA,
+      })
+    );
+  const controls = (
+    <div className="screenctl">
+      <div className="scl">
+        <span className="sclab">Minimum annual openings</span>
+        <div className="chips">
+          {[25, 50, 100].map((n) => (
+            <button key={n} type="button" className={n === minOpen ? 'on' : undefined}
+              aria-pressed={n === minOpen} onClick={() => setMinOpen(n)}>
+              {n}+
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="scl">
+        <span className="sclab">Credentials VSCS awards</span>
+        <div className="chips">
+          {TIER_ORDER.map((t) => (
+            <button key={t} type="button" className={screenTiers.includes(t) ? 'on' : undefined}
+              aria-pressed={screenTiers.includes(t)} onClick={() => toggleTier(t)}>
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="scl">
+        <span className="sclab">The obvious</span>
+        <div className="chips">
+          <button type="button" className={excludeObvious ? 'on' : undefined}
+            aria-pressed={excludeObvious} onClick={() => setExcludeObvious((v) => !v)}>
+            {excludeObvious ? 'Excluding the 25 largest' : 'Including the 25 largest'}
+          </button>
+        </div>
+      </div>
+      <LwPicker value={lw} onChange={setLw} />
+    </div>
+  );
   const O = SOW.opp;
   const top = O.top;
   // Filters narrow the scored list; the composite itself is unchanged.
@@ -120,6 +185,53 @@ export default function Q5({ lw }) {
                     </Panel>
                   ))}
               </>
+            ),
+          },
+          {
+            id: 'program-candidates',
+            label: 'Program candidates',
+            render: () => (
+              <Panel
+                title="Which occupations could VSCS act on?"
+                cap={`Occupations clearing four tests at once: at least ${minOpen} annual openings, pay at or above the living wage, a credential VSCS awards${excludeObvious ? ', and not among the 25 largest' : ''}. Signals count how many of three movements an occupation shows — openings, advertised demand and projected growth — each ranked within its own credential tier. Click a row for its occupational family.`}
+                src="Lightcast occupations × IPEDS 2024 completions via cip2020_soc2018 · thresholds set above · a candidate for investigation, not a recommendation"
+                note={screenYield(screened, acted, LC.allOcc.length)}
+              >
+                {controls}
+                <DataTable
+                  cols={screenCols()}
+                  rows={screened}
+                  initialSort={{ k: 'o', dir: -1 }}
+                  exportLabel="program-opportunities"
+                  rowKey={(r) => r.s}
+                  onRowClick={screenDrill}
+                  pageSize={30}
+                />
+              </Panel>
+            ),
+          },
+          {
+            id: 'read-out',
+            label: 'Read out',
+            render: () => (
+              <Panel
+                title="How would these read out loud?"
+                cap="The candidates stated as they would be said over a slide rather than read off a table, ordered by annual openings. Set the criteria on the previous section."
+                src="Generated from the figures in the table · no figure appears here that is not in it"
+              >
+                {acted.length ? (
+                  <ol className="narr">
+                    {acted.slice(0, 10).map((r) => (
+                      <li key={r.s}>{screenNarration(r)}</li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p className="cap">
+                    No occupation clears the screen at these criteria. Loosen the minimum
+                    openings, add a credential tier, or include the largest occupations.
+                  </p>
+                )}
+              </Panel>
             ),
           },
           {

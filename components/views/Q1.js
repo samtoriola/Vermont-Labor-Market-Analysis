@@ -195,22 +195,6 @@ export default function Q1({ lw }) {
               </Panel>
             ),
           },
-          {
-            id: 'cross',
-            label: 'Family by industry',
-            render: () => (
-              <Panel
-                title="Which industries does each occupational family work in?"
-                cap="Neither Lightcast export carries an occupation-by-industry staffing pattern, so this cross comes from CPS microdata — the only source here that observes both on the same person. Top 12 families by CPS employment."
-                src="CPS 2021–2025 pooled · annual-average employment · complementary to the Lightcast industry levels"
-              >
-                <Table
-                  cols={['Family', 'CPS employment', 'Largest industry', '2nd', '3rd']}
-                  rows={cpsRows}
-                />
-              </Panel>
-            ),
-          },
         ]}
       />
     </>
