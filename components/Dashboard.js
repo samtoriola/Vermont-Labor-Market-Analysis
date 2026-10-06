@@ -23,7 +23,7 @@ const VIEWS = [
   ['wage', 'Wage quality', WageQuality],
   ['demand', 'Demand & growth', Demand],
   ['pathways', 'Pathways', Pathways],
-  ['opportunity', 'Opportunities', Opportunity],
+  ['opportunity', 'Opportunity index', Opportunity],
   ['alignment', 'VSCS alignment', Alignment],
   ['regions', 'Regions', Regions],
   ['implications', 'Program opportunities', Opportunities8],

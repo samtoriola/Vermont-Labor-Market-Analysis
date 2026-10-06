@@ -93,7 +93,7 @@ export default function About() {
             },
             {
               cells: [
-                'Opportunities',
+                'Opportunity index',
                 'Occupations scoring highest on scale, growth, advertised demand and pay together, at each credential level',
               ],
             },
