@@ -149,7 +149,7 @@ img {
    destination, so the main column carries no navigation of its own. */
 .shell {
   display: grid;
-  grid-template-columns: 218px minmax(0, 1fr);
+  grid-template-columns: 244px minmax(0, 1fr);
   min-height: 100vh;
 }
 
@@ -308,7 +308,9 @@ header.top {
 }
 
 .wrap {
-  max-width: 1180px;
+  /* Wide enough to use a large display, capped so charts do not scale past the point
+     where their type looks oversized against the rest of the page. */
+  max-width: 1560px;
   margin: 0;
   padding-inline: 20px;
   padding-block: 22px 64px;
@@ -490,6 +492,7 @@ section.view {
 .panel > .cap {
   color: var(--ink-2);
   font-size: 13px;
+  max-width: 108ch;
   margin: 0 0 15px;
   max-width: 88ch;
 }

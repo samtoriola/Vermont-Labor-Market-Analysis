@@ -83,7 +83,10 @@ export function DotColumns({ groups, opts = {} }) {
       {groups.map((g, gi) => {
         const x0 = padL + gi * colW;
         const cx = x0 + colW / 2;
-        const band = Math.min(colW - 18, 118);
+        // Capped so a chart with three columns does not draw three very wide
+        // slabs, but wide enough that the cloud reads as a column rather than a
+        // thread. Only bites below about six columns; past that colW is smaller.
+        const band = Math.min(colW - 18, 152);
         const left = cx - band / 2;
         const tone = g.color || (g.ref ? '--ink-3' : '--s1');
         const clickable = typeof g.onClick === 'function';

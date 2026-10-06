@@ -1,8 +1,9 @@
 """Verify the dot distributions, the percentile ladder, and that nothing else broke."""
+import os
 import pathlib, time, urllib.request
 from playwright.sync_api import sync_playwright
 
-URL = "http://127.0.0.1:3163/"
+URL = "http://127.0.0.1:%s/" % os.environ.get("VT_PORT", "3163")
 OUT = pathlib.Path(__file__).resolve().parent.parent / "_shots"
 OUT.mkdir(exist_ok=True)
 

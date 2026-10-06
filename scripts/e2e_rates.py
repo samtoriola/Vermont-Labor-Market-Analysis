@@ -7,12 +7,13 @@ jobs, 19,390% projected growth before the rule) and Bailiffs (0.1 -> 55.9 jobs,
 
 Run against `next start` on the port below.
 """
+import os
 import time, urllib.request
 import sys
 from playwright.sync_api import sync_playwright
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-URL = "http://127.0.0.1:3163/"
+URL = "http://127.0.0.1:%s/" % os.environ.get("VT_PORT", "3163")
 for _ in range(60):
     try:
         urllib.request.urlopen(URL, timeout=3).read(); break
