@@ -1,13 +1,39 @@
 'use client';
 
+import { useState, useEffect, useCallback } from 'react';
 import { NAV } from '@/lib/nav';
 
+const KEY = 'vt-closed';
+
 /**
- * Persistent left navigation. Group headings are labels, not controls -- a group has
- * no page of its own, so making it clickable would promise something that is not there.
- * Every destination in the dashboard is reachable from here without opening anything.
+ * Persistent left navigation. Each topic collapses, and which ones are closed is
+ * remembered. The group holding the open section is always shown expanded whatever
+ * was stored, so the sidebar can never hide where the reader currently is.
  */
 export default function Sidebar({ view, section, onGo, collapsed, onToggle }) {
+  const [closed, setClosed] = useState([]);
+
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(KEY);
+      if (v) setClosed(v.split(',').filter(Boolean));
+    } catch (e) {
+      /* blocked storage — everything stays open */
+    }
+  }, []);
+
+  const toggleGroup = useCallback((id) => {
+    setClosed((cur) => {
+      const next = cur.includes(id) ? cur.filter((x) => x !== id) : cur.concat(id);
+      try {
+        localStorage.setItem(KEY, next.join(','));
+      } catch (e) {
+        /* non-fatal */
+      }
+      return next;
+    });
+  }, []);
+
   return (
     <nav className={collapsed ? 'sidebar collapsed' : 'sidebar'} aria-label="Sections">
       <button
@@ -35,23 +61,42 @@ export default function Sidebar({ view, section, onGo, collapsed, onToggle }) {
                 {n.label}
               </button>
             ) : (
-              <div className="sbgroup" key={n.view}>
-                <div className="sbhead">{n.label}</div>
-                {n.items.map((it) => {
-                  const on = view === n.view && section === it.id;
-                  return (
+              (() => {
+                // Never collapse the topic the reader is currently inside.
+                const here = view === n.view;
+                const isOpen = here || !closed.includes(n.view);
+                return (
+                  <div className="sbgroup" key={n.view}>
                     <button
-                      key={it.id}
                       type="button"
-                      className={'sbitem' + (on ? ' on' : '')}
-                      aria-current={on ? 'page' : undefined}
-                      onClick={() => onGo(n.view, it.id)}
+                      className="sbhead"
+                      aria-expanded={isOpen}
+                      onClick={() => toggleGroup(n.view)}
                     >
-                      {it.label}
+                      <span className={isOpen ? 'chev open' : 'chev'} aria-hidden="true">
+                        {'›'}
+                      </span>
+                      {n.label}
                     </button>
-                  );
-                })}
-              </div>
+                    {isOpen
+                      ? n.items.map((it) => {
+                          const on = here && section === it.id;
+                          return (
+                            <button
+                              key={it.id}
+                              type="button"
+                              className={'sbitem' + (on ? ' on' : '')}
+                              aria-current={on ? 'page' : undefined}
+                              onClick={() => onGo(n.view, it.id)}
+                            >
+                              {it.label}
+                            </button>
+                          );
+                        })
+                      : null}
+                  </div>
+                );
+              })()
             )
           )}
         </div>

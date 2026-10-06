@@ -116,7 +116,7 @@ body {
   background: var(--ground);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 15.5px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   padding-top: env(safe-area-inset-top, 0px);
@@ -149,7 +149,7 @@ img {
    destination, so the main column carries no navigation of its own. */
 .shell {
   display: grid;
-  grid-template-columns: 248px minmax(0, 1fr);
+  grid-template-columns: 218px minmax(0, 1fr);
   min-height: 100vh;
 }
 
@@ -197,7 +197,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 0 10px;
+  padding: 0 8px;
 }
 
 .sbgroup {
@@ -207,26 +207,59 @@ img {
   margin-top: 14px;
 }
 
-/* A heading, not a control: a group has no page of its own, and making it clickable
-   would promise one. */
+/* Collapses its topic. It still does not navigate: a group has no page of its own,
+   so the chevron is the whole of its job. */
 .sbhead {
-  font-size: 12.5px;
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--ink);
-  padding: 5px 10px 3px;
+  padding: 6px 8px 4px;
+  border-radius: 5px;
+}
+
+.sbhead:hover {
+  background: var(--panel);
+}
+
+.sbhead:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.chev {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--ink-3);
+  transition: transform 0.12s;
+  width: 9px;
+}
+
+.chev.open {
+  transform: rotate(90deg);
 }
 
 .sbitem {
   appearance: none;
   text-align: left;
   font: inherit;
-  font-size: 12.5px;
-  line-height: 1.35;
+  font-size: 13.5px;
+  line-height: 1.4;
   color: var(--ink-2);
   background: none;
   border: 0;
   cursor: pointer;
-  padding: 6px 10px 6px 22px;
+  padding: 6px 10px 6px 24px;
   border-radius: 5px;
 }
 
@@ -265,7 +298,7 @@ header.top {
   background: color-mix(in srgb, var(--ground) 92%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--rule);
-  padding: 12px 28px 10px;
+  padding: 12px 20px 10px;
 }
 
 .crumb {
@@ -275,9 +308,9 @@ header.top {
 }
 
 .wrap {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding-inline: 28px;
+  max-width: 1180px;
+  margin: 0;
+  padding-inline: 20px;
   padding-block: 22px 64px;
 }
 
@@ -449,14 +482,14 @@ section.view {
 }
 
 .panel > h3 {
-  font-size: 14.5px;
+  font-size: 15.5px;
   font-weight: 600;
   margin: 0 0 3px;
 }
 
 .panel > .cap {
   color: var(--ink-2);
-  font-size: 12.5px;
+  font-size: 13px;
   margin: 0 0 15px;
   max-width: 88ch;
 }
@@ -1077,7 +1110,7 @@ td.num {
 .pnote {
   margin: 14px 0 0;
   padding: 9px 12px;
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.45;
   color: var(--ink);
   background: var(--panel-2);
@@ -1296,13 +1329,13 @@ p.lede strong {
 
 .defs dt {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--ink);
 }
 
 .defs dd {
   margin: 0;
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--ink-2);
   max-width: 76ch;
 }
@@ -1327,7 +1360,7 @@ ul.lim {
 }
 
 ul.lim li {
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--ink-2);
   max-width: 82ch;
 }
