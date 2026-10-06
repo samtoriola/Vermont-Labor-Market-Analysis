@@ -1442,9 +1442,32 @@ ul.lim strong {
   padding: 4px 10px;
 }
 
-.exportbtn:hover {
+.exportbtn:hover:not(:disabled) {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+.exportbtn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* The export actions sit together at the top right of a panel. */
+.panel-actions {
+  display: flex;
+  flex: none;
+  gap: 6px;
+  align-items: center;
+}
+
+.iconbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.iconbtn svg {
+  flex: none;
 }
 
 .exportbtn:focus-visible {

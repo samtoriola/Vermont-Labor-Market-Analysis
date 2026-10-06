@@ -136,6 +136,10 @@ export default function About() {
               'The download button on a table exports the rows you are looking at, not the whole dataset — filter first, then export.',
             ],
             [
+              'Save a chart as an image',
+              'The PNG button on a chart saves what is on screen, carrying the question, the read-out and the source with it, so a chart dropped into a deck stays attributable.',
+            ],
+            [
               'Filters carry across tabs',
               'Credential tier, family, wage and size filters set on Wage quality or Opportunities stay applied as you move between tabs. Active filters are listed at the top of each tab, and can be cleared there.',
             ],

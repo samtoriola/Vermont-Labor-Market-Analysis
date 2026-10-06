@@ -1,21 +1,27 @@
 'use client';
 
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { LC, SERIES, SERIES_HEX } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { downloadCsv, exportName } from '@/lib/csv';
+import { downloadPanelPng } from '@/lib/png';
 
 export function Panel({ title, cap, src, note, exportData, children }) {
+  const body = useRef(null);
   return (
-    <div className="panel">
+    <div className="panel" ref={body}>
       <div className="panel-head">
         <h3>{title}</h3>
-        {exportData ? (
-          <ExportButton
-            label={exportData.name || title}
-            cols={exportData.cols}
-            rows={exportData.rows}
-          />
-        ) : null}
+        <div className="panel-actions">
+          <PngButton panelRef={body} title={title} note={note} src={src} />
+          {exportData ? (
+            <ExportButton
+              label={exportData.name || title}
+              cols={exportData.cols}
+              rows={exportData.rows}
+            />
+          ) : null}
+        </div>
       </div>
       {cap ? <p className="cap">{cap}</p> : null}
       {children}
@@ -26,6 +32,70 @@ export function Panel({ title, cap, src, note, exportData, children }) {
       ) : null}
       {src ? <div className="srcline">{src}</div> : null}
     </div>
+  );
+}
+
+/**
+ * Saves the panel's chart as a PNG. Rendered in the browser from the SVG that is
+ * already on screen, so the image matches what the reader is looking at.
+ *
+ * The button hides itself when the panel holds no chart -- several panels are a
+ * table or a definition list, where there is nothing to picture.
+ */
+export function PngButton({ panelRef, title, note, src }) {
+  const [state, setState] = useState('idle');
+
+  const save = useCallback(async () => {
+    setState('busy');
+    const ok = await downloadPanelPng(panelRef.current, {
+      title,
+      // A muted note says the rule ran and found nothing worth reporting, which is
+      // not a claim worth carrying into a slide.
+      note: note && !note.muted ? note.text : null,
+      src,
+      filename: exportName(title),
+    });
+    setState(ok ? 'idle' : 'failed');
+  }, [panelRef, title, note, src]);
+
+  // Settled after mount, because the panel's children are what decide this and the
+  // ref is empty while the first render is still in progress. Starting hidden keeps
+  // the server and first client render in agreement.
+  const [hasChart, setHasChart] = useState(false);
+  useEffect(() => {
+    setHasChart(!!(panelRef.current && panelRef.current.querySelector('svg.chart')));
+  });
+
+  if (!hasChart) return null;
+
+  return (
+    <button
+      type="button"
+      className="exportbtn iconbtn"
+      onClick={save}
+      disabled={state === 'busy'}
+      title={state === 'failed' ? 'Could not build the image' : 'Save this chart as a PNG'}
+    >
+      <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false">
+        <path
+          d="M8 1.5v7.5M8 9l-2.6-2.6M8 9l2.6-2.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M2.5 11v2.5h11V11"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      {state === 'busy' ? 'Saving' : 'PNG'}
+    </button>
   );
 }
 
