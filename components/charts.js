@@ -4,6 +4,7 @@ import { useTipHandlers } from './Tooltip';
 import { fmt, money, niceMax, trunc, fmtVal } from '@/lib/format';
 import { SERIES } from '@/lib/data';
 import { CHART_W } from '@/lib/chartw';
+import { shortLabel } from '@/lib/labels';
 
 /**
  * Wraps an SVG group so the tooltip hook runs once per mark instance.
@@ -135,7 +136,7 @@ export function RankedBars({ rows, opts = {} }) {
               textAnchor="end"
               fontSize={12}
             >
-              {trunc(r.label, Math.floor(labW / 6.4))}
+              {trunc(shortLabel(r.label), Math.floor(labW / 6.4))}
             </text>
             <TipMark title={r.label} rows={trows} className="bar" onClick={r.onClick}>
               <rect x={bx} y={y} width={bw} height={rowH} rx={4} fill={V(r.color || '--s1')} />
@@ -218,7 +219,7 @@ export function StackedRows({ rows, opts = {} }) {
         return (
           <g key={r.label + i}>
             <text x={labW - 11} y={y + rowH / 2 + 4} className="clab" textAnchor="end" fontSize={12}>
-              {trunc(r.label, 28)}
+              {trunc(shortLabel(r.label), 28)}
             </text>
             {segs}
             {r.hi !== undefined ? (
@@ -284,7 +285,7 @@ export function Dumbbell({ rows }) {
         return (
           <g key={r.label + i}>
             <text x={labW - 11} y={cy + 4} className="clab" textAnchor="end" fontSize={12}>
-              {trunc(r.label, 28)}
+              {trunc(shortLabel(r.label), 28)}
             </text>
             <TipMark
               title={r.label}
@@ -556,7 +557,7 @@ export function GroupedBars({ rows, opts }) {
         return (
           <g key={r.label + i}>
             <text x={labW - 11} y={y0 + rowH / 2 + 4} className="clab" textAnchor="end" fontSize={12}>
-              {trunc(r.label, 28)}
+              {trunc(shortLabel(r.label), 28)}
             </text>
             <TipMark title={r.label} rows={r.extra || []} className="bar" onClick={r.onClick}>
               {r.parts.map((p, k) => (

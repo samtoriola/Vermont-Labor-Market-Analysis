@@ -209,7 +209,8 @@ export default function Q2({ lw, setLw, section }) {
                 >
                   <RankedBars
                     rows={top.map((r) => ({
-                      label: r.n.length > 42 ? r.n.slice(0, 40) + '…' : r.n,
+                      // Full name: the chart shortens and, if it still has to, truncates.
+                      label: r.n,
                       value: r.j,
                       color: r.m && r.m >= LWA ? '--s3' : '--s2',
                       extra: [

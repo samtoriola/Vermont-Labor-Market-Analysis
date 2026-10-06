@@ -3,6 +3,7 @@
 import { useTip } from './Tooltip';
 import { fmt, money, trunc } from '@/lib/format';
 import { CHART_W } from '@/lib/chartw';
+import { shortLabel } from '@/lib/labels';
 
 const V = (token) => `var(${token})`;
 
@@ -192,7 +193,7 @@ export function DotColumns({ groups, opts = {} }) {
                 {opts.unit || 'average'}
               </text>
               <text x={cx} y={y0 + 49} className="clab" textAnchor="middle" fontSize={11.5}>
-                {trunc(g.label, Math.floor(colW / 6.2))}
+                {trunc(shortLabel(g.label), Math.floor(colW / 6.2))}
               </text>
               {g.sub ? (
                 <text x={cx} y={y0 + 62} className="nbadge" textAnchor="middle" fontSize={9}>
@@ -345,7 +346,7 @@ export function PercentileLadder({ rows, opts = {} }) {
         return (
           <g key={r.label + i}>
             <text x={labW - 11} y={cy + 4} className="clab" textAnchor="end" fontSize={11.5}>
-              {trunc(r.label, Math.floor(labW / 6.1))}
+              {trunc(shortLabel(r.label), Math.floor(labW / 6.1))}
             </text>
             <g
               className={'ladder' + (clickable ? ' clickable' : '')}
@@ -509,7 +510,7 @@ export function DotRows({ rows, opts = {} }) {
         return (
           <g key={r.label + ri} className={'dotrow' + (r.ref ? ' ref' : '')}>
             <text x={labW - 11} y={cy + 4} className="clab" textAnchor="end" fontSize={11.5}>
-              {trunc(r.label, Math.floor(labW / 6.1))}
+              {trunc(shortLabel(r.label), Math.floor(labW / 6.1))}
             </text>
 
             <rect x={labW} y={cy - band / 2} width={Math.max(0, X(r.avg) - labW)} height={band} fill={V(tone)} opacity={0.07} />
