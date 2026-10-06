@@ -12,7 +12,7 @@ import sys
 from playwright.sync_api import sync_playwright
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-URL = "http://127.0.0.1:3160/"
+URL = "http://127.0.0.1:3161/"
 for _ in range(60):
     try:
         urllib.request.urlopen(URL, timeout=3).read(); break
@@ -24,15 +24,14 @@ with sync_playwright() as pw:
     errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(URL, wait_until="networkidle")
-    # The full occupation table is behind its own sub-section now.
-    pg.click("#tab-opportunity"); pg.wait_for_timeout(420)
-    btns = pg.locator("#view-opportunity .subnav button")
-    for i in range(btns.count()):
-        if btns.nth(i).inner_text().strip().lower().startswith("all occupations"):
-            btns.nth(i).click(); break
+    # The full occupation table is a sidebar destination of its own.
+    items = pg.locator(".sbitem")
+    for i in range(items.count()):
+        if items.nth(i).inner_text().strip().lower().startswith("all occupations"):
+            items.nth(i).click(); break
     pg.wait_for_timeout(700)
 
-    tbl = pg.locator("#view-opportunity table").last
+    tbl = pg.locator(".view table").last
     hdrs = [h.inner_text().split("\n")[0].strip()
             for h in tbl.locator("thead th").all()]
     print("columns:", hdrs)
@@ -58,7 +57,7 @@ with sync_playwright() as pw:
 
     print("\nsearch for the two artefact occupations:")
     for name in ("Gambling Managers", "Bailiffs"):
-        pg.locator("#view-opportunity .dtsearch").fill(name)
+        pg.locator(".view .dtsearch").fill(name)
         pg.wait_for_timeout(500)
         rows = tbl.locator("tbody tr")
         if rows.count():
@@ -66,7 +65,7 @@ with sync_playwright() as pw:
             print(f"  {name}: {cells}")
         else:
             print(f"  {name}: filtered out of this view (below its jobs threshold)")
-    pg.locator("#view-opportunity .dtsearch").fill("")
+    pg.locator(".view .dtsearch").fill("")
     print("\npage errors:", len(errs))
     for e in errs[:3]: print("   ", e[:150])
     b.close()

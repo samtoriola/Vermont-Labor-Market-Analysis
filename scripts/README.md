@@ -178,3 +178,11 @@ exactly that, and `e2e_rates.py` opens "All occupations" before reading the tabl
 
 `Sections` takes `render` functions rather than nodes, so a chart with a few thousand
 marks is never built for a section nobody is looking at.
+
+## check_nav.py
+
+`lib/nav.js` holds the sidebar: which views exist, which sections sit under each, and
+the labels shown for them. The views declare the same section ids independently, so the
+two can drift -- and a drifted label shows a sidebar entry that opens the wrong panel
+while the build compiles and every section still renders. This compares them and fails
+on any difference. Run it with the other checks after touching a view's sections.

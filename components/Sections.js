@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback } from 'react';
  *
  * items: { id, label, render: () => node }
  */
-export default function Sections({ id, items }) {
+export default function Sections({ id, items, active: controlled }) {
   const first = items.length ? items[0].id : null;
   const [active, setActive] = useState(first);
   const key = `vt-sec-${id}`;
@@ -54,6 +54,13 @@ export default function Sections({ id, items }) {
   };
 
   if (!items.length) return null;
+
+  // Driven from the sidebar: it is the navigation, so this renders only the body.
+  if (controlled !== undefined && controlled !== null) {
+    const picked = items.filter((x) => x.id === controlled)[0] || items[0];
+    return <div className="secbody">{picked.render()}</div>;
+  }
+
   const shown = items.filter((x) => x.id === current)[0];
 
   return (

@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { DEFAULT_LW, LC, lwAnnual } from '@/lib/data';
+import { firstSection, isSection, navFor } from '@/lib/nav';
 import { TooltipProvider } from './Tooltip';
 import { DrillProvider } from './Drill';
 import { FilterProvider } from './FilterContext';
+import Sidebar from './Sidebar';
+import Home from './views/Home';
 import Overview from './views/Overview';
 import Structure from './views/Q1';
 import WageQuality from './views/Q2';
@@ -16,21 +19,20 @@ import Regions from './views/Q7';
 import About from './views/About';
 import Methods from './views/Methods';
 
-// Regions sits next to Overview: both are statewide orientation before the analysis
-// narrows. Program opportunities folded into Opportunities, which carries the index
-// and the screen together.
-const VIEWS = [
-  ['overview', 'Overview', Overview],
-  ['regions', 'Regions', Regions],
-  ['structure', 'Employment', Structure],
-  ['wage', 'Wage quality', WageQuality],
-  ['demand', 'Demand & growth', Demand],
-  ['pathways', 'Pathways', Pathways],
-  ['opportunity', 'Opportunities', Opportunity],
-  ['alignment', 'VSCS alignment', Alignment],
-  ['about', 'About', About],
-  ['methods', 'Methods', Methods],
-];
+// Keyed by the view ids in lib/nav.js, which is where the navigation itself lives.
+const COMPONENTS = {
+  home: Home,
+  overview: Overview,
+  regions: Regions,
+  structure: Structure,
+  wage: WageQuality,
+  demand: Demand,
+  pathways: Pathways,
+  opportunity: Opportunity,
+  alignment: Alignment,
+  about: About,
+  methods: Methods,
+};
 
 function readStored(key, fallback, valid) {
   try {
@@ -44,75 +46,92 @@ function readStored(key, fallback, valid) {
 
 function writeStored(key, value) {
   try {
-    localStorage.setItem(key, value);
+    if (value === null) localStorage.removeItem(key);
+    else localStorage.setItem(key, value);
   } catch (e) {
     /* non-fatal */
   }
 }
 
 export default function Dashboard() {
-  const [tab, setTab] = useState('overview');
+  const [view, setView] = useState('home');
+  const [section, setSection] = useState(null);
   const [lw, setLw] = useState(DEFAULT_LW);
+  const [collapsed, setCollapsed] = useState(false);
 
-  // Restore after mount so server and first client render agree.
+  // Restore after mount so the server and first client render agree.
   useEffect(() => {
-    setTab(readStored('vt-tab', 'overview', (v) => VIEWS.some((x) => x[0] === v)));
-    setLw(readStored('vt-lw', DEFAULT_LW, (v) => Object.keys(LC.livingWage).includes(v)));
+    const v = readStored('vt-view', 'home', (x) => !!COMPONENTS[x]);
+    setView(v);
+    setSection(readStored('vt-sec', firstSection(v), (x) => isSection(v, x)));
+    setLw(readStored('vt-lw', DEFAULT_LW, (x) => Object.keys(LC.livingWage).includes(x)));
+    setCollapsed(readStored('vt-nav', '', (x) => x === 'collapsed') === 'collapsed');
   }, []);
 
-  function selectTab(id) {
-    setTab(id);
-    writeStored('vt-tab', id);
-  }
+  const go = useCallback((nextView, nextSection) => {
+    const sec = nextSection || firstSection(nextView);
+    setView(nextView);
+    setSection(sec);
+    writeStored('vt-view', nextView);
+    writeStored('vt-sec', sec);
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  }, []);
 
-  function selectLw(v) {
+  const selectLw = useCallback((v) => {
     setLw(v);
     writeStored('vt-lw', v);
-  }
+  }, []);
+
+  const toggleNav = useCallback(() => {
+    setCollapsed((c) => {
+      writeStored('vt-nav', c ? '' : 'collapsed');
+      return !c;
+    });
+  }, []);
+
+  const View = COMPONENTS[view] || Home;
+  const meta = navFor(view);
+  const here = meta && meta.items ? meta.items.filter((x) => x.id === section)[0] : null;
 
   return (
     <TooltipProvider>
       <DrillProvider>
         <FilterProvider lwAnnual={lwAnnual(lw)}>
-        <header className="top">
-          <div className="top-in">
-            <div className="eyebrow">Strada Education Foundation</div>
-            <h1>Vermont Labor Market Overview</h1>
-            <p className="sub">
-              Employment structure, wage quality, employer demand and education pathways across
-              Vermont, with VSCS credential production set against occupational demand.
-            </p>
-            <nav className="tabs" role="tablist" aria-label="Sections">
-              {VIEWS.map(([id, label]) => (
-                <button
-                  key={id}
-                  id={`tab-${id}`}
-                  role="tab"
-                  aria-selected={tab === id}
-                  aria-controls={`view-${id}`}
-                  onClick={() => selectTab(id)}
-                >
-                  {label}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </header>
+          <div className={collapsed ? 'shell navclosed' : 'shell'}>
+            <Sidebar
+              view={view}
+              section={section}
+              onGo={go}
+              collapsed={collapsed}
+              onToggle={toggleNav}
+            />
 
-        <div className="wrap">
-          {VIEWS.map(([id, , View]) => (
-            <section
-              key={id}
-              className="view"
-              id={`view-${id}`}
-              role="tabpanel"
-              aria-labelledby={`tab-${id}`}
-              hidden={tab !== id}
-            >
-              {tab === id ? <View lw={lw} setLw={selectLw} /> : null}
-            </section>
-          ))}
-        </div>
+            <main className="main">
+              <header className="top">
+                <div className="eyebrow">Strada Education Foundation</div>
+                {meta && meta.kind === 'group' ? (
+                  <p className="crumb">
+                    {meta.label}
+                    {here ? <span> · {here.label}</span> : null}
+                  </p>
+                ) : null}
+              </header>
+
+              <div className="wrap">
+                <section
+                  className="view"
+                  id={`view-${view}`}
+                  aria-label={meta ? meta.label : 'Home'}
+                >
+                  {view === 'home' ? (
+                    <Home onGo={go} />
+                  ) : (
+                    <View lw={lw} setLw={selectLw} section={section} />
+                  )}
+                </section>
+              </div>
+            </main>
+          </div>
         </FilterProvider>
       </DrillProvider>
     </TooltipProvider>

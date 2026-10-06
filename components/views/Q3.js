@@ -8,7 +8,7 @@ import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 import Sections from '../Sections';
 import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
 
-export default function Q3() {
+export default function Q3({ section }) {
   const fams = LC.families.slice();
   const totPost = fams.reduce((a, r) => a + r.post, 0);
   const totOpen = fams.reduce((a, r) => a + r.open, 0);
@@ -59,6 +59,7 @@ export default function Q3() {
 
       <Sections
         id="demand"
+        active={section}
         items={[
           {
             id: 'three-demand-measures',

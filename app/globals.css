@@ -131,14 +131,132 @@ img {
   display: none !important;
 }
 
-.wrap {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding-inline: 20px;
-  padding-block: 0 64px;
+/* Visually hidden, still announced. */
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* ---------- header ---------- */
+/* ---------- shell ---------- */
+/* A persistent sidebar beside a scrolling main column. The sidebar holds every
+   destination, so the main column carries no navigation of its own. */
+.shell {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.shell.navclosed {
+  grid-template-columns: 44px minmax(0, 1fr);
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--panel-2);
+  border-right: 1px solid var(--rule);
+  padding: 10px 0 24px;
+  scrollbar-width: thin;
+}
+
+.sbtoggle {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--ink-3);
+  font-size: 15px;
+  line-height: 1;
+  padding: 6px 10px;
+  margin: 0 8px 6px auto;
+  display: block;
+  border-radius: 4px;
+}
+
+.sbtoggle:hover {
+  color: var(--ink);
+  background: var(--panel);
+}
+
+.sbtoggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.sbin {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 10px;
+}
+
+.sbgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 14px;
+}
+
+/* A heading, not a control: a group has no page of its own, and making it clickable
+   would promise one. */
+.sbhead {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 5px 10px 3px;
+}
+
+.sbitem {
+  appearance: none;
+  text-align: left;
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--ink-2);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 6px 10px 6px 22px;
+  border-radius: 5px;
+}
+
+.sbitem.top {
+  padding-left: 10px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.sbitem:hover {
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.sbitem.on {
+  background: var(--panel);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.sbitem:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.main {
+  min-width: 0;
+}
+
 header.top {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
@@ -147,108 +265,116 @@ header.top {
   background: color-mix(in srgb, var(--ground) 92%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--rule);
+  padding: 12px 28px 10px;
 }
 
-.top-in {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 14px 20px 0;
-}
-
-.eyebrow {
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-h1 {
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: clamp(25px, 3.6vw, 36px);
-  line-height: 1.1;
-  margin: 4px 0;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
-}
-
-.sub {
+.crumb {
+  margin: 2px 0 0;
+  font-size: 13px;
   color: var(--ink-2);
-  font-size: 13.5px;
-  max-width: 74ch;
-  margin: 0 0 13px;
 }
 
-/* Wraps rather than scrolls once there are more tabs than fit. The scrollbar is
-   hidden, so an overflowing row silently truncates: the last tabs are reachable but
-   look like they do not exist. Narrow screens keep the scroll, where wrapping eleven
-   tabs would push the content most of a screen down. */
-nav.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px;
-  scrollbar-width: none;
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-inline: 28px;
+  padding-block: 22px 64px;
 }
 
-@media (max-width: 760px) {
-  /* Scrolls here rather than wrapping, because eleven wrapped tabs would push the
-     content most of a phone screen down. The scrollbar stays visible: that is the only
-     thing telling a reader the row continues. */
-  nav.tabs {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    padding-bottom: 2px;
-  }
-
-  nav.tabs::-webkit-scrollbar {
-    display: block;
-    height: 3px;
-  }
-
-  nav.tabs::-webkit-scrollbar-thumb {
-    background: var(--rule-strong);
-    border-radius: 2px;
-  }
+/* ---------- home ---------- */
+.homehead h2 {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 600;
+  margin: 4px 0 8px;
 }
 
-nav.tabs::-webkit-scrollbar {
-  display: none;
+.homehead p {
+  font-size: 14.5px;
+  color: var(--ink-2);
+  max-width: 76ch;
+  margin: 0 0 24px;
 }
 
+.homecards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
 
-nav.tabs button {
-  flex: none;
+.homecard {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 18px 20px 16px;
+}
+
+.homecard h3 {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.homecard p {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+  max-width: 54ch;
+}
+
+.homecard.quiet {
+  background: transparent;
+}
+
+.browse {
   appearance: none;
   background: none;
   border: 0;
-  border-bottom: 2px solid transparent;
+  padding: 0;
   cursor: pointer;
-  font-family: var(--sans);
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--ink-2);
-  padding: 9px 11px 11px;
-  white-space: nowrap;
-  border-radius: 3px 3px 0 0;
-}
-
-nav.tabs button:hover {
-  color: var(--ink);
-  background: var(--panel-2);
-}
-
-nav.tabs button[aria-selected='true'] {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
+  font: inherit;
+  font-size: 13px;
   font-weight: 600;
+  color: var(--accent);
 }
 
-nav.tabs button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: -2px;
+.browse:hover {
+  text-decoration: underline;
 }
+
+.browse:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The sidebar becomes a top strip on narrow screens, where a 248px gutter would
+   leave nothing for the charts. */
+@media (max-width: 860px) {
+  .shell,
+  .shell.navclosed {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    max-height: 220px;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .sbtoggle {
+    display: none;
+  }
+
+  header.top,
+  .wrap {
+    padding-inline: 16px;
+  }
+}
+
 
 /* ---------- structure ---------- */
 section.view {

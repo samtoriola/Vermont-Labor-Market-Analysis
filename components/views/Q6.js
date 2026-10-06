@@ -10,7 +10,7 @@ import DataTable from '../DataTable';
 import Sections from '../Sections';
 import { awardMix, familiesNoCompletions } from '@/lib/insight';
 
-export default function Q6({ lw }) {
+export default function Q6({ lw, section }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
   const V = SOW.vscs;
@@ -43,6 +43,7 @@ export default function Q6({ lw }) {
 
       <Sections
         id="alignment"
+        active={section}
         items={[
           {
             id: 'production-by-award',

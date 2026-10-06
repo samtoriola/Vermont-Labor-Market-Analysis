@@ -9,7 +9,7 @@ import VermontMap from '../VermontMap';
 import Sections from '../Sections';
 import { countySpread, countyIncomeRange } from '@/lib/insight';
 
-export default function Q7() {
+export default function Q7({ section }) {
   const [metric, setMetric] = useState('ba');
   const [sel, setSel] = useState(null);
 
@@ -64,6 +64,7 @@ export default function Q7() {
 
       <Sections
         id="regions"
+        active={section}
         items={[
           {
             id: 'map',

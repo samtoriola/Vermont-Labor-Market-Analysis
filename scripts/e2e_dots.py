@@ -2,11 +2,9 @@
 import pathlib, time, urllib.request
 from playwright.sync_api import sync_playwright
 
-URL = "http://127.0.0.1:3160/"
+URL = "http://127.0.0.1:3161/"
 OUT = pathlib.Path(__file__).resolve().parent.parent / "_shots"
 OUT.mkdir(exist_ok=True)
-TABS = ["overview", "regions", "structure", "wage", "demand", "pathways",
-        "opportunity", "alignment", "about", "methods"]
 
 for _ in range(60):
     try:
@@ -16,16 +14,18 @@ for _ in range(60):
         time.sleep(1)
 
 def open_section(pg, tab, label):
-    """Click a tab, then the sub-section whose label starts with `label`."""
-    pg.click(f"#tab-{tab}")
-    pg.wait_for_timeout(420)
-    btns = pg.locator(f"#view-{tab} .subnav button")
-    for i in range(btns.count()):
-        if btns.nth(i).inner_text().strip().lower().startswith(label.lower()):
-            btns.nth(i).click()
+    """Click the sidebar entry whose label starts with `label`.
+
+    `tab` is kept only to name the destination in failures: the sidebar lists every
+    section directly, so there is no tab to open first.
+    """
+    items = pg.locator(".sbitem")
+    for i in range(items.count()):
+        if items.nth(i).inner_text().strip().lower().startswith(label.lower()):
+            items.nth(i).click()
             pg.wait_for_timeout(480)
             return True
-    raise AssertionError(f"no section starting {label!r} on {tab}")
+    raise AssertionError(f"no sidebar entry starting {label!r} (for {tab})")
 
 errs, perrs = [], []
 with sync_playwright() as pw:
@@ -36,29 +36,32 @@ with sync_playwright() as pw:
     pg.on("pageerror", lambda e: perrs.append(str(e)))
     pg.goto(URL, wait_until="networkidle")
 
-    print("--- every tab still renders ---")
-    for t in TABS:
-        pg.click(f"#tab-{t}")
-        pg.wait_for_timeout(500)
-        n = len(pg.locator(f"#view-{t}").inner_text())
-        print(f"  {t:12s} {n:6d} {'OK' if n > 200 else 'EMPTY!'}")
-        if n <= 200:
-            errs.append(f"{t} empty")
+    print("--- every sidebar destination renders ---")
+    items = pg.locator(".sbitem")
+    for i in range(items.count()):
+        lab = items.nth(i).inner_text().strip()
+        items.nth(i).click()
+        pg.wait_for_timeout(380)
+        n = len(pg.locator(".view").inner_text())
+        print(f"  {lab:30s} {n:6d} {'OK' if n > 150 else 'EMPTY!'}")
+        if n <= 150:
+            errs.append(f"{lab} empty")
 
     print("")
     print("--- no box plots left anywhere ---")
-    for t in TABS:
-        pg.click(f"#tab-{t}")
-        pg.wait_for_timeout(350)
-        txt = pg.locator(f"#view-{t}").inner_text().lower()
+    for i in range(items.count()):
+        t = items.nth(i).inner_text().strip()
+        items.nth(i).click()
+        pg.wait_for_timeout(330)
+        txt = pg.locator(".view").inner_text().lower()
         for word in ("whisker", "the box the", "box plot"):
             if word in txt:
                 errs.append(f"{t}: box-plot language left in copy ({word!r})")
                 print(f"  {t}: STILL SAYS {word!r}")
-    print("  checked all 8 tabs")
+    print("  checked every destination")
 
     def count(view, sel):
-        return pg.locator(f"#view-{view} {sel}").count()
+        return pg.locator(f".view {sel}").count()
 
     print("")
     print("--- dot charts ---")
@@ -82,10 +85,10 @@ with sync_playwright() as pw:
     print("")
     print("--- percentile ladder (wage tab) ---")
     open_section(pg, "wage", "Mean against median")
-    lad = pg.locator("#view-wage svg g.ladder")
+    lad = pg.locator(".view svg g.ladder")
     print(f"  ladder rows: {lad.count()}")
-    meds = pg.locator("#view-wage svg g.ladder circle[stroke-width='1.2']").count()
-    rings = pg.locator("#view-wage svg g.ladder circle[stroke-width='1.8']").count()
+    meds = pg.locator(".view svg g.ladder circle[stroke-width='1.2']").count()
+    rings = pg.locator(".view svg g.ladder circle[stroke-width='1.8']").count()
     print(f"  median dots: {meds}   mean rings: {rings}")
     if rings == 0:
         errs.append("ladder drew no mean markers")
@@ -95,7 +98,7 @@ with sync_playwright() as pw:
     print("")
     print("--- hover a dot gives quick stats ---")
     open_section(pg, "pathways", "What the job requires")
-    d = pg.locator("#view-pathways svg.dotcols circle.dot").nth(40)
+    d = pg.locator(".view svg.dotcols circle.dot").nth(40)
     d.hover()
     pg.wait_for_timeout(350)
     tip = pg.locator("#tip")
@@ -107,7 +110,7 @@ with sync_playwright() as pw:
     print("")
     print("--- hover a person dot ---")
     open_section(pg, "pathways", "What people hold")
-    pd = pg.locator("#view-pathways svg.dotcols circle.dot").nth(30)
+    pd = pg.locator(".view svg.dotcols circle.dot").nth(30)
     pd.hover()
     pg.wait_for_timeout(350)
     print(f"  tooltip text: {pg.locator('#tip').inner_text()[:150]!r}")
@@ -115,7 +118,7 @@ with sync_playwright() as pw:
     print("")
     print("--- click a dot column opens the drill-down ---")
     open_section(pg, "pathways", "What the job requires")
-    pg.locator("#view-pathways svg.dotcols .collabel.clickable").first.click()
+    pg.locator(".view svg.dotcols .collabel.clickable").first.click()
     pg.wait_for_timeout(700)
     dr = pg.locator(".drill")
     print(f"  drill open: {dr.count() > 0}")
@@ -138,9 +141,10 @@ with sync_playwright() as pw:
     print("")
     print("--- mobile, 390px ---")
     pg.set_viewport_size({"width": 390, "height": 900})
-    for t in TABS:
-        pg.click(f"#tab-{t}")
-        pg.wait_for_timeout(450)
+    for i in range(items.count()):
+        t = items.nth(i).inner_text().strip()
+        items.nth(i).click()
+        pg.wait_for_timeout(330)
         sw = pg.evaluate("document.documentElement.scrollWidth")
         cw = pg.evaluate("document.documentElement.clientWidth")
         if sw > cw + 1:

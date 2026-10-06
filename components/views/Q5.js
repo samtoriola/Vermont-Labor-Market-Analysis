@@ -15,7 +15,7 @@ import DataTable from '../DataTable';
 import { useDrill, occDrill } from '../Drill';
 import { LwPicker } from '../ui';
 
-export default function Q5({ lw, setLw }) {
+export default function Q5({ lw, setLw, section }) {
   const { apply } = useFilters();
   const { open } = useDrill();
   const LWA = lwAnnual(lw);
@@ -101,6 +101,7 @@ export default function Q5({ lw, setLw }) {
 
       <Sections
         id="opportunity"
+        active={section}
         items={[
           {
             id: 'highest-scoring',

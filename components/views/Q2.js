@@ -15,7 +15,7 @@ import { DotColumns, DotLegend, PercentileLadder, LadderLegend } from '../dots';
 import Sections from '../Sections';
 import { meanAboveMedian, meanMedianGap, sizePayStep, sizeWageGap, topOccShare } from '@/lib/insight';
 
-export default function Q2({ lw, setLw }) {
+export default function Q2({ lw, setLw, section }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
   const { apply } = useFilters();
@@ -115,6 +115,7 @@ export default function Q2({ lw, setLw }) {
 
       <Sections
         id="wage"
+        active={section}
         items={[
           {
             id: 'wage-quality-by-size',

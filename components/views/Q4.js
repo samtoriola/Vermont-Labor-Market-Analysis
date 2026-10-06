@@ -16,7 +16,7 @@ import {
   funnelContrast, ladderStep, peopleLadderStep, livingWageJump, largestCategory,
 } from '@/lib/insight';
 
-export default function Q4({ lw, setLw }) {
+export default function Q4({ lw, setLw, section }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
 
@@ -87,6 +87,7 @@ export default function Q4({ lw, setLw }) {
 
       <Sections
         id="pathways"
+        active={section}
         items={[
           {
             id: 'employment-and-dispersion',

@@ -14,7 +14,7 @@ import Sections from '../Sections';
 import { credentialSpread, familyConcentration, topConcentration, vsNation } from '@/lib/insight';
 import { DotRows, DotLegend } from '../dots';
 
-export default function Q1({ lw }) {
+export default function Q1({ lw, section }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
 
@@ -91,6 +91,7 @@ export default function Q1({ lw }) {
 
       <Sections
         id="structure"
+        active={section}
         items={[
           {
             id: 'sectors',
