@@ -238,6 +238,39 @@ export default function Q4({ lw, setLw }) {
             ),
           },
           {
+            id: 'which-credentials-pay',
+            label: 'Which credentials pay',
+            render: () => (
+              <Panel
+                title="Which credentials lead to a job that both hires and pays?"
+                cap={`Every Vermont occupation at each entry credential, narrowed twice: first to those hiring at scale — at least ${MIN_OPEN} annual openings — then to those paying at or above the living wage. Counts are occupations, not jobs, so this reads as how many doors a credential opens. Benchmark: ${lw}.`}
+                src={`Lightcast · Typical Entry Level Education · openings ≥ ${MIN_OPEN}/yr · benchmark: MIT Living Wage 2025`}
+                note={funnelContrast(funnel)}
+              >
+                <Table
+                  cols={[
+                    'Entry credential',
+                    'Occupations',
+                    `Hiring (${MIN_OPEN}+ openings)`,
+                    'Paying a living wage',
+                    'Openings',
+                    'Share of tier',
+                  ]}
+                  rows={funnel.map((r) => ({
+                    cells: [
+                      r.t,
+                      fmt(r.nAll),
+                      fmt(r.nHiring),
+                      fmt(r.nPaying),
+                      fmt(r.open),
+                      r.shareOpen === null ? '\u2014' : r.shareOpen.toFixed(1) + '%',
+                    ],
+                  }))}
+                />
+              </Panel>
+            ),
+          },
+          {
             id: 'what-this-measures',
             label: 'What this measures',
             render: () => (
