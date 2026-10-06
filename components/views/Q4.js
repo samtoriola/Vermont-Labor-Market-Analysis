@@ -111,7 +111,7 @@ export default function Q4({ lw, setLw, section }) {
                       opts={{
                         mode: 'pct',
                         labelWidth: 176,
-                        width: 470,
+                        width: 640,
                         valueLabel: 'Share of jobs',
                         aria: 'Employment share by credential tier',
                       }}
@@ -141,7 +141,7 @@ export default function Q4({ lw, setLw, section }) {
                       opts={{
                         dec: 2,
                         labelWidth: 176,
-                        width: 470,
+                        width: 640,
                         valueLabel: 'p90 ÷ p10',
                         aria: 'Earnings dispersion by credential tier',
                       }}

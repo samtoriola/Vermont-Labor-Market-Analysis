@@ -2,6 +2,7 @@
 
 import { useTip } from './Tooltip';
 import { fmt, money, trunc } from '@/lib/format';
+import { CHART_W } from '@/lib/chartw';
 
 const V = (token) => `var(${token})`;
 
@@ -32,7 +33,7 @@ export function DotColumns({ groups, opts = {} }) {
   const padR = 14;
   const padT = 16;
   const padB = 76;
-  const w = opts.width || 880;
+  const w = opts.width || CHART_W;
   const plotH = opts.height || 330;
   const h = padT + plotH + padB;
   const plotW = w - padL - padR;
@@ -85,8 +86,9 @@ export function DotColumns({ groups, opts = {} }) {
         const cx = x0 + colW / 2;
         // Capped so a chart with three columns does not draw three very wide
         // slabs, but wide enough that the cloud reads as a column rather than a
-        // thread. Only bites below about six columns; past that colW is smaller.
-        const band = Math.min(colW - 18, 152);
+        // thread. In CHART_W units, so it tracks the coordinate space rather than
+        // the screen. Only bites below about six columns; past that colW is smaller.
+        const band = Math.min(colW - 18, 204);
         const left = cx - band / 2;
         const tone = g.color || (g.ref ? '--ink-3' : '--s1');
         const clickable = typeof g.onClick === 'function';
@@ -272,7 +274,7 @@ export function PercentileLadder({ rows, opts = {} }) {
   const gap = 5;
   const padR = 104;
   const padT = 30;
-  const w = opts.width || 880;
+  const w = opts.width || CHART_W;
   const h = padT + rows.length * (rowH + gap) + 12;
   const plotW = w - labW - padR;
 
@@ -467,7 +469,7 @@ export function DotRows({ rows, opts = {} }) {
   const gap = 6;
   const padR = 92;
   const padT = 28;
-  const w = opts.width || 880;
+  const w = opts.width || CHART_W;
   const h = padT + rows.length * (rowH + gap) + 12;
   const plotW = w - labW - padR;
   const xMax = opts.xMax || 200000;

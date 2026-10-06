@@ -3,6 +3,7 @@
 import { useTipHandlers } from './Tooltip';
 import { fmt, money, niceMax, trunc, fmtVal } from '@/lib/format';
 import { SERIES } from '@/lib/data';
+import { CHART_W } from '@/lib/chartw';
 
 /**
  * Wraps an SVG group so the tooltip hook runs once per mark instance.
@@ -46,7 +47,7 @@ export function RankedBars({ rows, opts = {} }) {
   const gap = 7;
   const padR = opts.money ? 96 : 84;
   const padT = 28;
-  const w = opts.width || 860;
+  const w = opts.width || CHART_W;
   const h = padT + rows.length * (rowH + gap) + 4;
   const plotW = w - labW - padR;
   const signed = !!opts.signed;
@@ -165,7 +166,7 @@ export function StackedRows({ rows, opts = {} }) {
   const gap = 6;
   const padR = 58;
   const padT = 14;
-  const w = 860;
+  const w = CHART_W;
   const h = padT + rows.length * (rowH + gap) + 2;
   const plotW = w - labW - padR;
   const names = opts.tierNames || [];
@@ -247,7 +248,7 @@ export function Dumbbell({ rows }) {
   const gap = 7;
   const padR = 98;
   const padT = 28;
-  const w = 860;
+  const w = CHART_W;
   const h = padT + rows.length * (rowH + gap) + 4;
   const plotW = w - labW - padR;
   const max = niceMax(Math.max(...rows.map((r) => Math.max(r.a, r.b))));
@@ -412,7 +413,7 @@ export function TrendLine({ series, opts }) {
  * Scatter. Series capped at 3 per the all-pairs CVD rule.
  * ------------------------------------------------------------------ */
 export function Scatter({ pts, opts }) {
-  const w = 860;
+  const w = CHART_W;
   const h = 430;
   const padL = 66;
   const padR = 24;
@@ -526,7 +527,7 @@ export function GroupedBars({ rows, opts }) {
   const padT = 26;
   const nS = opts.colors.length;
   const rowH = nS * barH + (nS - 1) * gapIn;
-  const w = 860;
+  const w = CHART_W;
   const h = padT + rows.length * (rowH + rowPad) + 4;
   const plotW = w - labW - padR;
   const max = niceMax(Math.max(...rows.map((r) => Math.max(...r.parts.map((p) => p.v)))));

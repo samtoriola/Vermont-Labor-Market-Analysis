@@ -42,6 +42,16 @@
   --sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --serif: 'EB Garamond', Garamond, Georgia, 'Times New Roman', serif;
   --fig: 'DM Sans', system-ui, sans-serif; /* figures use tabular numerals, not a mono face */
+
+  /* One type scale for the whole page. --t-base is the reading size and is what both
+     the sidebar and the content use, so navigation and prose never drift apart; the
+     steps either side are the only sizes anything in the shell should reach for. */
+  --t-xs: 10.5px; /* source lines, small print */
+  --t-sm: 12px; /* captions, notes, legends */
+  --t-base: 13.5px; /* body, sidebar, paragraphs */
+  --t-md: 14.5px; /* panel headings */
+  --t-lg: 21px; /* view titles */
+  --t-xl: 25px; /* the home title */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -116,7 +126,7 @@ body {
   background: var(--ground);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 15.5px;
+  font-size: var(--t-base);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   padding-top: env(safe-area-inset-top, 0px);
@@ -175,7 +185,7 @@ img {
   border: 0;
   cursor: pointer;
   color: var(--ink-3);
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1;
   padding: 6px 10px;
   margin: 0 8px 6px auto;
@@ -220,7 +230,7 @@ img {
   width: 100%;
   text-align: left;
   font: inherit;
-  font-size: 13.5px;
+  font-size: var(--t-base);
   font-weight: 600;
   color: var(--ink);
   padding: 6px 8px 4px;
@@ -253,7 +263,7 @@ img {
   appearance: none;
   text-align: left;
   font: inherit;
-  font-size: 13.5px;
+  font-size: var(--t-base);
   line-height: 1.4;
   color: var(--ink-2);
   background: none;
@@ -303,7 +313,7 @@ header.top {
 
 .crumb {
   margin: 2px 0 0;
-  font-size: 13px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
 }
 
@@ -319,13 +329,13 @@ header.top {
 /* ---------- home ---------- */
 .homehead h2 {
   font-family: var(--serif);
-  font-size: 30px;
+  font-size: var(--t-xl);
   font-weight: 600;
   margin: 4px 0 8px;
 }
 
 .homehead p {
-  font-size: 14.5px;
+  font-size: var(--t-base);
   color: var(--ink-2);
   max-width: 76ch;
   margin: 0 0 24px;
@@ -347,13 +357,13 @@ header.top {
 
 .homecard h3 {
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   margin: 0 0 8px;
 }
 
 .homecard p {
-  font-size: 13px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   margin: 0 0 12px;
   max-width: 54ch;
@@ -370,7 +380,7 @@ header.top {
   padding: 0;
   cursor: pointer;
   font: inherit;
-  font-size: 13px;
+  font-size: var(--t-sm);
   font-weight: 600;
   color: var(--accent);
 }
@@ -423,7 +433,7 @@ section.view {
 .vhead h2 {
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(21px, 2.6vw, 27px);
+  font-size: var(--t-lg);
   line-height: 1.2;
   margin: 0;
   letter-spacing: -0.01em;
@@ -432,7 +442,7 @@ section.view {
 
 .vhead p {
   color: var(--ink-2);
-  font-size: 13.5px;
+  font-size: var(--t-base);
   margin: 5px 0 0;
   max-width: 76ch;
 }
@@ -449,7 +459,7 @@ section.view {
 
 .callout p {
   margin: 0 0 9px;
-  font-size: 14.5px;
+  font-size: var(--t-base);
   max-width: 82ch;
 }
 
@@ -483,22 +493,15 @@ section.view {
   box-shadow: var(--shadow);
 }
 
-.panel > h3 {
-  font-size: 15.5px;
-  font-weight: 600;
-  margin: 0 0 3px;
-}
-
 .panel > .cap {
   color: var(--ink-2);
-  font-size: 13px;
-  max-width: 108ch;
+  font-size: var(--t-sm);
   margin: 0 0 15px;
-  max-width: 88ch;
+  max-width: 96ch;
 }
 
 .srcline {
-  font-size: 10.5px;
+  font-size: var(--t-xs);
   color: var(--ink-3);
   letter-spacing: 0.02em;
   margin-top: 13px;
@@ -1113,7 +1116,7 @@ td.num {
 .pnote {
   margin: 14px 0 0;
   padding: 9px 12px;
-  font-size: 13.5px;
+  font-size: var(--t-base);
   line-height: 1.45;
   color: var(--ink);
   background: var(--panel-2);
@@ -1198,7 +1201,7 @@ ol.narr {
 }
 
 ol.narr li {
-  font-size: 13.5px;
+  font-size: var(--t-base);
   line-height: 1.5;
   color: var(--ink);
   max-width: 88ch;
@@ -1295,7 +1298,7 @@ ol.narr li {
    running the full width of the panel. */
 p.lede {
   margin: 0 0 10px;
-  font-size: 14px;
+  font-size: var(--t-base);
   color: var(--ink-2);
   max-width: 88ch;
 }
@@ -1332,13 +1335,13 @@ p.lede strong {
 
 .defs dt {
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: var(--t-base);
   color: var(--ink);
 }
 
 .defs dd {
   margin: 0;
-  font-size: 13.5px;
+  font-size: var(--t-base);
   color: var(--ink-2);
   max-width: 76ch;
 }
@@ -1363,7 +1366,7 @@ ul.lim {
 }
 
 ul.lim li {
-  font-size: 13.5px;
+  font-size: var(--t-base);
   color: var(--ink-2);
   max-width: 82ch;
 }
@@ -1418,6 +1421,9 @@ ul.lim strong {
 }
 
 .panel-head h3 {
+  font-size: var(--t-md);
+  font-weight: 600;
+  line-height: 1.3;
   margin: 0 0 3px;
 }
 
