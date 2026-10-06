@@ -13,6 +13,7 @@ import Pathways from './views/Q4';
 import Opportunity from './views/Q5';
 import Alignment from './views/Q6';
 import Regions from './views/Q7';
+import Opportunities8 from './views/Q8';
 import About from './views/About';
 import Methods from './views/Methods';
 
@@ -25,6 +26,7 @@ const VIEWS = [
   ['opportunity', 'Opportunities', Opportunity],
   ['alignment', 'VSCS alignment', Alignment],
   ['regions', 'Regions', Regions],
+  ['implications', 'Program opportunities', Opportunities8],
   ['about', 'About', About],
   ['methods', 'Methods & limits', Methods],
 ];

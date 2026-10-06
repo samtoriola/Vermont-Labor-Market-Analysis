@@ -108,6 +108,12 @@ export default function About() {
             },
             {
               cells: [
+                'Program opportunities',
+                'Which occupations VSCS could act on: real hiring, adequate pay, a credential it awards, and a thin or absent pipeline',
+              ],
+            },
+            {
+              cells: [
                 'Methods & limits',
                 'Sources, what each measure means, the rules applied to the data, and what is not covered',
               ],

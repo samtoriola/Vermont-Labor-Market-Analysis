@@ -942,6 +942,79 @@ td.num {
   border-left-color: var(--rule-strong);
 }
 
+/* The opportunity screen's controls. Deliberately the first thing on the tab: the
+   definition of "opportunity" is a judgement, so it should be arguable, not hidden. */
+.screenctl {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.scl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.sclab {
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  min-width: 190px;
+}
+
+.screenctl .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.screenctl .chips button {
+  appearance: none;
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--rule-strong);
+  background: var(--panel);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.screenctl .chips button:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.screenctl .chips button.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.screenctl .chips button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+ol.narr {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 11px;
+}
+
+ol.narr li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 88ch;
+}
+
 /* ---------- in-tab sub-navigation ---------- */
 /* Topics down the left, one panel at a time on the right, so a tab is read by
    choosing rather than by scrolling. */
