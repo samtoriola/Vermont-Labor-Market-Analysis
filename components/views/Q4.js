@@ -77,7 +77,7 @@ export default function Q4({ lw, setLw, section }) {
       <VHead
         title="Education pathways"
       >
-        What share of Vermont employment is associated with bachelor’s-level, sub-baccalaureate, high school, and other educational pathways, and how are these requirements related to earnings and employment opportunity?
+        What does each level of education lead to in Vermont — how many jobs, and at what pay?
       </VHead>
 
       <Sections
@@ -91,7 +91,7 @@ export default function Q4({ lw, setLw, section }) {
                 <div className="grid2">
                   <Panel
                     title="How much Vermont employment sits at each credential level?"
-                    cap="Where Vermont's jobs sit on the credential ladder."
+                    cap="What share of Vermont's jobs ask for each level of education."
                     src={`Lightcast · ${fmt(LC.totalJobs)} jobs`}
                   >
                     <RankedBars
@@ -120,7 +120,7 @@ export default function Q4({ lw, setLw, section }) {
 
                   <Panel
                     title="How wide is the range of outcomes at each credential level?"
-                    cap="The 90th percentile divided by the 10th: the width of the earnings range at each entry credential."
+                    cap="How many times more the best-paid tenth earn than the worst-paid tenth. A wider range means the credential leads to very different outcomes."
                     src="Lightcast · ratio of 90th to 10th percentile"
                   >
                     <RankedBars
@@ -142,7 +142,7 @@ export default function Q4({ lw, setLw, section }) {
                         dec: 2,
                         labelWidth: 176,
                         width: 640,
-                        valueLabel: 'p90 ÷ p10',
+                        valueLabel: 'Times wider',
                         aria: 'Earnings dispersion by credential tier',
                       }}
                     />
@@ -159,7 +159,7 @@ export default function Q4({ lw, setLw, section }) {
                 <Panel
                   title="What does each rung pay, by what the job asks for?"
                   note={ladderStep(LC.tiers, TIER_ORDER)}
-                  cap="One dot per occupation, placed at its median pay and sized by employment, grouped by the credential the job asks for at entry. The solid line is the employment-weighted average, the dashed line the median. Click a column to list its occupations."
+                  cap="One dot per occupation, placed at its typical pay and sized by how many people it employs, grouped by what the job asks for. The solid line is the average, the dashed line the midpoint. Click a column to list its occupations."
                   src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
                 >
                   <DotLegend unit="one occupation" />
@@ -186,7 +186,7 @@ export default function Q4({ lw, setLw, section }) {
                 <Panel
                   title="What does each rung pay, by the credential workers hold?"
                   note={peopleLadderStep(PEOPLE.byCred)}
-                  cap="The same ladder measured on people instead of jobs. Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year and grouped by the credential they actually hold. The self-employed and military occupations are excluded. Dots are a random draw made in proportion to survey weight; the average and median lines come from every respondent in the column. Columns marked as a small sample rest on fewer than 100 respondents and should be read as indicative."
+                  cap="The same ladder measured on people rather than jobs. Every dot is one Vermonter on a wage or salary who answered the American Community Survey, placed at what they earned and grouped by the credential they hold. The self-employed and the military are left out. The dots are a fair sample; the average and midpoint lines come from everyone in the column. Columns marked as a small sample rest on fewer than 100 answers and are rough."
                   src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
                 >
                   <DotLegend unit="one survey respondent" sized={false} />
@@ -213,7 +213,7 @@ export default function Q4({ lw, setLw, section }) {
                 <Panel
                   title="Which credential levels clear the living wage?"
                   note={livingWageJump(LC.tiers, TIER_ORDER, lw)}
-                  cap={`The wage-quality payoff to each credential tier. Benchmark: ${lw} at ${money(LWA)}/yr, set by the selector at the top of this tab.`}
+                  cap={`What share of each credential's jobs pay at or above the living wage for ${lw} — ${money(LWA)} a year. Change the household at the top of this tab.`}
                   src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
                 >
                   <RankedBars
@@ -250,7 +250,7 @@ export default function Q4({ lw, setLw, section }) {
                 <LwPicker value={lw} onChange={setLw} />
               <Panel
                 title="Which credentials lead to a job that both hires and pays?"
-                cap={`Every Vermont occupation at each entry credential, narrowed twice: first to those hiring at scale — at least ${MIN_OPEN} annual openings — then to those paying at or above the living wage. Counts are occupations, not jobs, so this reads as how many doors a credential opens. Benchmark: ${lw}.`}
+                cap={`Every Vermont occupation at each credential, narrowed twice: first to those hiring in volume — at least ${MIN_OPEN} openings a year — then to those paying a living wage. These are counts of occupations, not jobs, so it reads as how many doors a credential opens. Household: ${lw}.`}
                 src={`Lightcast · Typical Entry Level Education · openings ≥ ${MIN_OPEN}/yr · benchmark: MIT Living Wage 2025`}
                 note={funnelContrast(funnel)}
               >
@@ -261,7 +261,7 @@ export default function Q4({ lw, setLw, section }) {
                     `Hiring (${MIN_OPEN}+ openings)`,
                     'Paying a living wage',
                     'Openings',
-                    'Share of tier',
+                    'Share of these jobs',
                   ]}
                   rows={funnel.map((r) => ({
                     cells: [

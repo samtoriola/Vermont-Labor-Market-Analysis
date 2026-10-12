@@ -89,9 +89,9 @@ export default function Q5({ lw, setLw, section }) {
   return (
     <>
       <VHead
-        title="Opportunity index"
+        title="Opportunities"
       >
-        Which occupations represent high-demand and high-value opportunities based on employment, projected growth, annual openings, job postings, earnings, and educational accessibility?
+        Which occupations are worth paying attention to — hiring in numbers, growing, and paying well?
       </VHead>
 
       <Sections
@@ -104,11 +104,11 @@ export default function Q5({ lw, setLw, section }) {
             render: () => (
               <>
                 <ActiveFilters />
-                <Filters shown={shown.length} total={O.top.length} note="of the top 30 scored" showFamilies />
+                <Filters shown={shown.length} total={O.top.length} note="of the 30 highest scoring" pool={O.top} showFamilies />
                 <Panel
                   title="Which occupations combine scale, growth, demand and pay?"
                   note={topScoreCredentials(O.top)}
-                  cap={`Composite of four percentile ranks at ${O.weightEach}% each. Hover for the full breakdown — the score is simply the mean of those four numbers.`}
+                  cap={`Each occupation is ranked against all the others on four things — how many it employs, how fast it is growing, how heavily it is advertised, and what it pays — and the four ranks are averaged. Hover a bar for its four scores.`}
                   src={`Lightcast · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
                 >
                   <Ranked id="q5-score" rows={shown} show={20}>
@@ -152,11 +152,11 @@ export default function Q5({ lw, setLw, section }) {
           },
           {
             id: 'by-credential-tier',
-            label: 'By credential tier',
+            label: 'By credential',
             render: () => (
               <Panel
-                title="Which occupations score highest within a credential tier?"
-                cap="The same composite, ranked inside one entry-credential tier at a time rather than across all of them, so a tier is judged against its own field. Pick a tier."
+                title="Which occupations score highest for each credential?"
+                cap="The same score, but ranked within one credential at a time rather than across all of them, so each is judged against its own field. Pick a credential."
                 src="Lightcast · same four-indicator composite, ranked within tier · openings shown for context, not scored"
               >
                 <Picker
@@ -170,11 +170,11 @@ export default function Q5({ lw, setLw, section }) {
                         'Occupation',
                         'Score',
                         'Jobs',
-                        'Median',
-                        'Median vs LW',
-                        'Postings /100',
-                        '5-yr growth',
-                        'Annual openings',
+                        'Typical pay',
+                        'Times the living wage',
+                        'Ads per 100 jobs',
+                        'Growth by 2030',
+                        'Openings a year',
                       ]}
                       rows={O.byTier[t].map((r) => ({
                         cells: [
@@ -200,7 +200,7 @@ export default function Q5({ lw, setLw, section }) {
             render: () => (
               <Panel
                 title="Which occupations could VSCS act on?"
-                cap={`Occupations clearing four tests at once: at least ${minOpen} annual openings, pay at or above the living wage, a credential VSCS awards${excludeObvious ? ', and not among the 25 largest' : ''}. Signals count how many of three movements an occupation shows — openings, advertised demand and projected growth — each ranked within its own credential tier. Click a row for its occupational family.`}
+                cap={`Occupations that pass four tests at once: at least ${minOpen} openings a year, pay at or above the living wage, and a credential VSCS already awards${excludeObvious ? ', and not one of the 25 largest' : ''}. Signals counts how many of three things an occupation has going for it — openings, advertising and projected growth — each judged against others needing the same credential. Click a row for its type of work.`}
                 src="Lightcast occupations × IPEDS 2024 completions via cip2020_soc2018 · thresholds set above · a candidate for investigation, not a recommendation"
                 note={screenYield(screened, acted, LC.allOcc.length)}
               >
@@ -223,7 +223,7 @@ export default function Q5({ lw, setLw, section }) {
             render: () => (
               <Panel
                 title="How would these read out loud?"
-                cap="The candidates stated as they would be said over a slide rather than read off a table, ordered by annual openings. Set the criteria on the previous section."
+                cap="The same candidates written as you would say them out loud rather than read them off a table, ordered by openings a year. Set the tests on the previous section."
                 src="Generated from the figures in the table · no figure appears here that is not in it"
               >
                 {acted.length ? (
@@ -235,7 +235,7 @@ export default function Q5({ lw, setLw, section }) {
                 ) : (
                   <p className="cap">
                     No occupation clears the screen at these criteria. Loosen the minimum
-                    openings, add a credential tier, or include the largest occupations.
+                    openings, add a credential, or include the largest occupations.
                   </p>
                 )}
               </Panel>
@@ -247,7 +247,7 @@ export default function Q5({ lw, setLw, section }) {
             render: () => (
               <>
                 <ActiveFilters />
-                <Filters shown={shown.length} total={O.top.length} note="of the top 30 scored" showFamilies />
+                <Filters shown={shown.length} total={O.top.length} note="of the 30 highest scoring" pool={O.top} showFamilies />
                 <OccTable lw={lw} />
               </>
             ),

@@ -82,9 +82,11 @@ export function FilterProvider({ children, lwAnnual }) {
     [f, lwAnnual]
   );
 
+  // lwAnnual goes out with the rest so the bar can work out which pay options any
+  // row in a panel could satisfy, which moves with the benchmark the reader picked.
   const value = useMemo(
-    () => ({ f, setF, set, toggle, reset, active, apply, TIER_ORDER }),
-    [f, set, toggle, reset, active, apply]
+    () => ({ f, setF, set, toggle, reset, active, apply, lwAnnual, TIER_ORDER }),
+    [f, set, toggle, reset, active, apply, lwAnnual]
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

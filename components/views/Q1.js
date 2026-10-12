@@ -83,7 +83,7 @@ export default function Q1({ lw, section }) {
       <VHead
         title="Employment structure"
       >
-        How is Vermont employment distributed across occupational families, and how does that distribution vary by industry, earnings, and typical entry-level education?
+        Who employs Vermonters, what do those jobs pay, and what do they ask for at the door?
       </VHead>
 
       <Sections
@@ -97,7 +97,7 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="Which industries employ Vermonters?"
                 note={topConcentration(LC.sectors, TOTJ)}
-                cap={`The same ${fmt(TOTJ)} jobs, organized by NAICS sector, with average earnings per job. Levels are 2025; sector-level change over 2021–2025 is not in this export.`}
+                cap={`The same ${fmt(TOTJ)} jobs, grouped by industry, with average earnings per job. These are 2025 levels: the industry figures do not carry a 2021 column, so change over the study window cannot be shown here.`}
                 src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
               >
                 <Ranked id="q1-sectors" rows={LC.sectors}>
@@ -110,7 +110,7 @@ export default function Q1({ lw, section }) {
                     extra: [
                       ['Share of jobs', r.share + '%'],
                       ['Avg. earnings per job', r.earn ? money(r.earn) : '—'],
-                      ['NAICS codes in sector', fmt(r.nnaics)],
+                      ['Industries in this sector', fmt(r.nnaics)],
                     ],
                   }))}
                   opts={{ labelWidth: 236, aria: 'Jobs by industry sector' }}
@@ -127,7 +127,7 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="Which occupational families employ the most Vermonters?"
                 note={familyConcentration(fams, TOTJ)}
-                cap="Vermont 2025. Hover for earnings, concentration, openings and change since 2021."
+                cap="Vermont, 2025. Hover any bar for its pay, openings and change since 2021."
                 src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
               >
                 <DrillHint />
@@ -162,7 +162,7 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="What does each occupational family pay?"
                 note={vsNation(COMPARE.areas)}
-                cap="Every priced occupation in Vermont is a dot, placed at its own median pay and sized by the number of jobs. The solid line is the employment-weighted average, the dashed line the median. Green rows clear the living wage at the median, amber do not. Click a row for the occupations behind it."
+                cap="Every Vermont occupation is a dot, placed at its typical pay and sized by how many people it employs. The solid line is the average, the dashed line the midpoint. Green rows clear the living wage at the typical job, amber ones do not. Click a row for the occupations behind it."
                 src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
               >
                 <DotLegend unit="one occupation" />
@@ -190,7 +190,7 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="What credential does each family ask for at entry?"
                 note={credentialSpread(fams)}
-                cap="Share of each family's jobs at each entry-credential tier, sorted by the BA+ share. This is the requirement attached to the job, not the credential its workers hold."
+                cap="What share of each type of work asks for each credential, sorted by how much of it asks for a bachelor's or more. This is what the job asks for, not what the people doing it hold."
                 src="Lightcast · Typical Entry Level Education, jobs-weighted"
               >
                 <Legend labels={TIER_ORDER} colors={SERIES} />

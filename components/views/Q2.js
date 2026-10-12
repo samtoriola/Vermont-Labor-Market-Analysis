@@ -99,7 +99,7 @@ export default function Q2({ lw, setLw, section }) {
       <VHead
         title="Occupation size and wage quality"
       >
-        Which occupations employ the largest numbers of Vermont workers, and how does wage quality — measured against a self-sufficiency benchmark — vary across large, medium, and smaller occupations?
+        Which occupations employ the most Vermonters, and do the big ones pay enough to live on?
       </VHead>
 
       <Sections
@@ -153,7 +153,7 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="How does pay spread within large, medium and smaller occupations?"
                   note={sizePayStep(PCT.sizeTiers, SIZE_ORDER)}
-                  cap="One dot per occupation, placed at its median pay and sized by employment. The solid line is the employment-weighted average, the dashed line the median. The three columns on the right put Vermont as a whole beside its nearest comparable state and the nation. Click a Vermont column for the occupations behind it."
+                  cap="One dot per occupation, placed at its typical pay and sized by how many people it employs. The solid line is the average, the dashed line the midpoint. The three columns on the right set Vermont beside its nearest comparable state and the country. Click a Vermont column for the occupations behind it."
                   src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
                 >
                   <DotLegend unit="one occupation" />
@@ -180,7 +180,7 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="What do individual Vermonters actually earn?"
                   note={meanMedianGap(PEOPLE.byArea[0])}
-                  cap="Every dot is one Vermont wage and salary worker who answered the American Community Survey, placed at their own wage income for the year. The self-employed and military occupations are excluded, matching the universe used by the occupation charts. Dots are a random draw made in proportion to survey weight, so the cloud reflects the population rather than the raw respondent mix — but the average and median lines are computed from every respondent, not just the dots shown."
+                  cap="Every dot is one Vermonter on a wage or salary who answered the American Community Survey, placed at what they earned that year. The self-employed and the military are left out, matching the occupation charts. The dots are a fair sample rather than every respondent, so the cloud reflects the state's workers — but the average and midpoint lines are worked out from everyone who answered, not just the dots shown."
                   src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
                 >
                   <DotLegend unit="one survey respondent" sized={false} />
@@ -205,7 +205,7 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="Which 25 occupations employ the most Vermonters?"
                   note={topOccShare(top, TOTJ, LC.allOcc.length)}
-                  cap="Ranked by 2025 jobs. Green clears the living wage at the median, amber does not."
+                  cap="Ranked by how many people they employ. Green clears the living wage at the typical job, amber does not."
                   src="Lightcast · hover for SOC, earnings, entry credential and demand"
                 >
                   <Ranked id="q2-top" rows={topPool} show={25}>
@@ -242,7 +242,7 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="In the largest occupations, how far is the average above the typical worker?"
                   note={meanAboveMedian(ladder)}
-                  cap="The line spans the 10th to 90th percentile, the thick middle the 25th to 75th. The solid dot is the median and the hollow ring the mean; the distance between them is the pull of the upper tail. The dashed vertical is the living wage."
+                  cap="The line runs from the lowest-paid tenth to the highest-paid tenth, the thick middle covering the middle half. The solid dot is the midpoint and the hollow ring the average; the gap between them shows how far top earners pull the average up. The dashed line is the living wage."
                   src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
                 >
                   <LadderLegend />
@@ -271,10 +271,10 @@ export default function Q2({ lw, setLw, section }) {
                 <LwPicker value={lw} onChange={setLw} />
               <>
                 <ActiveFilters />
-                <Filters shown={filtered.length} total={LC.allOcc.length} showFamilies />
+                <Filters shown={filtered.length} total={LC.allOcc.length} pool={LC.allOcc} showFamilies />
                 <Panel
                   title="Does a bigger occupation pay better or worse?"
-                  cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations after filters. The vertical line is the living wage. Colored by size tier.`}
+                  cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations. The vertical line is the living wage; color shows how large the occupation is.`}
                   src="Lightcast · occupations with usable median earnings · log y-axis"
                 >
                   <Scatter

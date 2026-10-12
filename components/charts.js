@@ -56,7 +56,7 @@ export function RankedBars({ rows, opts = {} }) {
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.value)));
   const max = opts.max !== undefined ? opts.max : niceMax(maxAbs);
 
-  // A zero-centred axis is right only when the bars actually straddle zero.
+  // A zero-centered axis is right only when the bars actually straddle zero.
   // `signed` is the caller saying negatives are possible and values carry a sign;
   // whether any are present is a property of the rows, which a top or bottom slice
   // changes. Reading it from the data stops a slice of all-positive bars from

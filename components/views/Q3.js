@@ -51,7 +51,7 @@ export default function Q3({ section }) {
       <VHead
         title="Employer demand and growth"
       >
-        Where are projected job growth, annual openings, and current employer demand concentrated, and how closely do these measures align with Vermont’s existing employment base?
+        Where is the hiring happening, and is it in the same places as the jobs Vermont already has?
       </VHead>
 
       <Sections
@@ -65,7 +65,7 @@ export default function Q3({ section }) {
                 <Panel
                   title="Do jobs, openings and postings point at the same families?"
                   note={demandDivergence(align)}
-                  cap="Each family's share of jobs, of annual openings, and of unique postings."
+                  cap="What share of the state's jobs, yearly openings and job ads each type of work accounts for."
                   src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
                 >
                   <Legend
@@ -101,7 +101,7 @@ export default function Q3({ section }) {
             render: () => (
                 <Panel
                   title="Where do employers advertise more than their employment share would predict?"
-                  cap="The alignment index: a family's share of postings divided by its share of jobs. Above 1.0 means employers advertise more than the employment base would predict."
+                  cap="A type of work's share of job ads against its share of jobs. Above 1.0 means employers are advertising more than its size alone would suggest — a sign of hiring pressure."
                   src={`Lightcast · ${fmt(totPost)} unique postings over ${LC.postWindow}`}
                 >
                   <Ranked id="q3-postings" rows={hot}>
@@ -122,7 +122,7 @@ export default function Q3({ section }) {
                       dec: 2,
                       rule: 1,
                       ruleLabel: 'Parity',
-                      valueLabel: 'Index',
+                      valueLabel: 'Ads per job, vs its size',
                       aria: 'Postings alignment index',
                     }}
                   />
@@ -138,7 +138,7 @@ export default function Q3({ section }) {
                 <Panel
                   title="Which families grew, and which shrank, over the study window?"
                   note={observedSplit(fams)}
-                  cap="Observed change over the study window, by family."
+                  cap="How employment actually changed between 2021 and 2025."
                   src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
                 >
                   <Ranked
@@ -163,7 +163,7 @@ export default function Q3({ section }) {
                     opts={{
                       mode: 'pct',
                       signed: true,
-                      valueLabel: '2021–25 change',
+                      valueLabel: 'Change since 2021',
                       aria: 'Observed change 2021 to 2025 by family',
                     }}
                   />
@@ -179,7 +179,7 @@ export default function Q3({ section }) {
                 <Panel
                   title="Which families are projected to grow over the next five years?"
                   note={growthSplit(fams)}
-                  cap="Five-year projected change in jobs by family. Negative bars are projected contraction."
+                  cap="Projected change in jobs over the next five years. Bars to the left are expected to shrink."
                   src="Lightcast · 2030 Jobs vs 2025 Jobs"
                 >
                   <Ranked id="q3-growth" rows={growers}>
@@ -199,7 +199,7 @@ export default function Q3({ section }) {
                     opts={{
                       mode: 'pct',
                       signed: true,
-                      valueLabel: '5-yr growth',
+                      valueLabel: 'Growth by 2030',
                       aria: 'Projected five-year growth by family',
                     }}
                   />

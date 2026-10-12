@@ -23,8 +23,8 @@ export default function Q6({ lw, section }) {
   const ratioCols = [
     { k: 'n', label: 'Occupation', kind: 'text', get: (r) => r.n },
     { k: 'open', label: 'Annual openings', kind: 'num', get: (r) => r.open },
-    { k: 'linked', label: 'Linked completions', kind: 'num1', get: (r) => r.linked },
-    { k: 'ratio', label: 'Completions per opening', kind: 'num3', get: (r) => r.ratio },
+    { k: 'linked', label: 'VSCS graduates', kind: 'num1', get: (r) => r.linked },
+    { k: 'ratio', label: 'Graduates per opening', kind: 'num3', get: (r) => r.ratio },
     { k: 'm', label: 'Median', kind: 'money', get: (r) => r.m },
     { k: 'lw', label: 'vs living wage', kind: 'x', get: (r) => r.lw },
     { k: 't', label: 'Entry credential', kind: 'text', get: (r) => r.t },
@@ -35,7 +35,7 @@ export default function Q6({ lw, section }) {
       <VHead
         title="VSCS program alignment"
       >
-        How well does VSCS graduate production align with occupational demand, and where do program-to-occupation relationships suggest strong pipelines, diffuse career pathways, potential undersupply, or limited labor market opportunity?
+        Does what VSCS graduates students in line up with where Vermont is hiring?
       </VHead>
 
       <Sections
@@ -49,7 +49,7 @@ export default function Q6({ lw, section }) {
                 <Panel
                   title="What credentials does VSCS award?"
                   note={awardMix(V.byAward, V.totalCompletions)}
-                  cap="Completions by award level."
+                  cap="How many VSCS graduates finished at each award level."
                   src="IPEDS 2024 Completions · MAJORNUM=1, CIPCODE≠99 · CCV + Vermont State University"
                 >
                   <RankedBars
@@ -63,7 +63,7 @@ export default function Q6({ lw, section }) {
                     }))}
                     opts={{
                       labelWidth: 236,
-                      valueLabel: 'Completions',
+                      valueLabel: 'Graduates',
                       aria: 'VSCS completions by award level',
                     }}
                   />
@@ -77,28 +77,28 @@ export default function Q6({ lw, section }) {
                 <Panel
                   title="Where does VSCS production line up with openings?"
                   note={familiesNoCompletions(V.byFamily)}
-                  cap="Click a row to list the occupations behind it. Openings are Vermont-wide; linked completions are VSCS output allocated across each program's occupations. Families whose occupations require no credential will show a low ratio by construction."
+                  cap="Click a row to list the occupations behind it. Openings are statewide; graduates are VSCS completions spread across the occupations each program feeds. Work that needs no credential will always show few graduates per opening, simply because colleges are not the route into it."
                   src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · employment-weighted allocation"
                 >
                   <Table
                     cols={[
-                      'Occupational family',
+                      'Type of work',
                       'Annual openings',
-                      'Linked completions',
-                      'Completions per opening',
+                      'VSCS graduates',
+                      'Graduates per opening',
                     ]}
                     rows={V.byFamily.map((r) => ({
                       onClick: () =>
                         open(
                           occDrill({
-                            label: 'Occupational family',
+                            label: 'Type of work',
                             title: r.f,
                             cap: 'Occupations in this family, against which VSCS completions were allocated.',
                             occ: occByFamily(r.f),
                             lwAnnual: LWA,
                             extraStats: [
                               ['Annual openings', fmt(r.open)],
-                              ['Linked completions', r.linked.toFixed(1)],
+                              ['VSCS graduates', r.linked.toFixed(1)],
                             ],
                           })
                         ),
@@ -119,7 +119,7 @@ export default function Q6({ lw, section }) {
             render: () => (
               <Panel
                 title="Where does VSCS production sit relative to demand?"
-                cap="Occupations with at least 50 annual openings, at both ends of the ratio: the lowest among those paying above the living wage, and the highest overall. Sort any column or search for an occupation. A high ratio may mean a strong pipeline or a saturated one; the data cannot tell them apart."
+                cap="Occupations with at least 50 openings a year, shown at both ends: those paying above the living wage with the fewest graduates, and those with the most. Sort any column or search for an occupation. A lot of graduates per opening can mean a strong pipeline or an oversupplied one, and these figures cannot tell the two apart."
                 src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · openings ≥ 50"
               >
                 <DataTable
@@ -139,23 +139,23 @@ export default function Q6({ lw, section }) {
             render: () => (
                 <Callout label="How completions were linked to openings">
                   <p>
-                    CIP-to-SOC is many-to-many: a program links to several occupations and an occupation draws
-                    from several programs. Each program&rsquo;s completions are divided across its linked
-                    occupations <strong>in proportion to those occupations&rsquo; Vermont employment</strong>,
-                    so a broad program lands in proportion to where the jobs are rather than evenly across
-                    every occupation it links to.
+                    A program rarely feeds one job. Nursing feeds several nursing occupations; business
+                    feeds dozens. So each program&rsquo;s graduates are spread across the occupations it
+                    feeds, <strong>in proportion to how many people those occupations employ in
+                    Vermont</strong> &mdash; a broad program lands where the jobs actually are, rather than
+                    split evenly across every occupation on its list.
                   </p>
                   <p>
-                    Completions land in <N>{fmt(V.nSocLinked)}</N> occupations. Weighting by employment is a
-                    model of graduate behavior, not an observation of it &mdash; 21 programs link only to
-                    occupations with no Vermont employment at all, and those fall back to an even split
-                    across their linked occupations.
+                    Graduates land in <N>{fmt(V.nSocLinked)}</N> occupations this way. Spreading them by
+                    employment is an assumption about where graduates go, not a record of where they went
+                    &mdash; 21 programs feed only occupations with no Vermont employment at all, and those
+                    are split evenly instead.
                   </p>
                   <p>
-                    This is also a <strong>single-year snapshot</strong> (IPEDS 2024 completions against
-                    Lightcast 2025 openings), it counts credentials rather than people, and it says nothing
-                    about whether graduates stay in Vermont. Treat every ratio here as a screening signal for
-                    further investigation, never as a supply-demand verdict.
+                    It is also <strong>one year only</strong> (2024 graduates against 2025 openings), it
+                    counts credentials rather than people &mdash; one person earning two counts twice &mdash;
+                    and it says nothing about whether graduates stay in Vermont. Read these figures as a
+                    place to look, never as a verdict on whether a field has too few or too many people.
                   </p>
                 </Callout>
             ),

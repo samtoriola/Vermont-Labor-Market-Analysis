@@ -74,7 +74,7 @@ export default function Q7({ section }) {
                 <Panel
                   title="How does opportunity differ across Vermont’s counties?"
                   note={countySpread(R)}
-                  cap="Switch the shading metric, then click a county to pin it."
+                  cap="Choose what the shading shows, then click a county to pin it."
                   src="ACS 2016–2020 5-year · MIT Living Wage 2025 · outlines from Census TIGER, simplified"
                 >
                   <VermontMap
@@ -104,11 +104,11 @@ export default function Q7({ section }) {
                     cols={[
                       'County',
                       'Population',
-                      'BA+ 25–64',
-                      'Median income',
-                      'Living wage /hr',
-                      'Living wage /yr',
-                      'Income ÷ LW',
+                      'Adults with a degree',
+                      'Typical income',
+                      'Living wage an hour',
+                      'Living wage a year',
+                      'Times the living wage',
                     ]}
                     rows={byPop.map((r) => ({
                       onClick: () => setSel(sel === r.c ? null : r.c),
