@@ -250,7 +250,7 @@ export default function Q4({ lw, setLw, section }) {
                 <LwPicker value={lw} onChange={setLw} />
               <Panel
                 title="Which credentials lead to a job that both hires and pays?"
-                cap={`Every Vermont occupation at each credential, narrowed twice: first to those hiring in volume — at least ${MIN_OPEN} openings a year — then to those paying a living wage. These are counts of occupations, not jobs, so it reads as how many doors a credential opens. Household: ${lw}.`}
+                cap={`Every Vermont occupation at each credential, narrowed twice: first to those hiring in volume — at least ${MIN_OPEN} openings a year — then to those paying a living wage. These are counts of occupations, not jobs, so it reads as how many doors a credential opens. The last column is each row measured against its own level, not against the others, so the five do not add to 100%. Household: ${lw}.`}
                 src={`Lightcast · Typical Entry Level Education · openings ≥ ${MIN_OPEN}/yr · benchmark: MIT Living Wage 2025`}
                 note={funnelContrast(funnel)}
               >
@@ -261,7 +261,7 @@ export default function Q4({ lw, setLw, section }) {
                     `Hiring (${MIN_OPEN}+ openings)`,
                     'Paying a living wage',
                     'Openings',
-                    'Share of these jobs',
+                    'Share of all openings at this level',
                   ]}
                   rows={funnel.map((r) => ({
                     cells: [
