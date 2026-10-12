@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { LC, SOW, TIER_ORDER, lwAnnual, occByFamily } from '@/lib/data';
 import { opportunityScreen, screenCols, SCREEN_TIERS, SUPPLY } from '@/lib/screen';
 import { fmt, money } from '@/lib/format';
+import { scoreCols } from '@/lib/tables';
 import { Callout, Panel, Picker, Ranked, Table, VHead, N } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
@@ -110,6 +111,8 @@ export default function Q5({ lw, setLw, section }) {
                   note={topScoreCredentials(O.top)}
                   cap={`Each occupation is ranked against all the others on four things — how many it employs, how fast it is growing, how heavily it is advertised, and what it pays — and the four ranks are averaged. Hover a bar for its four scores.`}
                   src={`Lightcast · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
+                  data={{ cols: scoreCols(), rows: shown, label: 'highest-scoring',
+                          initialSort: { k: 'sc', dir: -1 }, unit: 'occupations' }}
                 >
                   <Ranked id="q5-score" rows={shown} show={20}>
                     {(pick) => (

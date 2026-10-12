@@ -2,6 +2,7 @@
 
 import { SOW, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
+import { awardCols } from '@/lib/tables';
 import { Callout, Panel, Table, VHead, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars } from '../charts';
@@ -51,6 +52,8 @@ export default function Q6({ lw, section }) {
                   note={awardMix(V.byAward, V.totalCompletions)}
                   cap="How many VSCS graduates finished at each award level."
                   src="IPEDS 2024 Completions · MAJORNUM=1, CIPCODE≠99 · CCV + Vermont State University"
+                  data={{ cols: awardCols(V.totalCompletions), rows: V.byAward, label: 'vscs-awards',
+                          initialSort: { k: 'c', dir: -1 }, unit: 'award levels' }}
                 >
                   <RankedBars
                     rows={V.byAward.map((r, i) => ({

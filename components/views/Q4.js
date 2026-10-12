@@ -5,9 +5,10 @@ import {
   lwAnnual, occByTier, wageStats, occDots, credentialFunnel,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
+import { bandCols, peopleCols } from '@/lib/tables';
 import { Callout, Panel, Table, VHead, LwPicker, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
-import { occDotTip, personTip } from '../occCols';
+import { occCols, occDotTip, personTip } from '../occCols';
 import { RankedBars } from '../charts';
 import { DotColumns, DotLegend } from '../dots';
 import Sections from '../Sections';
@@ -93,6 +94,8 @@ export default function Q4({ lw, setLw, section }) {
                     title="How much Vermont employment sits at each credential level?"
                     cap="What share of Vermont's jobs ask for each level of education."
                     src={`Lightcast · ${fmt(LC.totalJobs)} jobs`}
+                    data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'jobs-by-credential',
+                            initialSort: { k: 'jobs', dir: -1 }, unit: 'credentials' }}
                   >
                     <RankedBars
                       rows={TIER_ORDER.map((k, i) => {
@@ -122,6 +125,8 @@ export default function Q4({ lw, setLw, section }) {
                     title="How wide is the range of outcomes at each credential level?"
                     cap="How many times more the best-paid tenth earn than the worst-paid tenth. A wider range means the credential leads to very different outcomes."
                     src="Lightcast · ratio of 90th to 10th percentile"
+                    data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'pay-range-by-credential',
+                            initialSort: { k: 'med', dir: -1 }, unit: 'credentials' }}
                   >
                     <RankedBars
                       rows={TIER_ORDER.filter((k) => P[k]).map((k, i) => {
@@ -161,6 +166,9 @@ export default function Q4({ lw, setLw, section }) {
                   note={ladderStep(LC.tiers, TIER_ORDER)}
                   cap="One dot per occupation, placed at its typical pay and sized by how many people it employs, grouped by what the job asks for. The solid line is the average, the dashed line the midpoint. Click a column to list its occupations."
                   src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
+                    data={{ cols: occCols(LWA), rows: LC.allOcc, label: 'pay-by-what-the-job-asks',
+                            initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
+                            note: 'Every priced Vermont occupation — the dots in the chart above.' }}
                 >
                   <DotLegend unit="one occupation" />
                   <DotColumns
@@ -188,6 +196,9 @@ export default function Q4({ lw, setLw, section }) {
                   note={peopleLadderStep(PEOPLE.byCred)}
                   cap="The same ladder measured on people rather than jobs. Every dot is one Vermonter on a wage or salary who answered the American Community Survey, placed at what they earned and grouped by the credential they hold. The self-employed and the military are left out. The dots are a fair sample; the average and midpoint lines come from everyone in the column. Columns marked as a small sample rest on fewer than 100 answers and are rough."
                   src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+                  data={{ cols: peopleCols('Credential held'), rows: PEOPLE.byCred, label: 'pay-by-credential-held',
+                          initialSort: { k: 'med', dir: -1 }, unit: 'credentials',
+                          note: 'Groups, not the individual dots: each dot is one anonymous respondent.' }}
                 >
                   <DotLegend unit="one survey respondent" sized={false} />
                   <DotColumns
@@ -215,6 +226,8 @@ export default function Q4({ lw, setLw, section }) {
                   note={livingWageJump(LC.tiers, TIER_ORDER, lw)}
                   cap={`What share of each credential's jobs pay at or above the living wage for ${lw} — ${money(LWA)} a year. Change the household at the top of this tab.`}
                   src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
+                    data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'above-the-living-wage',
+                            initialSort: { k: 'jobs', dir: -1 }, unit: 'credentials' }}
                 >
                   <RankedBars
                     rows={TIER_ORDER.map((k, i) => {

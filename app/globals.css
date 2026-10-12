@@ -1158,6 +1158,42 @@ td.num {
   min-width: 190px;
 }
 
+/* The figures behind a chart, folded away under it. */
+.paneldata {
+  margin-top: 16px;
+  border-top: 1px solid var(--rule);
+  padding-top: 12px;
+}
+
+.datatoggle {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.datatoggle:hover {
+  text-decoration: underline;
+}
+
+.datatoggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.paneldata .datatable {
+  margin-top: 12px;
+}
+
 /* Top / bottom selector above a long ranked chart. Borrows the chip styling the
    screen criteria already use, so the two read as the same kind of control. */
 .rankctl {

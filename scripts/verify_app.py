@@ -26,7 +26,7 @@ def walk(d):
         return
     INDEX[pathlib.PurePath(d).as_posix()] = set(names)
     for n, isdir in names.items():
-        if isdir and n not in ("node_modules", ".next", "out", ".git", ".vercel"):
+        if isdir and n not in ("node_modules", ".next", ".next-verify", "out", ".git", ".vercel"):
             walk(os.path.join(d, n))
 
 walk(str(APP))

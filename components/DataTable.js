@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { fmt, money } from '@/lib/format';
-import { ExportButton } from './ui';
+import { ExportButton } from './ExportButton';
 
 /**
  * Sortable, filterable, exportable table shared by the master view and the
@@ -99,7 +99,7 @@ export default function DataTable({
   const filtered = view.length !== rows.length;
 
   return (
-    <>
+    <div className="datatable">
       <div className="dtbar">
         <input
           className="dtsearch"
@@ -228,6 +228,6 @@ export default function DataTable({
           {showAll ? `show first ${pageSize}` : `show all ${fmt(view.length)}`}
         </button>
       ) : null}
-    </>
+    </div>
   );
 }

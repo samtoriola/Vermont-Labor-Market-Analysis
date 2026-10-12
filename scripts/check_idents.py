@@ -16,7 +16,9 @@ import re
 import sys
 
 APP = pathlib.Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"node_modules", ".next", "out", ".git", ".vercel", "scripts", "data"}
+# ".next-verify" is where a verification build goes, so it does not overwrite the
+# directory a running dev server is serving from. Build output either way.
+SKIP_DIRS = {"node_modules", ".next", ".next-verify", "out", ".git", ".vercel", "scripts", "data"}
 
 # Legitimately bare: short locals, globals, and prose acronyms that can be followed
 # by a dot inside a <code> span or a filename.

@@ -5,9 +5,11 @@ import { LC, SERIES, SERIES_HEX } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { downloadCsv, exportName } from '@/lib/csv';
 import { downloadPanelPng } from '@/lib/png';
+import DataTable from './DataTable';
+import { ExportButton } from './ExportButton';
 import { rankViews, defaultView, applyView } from '@/lib/rank';
 
-export function Panel({ title, cap, src, note, exportData, children }) {
+export function Panel({ title, cap, src, note, data, exportData, children }) {
   const body = useRef(null);
   return (
     <div className="panel" ref={body}>
@@ -26,12 +28,79 @@ export function Panel({ title, cap, src, note, exportData, children }) {
       </div>
       {cap ? <p className="cap">{cap}</p> : null}
       {children}
+      {data ? <PanelData {...data} /> : null}
       {/* The computed answer to "so what". A rule that ran and found nothing notable
           says so in a muted line; null means it could not run at all. */}
       {note ? (
         <p className={note.muted ? 'pnote muted' : 'pnote'}>{note.text}</p>
       ) : null}
       {src ? <div className="srcline">{src}</div> : null}
+    </div>
+  );
+}
+
+/**
+ * The figures behind a chart, folded away under it.
+ *
+ * A chart answers the one question it was drawn for. The table carries everything
+ * else -- sort it another way, search it, or take the CSV -- without making every
+ * section twice as long for readers who only wanted the chart. Closed by default
+ * for that reason; the count is on the summary so it is clear what is in there.
+ */
+export function PanelData({ cols, rows, label, initialSort, onRowClick, note, unit = 'rows' }) {
+  const [open, setOpen] = useState(false);
+
+  // Keyed on the panel, and reset when the reader moves to another one: the
+  // sections swap through the same slot in the tree, so without this a table left
+  // open on one panel would carry its open state onto the next.
+  const key = `vt-data-${label}`;
+  useEffect(() => {
+    let want = false;
+    try {
+      want = localStorage.getItem(key) === '1';
+    } catch (e) {
+      /* blocked storage -- start closed */
+    }
+    setOpen(want);
+  }, [key]);
+
+  const toggle = useCallback(() => {
+    setOpen((v) => {
+      try {
+        localStorage.setItem(key, v ? '0' : '1');
+      } catch (e) {
+        /* non-fatal */
+      }
+      return !v;
+    });
+  }, [key]);
+
+  if (!cols || !rows || !rows.length) return null;
+
+  return (
+    <div className="paneldata">
+      <button
+        type="button"
+        className="datatoggle"
+        aria-expanded={open}
+        onClick={toggle}
+      >
+        <span className={open ? 'chev open' : 'chev'} aria-hidden="true">
+          {'›'}
+        </span>
+        {open ? 'Hide the figures' : `Show the figures (${rows.length} ${unit})`}
+      </button>
+      {open ? (
+        <DataTable
+          cols={cols}
+          rows={rows}
+          initialSort={initialSort}
+          exportLabel={label}
+          onRowClick={onRowClick}
+          note={note}
+          pageSize={30}
+        />
+      ) : null}
     </div>
   );
 }
@@ -227,20 +296,6 @@ export function PngButton({ panelRef, title, note, src }) {
   );
 }
 
-/** Downloads the panel's underlying rows as CSV. Client-side; nothing is uploaded. */
-export function ExportButton({ label, cols, rows }) {
-  if (!rows || !rows.length) return null;
-  return (
-    <button
-      type="button"
-      className="exportbtn"
-      onClick={() => downloadCsv(exportName(label), cols, rows)}
-      title={`Download ${rows.length} rows as CSV`}
-    >
-      Export CSV
-    </button>
-  );
-}
 
 export function Callout({ label, children }) {
   return (
@@ -380,3 +435,5 @@ export function LwPicker({ value, onChange }) {
 }
 
 export { SERIES, SERIES_HEX };
+
+export { ExportButton };

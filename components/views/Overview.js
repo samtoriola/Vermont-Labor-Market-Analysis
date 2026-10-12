@@ -22,6 +22,17 @@ export default function Overview({ lw }) {
     ['Annual openings', fmt(LC.openTotal / LC.openYears), 'Lightcast, ' + LC.window],
   ];
 
+  // The chart draws six bars; read as three comparisons, which is what the table
+  // under it lays out, gap included.
+  const gaps = () => {
+    const hsJobs = tierRow('High school').share + tierRow('No formal credential').share;
+    return [
+      { level: 'Bachelor’s or more', jobs: baReq, people: lastCps.ba },
+      { level: 'Sub-baccalaureate', jobs: sub.share, people: cpsSubBacc() },
+      { level: 'High school or less', jobs: hsJobs, people: cpsHsOrLess() },
+    ].map((r) => ({ ...r, gap: r.people - r.jobs }));
+  };
+
   const contrast = [
     { label: 'Jobs requiring BA+', value: baReq, color: '--s1' },
     { label: 'Workers holding BA+', value: lastCps.ba, color: '--s3' },
@@ -61,7 +72,18 @@ export default function Overview({ lw }) {
         title="Do Vermont’s jobs ask for the credentials its workers hold?"
         note={requirementsGap(baReq, lastCps.ba)}
         cap="Two different questions, two different sources. Lightcast assigns each occupation a typical entry credential (a property of the job). CPS records the credential each worker holds (a property of the person). They are not the same measure."
-        src="Lightcast occupation table, 2025 jobs · CPS 2025, age 25+ · CPS and Lightcast universes differ; compare shares, not levels"
+        src="Lightcast occupation table, 2025 jobs · CPS 2025, age 25+ · the two sources count different populations, so compare shares, not levels"
+        data={{
+          cols: [
+            { k: 'level', label: 'Credential', kind: 'text', get: (r) => r.level },
+            { k: 'jobs', label: 'Share of jobs asking for it', kind: 'rate', get: (r) => r.jobs },
+            { k: 'people', label: 'Share of workers holding it', kind: 'rate', get: (r) => r.people },
+            { k: 'gap', label: 'Gap, workers minus jobs', kind: 'pct', get: (r) => r.gap },
+          ],
+          rows: gaps(),
+          label: 'credentials-jobs-vs-workers',
+          unit: 'credentials',
+        }}
       >
         <Legend
           labels={['Job requirement (Lightcast)', 'Worker attainment (CPS)']}

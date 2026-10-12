@@ -5,6 +5,7 @@ import {
   lwAnnual, occByFamily, wageStats, occDots, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
+import { familyCols, sectorCols } from '@/lib/tables';
 import { Panel, Legend, Ranked, Table, VHead, N, DrillHint } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { occDotTip } from '../occCols';
@@ -99,6 +100,8 @@ export default function Q1({ lw, section }) {
                 note={topConcentration(LC.sectors, TOTJ)}
                 cap={`The same ${fmt(TOTJ)} jobs, grouped by industry, with average earnings per job. These are 2025 levels: the industry figures do not carry a 2021 column, so change over the study window cannot be shown here.`}
                 src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
+                data={{ cols: sectorCols(), rows: LC.sectors, label: 'industries',
+                        initialSort: { k: 'j', dir: -1 }, unit: 'industries' }}
               >
                 <Ranked id="q1-sectors" rows={LC.sectors}>
                   {(pick) => (
@@ -129,6 +132,10 @@ export default function Q1({ lw, section }) {
                 note={familyConcentration(fams, TOTJ)}
                 cap="Vermont, 2025. Hover any bar for its pay, openings and change since 2021."
                 src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
+                data={{ cols: familyCols(LWA), rows: fams, label: 'jobs-by-type-of-work',
+                        initialSort: { k: 'jobs', dir: -1 }, onRowClick: famDrill,
+                        unit: 'kinds of work',
+                        note: 'Click a row for the occupations behind it.' }}
               >
                 <DrillHint />
                 <Ranked id="q1-jobs" rows={fams}>
@@ -164,6 +171,10 @@ export default function Q1({ lw, section }) {
                 note={vsNation(COMPARE.areas)}
                 cap="Every Vermont occupation is a dot, placed at its typical pay and sized by how many people it employs. The solid line is the average, the dashed line the midpoint. Green rows clear the living wage at the typical job, amber ones do not. Click a row for the occupations behind it."
                 src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
+                data={{ cols: familyCols(LWA), rows: fams, label: 'pay-by-type-of-work',
+                        initialSort: { k: 'med', dir: -1 }, onRowClick: famDrill,
+                        unit: 'kinds of work',
+                        note: 'Click a row for the occupations behind it.' }}
               >
                 <DotLegend unit="one occupation" />
                 <Ranked id="q1-pay" rows={famDots}>
@@ -192,6 +203,9 @@ export default function Q1({ lw, section }) {
                 note={credentialSpread(fams)}
                 cap="What share of each type of work asks for each credential, sorted by how much of it asks for a bachelor's or more. This is what the job asks for, not what the people doing it hold."
                 src="Lightcast · Typical Entry Level Education, jobs-weighted"
+                data={{ cols: familyCols(LWA), rows: fams, label: 'entry-credential-by-type-of-work',
+                        initialSort: { k: 'jobs', dir: -1 }, onRowClick: famDrill,
+                        unit: 'kinds of work' }}
               >
                 <Legend labels={TIER_ORDER} colors={SERIES} />
                 <Ranked id="q1-cred" rows={credRows}>

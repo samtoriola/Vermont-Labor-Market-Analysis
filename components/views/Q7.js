@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { SOW } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
+import { countyCols } from '@/lib/tables';
 import { Callout, Panel, Table, VHead, N } from '../ui';
 import VermontMap from '../VermontMap';
 import Sections from '../Sections';
@@ -76,6 +77,9 @@ export default function Q7({ section }) {
                   note={countySpread(R)}
                   cap="Choose what the shading shows, then click a county to pin it."
                   src="ACS 2016–2020 5-year · MIT Living Wage 2025 · outlines from Census TIGER, simplified"
+                  data={{ cols: countyCols(), rows: byPop, label: 'counties',
+                          initialSort: { k: 'pop', dir: -1 }, unit: 'counties',
+                          onRowClick: (r) => setSel(sel === r.c ? null : r.c) }}
                 >
                   <VermontMap
                     regions={R}

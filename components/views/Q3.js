@@ -2,6 +2,7 @@
 
 import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
+import { familyCols } from '@/lib/tables';
 import { Callout, Panel, Legend, Ranked, VHead, N } from '../ui';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 import Sections from '../Sections';
@@ -67,6 +68,8 @@ export default function Q3({ section }) {
                   note={demandDivergence(align)}
                   cap="What share of the state's jobs, yearly openings and job ads each type of work accounts for."
                   src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
+                  data={{ cols: familyCols(), rows: fams, label: 'three-demand-measures',
+                          initialSort: { k: 'jobs', dir: -1 }, unit: 'kinds of work' }}
                 >
                   <Legend
                     labels={['Share of jobs', 'Share of annual openings', 'Share of postings']}
@@ -103,6 +106,8 @@ export default function Q3({ section }) {
                   title="Where do employers advertise more than their employment share would predict?"
                   cap="A type of work's share of job ads against its share of jobs. Above 1.0 means employers are advertising more than its size alone would suggest — a sign of hiring pressure."
                   src={`Lightcast · ${fmt(totPost)} unique postings over ${LC.postWindow}`}
+                  data={{ cols: familyCols(), rows: fams, label: 'job-ads-against-size',
+                          initialSort: { k: 'post', dir: -1 }, unit: 'kinds of work' }}
                 >
                   <Ranked id="q3-postings" rows={hot}>
                     {(pick) => (
@@ -140,6 +145,8 @@ export default function Q3({ section }) {
                   note={observedSplit(fams)}
                   cap="How employment actually changed between 2021 and 2025."
                   src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
+                  data={{ cols: familyCols(), rows: fams, label: 'change-since-2021',
+                          initialSort: { k: 'chgPct', dir: -1 }, unit: 'kinds of work' }}
                 >
                   <Ranked
                     id="q3-observed"
@@ -181,6 +188,8 @@ export default function Q3({ section }) {
                   note={growthSplit(fams)}
                   cap="Projected change in jobs over the next five years. Bars to the left are expected to shrink."
                   src="Lightcast · 2030 Jobs vs 2025 Jobs"
+                  data={{ cols: familyCols(), rows: fams, label: 'projected-growth',
+                          initialSort: { k: 'g5pct', dir: -1 }, unit: 'kinds of work' }}
                 >
                   <Ranked id="q3-growth" rows={growers}>
                     {(pick) => (
