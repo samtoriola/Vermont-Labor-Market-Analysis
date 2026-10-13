@@ -6,6 +6,9 @@ import { familyCols } from '@/lib/tables';
 import { Callout, Panel, Legend, Ranked, VHead, N } from '../ui';
 import { RankedBars, GroupedBars, Dumbbell } from '../charts';
 import Sections from '../Sections';
+// Legend, GroupedBars and demandDivergence are used only by the hidden
+// "Three demand measures" section further down. Kept imported so bringing it back
+// is the one edit it should be.
 import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
 
 export default function Q3({ section }) {
@@ -59,48 +62,55 @@ export default function Q3({ section }) {
         id="demand"
         active={section}
         items={[
-          {
-            id: 'three-demand-measures',
-            label: 'Three demand measures',
-            render: () => (
-                <Panel
-                  title="Do jobs, openings and postings point at the same families?"
-                  note={demandDivergence(align)}
-                  cap="What share of the state's jobs, yearly openings and job ads each type of work accounts for."
-                  src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
-                  data={{ cols: familyCols(), rows: fams, label: 'three-demand-measures',
-                          initialSort: { k: 'jobs', dir: -1 }, unit: 'kinds of work' }}
-                >
-                  <Legend
-                    labels={['Share of jobs', 'Share of annual openings', 'Share of postings']}
-                    colors={['--s1', '--s4', '--s3']}
-                  />
-                  <Ranked id="q3-align" rows={align.slice().sort((a, b) => b.jobsSh - a.jobsSh)}>
-                    {(pick) => (
-                  <GroupedBars
-                    rows={pick
-                      .map((r) => ({
-                        label: r.f,
-                        parts: [{ v: r.jobsSh }, { v: r.openSh }, { v: r.postSh }],
-                        extra: [
-                          ['Jobs share', r.jobsSh.toFixed(1) + '%'],
-                          ['Openings share', r.openSh.toFixed(1) + '%'],
-                          ['Postings share', r.postSh.toFixed(1) + '%'],
-                        ],
-                      }))}
-                    opts={{
-                      colors: ['--s1', '--s4', '--s3'],
-                      aria: 'Jobs, openings and postings shares by family',
-                    }}
-                  />
-                  )}
-                </Ranked>
-                </Panel>
-            ),
-          },
+          /* Hidden for now -- kept whole rather than deleted, because the chart is
+             sound and only the demand on the reader was wrong: it put three shares
+             of three different denominators side by side. To bring it back, restore
+             the nav entry in lib/nav.js and uncomment this block.
+
+          // {
+          // id: 'three-demand-measures',
+          // label: 'Three demand measures',
+          // render: () => (
+          // <Panel
+          // title="Do jobs, openings and postings point at the same families?"
+          // note={demandDivergence(align)}
+          // cap="What share of the state's jobs, yearly openings and job ads each type of work accounts for."
+          // src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
+          // data={{ cols: familyCols(), rows: fams, label: 'three-demand-measures',
+          // initialSort: { k: 'jobs', dir: -1 }, unit: 'kinds of work' }}
+          // >
+          // <Legend
+          // labels={['Share of jobs', 'Share of annual openings', 'Share of postings']}
+          // colors={['--s1', '--s4', '--s3']}
+          // />
+          // <Ranked id="q3-align" rows={align.slice().sort((a, b) => b.jobsSh - a.jobsSh)}>
+          // {(pick) => (
+          // <GroupedBars
+          // rows={pick
+          // .map((r) => ({
+          // label: r.f,
+          // parts: [{ v: r.jobsSh }, { v: r.openSh }, { v: r.postSh }],
+          // extra: [
+          // ['Jobs share', r.jobsSh.toFixed(1) + '%'],
+          // ['Openings share', r.openSh.toFixed(1) + '%'],
+          // ['Postings share', r.postSh.toFixed(1) + '%'],
+          // ],
+          // }))}
+          // opts={{
+          // colors: ['--s1', '--s4', '--s3'],
+          // aria: 'Jobs, openings and postings shares by family',
+          // }}
+          // />
+          // )}
+          // </Ranked>
+          // </Panel>
+          // ),
+          // },
+          */
+
           {
             id: 'postings-index',
-            label: 'Postings index',
+            label: 'Job ads against size',
             render: () => (
                 <Panel
                   title="Where do employers advertise more than their employment share would predict?"

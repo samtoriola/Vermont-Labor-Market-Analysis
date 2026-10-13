@@ -11,7 +11,24 @@ FILES = {'overview': 'Overview.js', 'regions': 'Q7.js', 'structure': 'Q1.js',
          'opportunity': 'Q5.js', 'alignment': 'Q6.js', 'about': 'About.js',
          'methods': 'Methods.js'}
 
-nav_src = (ROOT / 'lib' / 'nav.js').read_text(encoding='utf-8')
+def live(src):
+    """Drop commented-out lines.
+
+    A section is hidden by commenting its entry out rather than deleting it, which
+    keeps the way back to one line. Without this the checker still reads the
+    commented entry and reports a mismatch against the view that no longer offers
+    it -- a failure for something working exactly as intended.
+    """
+    keep = []
+    for line in src.split("\n"):
+        t = line.lstrip()
+        if t.startswith("//") or t.startswith("/*") or t.startswith("*"):
+            continue
+        keep.append(line)
+    return "\n".join(keep)
+
+
+nav_src = live((ROOT / 'lib' / 'nav.js').read_text(encoding='utf-8'))
 nav = {}
 for m in re.finditer(r"view: '([^']+)',\s*\n\s*label: '[^']*',(.*?)(?=\n  \{|\n\];)",
                      nav_src, re.S):
@@ -20,7 +37,7 @@ for m in re.finditer(r"view: '([^']+)',\s*\n\s*label: '[^']*',(.*?)(?=\n  \{|\n\
 
 problems = []
 for view, fn in FILES.items():
-    src = (ROOT / 'components' / 'views' / fn).read_text(encoding='utf-8')
+    src = live((ROOT / 'components' / 'views' / fn).read_text(encoding='utf-8'))
     actual = re.findall(r"id: '([^']+)',\s*\n\s*label: '([^']*)'", src)
     declared = nav.get(view, [])
     if actual != declared:
