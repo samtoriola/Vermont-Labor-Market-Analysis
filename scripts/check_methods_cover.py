@@ -22,6 +22,9 @@ NEED = {
   "How the index is built":   ["opportunity index", "percentile ranks"],
   "How completions were linked": ["linked completions", "proportion to their vermont employment"],
   "What this measures (jobs vs workers)": ["jobs vs workers", "compare shares, not levels"],
+  # Kept from the removed Not covered list: it guards against reading a weak score
+  # as a judgement on a program rather than on the market it sits in.
+  "A low score is not a verdict": ["a low score is not a verdict", "labor demand does not price"],
 }
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={"width":1700,"height":1000})

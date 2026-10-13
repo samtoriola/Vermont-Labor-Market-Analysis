@@ -104,6 +104,10 @@ export default function Methods({ lw }) {
               'The line under a chart is generated from the data, not written. It appears only when a comparison clears a stated margin; otherwise it says there is no material difference. It never recommends an action.',
             ],
             [
+              'A low score is not a verdict',
+              'Every measure here is a labor-market one. Programs serve need that labor demand does not price — public, civic and care work among them — and none of that is visible in this data. A low score means the market signals are weak, not that a program lacks value.',
+            ],
+            [
               'Rates need a real base',
               'Lightcast models employment to a fraction of a job, so growth, change and turnover are left blank below 10 jobs. Without the rule Gambling Managers reads 19,390% growth on 0.005 jobs. Suppresses ~120 of 796 occupations per measure, 0.11% of employment. A blank means the base was too small, not zero.',
             ],
@@ -156,12 +160,13 @@ export default function Methods({ lw }) {
             <strong>Graduate retention and destination.</strong> Nothing here tracks whether
             graduates take a related job, or stay in Vermont.
           </li>
-          <li>
-            <strong>Public and civic value.</strong> Programs serving need that labor demand does
-            not price. Absence of a signal is not evidence of low value.
-          </li>
         </ul>
       </Panel>
+
+          Public and civic value was the sixth item here. It is kept, as
+          "A low score is not a verdict" under Rules applied to the data, because
+          it guards against reading a weak score as a judgement on a program
+          rather than on the market. Do not restore it here as well.
       */}
 
       <Panel title="Color" cap="Color follows the entity, never its rank. Ordered measures use one hue.">
