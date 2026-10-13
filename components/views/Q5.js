@@ -16,6 +16,9 @@ import DataTable from '../DataTable';
 import { useDrill, occDrill } from '../Drill';
 import { LwPicker } from '../ui';
 
+// Callout, N and screenNarration below are used only by the section(s) hidden further down. Kept
+// imported so restoring one stays a single edit.
+
 export default function Q5({ lw, setLw, section }) {
   const { apply } = useFilters();
   const { open } = useDrill();
@@ -220,61 +223,73 @@ export default function Q5({ lw, setLw, section }) {
               </Panel>
             ),
           },
-          {
-            id: 'read-out',
-            label: 'Read out',
-            render: () => (
-              <Panel
-                title="How would these read out loud?"
-                cap="The same candidates written as you would say them out loud rather than read them off a table, ordered by openings a year. Set the tests on the previous section."
-                src="Generated from the figures in the table · no figure appears here that is not in it"
-              >
-                {acted.length ? (
-                  <ol className="narr">
-                    {acted.slice(0, 10).map((r) => (
-                      <li key={r.s}>{screenNarration(r)}</li>
-                    ))}
-                  </ol>
-                ) : (
-                  <p className="cap">
-                    No occupation clears the screen at these criteria. Loosen the minimum
-                    openings, add a credential, or include the largest occupations.
-                  </p>
-                )}
-              </Panel>
-            ),
-          },
-          {
-            id: 'all-occupations',
-            label: 'All occupations',
-            render: () => (
-              <>
-                <ActiveFilters />
-                <Filters shown={shown.length} total={O.top.length} note="of the 30 highest scoring" pool={O.top} showFamilies />
-                <OccTable lw={lw} />
-              </>
-            ),
-          },
-          {
-            id: 'how-the-index-is-built',
-            label: 'How the index is built',
-            render: () => (
-                <Callout label="How the index is built">
-                  <p>
-                    Four components, <N>25%</N> each: employment, projected change 2025&ndash;2030,
-                    postings per 100 jobs, and median pay. Each occupation is ranked by percentile
-                    within every component and the index is the mean of those four ranks. Only
-                    occupations with at least <N>100</N> jobs and a published wage are scored.
-                  </p>
-                  <p>
-                    The four measure different things: their strongest mutual correlation is{' '}
-                    <N>0.39</N>, and effective influence spans <N>18.6%</N> to <N>29.4%</N> against a
-                    nominal <N>25%</N>. Living-wage ratios and absolute openings are reported per
-                    occupation but are not part of the score.
-                  </p>
-                </Callout>
-            ),
-          },
+          // --- Hidden for now ---------------------------------------------
+          // A prose restatement of the Program candidates table.
+          // Restore by uncommenting this block and its entry in lib/nav.js.
+          // {
+          // id: 'read-out',
+          // label: 'Read out',
+          // render: () => (
+          // <Panel
+          // title="How would these read out loud?"
+          // cap="The same candidates written as you would say them out loud rather than read them off a table, ordered by openings a year. Set the tests on the previous section."
+          // src="Generated from the figures in the table · no figure appears here that is not in it"
+          // >
+          // {acted.length ? (
+          // <ol className="narr">
+          // {acted.slice(0, 10).map((r) => (
+          // <li key={r.s}>{screenNarration(r)}</li>
+          // ))}
+          // </ol>
+          // ) : (
+          // <p className="cap">
+          // No occupation clears the screen at these criteria. Loosen the minimum
+          // openings, add a credential, or include the largest occupations.
+          // </p>
+          // )}
+          // </Panel>
+          // ),
+          // },
+
+          // --- Hidden for now ---------------------------------------------
+          // The same table now sits under the charts it belongs to.
+          // Restore by uncommenting this block and its entry in lib/nav.js.
+          // {
+          // id: 'all-occupations',
+          // label: 'All occupations',
+          // render: () => (
+          // <>
+          // <ActiveFilters />
+          // <Filters shown={shown.length} total={O.top.length} note="of the 30 highest scoring" pool={O.top} showFamilies />
+          // <OccTable lw={lw} />
+          // </>
+          // ),
+          // },
+
+          // --- Hidden for now ---------------------------------------------
+          // Methods defines the opportunity index under "What the measures mean".
+          // Restore by uncommenting this block and its entry in lib/nav.js.
+          // {
+          // id: 'how-the-index-is-built',
+          // label: 'How the index is built',
+          // render: () => (
+          // <Callout label="How the index is built">
+          // <p>
+          // Four components, <N>25%</N> each: employment, projected change 2025&ndash;2030,
+          // postings per 100 jobs, and median pay. Each occupation is ranked by percentile
+          // within every component and the index is the mean of those four ranks. Only
+          // occupations with at least <N>100</N> jobs and a published wage are scored.
+          // </p>
+          // <p>
+          // The four measure different things: their strongest mutual correlation is{' '}
+          // <N>0.39</N>, and effective influence spans <N>18.6%</N> to <N>29.4%</N> against a
+          // nominal <N>25%</N>. Living-wage ratios and absolute openings are reported per
+          // occupation but are not part of the score.
+          // </p>
+          // </Callout>
+          // ),
+          // },
+
         ]}
       />
     </>

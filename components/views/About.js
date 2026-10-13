@@ -132,6 +132,10 @@ export default function About() {
               'Every detail table and the full occupation table take a text search, a numeric range filter on any column, and sorting by any column. Sorting is on the underlying value, so money and percentages order correctly.',
             ],
             [
+              'Where the definitions live',
+              'Methods holds every measure, the rules applied, and what the data cannot tell you. Each chart carries a short caption and a source line; Methods is where the full definition sits.',
+            ],
+            [
               'Take the figures behind any chart',
               'Every chart carries a Show the figures link underneath it. That opens the table the chart was drawn from — sort it any way, search it, or download the CSV — and on charts that drill down, the rows open the same detail the chart does.',
             ],

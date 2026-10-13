@@ -10,6 +10,9 @@ import DataTable from '../DataTable';
 import Sections from '../Sections';
 import { awardMix, familiesNoCompletions } from '@/lib/insight';
 
+// Callout and N below are used only by the section(s) hidden further down. Kept
+// imported so restoring one stays a single edit.
+
 export default function Q6({ lw, section }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
@@ -136,33 +139,37 @@ export default function Q6({ lw, section }) {
               </Panel>
             ),
           },
-          {
-            id: 'how-completions-were-linked',
-            label: 'How completions were linked',
-            render: () => (
-                <Callout label="How completions were linked to openings">
-                  <p>
-                    A program rarely feeds one job. Nursing feeds several nursing occupations; business
-                    feeds dozens. So each program&rsquo;s graduates are spread across the occupations it
-                    feeds, <strong>in proportion to how many people those occupations employ in
-                    Vermont</strong> &mdash; a broad program lands where the jobs actually are, rather than
-                    split evenly across every occupation on its list.
-                  </p>
-                  <p>
-                    Graduates land in <N>{fmt(V.nSocLinked)}</N> occupations this way. Spreading them by
-                    employment is an assumption about where graduates go, not a record of where they went
-                    &mdash; 21 programs feed only occupations with no Vermont employment at all, and those
-                    are split evenly instead.
-                  </p>
-                  <p>
-                    It is also <strong>one year only</strong> (2024 graduates against 2025 openings), it
-                    counts credentials rather than people &mdash; one person earning two counts twice &mdash;
-                    and it says nothing about whether graduates stay in Vermont. Read these figures as a
-                    place to look, never as a verdict on whether a field has too few or too many people.
-                  </p>
-                </Callout>
-            ),
-          },
+          // --- Hidden for now ---------------------------------------------
+          // Methods defines linked completions under "What the measures mean".
+          // Restore by uncommenting this block and its entry in lib/nav.js.
+          // {
+          // id: 'how-completions-were-linked',
+          // label: 'How completions were linked',
+          // render: () => (
+          // <Callout label="How completions were linked to openings">
+          // <p>
+          // A program rarely feeds one job. Nursing feeds several nursing occupations; business
+          // feeds dozens. So each program&rsquo;s graduates are spread across the occupations it
+          // feeds, <strong>in proportion to how many people those occupations employ in
+          // Vermont</strong> &mdash; a broad program lands where the jobs actually are, rather than
+          // split evenly across every occupation on its list.
+          // </p>
+          // <p>
+          // Graduates land in <N>{fmt(V.nSocLinked)}</N> occupations this way. Spreading them by
+          // employment is an assumption about where graduates go, not a record of where they went
+          // &mdash; 21 programs feed only occupations with no Vermont employment at all, and those
+          // are split evenly instead.
+          // </p>
+          // <p>
+          // It is also <strong>one year only</strong> (2024 graduates against 2025 openings), it
+          // counts credentials rather than people &mdash; one person earning two counts twice &mdash;
+          // and it says nothing about whether graduates stay in Vermont. Read these figures as a
+          // place to look, never as a verdict on whether a field has too few or too many people.
+          // </p>
+          // </Callout>
+          // ),
+          // },
+
         ]}
       />
     </>

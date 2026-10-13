@@ -30,7 +30,7 @@ with sync_playwright() as p:
         ("Worker earnings", True),
         ("What the job requires", True),
         ("All 14 counties", False),   # a table
-        ("How the index is built", False),  # prose
+        ("Which credentials pay", False),   # a table, not a chart
     ]
     for label, want in checks:
         pg.locator(".sbitem", has_text=label).first.click()

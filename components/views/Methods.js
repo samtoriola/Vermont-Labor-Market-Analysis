@@ -131,7 +131,18 @@ export default function Methods({ lw }) {
         <ul className="lim">
           <li>
             <strong>Demand by county.</strong> Both Lightcast exports are statewide; CPS resolves
-            Vermont no finer than metro and non-metro.
+            Vermont no finer than metro and non-metro. Lightcast Core LMI covers all 14 counties
+            and would close that gap.
+          </li>
+          <li>
+            <strong>County and survey areas do not line up.</strong> County lines and the areas the
+            Census uses for its microdata do not nest, so a county view of demand and a county view
+            of what people hold cannot share one map.
+          </li>
+          <li>
+            <strong>County income is not like-for-like.</strong> The county figures set a median{' '}
+            <em>household</em> income against a wage floor built for one adult. Read it as how far a
+            county sits from the floor, not as a measure of any one worker.
           </li>
           <li>
             <strong>VSCS program inventory and enrolment.</strong> Capacity is invisible here —

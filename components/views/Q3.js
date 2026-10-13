@@ -4,12 +4,15 @@ import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { familyCols } from '@/lib/tables';
 import { Callout, Panel, Legend, Ranked, VHead, N } from '../ui';
-import { RankedBars, GroupedBars, Dumbbell } from '../charts';
+import { RankedBars, GroupedBars } from '../charts';
 import Sections from '../Sections';
 // Legend, GroupedBars and demandDivergence are used only by the hidden
 // "Three demand measures" section further down. Kept imported so bringing it back
 // is the one edit it should be.
 import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
+
+// Callout, Legend, N, GroupedBars and demandDivergence below are used only by the section(s) hidden further down. Kept
+// imported so restoring one stays a single edit.
 
 export default function Q3({ section }) {
   const fams = LC.families.slice();
@@ -227,27 +230,31 @@ export default function Q3({ section }) {
                 </Panel>
             ),
           },
-          {
-            id: 'how-openings-are-defined',
-            label: 'How openings are defined',
-            render: () => (
-                <Callout label="How openings are defined here">
-                  <p>
-                    Openings are Lightcast&rsquo;s own <strong>{LC.window} Openings</strong> figure &mdash;{' '}
-                    <N>{fmt(LC.openTotal)}</N> across the window &mdash; divided by <N>{LC.openYears}</N> to
-                    give an annual rate of <N>{fmt(LC.openTotal / LC.openYears)}</N>, or{' '}
-                    <N>{((LC.openTotal / LC.openYears / TOTJ) * 100).toFixed(1)}%</N> of employment. That
-                    divisor is the one assumption here; change it and every openings figure scales linearly.
-                  </p>
-                  <p>
-                    Do not confuse this with <strong>separations</strong>, which Lightcast also reports (
-                    <N>{fmt(LC.sepTotal)}</N> in 2025, <N>{LC.sepPct}%</N> of employment). Separations include
-                    job-to-job transfers, so they measure churn rather than hiring need and run roughly four
-                    times the openings figure. Openings is the measure to use for demand.
-                  </p>
-                </Callout>
-            ),
-          },
+          // --- Hidden for now ---------------------------------------------
+          // Methods defines openings under "What the measures mean".
+          // Restore by uncommenting this block and its entry in lib/nav.js.
+          // {
+          // id: 'how-openings-are-defined',
+          // label: 'How openings are defined',
+          // render: () => (
+          // <Callout label="How openings are defined here">
+          // <p>
+          // Openings are Lightcast&rsquo;s own <strong>{LC.window} Openings</strong> figure &mdash;{' '}
+          // <N>{fmt(LC.openTotal)}</N> across the window &mdash; divided by <N>{LC.openYears}</N> to
+          // give an annual rate of <N>{fmt(LC.openTotal / LC.openYears)}</N>, or{' '}
+          // <N>{((LC.openTotal / LC.openYears / TOTJ) * 100).toFixed(1)}%</N> of employment. That
+          // divisor is the one assumption here; change it and every openings figure scales linearly.
+          // </p>
+          // <p>
+          // Do not confuse this with <strong>separations</strong>, which Lightcast also reports (
+          // <N>{fmt(LC.sepTotal)}</N> in 2025, <N>{LC.sepPct}%</N> of employment). Separations include
+          // job-to-job transfers, so they measure churn rather than hiring need and run roughly four
+          // times the openings figure. Openings is the measure to use for demand.
+          // </p>
+          // </Callout>
+          // ),
+          // },
+
         ]}
       />
     </>

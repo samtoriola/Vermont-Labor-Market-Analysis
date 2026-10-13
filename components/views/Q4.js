@@ -13,6 +13,9 @@ import { RankedBars } from '../charts';
 import { DotColumns, DotLegend } from '../dots';
 import Sections from '../Sections';
 import {
+
+// Callout, N and largestCategory below are used only by the section(s) hidden further down. Kept
+// imported so restoring one stays a single edit.
   funnelContrast, ladderStep, peopleLadderStep, livingWageJump, largestCategory,
 } from '@/lib/insight';
 
@@ -291,22 +294,26 @@ export default function Q4({ lw, setLw, section }) {
               </>
             ),
           },
-          {
-            id: 'what-this-measures',
-            label: 'What this measures',
-            render: () => (
-                <Callout label="What this measures">
-                  <p>
-                    These are job <em>requirements</em>, not worker <em>attainment</em>: a property of the
-                    job, not of the person holding it.{' '}
-                    <N>{(ba.share + grad.share).toFixed(1)}%</N> of Vermont jobs ask for a bachelor&rsquo;s
-                    or more, while <N>{lastCps.ba.toFixed(1)}%</N> of Vermont workers 25+ hold one, a
-                    difference of <N>{(lastCps.ba - ba.share - grad.share).toFixed(1)} points</N>. The two
-                    come from different sources and count different things.
-                  </p>
-                </Callout>
-            ),
-          },
+          // --- Hidden for now ---------------------------------------------
+          // The jobs-versus-workers contrast is the Overview panel, and the captions here already say which of the two each chart shows.
+          // Restore by uncommenting this block and its entry in lib/nav.js.
+          // {
+          // id: 'what-this-measures',
+          // label: 'What this measures',
+          // render: () => (
+          // <Callout label="What this measures">
+          // <p>
+          // These are job <em>requirements</em>, not worker <em>attainment</em>: a property of the
+          // job, not of the person holding it.{' '}
+          // <N>{(ba.share + grad.share).toFixed(1)}%</N> of Vermont jobs ask for a bachelor&rsquo;s
+          // or more, while <N>{lastCps.ba.toFixed(1)}%</N> of Vermont workers 25+ hold one, a
+          // difference of <N>{(lastCps.ba - ba.share - grad.share).toFixed(1)} points</N>. The two
+          // come from different sources and count different things.
+          // </p>
+          // </Callout>
+          // ),
+          // },
+
         ]}
       />
     </>

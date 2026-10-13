@@ -10,6 +10,9 @@ import VermontMap from '../VermontMap';
 import Sections from '../Sections';
 import { countySpread, countyIncomeRange } from '@/lib/insight';
 
+// Callout below are used only by the section(s) hidden further down. Kept
+// imported so restoring one stays a single edit.
+
 export default function Q7({ section }) {
   const [metric, setMetric] = useState('ba');
   const [sel, setSel] = useState(null);
@@ -132,26 +135,30 @@ export default function Q7({ section }) {
               </>
             ),
           },
-          {
-            id: 'limits',
-            label: 'What this cannot show',
-            render: () => (
-              <Callout label="What this map cannot show">
-                <p>
-                  Demand is statewide only. The Lightcast occupation and postings exports carry no
-                  county breakdown, and CPS resolves Vermont to metro/non-metro and nothing finer
-                  — so occupational demand and occupation-specific wage premiums by county are
-                  absent. Lightcast Core LMI covers all 14 counties and would close that gap.
-                </p>
-                <p>
-                  Two caveats on what is here: county lines and the ACS PUMA areas used for
-                  microdata do not nest, so a demand-side regional view and a microdata attainment
-                  view cannot yet share a map. And median <em>household</em> income against a
-                  single-adult wage floor is indicative, not like-for-like.
-                </p>
-              </Callout>
-            ),
-          },
+          // --- Hidden for now ---------------------------------------------
+          // Moved into the "Not covered" list on Methods.
+          // Restore by uncommenting this block and its entry in lib/nav.js.
+          // {
+          // id: 'limits',
+          // label: 'What this cannot show',
+          // render: () => (
+          // <Callout label="What this map cannot show">
+          // <p>
+          // Demand is statewide only. The Lightcast occupation and postings exports carry no
+          // county breakdown, and CPS resolves Vermont to metro/non-metro and nothing finer
+          // — so occupational demand and occupation-specific wage premiums by county are
+          // absent. Lightcast Core LMI covers all 14 counties and would close that gap.
+          // </p>
+          // <p>
+          // Two caveats on what is here: county lines and the ACS PUMA areas used for
+          // microdata do not nest, so a demand-side regional view and a microdata attainment
+          // view cannot yet share a map. And median <em>household</em> income against a
+          // single-adult wage floor is indicative, not like-for-like.
+          // </p>
+          // </Callout>
+          // ),
+          // },
+
         ]}
       />
     </>

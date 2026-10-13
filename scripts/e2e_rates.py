@@ -25,12 +25,14 @@ with sync_playwright() as pw:
     errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(URL, wait_until="networkidle")
-    # The full occupation table is a sidebar destination of its own.
-    items = pg.locator(".sbitem")
-    for i in range(items.count()):
-        if items.nth(i).inner_text().strip().lower().startswith("all occupations"):
-            items.nth(i).click(); break
-    pg.wait_for_timeout(700)
+    # The full occupation table used to be a sidebar destination of its own. It now
+    # sits under the chart it belongs to, behind the "Show the figures" disclosure.
+    pg.locator(".sbitem", has_text="Median pay by size").first.click()
+    pg.wait_for_timeout(900)
+    tog = pg.locator(".datatoggle").first
+    if "Show" in (tog.text_content() or ""):
+        tog.click()
+    pg.wait_for_timeout(900)
 
     tbl = pg.locator(".view table").last
     hdrs = [h.inner_text().split("\n")[0].strip()
