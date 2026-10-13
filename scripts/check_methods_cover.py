@@ -9,11 +9,18 @@ still on the page.
 import os
 from playwright.sync_api import sync_playwright
 URL = "http://127.0.0.1:%s/" % os.environ.get("VT_PORT", "3163")
+# What each hidden sub-tab explained, and the words Methods has to keep for that
+# to remain true.
+#
+# "What this map cannot show" is deliberately absent. Its content moved here and
+# then the Not covered panel was removed, so the county limits -- statewide-only
+# demand, county and survey areas not nesting, household income against a
+# one-adult floor -- are no longer stated anywhere a reader can see. That is a
+# decision, not an oversight, and this file is where it is written down.
 NEED = {
   "How openings are defined": ["openings", "separations"],
   "How the index is built":   ["opportunity index", "percentile ranks"],
   "How completions were linked": ["linked completions", "proportion to their vermont employment"],
-  "What this map cannot show": ["demand by county", "do not nest", "household"],
   "What this measures (jobs vs workers)": ["jobs vs workers", "compare shares, not levels"],
 }
 with sync_playwright() as p:

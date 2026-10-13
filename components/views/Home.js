@@ -55,7 +55,7 @@ export default function Home({ onGo }) {
         </div>
         <div className="homecard quiet">
           <h3>Methods</h3>
-          <p>Sources, what each measure means, the rules applied, and what is not covered.</p>
+          <p>Sources, what each measure means, and the rules applied to the data.</p>
           <button type="button" className="browse" onClick={() => onGo('methods', null)}>
             Browse <span aria-hidden="true">&rarr;</span>
           </button>

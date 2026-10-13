@@ -127,6 +127,10 @@ export default function Methods({ lw }) {
         />
       </Panel>
 
+      {/* --- Hidden for now ------------------------------------------------
+          The six limits this listed are no longer stated anywhere in the
+          dashboard. Restore by removing this wrapper.
+
       <Panel title="Not covered">
         <ul className="lim">
           <li>
@@ -158,6 +162,7 @@ export default function Methods({ lw }) {
           </li>
         </ul>
       </Panel>
+      */}
 
       <Panel title="Color" cap="Color follows the entity, never its rank. Ordered measures use one hue.">
         <Swatches

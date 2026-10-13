@@ -109,7 +109,7 @@ export default function About() {
             {
               cells: [
                 'Methods',
-                'Sources, what each measure means, the rules applied to the data, and what is not covered',
+                'Sources, what each measure means, and the rules applied to the data',
               ],
             },
           ]}
