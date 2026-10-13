@@ -117,7 +117,7 @@ export default function Q2({ lw, setLw, section }) {
                   title="Do the largest occupations pay a living wage?"
                   note={sizeWageGap(LC.sizeTiers, lw)}
                   cap={`Benchmark: ${lw} at ${money(LWA)}/yr.`}
-                  src="Lightcast · jobs-weighted · occupation median vs MIT living wage"
+                  src="Vermont occupation data, 2025 · weighted by jobs · occupation median against the benchmark"
                   data={{ cols: bandCols(LWA), rows: sz, label: 'wage-quality-by-size',
                           initialSort: { k: 'jobs', dir: -1 }, unit: 'size bands' }}
                 >
@@ -156,8 +156,8 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="How does pay spread within large, medium and smaller occupations?"
                   note={sizePayStep(PCT.sizeTiers, SIZE_ORDER)}
-                  cap="One dot per occupation, placed at its typical pay and sized by how many people it employs. The solid line is the average, the dashed line the midpoint. The three columns on the right set Vermont beside its nearest comparable state and the country. Click a Vermont column for the occupations behind it."
-                  src="Lightcast Vermont occupations · reference columns BLS OEWS: Vermont and New Hampshire 2025, United States 2024"
+                  cap="The three columns on the right set Vermont beside its nearest comparable state and the country. Click a Vermont column for the occupations behind it."
+                  src="Vermont occupation data, 2025 · reference columns from published state and national wage data"
                   data={{ cols: occCols(LWA), rows: LC.allOcc, label: 'pay-by-occupation-size',
                           initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
                           note: 'Every priced Vermont occupation — the dots in the chart above.' }}
@@ -186,8 +186,8 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="What do individual Vermonters actually earn?"
                   note={meanMedianGap(PEOPLE.byArea[0])}
-                  cap="Every dot is one Vermonter on a wage or salary who answered the American Community Survey, placed at what they earned that year. The self-employed and the military are left out, matching the occupation charts. The dots are a fair sample rather than every respondent, so the cloud reflects the state's workers — but the average and midpoint lines are worked out from everyone who answered, not just the dots shown."
-                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+                  cap="Each dot is one Vermonter on a wage or salary, placed at what they earned that year. The self-employed and the military are left out, matching the occupation charts. The dots are a fair sample; the average and midpoint lines come from everyone who answered, not just the dots shown."
+                  src={`Census household survey, 2024 · ${PEOPLE.universe.toLowerCase()} · living-wage benchmark 2025, ${lw}`}
                   data={{ cols: peopleCols('Place'), rows: PEOPLE.byArea, label: 'worker-earnings',
                           initialSort: { k: 'med', dir: -1 }, unit: 'places',
                           note: 'Groups, not the individual dots: each dot is one anonymous respondent.' }}
@@ -215,7 +215,7 @@ export default function Q2({ lw, setLw, section }) {
                   title="Which 25 occupations employ the most Vermonters?"
                   note={topOccShare(top, TOTJ, LC.allOcc.length)}
                   cap="Ranked by how many people they employ. Green clears the living wage at the typical job, amber does not."
-                  src="Lightcast · hover for the occupation code, earnings, entry credential and demand"
+                  src="Vermont occupation data, 2025 · hover for the occupation code, earnings, entry credential and demand"
                   data={{ cols: occCols(LWA), rows: topPool, label: 'largest-occupations',
                           initialSort: { k: 'j', dir: -1 }, unit: 'occupations' }}
                 >
@@ -253,8 +253,8 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="In the largest occupations, how far is the average above the typical worker?"
                   note={meanAboveMedian(ladder)}
-                  cap="The line runs from the lowest-paid tenth to the highest-paid tenth, the thick middle covering the middle half. The solid dot is the midpoint and the hollow ring the average; the gap between them shows how far top earners pull the average up. The dashed line is the living wage."
-                  src={`BLS OEWS Vermont 2025 · ${ladderMu} of ${ladder.length} with a published mean · percentiles from Lightcast where OEWS reports no combined row · living wage: MIT 2025, ${lw}`}
+                  cap="The gap between the midpoint and the average is how far top earners pull the average up."
+                  src={`Published wage percentiles, Vermont 2025 · ${ladderMu} of ${ladder.length} with a published average · living-wage benchmark 2025, ${lw}`}
                   data={{ cols: ladderCols(LWA), rows: ladder, label: 'pay-spread-largest-occupations',
                           initialSort: { k: 'med', dir: -1 }, unit: 'occupations' }}
                 >
@@ -288,7 +288,7 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="Does a bigger occupation pay better or worse?"
                   cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations. The vertical line is the living wage; color shows how large the occupation is.`}
-                  src="Lightcast · occupations with usable median earnings · log scale"
+                  src="Vermont occupation data, 2025 · occupations with a usable median · log scale"
                   data={{ cols: occCols(LWA), rows: filtered, label: 'size-against-pay',
                           initialSort: { k: 'j', dir: -1 }, unit: 'occupations' }}
                 >

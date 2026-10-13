@@ -118,7 +118,7 @@ export default function Q3({ section }) {
                 <Panel
                   title="Where do employers advertise more than their employment share would predict?"
                   cap="A type of work's share of job ads against its share of jobs. Above 1.0 means employers are advertising more than its size alone would suggest — a sign of hiring pressure."
-                  src={`Lightcast · ${fmt(totPost)} unique postings over ${LC.postWindow}`}
+                  src={`Job ads, ${LC.postWindow} · ${fmt(totPost)} unique ads`}
                   data={{ cols: familyCols(), rows: fams, label: 'job-ads-against-size',
                           initialSort: { k: 'post', dir: -1 }, unit: 'kinds of work' }}
                 >
@@ -157,7 +157,7 @@ export default function Q3({ section }) {
                   title="Which families grew, and which shrank, over the study window?"
                   note={observedSplit(fams)}
                   cap="How employment actually changed between 2021 and 2025."
-                  src="Lightcast · 2021 Jobs vs 2025 Jobs, both from the occupation export"
+                  src="Vermont occupation data · 2021 jobs against 2025 jobs"
                   data={{ cols: familyCols(), rows: fams, label: 'change-since-2021',
                           initialSort: { k: 'chgPct', dir: -1 }, unit: 'kinds of work' }}
                 >
@@ -200,7 +200,7 @@ export default function Q3({ section }) {
                   title="Which families are projected to grow over the next five years?"
                   note={growthSplit(fams)}
                   cap="Projected change in jobs over the next five years. Bars to the left are expected to shrink."
-                  src="Lightcast · 2030 Jobs vs 2025 Jobs"
+                  src="Vermont occupation data · 2030 projection against 2025 jobs"
                   data={{ cols: familyCols(), rows: fams, label: 'projected-growth',
                           initialSort: { k: 'g5pct', dir: -1 }, unit: 'kinds of work' }}
                 >

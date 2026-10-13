@@ -96,7 +96,7 @@ export default function Q4({ lw, setLw, section }) {
                   <Panel
                     title="How much Vermont employment sits at each credential level?"
                     cap="What share of Vermont's jobs ask for each level of education."
-                    src={`Lightcast · ${fmt(LC.totalJobs)} jobs`}
+                    src={`Vermont occupation data, 2025 · ${fmt(LC.totalJobs)} jobs`}
                     data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'jobs-by-credential',
                             initialSort: { k: 'jobs', dir: -1 }, unit: 'credentials' }}
                   >
@@ -127,7 +127,7 @@ export default function Q4({ lw, setLw, section }) {
                   <Panel
                     title="How wide is the range of outcomes at each credential level?"
                     cap="How many times more the best-paid tenth earn than the worst-paid tenth. A wider range means the credential leads to very different outcomes."
-                    src="Lightcast · ratio of 90th to 10th percentile"
+                    src="Vermont occupation data, 2025 · highest-paid tenth against lowest-paid tenth"
                     data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'pay-range-by-credential',
                             initialSort: { k: 'med', dir: -1 }, unit: 'credentials' }}
                   >
@@ -167,8 +167,8 @@ export default function Q4({ lw, setLw, section }) {
                 <Panel
                   title="What does each rung pay, by what the job asks for?"
                   note={ladderStep(LC.tiers, TIER_ORDER)}
-                  cap="One dot per occupation, placed at its typical pay and sized by how many people it employs, grouped by what the job asks for. The solid line is the average, the dashed line the midpoint. Click a column to list its occupations."
-                  src="Lightcast · Typical Entry Level Education · every priced Vermont occupation"
+                  cap="Grouped by what the job asks for at the door. Click a column to list its occupations."
+                  src="Vermont occupation data, 2025 · entry credential · every priced Vermont occupation"
                     data={{ cols: occCols(LWA), rows: LC.allOcc, label: 'pay-by-what-the-job-asks',
                             initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
                             note: 'Every priced Vermont occupation — the dots in the chart above.' }}
@@ -197,8 +197,8 @@ export default function Q4({ lw, setLw, section }) {
                 <Panel
                   title="What does each rung pay, by the credential workers hold?"
                   note={peopleLadderStep(PEOPLE.byCred)}
-                  cap="The same ladder measured on people rather than jobs. Every dot is one Vermonter on a wage or salary who answered the American Community Survey, placed at what they earned and grouped by the credential they hold. The self-employed and the military are left out. The dots are a fair sample; the average and midpoint lines come from everyone in the column. Columns marked as a small sample rest on fewer than 100 answers and are rough."
-                  src={`IPUMS USA, ACS 1-year 2024 · ${PEOPLE.universe.toLowerCase()} · living wage: MIT 2025, ${lw}`}
+                  cap="The same ladder measured on people rather than jobs, grouped by the credential they hold. The self-employed and the military are left out. Columns marked as a small sample rest on fewer than 100 answers and are rough."
+                  src={`Census household survey, 2024 · ${PEOPLE.universe.toLowerCase()} · living-wage benchmark 2025, ${lw}`}
                   data={{ cols: peopleCols('Credential held'), rows: PEOPLE.byCred, label: 'pay-by-credential-held',
                           initialSort: { k: 'med', dir: -1 }, unit: 'credentials',
                           note: 'Groups, not the individual dots: each dot is one anonymous respondent.' }}
@@ -228,7 +228,7 @@ export default function Q4({ lw, setLw, section }) {
                   title="Which credential levels clear the living wage?"
                   note={livingWageJump(LC.tiers, TIER_ORDER, lw)}
                   cap={`What share of each credential's jobs pay at or above the living wage for ${lw} — ${money(LWA)} a year. Change the household at the top of this tab.`}
-                  src="Lightcast · MIT Living Wage 2025 · occupation median vs benchmark"
+                  src="Vermont occupation data, 2025 · occupation median against the benchmark"
                     data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'above-the-living-wage',
                             initialSort: { k: 'jobs', dir: -1 }, unit: 'credentials' }}
                 >
@@ -267,7 +267,7 @@ export default function Q4({ lw, setLw, section }) {
               <Panel
                 title="Which credentials lead to a job that both hires and pays?"
                 cap={`Every Vermont occupation at each credential, narrowed twice: first to those hiring in volume — at least ${MIN_OPEN} openings a year — then to those paying a living wage. These are counts of occupations, not jobs, so it reads as how many doors a credential opens. The last column is each row measured against its own level, not against the others, so the five do not add to 100%. Household: ${lw}.`}
-                src={`Lightcast · Typical Entry Level Education · openings ≥ ${MIN_OPEN}/yr · benchmark: MIT Living Wage 2025`}
+                src={`Vermont occupation data, 2025 · entry credential · openings ≥ ${MIN_OPEN}/yr · living-wage benchmark 2025`}
                 note={funnelContrast(funnel)}
               >
                 <Table

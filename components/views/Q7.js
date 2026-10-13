@@ -29,7 +29,7 @@ export default function Q7({ section }) {
       <Panel
         title={picked.c + ' County'}
         cap="Pinned from the map or the county list. Click it again, or choose another, to change this."
-        src="ACS 2016–2020 5-year · MIT Living Wage 2025"
+        src="County survey data, 2016–2020 · living-wage benchmark 2025"
       >
         <div className="dstats">
           <div className="dstat">
@@ -79,7 +79,7 @@ export default function Q7({ section }) {
                   title="How does opportunity differ across Vermont’s counties?"
                   note={countySpread(R)}
                   cap="Choose what the shading shows, then click a county to pin it."
-                  src="ACS 2016–2020 5-year · MIT Living Wage 2025 · outlines from Census TIGER, simplified"
+                  src="County survey data, 2016–2020 · living-wage benchmark 2025 · simplified county outlines"
                   data={{ cols: countyCols(), rows: byPop, label: 'counties',
                           initialSort: { k: 'pop', dir: -1 }, unit: 'counties',
                           onRowClick: (r) => setSel(sel === r.c ? null : r.c) }}
@@ -105,7 +105,7 @@ export default function Q7({ section }) {
                   title="How does each county compare?"
                   note={countyIncomeRange(R)}
                   cap="Click a row to pin that county."
-                  src="ACS 2016–2020 5-year · MIT Living Wage 2025"
+                  src="County survey data, 2016–2020 · living-wage benchmark 2025"
                 >
                   <Table
                     cols={[

@@ -53,8 +53,7 @@ export default function Q6({ lw, section }) {
                 <Panel
                   title="What credentials does VSCS award?"
                   note={awardMix(V.byAward, V.totalCompletions)}
-                  cap="How many VSCS graduates finished at each award level."
-                  src="IPEDS 2024 Completions · MAJORNUM=1, CIPCODE≠99 · CCV + Vermont State University"
+                  src="Federal completions data, 2024 · CCV and Vermont State University"
                   data={{ cols: awardCols(V.totalCompletions), rows: V.byAward, label: 'vscs-awards',
                           initialSort: { k: 'c', dir: -1 }, unit: 'award levels' }}
                 >
@@ -84,7 +83,7 @@ export default function Q6({ lw, section }) {
                   title="Where does VSCS production line up with openings?"
                   note={familiesNoCompletions(V.byFamily)}
                   cap="Graduates attributed is how many of VSCS's 2024 completions this kind of work draws on. A program rarely feeds one job, so each program's graduates are spread across the occupations it feeds — which is why the figure carries a decimal and is a share rather than a headcount. Graduates per opening divides that by the openings the work has each year: 0.25 means one graduate for every four openings. It is not a fill rate. Openings are filled from many sources, and work that needs no credential will always sit near zero because college is not the route into it. Click a row for the occupations behind it."
-                  src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · employment-weighted allocation"
+                  src="Federal completions data, 2024, against Vermont openings · spread by employment"
                 >
                   <Table
                     cols={[
@@ -126,7 +125,7 @@ export default function Q6({ lw, section }) {
               <Panel
                 title="Where does VSCS production sit relative to demand?"
                 cap="Occupations with at least 50 openings a year, shown at both ends: those paying above the living wage with the fewest graduates, and those with the most. Sort any column or search for an occupation. A lot of graduates per opening can mean a strong pipeline or an oversupplied one, and these figures cannot tell the two apart."
-                src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · openings ≥ 50"
+                src="Federal completions data, 2024, against Vermont openings · openings ≥ 50"
               >
                 <DataTable
                   cols={ratioCols}

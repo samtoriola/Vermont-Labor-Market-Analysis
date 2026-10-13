@@ -62,10 +62,10 @@ export function occDotTip(lwAnnual) {
   });
 }
 
-/** Tooltip for a single ACS respondent dot. */
+/** Tooltip for a single survey respondent dot. */
 export function personTip(lwAnnual) {
   return (d) => ({
-    title: 'One ACS respondent',
+    title: 'One survey respondent',
     rows: [
       ['Wage income, 2024', money(d.v)],
       ['vs living wage', (d.v / lwAnnual).toFixed(2) + '×'],

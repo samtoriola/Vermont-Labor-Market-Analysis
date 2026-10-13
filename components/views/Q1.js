@@ -98,8 +98,8 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="Which industries employ Vermonters?"
                 note={topConcentration(LC.sectors, TOTJ)}
-                cap={`The same ${fmt(TOTJ)} jobs, grouped by industry, with average earnings per job. These are 2025 levels: the industry figures do not carry a 2021 column, so change over the study window cannot be shown here.`}
-                src="Lightcast industry table · 947 six-digit NAICS rolled to sector · 2025 levels only: the industry export carries no 2021 column, so sector change over the study window is not available"
+                cap={`The same ${fmt(TOTJ)} jobs, grouped by industry, with average earnings per job.`}
+                src="Vermont industry data, 2025 · 947 detailed industries rolled up to sector"
                 data={{ cols: sectorCols(), rows: LC.sectors, label: 'industries',
                         initialSort: { k: 'j', dir: -1 }, unit: 'industries' }}
               >
@@ -130,8 +130,7 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="Which occupational families employ the most Vermonters?"
                 note={familyConcentration(fams, TOTJ)}
-                cap="Vermont, 2025. Hover any bar for its pay, openings and change since 2021."
-                src={`Lightcast · 22 SOC major groups · ${fmt(TOTJ)} jobs`}
+                src={`Vermont occupation data, 2025 · 22 occupational groups · ${fmt(TOTJ)} jobs`}
                 data={{ cols: familyCols(LWA), rows: fams, label: 'jobs-by-type-of-work',
                         initialSort: { k: 'jobs', dir: -1 }, onRowClick: famDrill,
                         unit: 'kinds of work',
@@ -169,8 +168,8 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="What does each occupational family pay?"
                 note={vsNation(COMPARE.areas)}
-                cap="Every Vermont occupation is a dot, placed at its typical pay and sized by how many people it employs. The solid line is the average, the dashed line the midpoint. Green rows clear the living wage at the typical job, amber ones do not. Click a row for the occupations behind it."
-                src={`Lightcast Vermont occupations · reference rows BLS OEWS (Vermont and New Hampshire 2025, United States 2024) · benchmark: MIT Living Wage 2025, ${lw}`}
+                cap="Green rows clear the living wage at the typical job, amber ones do not. Click a row for the occupations behind it."
+                src={`Vermont occupation data, 2025 · reference rows from published state and national wage data · living-wage benchmark 2025, ${lw}`}
                 data={{ cols: familyCols(LWA), rows: fams, label: 'pay-by-type-of-work',
                         initialSort: { k: 'med', dir: -1 }, onRowClick: famDrill,
                         unit: 'kinds of work',
@@ -201,8 +200,8 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="What credential does each family ask for at entry?"
                 note={credentialSpread(fams)}
-                cap="What share of each type of work asks for each credential, sorted by how much of it asks for a bachelor's or more. This is what the job asks for, not what the people doing it hold."
-                src="Lightcast · Typical Entry Level Education, jobs-weighted"
+                cap="What the job asks for at the door, not what the people doing it hold."
+                src="Vermont occupation data, 2025 · entry credential, weighted by jobs"
                 data={{ cols: familyCols(LWA), rows: fams, label: 'entry-credential-by-type-of-work',
                         initialSort: { k: 'jobs', dir: -1 }, onRowClick: famDrill,
                         unit: 'kinds of work' }}

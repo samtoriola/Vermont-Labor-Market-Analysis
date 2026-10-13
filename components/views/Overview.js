@@ -14,12 +14,12 @@ export default function Overview({ lw }) {
   const sub = tierRow('Sub-baccalaureate');
 
   const tiles = [
-    ['Jobs, 2025', fmt(LC.totalJobs), 'Lightcast, all 798 occupations'],
-    ['CPS employment', fmt(lastCps.emp), '2025, 11-month average'],
+    ['Jobs, 2025', fmt(LC.totalJobs), 'All 798 occupations'],
+    ['Employed Vermonters', fmt(lastCps.emp), '2025, 11-month average'],
     ['Living wage', '$' + lwHourly(lw).toFixed(2), lw],
     ['Require BA+', baReq.toFixed(1) + '%', 'of jobs, by entry education'],
-    ['Hold BA+', lastCps.ba.toFixed(1) + '%', 'of workers 25+, CPS'],
-    ['Annual openings', fmt(LC.openTotal / LC.openYears), 'Lightcast, ' + LC.window],
+    ['Hold a degree', lastCps.ba.toFixed(1) + '%', 'of workers 25 and over'],
+    ['Annual openings', fmt(LC.openTotal / LC.openYears), LC.window],
   ];
 
   // The chart draws six bars; read as three comparisons, which is what the table
@@ -71,8 +71,8 @@ export default function Overview({ lw }) {
       <Panel
         title="Do Vermont’s jobs ask for the credentials its workers hold?"
         note={requirementsGap(baReq, lastCps.ba)}
-        cap="Two different questions, two different sources. Lightcast assigns each occupation a typical entry credential (a property of the job). CPS records the credential each worker holds (a property of the person). They are not the same measure."
-        src="Lightcast occupation table, 2025 jobs · CPS 2025, age 25+ · the two sources count different populations, so compare shares, not levels"
+        cap="One side counts what jobs ask for, the other what workers hold. They come from different surveys counting different populations, so compare the shares rather than the levels."
+        src="Vermont occupation data, 2025 · labor force survey, 2025, age 25 and over"
         data={{
           cols: [
             { k: 'level', label: 'Credential', kind: 'text', get: (r) => r.level },
@@ -86,7 +86,7 @@ export default function Overview({ lw }) {
         }}
       >
         <Legend
-          labels={['Job requirement (Lightcast)', 'Worker attainment (CPS)']}
+          labels={['What jobs ask for', 'What workers hold']}
           colors={['--s1', '--s3']}
         />
         <RankedBars
@@ -102,7 +102,7 @@ export default function Overview({ lw }) {
 
       <Panel
         title="How many Vermonters are working, and on what terms?"
-        src={`CPS, Vermont ${G.year} · ${G.months}-month average`}
+        src={`Labor force survey, Vermont ${G.year} · ${G.months}-month average`}
       >
         <Tiles items={glanceTiles} />
       </Panel>

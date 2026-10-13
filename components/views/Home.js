@@ -14,10 +14,10 @@ export default function Home({ onGo }) {
   const groups = NAV.filter((n) => n.kind === 'group');
 
   const tiles = [
-    ['Jobs, 2025', fmt(TOTJ), 'Lightcast, ' + fmt(LC.allOcc.length) + ' occupations'],
-    ['Employed Vermonters', fmt(GLANCE.emp), 'CPS ' + GLANCE.year + ', monthly average'],
-    ['Annual openings', fmt(LC.openTotal / LC.openYears), 'Lightcast, ' + LC.window],
-    ['VSCS completions', fmt(SOW.vscs.totalCompletions), 'IPEDS 2024, ' + SOW.vscs.nCip + ' programs'],
+    ['Jobs, 2025', fmt(TOTJ), fmt(LC.allOcc.length) + ' occupations'],
+    ['Employed Vermonters', fmt(GLANCE.emp), GLANCE.year + ', monthly average'],
+    ['Annual openings', fmt(LC.openTotal / LC.openYears), LC.window],
+    ['VSCS completions', fmt(SOW.vscs.totalCompletions), '2024, ' + SOW.vscs.nCip + ' programs'],
   ];
 
   return (

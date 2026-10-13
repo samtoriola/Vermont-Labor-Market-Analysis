@@ -118,7 +118,7 @@ export default function Q5({ lw, setLw, section }) {
                   title="Which occupations combine scale, growth, demand and pay?"
                   note={topScoreCredentials(O.top)}
                   cap={`Each occupation is ranked against all the others on four things — how many it employs, how fast it is growing, how heavily it is advertised, and what it pays — and the four ranks are averaged. Hover a bar for its four scores.`}
-                  src={`Lightcast · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
+                  src={`Vermont occupation data, 2025 · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
                   data={{ cols: scoreCols(), rows: shown, label: 'highest-scoring',
                           initialSort: { k: 'sc', dir: -1 }, unit: 'occupations' }}
                 >
@@ -168,7 +168,7 @@ export default function Q5({ lw, setLw, section }) {
               <Panel
                 title="Which occupations score highest for each credential?"
                 cap="The same score, but ranked within one credential at a time rather than across all of them, so each is judged against its own field. Pick a credential."
-                src="Lightcast · same four-indicator composite, ranked within tier · openings shown for context, not scored"
+                src="Vermont occupation data, 2025 · the same four measures, ranked within each credential · openings shown for context, not scored"
               >
                 <Picker
                   id="q5-tier"
@@ -212,7 +212,7 @@ export default function Q5({ lw, setLw, section }) {
               <Panel
                 title="Which occupations could VSCS act on?"
                 cap={`Occupations that pass four tests at once: at least ${minOpen} openings a year, pay at or above the living wage, and a credential VSCS already awards${excludeObvious ? ', and not one of the 25 largest' : ''}. Signals counts how many of three things an occupation has going for it — openings, advertising and projected growth — each judged against others needing the same credential. Click a row for its type of work.`}
-                src="Lightcast occupations × IPEDS 2024 completions via cip2020_soc2018 · thresholds set above · a candidate for investigation, not a recommendation"
+                src="Vermont occupation data, 2025, against federal completions data, 2024 · thresholds set above · a candidate for investigation, not a recommendation"
                 note={screenYield(screened, acted, LC.allOcc.length)}
               >
                 {controls}
