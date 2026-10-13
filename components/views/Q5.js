@@ -107,8 +107,13 @@ export default function Q5({ lw, setLw, section }) {
             label: 'Highest scoring',
             render: () => (
               <>
+                {/* No filter bar: the pool is the 30 highest scoring occupations, and
+                    the Show control on the chart is the only narrowing worth offering
+                    over a list that short. ActiveFilters stays because a filter set on
+                    another tab still applies here -- it appears only when there is one,
+                    and lets the reader see and clear it rather than wonder why the
+                    chart is short. */}
                 <ActiveFilters />
-                <Filters shown={shown.length} total={O.top.length} note="of the 30 highest scoring" pool={O.top} showFamilies />
                 <Panel
                   title="Which occupations combine scale, growth, demand and pay?"
                   note={topScoreCredentials(O.top)}
