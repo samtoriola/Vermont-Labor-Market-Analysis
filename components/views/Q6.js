@@ -27,7 +27,7 @@ export default function Q6({ lw, section }) {
   const ratioCols = [
     { k: 'n', label: 'Occupation', kind: 'text', get: (r) => r.n },
     { k: 'open', label: 'Annual openings', kind: 'num', get: (r) => r.open },
-    { k: 'linked', label: 'VSCS graduates', kind: 'num1', get: (r) => r.linked },
+    { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
     { k: 'ratio', label: 'Graduates per opening', kind: 'num3', get: (r) => r.ratio },
     { k: 'm', label: 'Median', kind: 'money', get: (r) => r.m },
     { k: 'lw', label: 'vs living wage', kind: 'x', get: (r) => r.lw },
@@ -83,14 +83,14 @@ export default function Q6({ lw, section }) {
                 <Panel
                   title="Where does VSCS production line up with openings?"
                   note={familiesNoCompletions(V.byFamily)}
-                  cap="Click a row to list the occupations behind it. Openings are statewide; graduates are VSCS completions spread across the occupations each program feeds. Work that needs no credential will always show few graduates per opening, simply because colleges are not the route into it."
+                  cap="Graduates attributed is how many of VSCS's 2024 completions this kind of work draws on. A program rarely feeds one job, so each program's graduates are spread across the occupations it feeds — which is why the figure carries a decimal and is a share rather than a headcount. Graduates per opening divides that by the openings the work has each year: 0.25 means one graduate for every four openings. It is not a fill rate. Openings are filled from many sources, and work that needs no credential will always sit near zero because college is not the route into it. Click a row for the occupations behind it."
                   src="IPEDS 2024 × cip2020_soc2018 crosswalk × Lightcast openings · employment-weighted allocation"
                 >
                   <Table
                     cols={[
                       'Type of work',
                       'Annual openings',
-                      'VSCS graduates',
+                      'Graduates attributed',
                       'Graduates per opening',
                     ]}
                     rows={V.byFamily.map((r) => ({
@@ -104,7 +104,7 @@ export default function Q6({ lw, section }) {
                             lwAnnual: LWA,
                             extraStats: [
                               ['Annual openings', fmt(r.open)],
-                              ['VSCS graduates', r.linked.toFixed(1)],
+                              ['Graduates attributed', r.linked.toFixed(1)],
                             ],
                           })
                         ),
