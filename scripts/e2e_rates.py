@@ -39,6 +39,25 @@ with sync_playwright() as pw:
             for h in tbl.locator("thead th").all()]
     print("columns:", hdrs)
 
+    # Typical pay by family is a ranked bar chart; check it draws one bar per family
+    # plus the three reference bars, and that every bar carries a money label.
+    pg.locator(".sbitem", has_text="Median pay").first.click()
+    pg.wait_for_timeout(1200)
+    pg.locator(".rankctl .chips button", has_text="All").first.click()
+    pg.wait_for_timeout(700)
+    bars = pg.locator(".panel svg.chart g.bar").count()
+    labs = pg.eval_on_selector_all(
+        ".panel svg.chart text.clab", "els => els.map(e => e.textContent)")
+    fills = pg.evaluate(
+        "() => { const o = {};"
+        " document.querySelectorAll('.panel svg.chart g.bar rect').forEach(r =>"
+        " { const f = getComputedStyle(r).fill; o[f] = (o[f] || 0) + 1; }); return o; }")
+    print("family pay bars: %d | last three: %s | distinct fills: %d"
+          % (bars, labs[-3:], len(fills)))
+    assert bars == 25, "expected 22 families plus 3 reference bars, got %d" % bars
+    assert labs[-3:] == ["Vermont", "New Hampshire", "United States"], labs[-3:]
+    assert len(fills) == 3, "expected green, amber and grey, got %s" % fills
+
     # Headers are upper-cased in CSS and carry a sort glyph, so match on a prefix.
     def col_index(prefix):
         for k, h in enumerate(hdrs):

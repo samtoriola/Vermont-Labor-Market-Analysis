@@ -54,7 +54,11 @@ export function RankedBars({ rows, opts = {} }) {
   const signed = !!opts.signed;
 
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.value)));
-  const max = opts.max !== undefined ? opts.max : niceMax(maxAbs);
+  // Round the axis to four round steps rather than to one round top. niceMax alone
+  // takes $111,896 to $150,000, whose quarters are $37,500 and $112,500; rounding
+  // the step instead gives $30,000 and a top of $120,000, and every tick is a
+  // number a reader recognises.
+  const max = opts.max !== undefined ? opts.max : niceMax(maxAbs / 4) * 4;
 
   // A zero-centered axis is right only when the bars actually straddle zero.
   // `signed` is the caller saying negatives are possible and values carry a sign;

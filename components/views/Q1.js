@@ -1,18 +1,16 @@
 'use client';
 
 import {
-  DATA, LC, PCT, TOTJ, TIER_ORDER, SERIES, COMPARE,
-  lwAnnual, occByFamily, wageStats, occDots, compareCol,
+  DATA, LC, TOTJ, TIER_ORDER, SERIES, COMPARE,
+  lwAnnual, occByFamily, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { familyCols, sectorCols } from '@/lib/tables';
-import { Panel, Legend, Ranked, Table, VHead, N, DrillHint } from '../ui';
+import { Panel, Legend, Ranked, VHead, DrillHint } from '../ui';
 import { useDrill, occDrill } from '../Drill';
-import { occDotTip } from '../occCols';
 import { RankedBars, StackedRows } from '../charts';
 import Sections from '../Sections';
 import { credentialSpread, familyConcentration, topConcentration, vsNation } from '@/lib/insight';
-import { DotRows, DotLegend } from '../dots';
 
 export default function Q1({ lw, section }) {
   const LWA = lwAnnual(lw);
@@ -31,29 +29,42 @@ export default function Q1({ lw, section }) {
     );
   const fams = LC.families;
 
-  // One dot per occupation, placed at its own median pay and sized by employment.
-  // The solid line is the employment-weighted average, the dashed line the median:
-  // where they separate, a few well-paid occupations are carrying the family.
-  const famDots = fams
-    .map((r) => {
-      const occ = occByFamily(r.f);
-      const st = wageStats(occ);
-      return {
-        label: r.f,
-        dots: occDots(occ),
-        avg: st.avg,
-        med: st.med,
-        color: st.med >= LWA ? '--s3' : '--s2',
-        onClick: () => famDrill(r),
-      };
-    })
-    .filter((r) => r.dots.length)
-    .sort((a, b) => b.avg - a.avg);
+  // One bar per family at its typical pay, matching the shape of the jobs chart
+  // above it. A bar cannot show the spread within a family, so the hover carries the
+  // range the occupations inside it actually cover.
+  const payBars = fams
+    .filter((r) => r.med)
+    .map((r) => ({
+      label: r.f,
+      value: r.med,
+      color: r.med >= LWA ? '--s3' : '--s2',
+      onClick: () => famDrill(r),
+      extra: [
+        ['Times the living wage', (r.med / LWA).toFixed(2) + '×'],
+        ['Lowest-paid tenth', r.box && r.box.p10 ? money(r.box.p10) : '—'],
+        ['Highest-paid tenth', r.box && r.box.p90 ? money(r.box.p90) : '—'],
+        ['Jobs', fmt(r.jobs)],
+        ['Openings a year', fmt(r.open)],
+        ['Occupations', fmt(r.nocc)],
+      ],
+    }))
+    .sort((a, b) => b.value - a.value);
 
-  // Reference rows: the state as a whole, the nearest comparable state, the nation.
+  // Reference bars: the state as a whole, the nearest comparable state, the nation.
+  // Appended after the ranking rather than ranked with it, and drawn in grey so they
+  // read as a baseline rather than as another kind of work.
   const famRefs = ['Vermont', 'New Hampshire', 'United States']
     .map(compareCol)
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((a) => ({
+      label: a.label,
+      value: a.med,
+      color: '--ink-3',
+      extra: [
+        ['Times the living wage', (a.med / LWA).toFixed(2) + '×'],
+        ['Basis', a.sub],
+      ],
+    }));
 
   const credRows = fams
     .map((r) => {
@@ -168,24 +179,23 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="What does each occupational family pay?"
                 note={vsNation(COMPARE.areas)}
-                cap="Green rows clear the living wage at the typical job, amber ones do not. Click a row for the occupations behind it."
-                src={`Vermont occupation data, 2025 · reference rows from published state and national wage data · living-wage benchmark 2025, ${lw}`}
+                cap="Green bars clear the living wage at the typical job, amber ones do not. Hover for the range inside a family; click for the occupations behind it."
+                src={`Vermont occupation data, 2025 · reference bars from published state and national wage data · living-wage benchmark 2025, ${lw}`}
                 data={{ cols: familyCols(LWA), rows: fams, label: 'pay-by-type-of-work',
                         initialSort: { k: 'med', dir: -1 }, onRowClick: famDrill,
                         unit: 'kinds of work',
                         note: 'Click a row for the occupations behind it.' }}
               >
-                <DotLegend unit="one occupation" />
-                <Ranked id="q1-pay" rows={famDots}>
+                <Ranked id="q1-pay" rows={payBars}>
                   {(pick) => (
-                <DotRows
+                <RankedBars
                   rows={pick.concat(famRefs)}
                   opts={{
-                    xMax: COMPARE.yMax,
+                    money: true,
                     rule: LWA,
-                    ruleLabel: 'Living wage ' + money(LWA),
-                    dotTip: occDotTip(LWA),
-                    aria: 'Median pay of every occupation, grouped by family',
+                    ruleLabel: 'Living wage',
+                    valueLabel: 'Typical pay',
+                    aria: 'Typical pay by occupational family',
                   }}
                 />
                   )}
