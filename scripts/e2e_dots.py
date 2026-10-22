@@ -66,10 +66,9 @@ with sync_playwright() as pw:
 
     print("")
     print("--- dot charts ---")
-    # "Median pay" is a bar chart now, so it is checked by e2e_rates with the
-    # other ranked charts rather than here.
+    # "Median pay" and "Median pay by size" are bar charts now, so e2e_rates checks
+    # them with the other ranked charts rather than here.
     for view, section, label in [
-        ("wage", "Median pay by size", "size bands"),
         ("wage", "Worker earnings", "people"),
         ("pathways", "What the job requires", "credential tiers"),
         ("pathways", "What people hold", "people"),
@@ -134,7 +133,7 @@ with sync_playwright() as pw:
     pg.keyboard.press("Escape")
     pg.wait_for_timeout(300)
 
-    for t, sec, name in [("wage", "Median pay by size", "wage"),
+    for t, sec, name in [("wage", "Worker earnings", "wage"),
                          ("pathways", "What the job requires", "pathways")]:
         open_section(pg, t, sec)
         pg.screenshot(path=str(OUT / f"dots-{name}.png"), full_page=True)

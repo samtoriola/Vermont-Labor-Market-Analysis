@@ -2,14 +2,14 @@
 
 import {
   LC, PCT, COMPARE, PEOPLE, SIZE_ORDER, TOTJ,
-  lwAnnual, wageStats, occDots, occBySize, compareCol,
+  lwAnnual, occBySize, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { Panel, Ranked, VHead, LwPicker } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
-import { occCols, occDotTip, personTip } from '../occCols';
+import { occCols, personTip } from '../occCols';
 import { bandCols, ladderCols, peopleCols } from '@/lib/tables';
 import { RankedBars, Scatter } from '../charts';
 import { DotColumns, DotLegend, PercentileLadder, LadderLegend } from '../dots';
@@ -37,20 +37,44 @@ export default function Q2({ lw, setLw, section }) {
   const top = LC.topOcc.slice(0, 25);
   const topPool = LC.topOcc;
 
-  const szDots = SIZE_ORDER.map((band) => {
-    const occ = occBySize(band);
-    const st = wageStats(occ);
-    return {
-      label: band,
-      sub: fmt(st.n) + ' occupations',
-      dots: occDots(occ),
-      avg: st.avg,
-      med: st.med,
-      onClick: () => sizeDrill(band),
-    };
-  }).filter((r) => r.dots.length);
+  // One bar per size band at the pay of its typical occupation. A bar cannot show
+  // the spread the dot columns showed, so the hover carries the range the
+  // occupations in the band actually cover.
+  const szBars = sz
+    .filter((r) => r.med)
+    .map((r) => {
+      const bx = r.box || {};
+      return {
+        label: r.s,
+        value: r.med,
+        color: r.med >= LWA ? '--s3' : '--s2',
+        onClick: () => sizeDrill(r.s),
+        extra: [
+          ['Times the living wage', (r.med / LWA).toFixed(2) + '×'],
+          ['Middle half pays', bx.p25 && bx.p75 ? money(bx.p25) + ' to ' + money(bx.p75) : '—'],
+          ['Lowest-paid tenth', bx.p10 ? money(bx.p10) : '—'],
+          ['Highest-paid tenth', bx.p90 ? money(bx.p90) : '—'],
+          ['Occupations', fmt(r.nocc)],
+          ['Jobs', fmt(r.jobs)],
+        ],
+      };
+    })
+    .sort((a, b) => b.value - a.value);
 
-  const areaRefs = ['Vermont', 'New Hampshire', 'United States'].map(compareCol).filter(Boolean);
+  // The state, its nearest comparable state and the country, as grey baseline bars
+  // rather than three more clouds -- they cost half the chart to make one point.
+  const areaRefs = ['Vermont', 'New Hampshire', 'United States']
+    .map(compareCol)
+    .filter(Boolean)
+    .map((a) => ({
+      label: a.label,
+      value: a.med,
+      color: '--ink-3',
+      extra: [
+        ['Times the living wage', (a.med / LWA).toFixed(2) + '×'],
+        ['Basis', a.sub],
+      ],
+    }));
 
   // The occupation dot charts are job-level: what a role pays. These are people --
   // one dot per ACS respondent, at their own wage income. Vermont leads, the
@@ -154,23 +178,23 @@ export default function Q2({ lw, setLw, section }) {
               <>
                 <LwPicker value={lw} onChange={setLw} />
                 <Panel
-                  title="How does pay spread within large, medium and smaller occupations?"
+                  title="What does a typical job pay, by how big the occupation is?"
                   note={sizePayStep(PCT.sizeTiers, SIZE_ORDER)}
-                  cap="The three columns on the right set Vermont beside its nearest comparable state and the country. Click a Vermont column for the occupations behind it."
-                  src="Vermont occupation data, 2025 · reference columns from published state and national wage data"
+                  cap="Green bars clear the living wage, amber ones do not. The grey bars are the state, its nearest comparable state and the country. Hover for the range inside a band; click for the occupations behind it."
+                  src="Vermont occupation data, 2025 · reference bars from published state and national wage data"
                   data={{ cols: occCols(LWA), rows: LC.allOcc, label: 'pay-by-occupation-size',
                           initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
                           note: 'Every priced Vermont occupation — the dots in the chart above.' }}
                 >
-                  <DotLegend unit="one occupation" />
-                  <DotColumns
-                    groups={szDots.concat(areaRefs)}
+                  <RankedBars
+                    rows={szBars.concat(areaRefs)}
                     opts={{
-                      yMax: COMPARE.yMax,
+                      money: true,
                       rule: LWA,
-                      ruleLabel: 'Living wage ' + money(LWA),
-                      dotTip: occDotTip(LWA),
-                      aria: 'Median pay of every occupation, by size band and by area',
+                      ruleLabel: 'Living wage',
+                      valueLabel: 'Typical pay',
+                      labelWidth: 236,
+                      aria: 'Typical pay by occupation size band and by area',
                     }}
                   />
                 </Panel>

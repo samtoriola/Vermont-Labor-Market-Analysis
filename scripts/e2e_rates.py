@@ -58,6 +58,29 @@ with sync_playwright() as pw:
     assert labs[-3:] == ["Vermont", "New Hampshire", "United States"], labs[-3:]
     assert len(fills) == 3, "expected green, amber and grey, got %s" % fills
 
+    # Typical pay by occupation size: three bands plus three reference bars, and the
+    # green/amber split has to follow the living-wage benchmark the reader picks.
+    pg.locator(".sbitem", has_text="Median pay by size").first.click()
+    pg.wait_for_timeout(1200)
+
+    def fills_now():
+        return pg.evaluate(
+            "() => { const o = {};"
+            " document.querySelectorAll('.panel svg.chart g.bar rect').forEach(r =>"
+            " { const f = getComputedStyle(r).fill; o[f] = (o[f] || 0) + 1; }); return o; }")
+
+    bars = pg.locator(".panel svg.chart g.bar").count()
+    before = fills_now()
+    opts = pg.eval_on_selector_all("select option", "els => els.map(e => e.textContent)")
+    pg.locator("select").first.select_option(
+        label=[o for o in opts if "2 children" in o][0])
+    pg.wait_for_timeout(900)
+    after = fills_now()
+    print("size bands: %d bars | fills at default %d | after a higher benchmark %d"
+          % (bars, len(before), len(after)))
+    assert bars == 6, "expected 3 size bands plus 3 reference bars, got %d" % bars
+    assert before != after, "the benchmark no longer drives the green/amber split"
+
     # Headers are upper-cased in CSS and carry a sort glyph, so match on a prefix.
     def col_index(prefix):
         for k, h in enumerate(hdrs):
