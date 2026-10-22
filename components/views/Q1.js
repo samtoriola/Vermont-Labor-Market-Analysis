@@ -109,7 +109,7 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="Which industries employ Vermonters?"
                 note={topConcentration(LC.sectors, TOTJ)}
-                cap={`The same ${fmt(TOTJ)} jobs, grouped by industry, with average earnings per job.`}
+                cap={`Each industry's share of the state's ${fmt(TOTJ)} jobs. Hover for the count and the average pay per job.`}
                 src="Vermont industry data, 2025 · 947 detailed industries rolled up to sector"
                 data={{ cols: sectorCols(), rows: LC.sectors, label: 'industries',
                         initialSort: { k: 'j', dir: -1 }, unit: 'industries' }}
@@ -119,15 +119,20 @@ export default function Q1({ lw, section }) {
                 <RankedBars
                   rows={pick.map((r) => ({
                     label: r.s,
-                    value: r.j,
+                    value: r.share,
                     color: '--s3',
                     extra: [
-                      ['Share of jobs', r.share + '%'],
+                      ['Jobs', fmt(r.j)],
                       ['Avg. earnings per job', r.earn ? money(r.earn) : '—'],
                       ['Industries in this sector', fmt(r.nnaics)],
                     ],
                   }))}
-                  opts={{ labelWidth: 236, aria: 'Jobs by industry sector' }}
+                  opts={{
+                    mode: 'pct',
+                    labelWidth: 236,
+                    valueLabel: 'Share of all jobs',
+                    aria: 'Share of Vermont jobs by industry sector',
+                  }}
                 />
                   )}
                 </Ranked>
@@ -141,6 +146,7 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="Which occupational families employ the most Vermonters?"
                 note={familyConcentration(fams, TOTJ)}
+                cap={`Each family's share of the state's ${fmt(TOTJ)} jobs. Hover for the count, pay, openings and change since 2021.`}
                 src={`Vermont occupation data, 2025 · 22 occupational groups · ${fmt(TOTJ)} jobs`}
                 data={{ cols: familyCols(LWA), rows: fams, label: 'jobs-by-type-of-work',
                         initialSort: { k: 'jobs', dir: -1 }, onRowClick: famDrill,
@@ -153,10 +159,11 @@ export default function Q1({ lw, section }) {
                 <RankedBars
                   rows={pick.map((r) => ({
                     label: r.f,
-                    value: r.jobs,
+                    value: (r.jobs / TOTJ) * 100,
                     color: '--s1',
                     onClick: () => famDrill(r),
                     extra: [
+                      ['Jobs', fmt(r.jobs)],
                       ['Median earnings', r.med ? money(r.med) : '—'],
                       ['Employment concentration', r.lq !== null ? r.lq + '× US' : '—'],
                       ['Change 2021–2025', (r.chg >= 0 ? '+' : '') + fmt(r.chg) + ` (${r.chgPct}%)`],
@@ -165,7 +172,11 @@ export default function Q1({ lw, section }) {
                       ['Detailed occupations', fmt(r.nocc)],
                     ],
                   }))}
-                  opts={{ aria: 'Jobs by occupational family' }}
+                  opts={{
+                    mode: 'pct',
+                    valueLabel: 'Share of all jobs',
+                    aria: 'Share of Vermont jobs by occupational family',
+                  }}
                 />
                   )}
                 </Ranked>

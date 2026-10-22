@@ -53,6 +53,7 @@ export default function Q6({ lw, section }) {
                 <Panel
                   title="What credentials does VSCS award?"
                   note={awardMix(V.byAward, V.totalCompletions)}
+                  cap={`How VSCS's ${fmt(V.totalCompletions)} graduates split across award levels. Hover for the count.`}
                   src="Federal completions data, 2024 · CCV and Vermont State University"
                   data={{ cols: awardCols(V.totalCompletions), rows: V.byAward, label: 'vscs-awards',
                           initialSort: { k: 'c', dir: -1 }, unit: 'award levels' }}
@@ -60,16 +61,15 @@ export default function Q6({ lw, section }) {
                   <RankedBars
                     rows={V.byAward.map((r, i) => ({
                       label: r.a,
-                      value: r.c,
+                      value: (r.c / V.totalCompletions) * 100,
                       color: SERIES[i % SERIES.length],
-                      extra: [
-                        ['Share of VSCS output', ((r.c / V.totalCompletions) * 100).toFixed(1) + '%'],
-                      ],
+                      extra: [['Graduates', fmt(r.c)]],
                     }))}
                     opts={{
+                      mode: 'pct',
                       labelWidth: 236,
-                      valueLabel: 'Graduates',
-                      aria: 'VSCS completions by award level',
+                      valueLabel: 'Share of all awards',
+                      aria: 'Share of VSCS awards by level',
                     }}
                   />
                 </Panel>
