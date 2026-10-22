@@ -9,10 +9,10 @@ import { Panel, Ranked, VHead, LwPicker } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
-import { occCols, personTip } from '../occCols';
+import { occCols } from '../occCols';
 import { bandCols, ladderCols, peopleCols } from '@/lib/tables';
 import { RankedBars, Scatter } from '../charts';
-import { DotColumns, DotLegend, PercentileLadder, LadderLegend } from '../dots';
+import { PercentileLadder, LadderLegend } from '../dots';
 import Sections from '../Sections';
 import { meanAboveMedian, meanMedianGap, sizePayStep, sizeWageGap, topOccShare } from '@/lib/insight';
 
@@ -76,17 +76,23 @@ export default function Q2({ lw, setLw, section }) {
       ],
     }));
 
-  // The occupation dot charts are job-level: what a role pays. These are people --
-  // one dot per ACS respondent, at their own wage income. Vermont leads, the
-  // neighbouring state and the nation follow as reference.
-  const peopleAreas = PEOPLE.byArea.map((a, i) => ({
+  // These are people rather than jobs: what a Vermonter earned, not what a role
+  // pays. One bar per place at the midpoint earner, Vermont in colour and the
+  // neighbouring state and the country in grey behind it. The bar is the midpoint,
+  // so the average -- which sits well above it -- is on the hover with the range.
+  const peopleBars = PEOPLE.byArea.map((a, i) => ({
     label: a.label,
-    sub: fmt(a.n) + ' respondents',
-    dots: a.dots,
-    avg: a.avg,
-    med: a.med,
-    thin: a.thin,
-    ref: i > 0,
+    value: a.med,
+    color: i > 0 ? '--ink-3' : a.med >= LWA ? '--s3' : '--s2',
+    extra: [
+      ['Times the living wage', (a.med / LWA).toFixed(2) + '×'],
+      ['Average earnings', money(a.avg)],
+      ['Middle half earns', money(a.p25) + ' to ' + money(a.p75)],
+      ['Lowest-paid tenth', money(a.p10)],
+      ['Highest-paid tenth', money(a.p90)],
+      ['Respondents', fmt(a.n)],
+      ['Workers represented', fmt(a.pop)],
+    ],
   }));
 
   // Percentile ladder for the largest occupations. OEWS supplies the mean alongside
@@ -210,21 +216,21 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="What do individual Vermonters actually earn?"
                   note={meanMedianGap(PEOPLE.byArea[0])}
-                  cap="Each dot is one Vermonter on a wage or salary, placed at what they earned that year. The self-employed and the military are left out, matching the occupation charts. The dots are a fair sample; the average and midpoint lines come from everyone who answered, not just the dots shown."
+                  cap="What the midpoint Vermonter on a wage or salary earned that year, against the same figure for its nearest comparable state and the country. The self-employed and the military are left out, matching the occupation charts. Hover for the average and the range around it."
                   src={`Census household survey, 2024 · ${PEOPLE.universe.toLowerCase()} · living-wage benchmark 2025, ${lw}`}
                   data={{ cols: peopleCols('Place'), rows: PEOPLE.byArea, label: 'worker-earnings',
                           initialSort: { k: 'med', dir: -1 }, unit: 'places',
                           note: 'Groups, not the individual dots: each dot is one anonymous respondent.' }}
                 >
-                  <DotLegend unit="one survey respondent" sized={false} />
-                  <DotColumns
-                    groups={peopleAreas}
+                  <RankedBars
+                    rows={peopleBars}
                     opts={{
-                      yMax: PEOPLE.yMax,
+                      money: true,
                       rule: LWA,
-                      ruleLabel: 'Living wage ' + money(LWA),
-                      dotTip: personTip(LWA),
-                      aria: 'Earnings of individual survey respondents, by area',
+                      ruleLabel: 'Living wage',
+                      valueLabel: 'Midpoint earnings',
+                      labelWidth: 236,
+                      aria: 'Midpoint worker earnings by area',
                     }}
                   />
                 </Panel>

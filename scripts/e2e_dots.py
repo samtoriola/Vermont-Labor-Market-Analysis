@@ -1,4 +1,9 @@
-"""Verify the dot distributions, the percentile ladder, and that nothing else broke."""
+"""Verify the charts that plot many marks, and that nothing else broke.
+
+Named for the dot columns it was written against. Those are all bar charts now, so
+it asserts none has crept back, and covers what still plots per-occupation marks:
+the percentile ladder and the size-against-pay scatter.
+"""
 import os
 import pathlib, time, urllib.request
 from playwright.sync_api import sync_playwright
@@ -65,23 +70,19 @@ with sync_playwright() as pw:
         return pg.locator(f".view {sel}").count()
 
     print("")
-    print("--- dot charts ---")
-    # "Median pay" and "Median pay by size" are bar charts now, so e2e_rates checks
-    # them with the other ranked charts rather than here.
-    for view, section, label in [
-        ("wage", "Worker earnings", "people"),
-        ("pathways", "What the job requires", "credential tiers"),
-        ("pathways", "What people hold", "people"),
-    ]:
-        open_section(pg, view, section)
-        dots = count(view, "svg circle.dot")
-        over = count(view, "svg path.dot.over")
-        cols = count(view, "svg .dotcol")
-        rows = count(view, "svg .dotrow")
-        print(f"  {view:10s} {section:24s} {label:16s} dots={dots:5d} "
-              f"off-scale={over:4d} columns={cols} rows={rows}")
-        if dots < 50:
-            errs.append(f"{view}: only {dots} dots drawn")
+    print("--- no dot columns are left ---")
+    # Every occupation and person chart is a bar chart now. The dot components still
+    # exist in components/dots.js, so this asserts none of them has crept back onto
+    # a page rather than that they are gone from the codebase.
+    stray = []
+    for i in range(items.count()):
+        items.nth(i).click()
+        pg.wait_for_timeout(260)
+        if pg.locator(".view svg.dotcols, .view svg .dotrow").count():
+            stray.append(items.nth(i).inner_text().strip())
+    print(f"  sections still drawing dot columns: {stray or 'none'}")
+    if stray:
+        errs.append(f"dot columns reappeared on {stray}")
 
     print("")
     print("--- percentile ladder (wage tab) ---")
@@ -97,29 +98,36 @@ with sync_playwright() as pw:
         errs.append(f"ladder has only {lad.count()} rows")
 
     print("")
-    print("--- hover a dot gives quick stats ---")
+    print("--- scatter still plots every occupation ---")
+    open_section(pg, "wage", "Size against pay")
+    pts = pg.locator(".view svg circle").count()
+    print(f"  points: {pts}")
+    if pts < 200:
+        errs.append(f"scatter drew only {pts} points")
+
+    print("")
+    print("--- hover a bar gives quick stats ---")
     open_section(pg, "pathways", "What the job requires")
-    d = pg.locator(".view svg.dotcols circle.dot").nth(40)
-    d.hover()
+    pg.locator(".view svg.chart g.bar").nth(3).hover()
     pg.wait_for_timeout(350)
     tip = pg.locator("#tip")
     print(f"  tooltip visible: {tip.evaluate('e => getComputedStyle(e).opacity')}")
     print(f"  tooltip text: {tip.inner_text()[:150]!r}")
     if not tip.inner_text().strip():
-        errs.append("dot hover produced no tooltip")
+        errs.append("bar hover produced no tooltip")
 
     print("")
-    print("--- hover a person dot ---")
-    open_section(pg, "pathways", "What people hold")
-    pd = pg.locator(".view svg.dotcols circle.dot").nth(30)
-    pd.hover()
-    pg.wait_for_timeout(350)
-    print(f"  tooltip text: {pg.locator('#tip').inner_text()[:150]!r}")
+    print("--- the range is still reachable on a bar ---")
+    txt = tip.inner_text()
+    for want in ("Middle half pays", "Lowest-paid tenth", "Highest-paid tenth"):
+        if want not in txt:
+            errs.append(f"bar hover lost {want!r}")
+    print(f"  carries the spread: {all(w in txt for w in ('Middle half pays', 'Lowest-paid tenth'))}")
 
     print("")
-    print("--- click a dot column opens the drill-down ---")
+    print("--- clicking a bar opens the drill-down ---")
     open_section(pg, "pathways", "What the job requires")
-    pg.locator(".view svg.dotcols .collabel.clickable").first.click()
+    pg.locator(".view svg.chart g.bar").first.click()
     pg.wait_for_timeout(700)
     dr = pg.locator(".drill")
     print(f"  drill open: {dr.count() > 0}")
@@ -129,12 +137,12 @@ with sync_playwright() as pw:
         print(f"  has search + filter: "
               f"{dr.locator('.dtsearch').count() > 0 and dr.locator('.dtfilter select').count() > 0}")
     else:
-        errs.append("clicking a dot column did not open the drill-down")
+        errs.append("clicking a bar did not open the drill-down")
     pg.keyboard.press("Escape")
     pg.wait_for_timeout(300)
 
-    for t, sec, name in [("wage", "Worker earnings", "wage"),
-                         ("pathways", "What the job requires", "pathways")]:
+    for t, sec, name in [("wage", "Mean against median", "ladder"),
+                         ("wage", "Size against pay", "scatter")]:
         open_section(pg, t, sec)
         pg.screenshot(path=str(OUT / f"dots-{name}.png"), full_page=True)
 

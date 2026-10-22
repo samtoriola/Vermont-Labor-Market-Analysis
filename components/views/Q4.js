@@ -1,21 +1,19 @@
 'use client';
 
 import {
-  DATA, LC, PCT, TIER_ORDER, SERIES, COMPARE, PEOPLE,
-  lwAnnual, occByTier, wageStats, occDots, credentialFunnel,
+  DATA, LC, PCT, TIER_ORDER, SERIES, PEOPLE,
+  lwAnnual, occByTier, credentialFunnel,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { bandCols, peopleCols } from '@/lib/tables';
 import { Callout, Panel, Table, VHead, LwPicker, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
-import { occCols, occDotTip, personTip } from '../occCols';
+import { occCols } from '../occCols';
 import { RankedBars } from '../charts';
-import { DotColumns, DotLegend } from '../dots';
 import Sections from '../Sections';
+// Callout, N and largestCategory are used only by the section hidden further down.
+// Kept imported so restoring it stays a single edit.
 import {
-
-// Callout, N and largestCategory below are used only by the section(s) hidden further down. Kept
-// imported so restoring one stays a single edit.
   funnelContrast, ladderStep, peopleLadderStep, livingWageJump, largestCategory,
 } from '@/lib/insight';
 
@@ -48,32 +46,43 @@ export default function Q4({ lw, setLw, section }) {
   const lastCps = DATA.trend[DATA.trend.length - 1];
   const P = PCT.tiers;
 
-  // One dot per occupation at each entry-credential tier. The gap between the
-  // solid average line and the dashed median line is the thing a box plot hides.
-  const tierDots = TIER_ORDER.filter((k) => occByTier(k).length).map((k) => {
-    const occ = occByTier(k);
-    const st = wageStats(occ);
-    return {
-      label: k,
-      sub: fmt(st.n) + ' occupations',
-      dots: occDots(occ),
-      avg: st.avg,
-      med: st.med,
-      color: st.med >= LWA ? '--s3' : '--s2',
-      onClick: () => tierDrill(k),
-    };
-  });
+  // One bar per entry credential at the pay of its typical occupation. A bar cannot
+  // show the spread, so the hover carries the range the occupations in it cover.
+  const tierBars = TIER_ORDER.map((k) => t[k])
+    .filter((r) => r && r.med)
+    .map((r) => {
+      const bx = r.box || {};
+      return {
+        label: r.t,
+        value: r.med,
+        color: r.med >= LWA ? '--s3' : '--s2',
+        onClick: () => tierDrill(r.t),
+        extra: [
+          ['Times the living wage', (r.med / LWA).toFixed(2) + '×'],
+          ['Middle half pays', bx.p25 && bx.p75 ? money(bx.p25) + ' to ' + money(bx.p75) : '—'],
+          ['Lowest-paid tenth', bx.p10 ? money(bx.p10) : '—'],
+          ['Highest-paid tenth', bx.p90 ? money(bx.p90) : '—'],
+          ['Share of all jobs', r.share.toFixed(1) + '%'],
+          ['Occupations', fmt(r.nocc)],
+        ],
+      };
+    });
 
-  // The same ladder measured on people rather than jobs: one dot per Vermonter who
-  // answered the ACS, grouped by the credential they hold.
-  const credPeople = PEOPLE.byCred.map((c) => ({
-    label: c.label,
-    sub: fmt(c.n) + ' respondents',
-    dots: c.dots,
-    avg: c.avg,
-    med: c.med,
-    thin: c.thin,
-    color: c.med >= LWA ? '--s3' : '--s2',
+  // The same ladder measured on people rather than jobs: the midpoint earner at each
+  // credential they hold. The average sits well above the midpoint at the top of the
+  // ladder, so it goes on the hover with the range rather than being dropped.
+  const credBars = PEOPLE.byCred.map((c) => ({
+    label: c.thin ? c.label + ' (small sample)' : c.label,
+    value: c.med,
+    color: c.thin ? '--ink-3' : c.med >= LWA ? '--s3' : '--s2',
+    extra: [
+      ['Times the living wage', (c.med / LWA).toFixed(2) + '×'],
+      ['Average earnings', money(c.avg)],
+      ['Middle half earns', money(c.p25) + ' to ' + money(c.p75)],
+      ['Lowest-paid tenth', money(c.p10)],
+      ['Highest-paid tenth', money(c.p90)],
+      ['Respondents', fmt(c.n)],
+    ],
   }));
 
   return (
@@ -167,21 +176,21 @@ export default function Q4({ lw, setLw, section }) {
                 <Panel
                   title="What does each rung pay, by what the job asks for?"
                   note={ladderStep(LC.tiers, TIER_ORDER)}
-                  cap="Grouped by what the job asks for at the door. Click a column to list its occupations."
+                  cap="What a typical job pays at each entry credential. Green bars clear the living wage, amber ones do not. Hover for the range inside a rung; click for the occupations behind it."
                   src="Vermont occupation data, 2025 · entry credential · every priced Vermont occupation"
                     data={{ cols: occCols(LWA), rows: LC.allOcc, label: 'pay-by-what-the-job-asks',
                             initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
                             note: 'Every priced Vermont occupation — the dots in the chart above.' }}
                 >
-                  <DotLegend unit="one occupation" />
-                  <DotColumns
-                    groups={tierDots}
+                  <RankedBars
+                    rows={tierBars}
                     opts={{
-                      yMax: COMPARE.yMax,
+                      money: true,
                       rule: LWA,
-                      ruleLabel: 'Living wage ' + money(LWA),
-                      dotTip: occDotTip(LWA),
-                      aria: 'Median pay of every occupation, by entry-credential tier',
+                      ruleLabel: 'Living wage',
+                      valueLabel: 'Typical pay',
+                      labelWidth: 236,
+                      aria: 'Typical pay by entry credential',
                     }}
                   />
                 </Panel>
@@ -197,21 +206,21 @@ export default function Q4({ lw, setLw, section }) {
                 <Panel
                   title="What does each rung pay, by the credential workers hold?"
                   note={peopleLadderStep(PEOPLE.byCred)}
-                  cap="The same ladder measured on people rather than jobs, grouped by the credential they hold. The self-employed and the military are left out. Columns marked as a small sample rest on fewer than 100 answers and are rough."
+                  cap="The same ladder measured on people rather than jobs: what the midpoint Vermonter earns at each credential they hold. The self-employed and the military are left out. A bar marked as a small sample rests on fewer than 100 answers and is rough. Hover for the average and the range."
                   src={`Census household survey, 2024 · ${PEOPLE.universe.toLowerCase()} · living-wage benchmark 2025, ${lw}`}
                   data={{ cols: peopleCols('Credential held'), rows: PEOPLE.byCred, label: 'pay-by-credential-held',
                           initialSort: { k: 'med', dir: -1 }, unit: 'credentials',
                           note: 'Groups, not the individual dots: each dot is one anonymous respondent.' }}
                 >
-                  <DotLegend unit="one survey respondent" sized={false} />
-                  <DotColumns
-                    groups={credPeople}
+                  <RankedBars
+                    rows={credBars}
                     opts={{
-                      yMax: PEOPLE.yMax,
+                      money: true,
                       rule: LWA,
-                      ruleLabel: 'Living wage ' + money(LWA),
-                      dotTip: personTip(LWA),
-                      aria: 'Earnings of individual survey respondents, by credential held',
+                      ruleLabel: 'Living wage',
+                      valueLabel: 'Midpoint earnings',
+                      labelWidth: 236,
+                      aria: 'Midpoint earnings by credential held',
                     }}
                   />
                 </Panel>
