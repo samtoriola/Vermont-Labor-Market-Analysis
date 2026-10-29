@@ -10,12 +10,12 @@ import { shortLabel } from '@/lib/labels';
  * Wraps an SVG group so the tooltip hook runs once per mark instance.
  * Calling useTipHandlers directly inside a .map() would break the rules of hooks.
  */
-function TipMark({ title, rows, meta, className, onClick, children }) {
+function TipMark({ title, rows, meta, className = '', onClick, children }) {
   const h = useTipHandlers(title, rows, meta);
   const clickable = typeof onClick === 'function';
   return (
     <g
-      className={className + (clickable ? ' clickable' : '')}
+      className={(className + (clickable ? ' clickable' : '')).trim()}
       role={clickable ? 'button' : undefined}
       aria-label={clickable ? title : undefined}
       onClick={onClick}
@@ -205,10 +205,13 @@ export function StackedRows({ rows, opts = {} }) {
   const gap = 6;
   const padR = 58;
   const padT = 14;
-  const w = CHART_W;
+  const w = opts.width || CHART_W;
   const h = padT + rows.length * (rowH + gap) + 2;
   const plotW = w - labW - padR;
   const names = opts.tierNames || [];
+  const colors = opts.colors || SERIES;
+  // Same rule as the ranked bars: fade the rest only once something is chosen.
+  const hasSel = rows.some((r) => r.active);
 
   return (
     <svg
@@ -227,18 +230,23 @@ export function StackedRows({ rows, opts = {} }) {
       {rows.map((r, i) => {
         const y = padT + i * (rowH + gap);
         const tot = r.total || 1;
+        const dim = hasSel && !r.active;
         let x = labW;
         const segs = r.parts.map((p, k) => {
           if (!p.v) return null;
           const pw = (p.v / tot) * plotW;
+          const share = (p.v / tot) * 100;
           const seg = (
             <TipMark
               key={k}
+              className="bar"
               title={`${r.label} — ${names[k] || 'Series ' + (k + 1)}`}
-              rows={[
-                ['Share of family', ((p.v / tot) * 100).toFixed(1) + '%'],
-                ['Jobs', fmt(p.v)],
-              ]}
+              rows={[['Jobs', fmt(p.v)]]}
+              meta={{
+                big: [[share.toFixed(1) + '%', opts.shareLabel || 'Share of this row']],
+                foot: r.onClick ? opts.clickHint || 'Click for the detail' : undefined,
+              }}
+              onClick={r.onClick}
             >
               <rect
                 x={x}
@@ -246,7 +254,8 @@ export function StackedRows({ rows, opts = {} }) {
                 width={Math.max(0.5, pw - 2)}
                 height={rowH}
                 rx={2}
-                fill={V(SERIES[k])}
+                fill={V(colors[k])}
+                fillOpacity={dim ? 0.32 : 1}
               />
             </TipMark>
           );
@@ -256,17 +265,25 @@ export function StackedRows({ rows, opts = {} }) {
 
         return (
           <g key={r.label + i}>
-            <text x={labW - 11} y={y + rowH / 2 + 4} className="clab" textAnchor="end" fontSize={12}>
-              {trunc(shortLabel(r.label), 28)}
+            <text
+              x={labW - 11}
+              y={y + rowH / 2 + 4}
+              className={r.active ? 'clab on' : 'clab'}
+              textAnchor="end"
+              fontSize={12}
+              opacity={dim ? 0.55 : 1}
+            >
+              {trunc(shortLabel(r.label), Math.floor(labW / 6.4))}
             </text>
             {segs}
             {r.hi !== undefined ? (
               <text
                 x={w - padR + 9}
                 y={y + rowH / 2 + 4}
-                className="vlab"
+                className={r.active ? 'vlab on' : 'vlab'}
                 textAnchor="start"
                 fontSize={11}
+                opacity={dim ? 0.5 : 1}
               >
                 {(r.hi * 100).toFixed(0) + '%'}
               </text>

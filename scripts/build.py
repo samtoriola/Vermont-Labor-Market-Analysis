@@ -22,6 +22,8 @@ ANNUALISATION: "2021 - 2025 Openings" is a cumulative total across the 2021->202
 """
 import pandas as pd, numpy as np, json, os
 
+from build_maps import SOC_MAJOR, NAICS_SECTOR
+
 FOLDER = r"G:\My Drive\Vermont Labor Market Analysis"
 UPD = os.path.join(FOLDER, "Occupation_Table_All_Occupations_in_Vermont_37191a85abaf7e4a_Updated.csv")
 PREV = os.path.join(FOLDER, "Occupation_Table_All_Occupations_in_Vermont_947ddfb5a42985dc.csv")
@@ -36,17 +38,6 @@ prev = pd.read_csv(PREV, encoding="utf-8-sig", low_memory=False)
 post = pd.read_csv(POST, encoding="utf-8-sig")
 ind = pd.read_csv(IND, encoding="utf-8-sig", low_memory=False)
 
-SOC_MAJOR = {
- "11":"Management","13":"Business & Financial Operations","15":"Computer & Mathematical",
- "17":"Architecture & Engineering","19":"Life, Physical & Social Science",
- "21":"Community & Social Service","23":"Legal","25":"Educational Instruction & Library",
- "27":"Arts, Design, Entertainment & Media","29":"Healthcare Practitioners & Technical",
- "31":"Healthcare Support","33":"Protective Service","35":"Food Preparation & Serving",
- "37":"Building & Grounds Cleaning","39":"Personal Care & Service","41":"Sales",
- "43":"Office & Administrative Support","45":"Farming, Fishing & Forestry",
- "47":"Construction & Extraction","49":"Installation, Maintenance & Repair",
- "51":"Production","53":"Transportation & Material Moving","55":"Military",
-}
 EDU_TIER = {
  "No formal educational credential":"No formal credential",
  "High school diploma or equivalent":"High school",
@@ -62,17 +53,6 @@ EDU_DETAIL_ORDER = ["No formal educational credential","High school diploma or e
  "Bachelor's degree","Master's degree","Doctoral or professional degree"]
 TIER_ORDER = ["No formal credential","High school","Sub-baccalaureate","Bachelor's",
               "Graduate / professional"]
-NAICS_SECTOR = [
- (11,11,"Agriculture, Forestry, Fishing & Hunting"),(21,21,"Mining, Quarrying, Oil & Gas"),
- (22,22,"Utilities"),(23,23,"Construction"),(31,33,"Manufacturing"),
- (42,42,"Wholesale Trade"),(44,45,"Retail Trade"),(48,49,"Transportation & Warehousing"),
- (51,51,"Information"),(52,52,"Finance & Insurance"),(53,53,"Real Estate & Rental"),
- (54,54,"Professional, Scientific & Technical"),(55,55,"Management of Companies"),
- (56,56,"Administrative, Support & Waste Mgmt"),(61,61,"Educational Services"),
- (62,62,"Health Care & Social Assistance"),(71,71,"Arts, Entertainment & Recreation"),
- (72,72,"Accommodation & Food Services"),(81,81,"Other Services"),
- (92,92,"Public Administration"),(90,90,"Government"),
-]
 
 o = pd.DataFrame({
     "soc": upd["SOC"].astype(str),

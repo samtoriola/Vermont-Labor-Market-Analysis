@@ -19,9 +19,9 @@ for _ in range(60):
         time.sleep(1)
 
 SHOTS = [
+    ("Industry sectors", "Age mix", "m_sec_age"),
+    ("By type of work", "Age mix", "m_fam_age"),
     ("By credential level", "Range of outcomes", "m_cred"),
-    ("Hiring and growth", "Change since 2021", "m_demand"),
-    ("By occupation size", "Above living wage", "m_size"),
 ]
 
 with sync_playwright() as pw:

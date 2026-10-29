@@ -145,3 +145,27 @@ export function occDetail({ label, title, occ, lwAnnual, stats, top = 8, onMore 
       : null,
   };
 }
+
+/**
+ * The same pane for a sector's detailed industries.
+ *
+ * Separate from occDetail rather than generalised with it: an industry row has no
+ * entry credential and no living-wage comparison, so a shared function would be a
+ * list of options neither caller reads in full.
+ */
+export function industryDetail({ title, ind, stats, top = 8, onMore }) {
+  return {
+    label: 'Industry sector',
+    title,
+    stats,
+    note:
+      ind.length > top
+        ? `The ${top} largest of ${fmt(ind.length)} industries.`
+        : `All ${fmt(ind.length)} industries.`,
+    cols: ['Industry', 'Jobs', 'Average pay'],
+    rows: ind.slice(0, top).map((d) => [d.n, fmt(d.j), d.earn ? money(d.earn) : '—']),
+    more: onMore
+      ? { label: `All ${fmt(ind.length)} industries in this sector`, onClick: onMore }
+      : null,
+  };
+}

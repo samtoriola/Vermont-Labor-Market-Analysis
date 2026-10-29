@@ -76,7 +76,7 @@ export function DrillProvider({ children }) {
                 rows={d.occ}
                 initialSort={{ k: 'j', dir: -1 }}
                 exportLabel={d.title}
-                rowKey={(r) => r.s}
+                rowKey={d.rowKey || ((r) => r.s)}
                 pageSize={25}
               />
             ) : null}
