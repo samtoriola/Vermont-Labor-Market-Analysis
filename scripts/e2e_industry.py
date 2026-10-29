@@ -149,6 +149,49 @@ with sync_playwright() as pw:
             pg.locator(".detail .dxclose").click()
             pg.wait_for_timeout(300)
 
+    # ---------------- entry credential, as packed circles ----------------
+    print("")
+    print("--- the credential measure packs one circle per kind of work ---")
+    pg.locator(".sbitem", has_text="By type of work").first.click()
+    pg.wait_for_timeout(700)
+    pg.locator(".rankctl .chips button", has_text="Entry credential").first.click()
+    pg.wait_for_timeout(900)
+
+    circles = pg.locator(".chart .bub circle")
+    n = circles.count()
+    print("  circles: %d" % n)
+    if n != 22:
+        fails.append("packed %d circles, expected one per kind of work (22)" % n)
+
+    # Area has to track the value, so no two circles may overlap and the largest
+    # has to be the largest kind of work.
+    geo = pg.evaluate(
+        """() => [...document.querySelectorAll('.chart .bub circle')].map(c => ({
+             x: +c.getAttribute('cx'), y: +c.getAttribute('cy'), r: +c.getAttribute('r') }))"""
+    )
+    worst = 0.0
+    for i, a in enumerate(geo):
+        for bb in geo[i + 1:]:
+            d = ((a["x"] - bb["x"]) ** 2 + (a["y"] - bb["y"]) ** 2) ** 0.5
+            worst = max(worst, a["r"] + bb["r"] - d)
+    print("  deepest overlap: %.2fpx" % worst)
+    if worst > 1.0:
+        fails.append("circles overlap by %.1fpx" % worst)
+
+    ramp = pg.locator(".ramplegend")
+    if not ramp.count():
+        fails.append("no ramp legend on the credential measure")
+    else:
+        print("  legend: %s" % " ".join(ramp.inner_text().split()))
+
+    # A circle opens the same pane a bar does.
+    pg.locator(".chart .bub").first.click()
+    pg.wait_for_timeout(500)
+    if not pg.locator(".detail").count():
+        fails.append("a circle does not open the detail pane")
+    else:
+        print("  click -> %s" % pg.locator(".detail h4").inner_text().strip())
+
     b.close()
 
 if errs:

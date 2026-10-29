@@ -334,6 +334,24 @@ export function Legend({ labels, colors, hexes }) {
   );
 }
 
+/**
+ * Legend for a sequential ramp: what the shading means, and the two ends of it.
+ *
+ * A categorical legend names every colour because the colours are names. A ramp
+ * has no names, only a direction, so the honest legend is the direction and the
+ * range it covers.
+ */
+export function RampLegend({ label, lo, hi }) {
+  return (
+    <div className="ramplegend">
+      <span className="rl">{label}</span>
+      <span className="end">{lo}</span>
+      <span className="bar" aria-hidden="true" />
+      <span className="end">{hi}</span>
+    </div>
+  );
+}
+
 export function Tiles({ items }) {
   return (
     <div className="tiles">

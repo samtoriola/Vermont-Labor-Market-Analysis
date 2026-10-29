@@ -44,8 +44,11 @@ WORD_RE = re.compile(r"[A-Za-z_]\w*")
 # alone as an argument or operand, which is how `f(top, TOTJ, n)` reads. That last
 # shape used to slip through and fail only at runtime, which is the whole point of
 # this check: a missing import there unmounts the view and the build says nothing.
+# The lookbehind skips a property: `Math.PI` is PI on an object that exists, not a
+# bare identifier needing an import, and no property access can be the kind of
+# missing import this check is for.
 USE_RE = re.compile(
-    r"\b([A-Z][A-Z_0-9]+)"
+    r"(?<![.\w$])([A-Z][A-Z_0-9]+)"
     r"(?=\s*\.\s*[A-Za-z_]|\s*\[|\s*\(|\s*[,)]|\s*[-+*/<>]|\s*===?)"
 )
 

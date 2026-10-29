@@ -7,10 +7,11 @@ import {
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { familyCols, sectorCols, industryCols } from '@/lib/tables';
-import { Panel, Legend, Picker, Ranked, VHead, DrillHint } from '../ui';
+import { Panel, Legend, Picker, Ranked, RampLegend, VHead, DrillHint } from '../ui';
 import { Split, occDetail, industryDetail } from '../Detail';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, StackedRows } from '../charts';
+import { BubbleChart } from '../bubbles';
 import Sections from '../Sections';
 import {
   credentialSpread, familyConcentration, oldestWorkforce, topConcentration, vsNation,
@@ -96,18 +97,25 @@ export default function Q1({ lw, section }) {
       onMore: () => famDrill(r),
     });
 
+  // Sized by employment, shaded by how much of it asks for a degree. The mix
+  // across all five rungs moves to the hover: it is what a reader wants second,
+  // after "how big is this and how credentialled".
   const credRows = fams
     .map((r) => {
-      const parts = TIER_ORDER.map((t) => ({ v: r.tiers[t] || 0 }));
-      const tot = parts.reduce((a, x) => a + x.v, 0);
+      const tot = TIER_ORDER.reduce((a, t) => a + (r.tiers[t] || 0), 0);
+      const ba = (r.tiers["Bachelor's"] || 0) + (r.tiers['Graduate / professional'] || 0);
       return {
+        row: r,
         label: r.f,
-        parts,
         total: tot,
-        hi: ((r.tiers["Bachelor's"] || 0) + (r.tiers['Graduate / professional'] || 0)) / (tot || 1),
+        hi: ba / (tot || 1),
+        mix: TIER_ORDER.map((t) => [t, (((r.tiers[t] || 0) / (tot || 1)) * 100).toFixed(0) + '%']),
       };
     })
     .sort((a, b) => b.hi - a.hi);
+
+  const credLo = credRows.length ? credRows[credRows.length - 1].hi : 0;
+  const credHi = credRows.length ? credRows[0].hi : 1;
 
   const cpsRows = DATA.families.slice(0, 12).map((f) => {
     const tops = (DATA.famSector[f.f] || []).slice(0, 3);
@@ -386,25 +394,42 @@ export default function Q1({ lw, section }) {
     credential: {
       title: 'What credential does each family ask for at entry?',
       note: credentialSpread(fams),
-      cap: 'What the job asks for at the door, not what the people doing it hold.',
+      cap: 'Each circle is a kind of work, sized by how many jobs it holds and shaded by how much of that work asks for a degree at the door. What the job asks for, not what the people doing it hold. Hover for the full mix across all five levels.',
       src: 'Vermont occupation data, 2025 · entry credential, weighted by jobs',
       table: 'entry-credential-by-type-of-work',
       sort: { k: 'jobs', dir: -1 },
       chart: (
         <>
-          <Legend labels={TIER_ORDER} colors={SERIES} />
-          <Ranked id="q1-fam" rows={credRows}>
-            {(pick) => (
-              <StackedRows
-                rows={pick}
+          <RampLegend
+            label="Share asking for a bachelor's or more"
+            lo={(credLo * 100).toFixed(0) + '%'}
+            hi={(credHi * 100).toFixed(0) + '%'}
+          />
+          <Split items={fams} keyOf={(r) => r.f} detail={famDetail}>
+            {(select, active, width) => (
+              <BubbleChart
+                rows={credRows.map((c) => ({
+                  label: c.label,
+                  value: c.total,
+                  t: credHi > credLo ? (c.hi - credLo) / (credHi - credLo) : 0.5,
+                  shown: (c.hi * 100).toFixed(0) + '%',
+                  onClick: () => select(c.label),
+                  active: active === c.label,
+                  clickHint: 'Click for the occupations inside it',
+                  big: [
+                    [(c.hi * 100).toFixed(0) + '%', "Ask for a bachelor's or more"],
+                    [fmt(c.total), 'Jobs today'],
+                  ],
+                  extra: c.mix,
+                }))}
                 opts={{
-                  rightLabel: 'BA+',
-                  tierNames: TIER_ORDER,
-                  aria: 'Entry credential mix by family',
+                  width,
+                  height: 640,
+                  aria: 'Employment and entry credential by occupational family',
                 }}
               />
             )}
-          </Ranked>
+          </Split>
         </>
       ),
     },

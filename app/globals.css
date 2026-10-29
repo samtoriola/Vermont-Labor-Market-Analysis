@@ -1952,3 +1952,76 @@ thead th[aria-sort='descending'] .sortmark {
   font-size: 10.5px;
   color: var(--accent);
 }
+
+/* ---------- packed circles ---------- */
+.chart .bub.clickable {
+  cursor: pointer;
+}
+
+.chart .bub.clickable:hover circle {
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+}
+
+/* Label colour is decided by the ramp step underneath it, not by the theme, so
+   the two halves of the ramp are set separately. In light mode the ramp runs
+   light to mid, and ink reads on all five steps. In dark mode the ramp inverts:
+   the low steps go near-black and need white, the high steps go pale and keep
+   the dark ink. Both were checked against the step hexes in lib/brand.js. */
+.chart .bublab {
+  fill: #1c252d;
+  font-weight: 600;
+}
+
+.chart .bublab.val {
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  opacity: 0.82;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .chart .bublab.lo {
+    fill: #ffffff;
+  }
+}
+
+:root[data-theme='dark'] .chart .bublab.lo {
+  fill: #ffffff;
+}
+
+/* ---------- sequential ramp legend ---------- */
+.ramplegend {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 14px;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.ramplegend .rl {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.ramplegend .bar {
+  width: 132px;
+  height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--ord1),
+    var(--ord2),
+    var(--ord3),
+    var(--ord4),
+    var(--ord5)
+  );
+}
+
+.ramplegend .end {
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
