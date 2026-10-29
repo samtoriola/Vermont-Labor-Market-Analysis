@@ -3,7 +3,7 @@
 import { SOW, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { awardCols } from '@/lib/tables';
-import { Callout, Panel, Table, VHead, N } from '../ui';
+import { Callout, Panel, Ranked, Table, VHead, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars } from '../charts';
 import DataTable from '../DataTable';
@@ -18,6 +18,33 @@ export default function Q6({ lw, section }) {
   const { open } = useDrill();
   const V = SOW.vscs;
 
+  // Ordered by how far each kind of work's graduates go against its openings, with
+  // the ones no graduate reaches at the foot rather than scattered through.
+  const famShare = (r) => (r.open ? (r.linked / r.open) * 100 : null);
+
+  const famAlign = V.byFamily
+    .slice()
+    .sort((a, b) => (famShare(b) || 0) - (famShare(a) || 0));
+
+  const famDrill = (r) =>
+    open(
+      occDrill({
+        label: 'Type of work',
+        title: r.f,
+        cap: 'The occupations in this kind of work, and the graduates spread across them.',
+        occ: occByFamily(r.f),
+        lwAnnual: LWA,
+        extraStats: [
+          ['Openings a year', fmt(r.open)],
+          ['Graduates attributed', r.linked.toFixed(1)],
+          [
+            'Graduates as % of openings',
+            famShare(r) === null ? '—' : famShare(r).toFixed(1) + '%',
+          ],
+        ],
+      })
+    );
+
   // Both ends of the linked-completion ratio in one sortable table. `under` is the
   // lowest ratios among occupations paying above the living wage; `over` the highest
   // overall, so the two can overlap and are de-duplicated on SOC.
@@ -28,9 +55,14 @@ export default function Q6({ lw, section }) {
     { k: 'n', label: 'Occupation', kind: 'text', get: (r) => r.n },
     { k: 'open', label: 'Annual openings', kind: 'num', get: (r) => r.open },
     { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
-    { k: 'ratio', label: 'Graduates per opening', kind: 'num3', get: (r) => r.ratio },
-    { k: 'm', label: 'Median', kind: 'money', get: (r) => r.m },
-    { k: 'lw', label: 'vs living wage', kind: 'x', get: (r) => r.lw },
+    {
+      k: 'ratio',
+      label: 'Graduates as % of openings',
+      kind: 'rate',
+      get: (r) => (r.ratio === null ? null : r.ratio * 100),
+    },
+    { k: 'm', label: 'Typical pay', kind: 'money', get: (r) => r.m },
+    { k: 'lw', label: 'Times the living wage', kind: 'x', get: (r) => r.lw },
     { k: 't', label: 'Entry credential', kind: 'text', get: (r) => r.t },
   ];
 
@@ -82,39 +114,57 @@ export default function Q6({ lw, section }) {
                 <Panel
                   title="Where does VSCS production line up with openings?"
                   note={familiesNoCompletions(V.byFamily)}
-                  cap="Graduates attributed is how many of VSCS's 2024 completions this kind of work draws on. A program rarely feeds one job, so each program's graduates are spread across the occupations it feeds — which is why the figure carries a decimal and is a share rather than a headcount. Graduates per opening divides that by the openings the work has each year: 0.25 means one graduate for every four openings. It is not a fill rate. Openings are filled from many sources, and work that needs no credential will always sit near zero because college is not the route into it. Click a row for the occupations behind it."
+                  cap="Each kind of work's VSCS graduates measured against the openings it has each year. 25% means VSCS graduates a number equal to a quarter of the openings — not that it fills a quarter of them, which no figure here can tell you. Grey bars draw no VSCS graduates at all. Work that needs no credential sits there by nature, because college is not the route into it. Hover for the counts; click for the occupations behind it."
                   src="Federal completions data, 2024, against Vermont openings · spread by employment"
+                  data={{
+                    cols: [
+                      { k: 'f', label: 'Type of work', kind: 'text', get: (r) => r.f },
+                      { k: 'open', label: 'Openings a year', kind: 'num', get: (r) => r.open },
+                      { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
+                      {
+                        k: 'ratio',
+                        label: 'Graduates as % of openings',
+                        kind: 'rate',
+                        get: famShare,
+                      },
+                      { k: 'jobs', label: 'Jobs', kind: 'num', get: (r) => r.jobs },
+                    ],
+                    rows: famAlign,
+                    label: 'graduates-against-openings',
+                    initialSort: { k: 'ratio', dir: -1 },
+                    unit: 'kinds of work',
+                    onRowClick: famDrill,
+                    note: 'Click a row for the occupations behind it.',
+                  }}
                 >
-                  <Table
-                    cols={[
-                      'Type of work',
-                      'Annual openings',
-                      'Graduates attributed',
-                      'Graduates per opening',
-                    ]}
-                    rows={V.byFamily.map((r) => ({
-                      onClick: () =>
-                        open(
-                          occDrill({
-                            label: 'Type of work',
-                            title: r.f,
-                            cap: 'Occupations in this family, against which VSCS completions were allocated.',
-                            occ: occByFamily(r.f),
-                            lwAnnual: LWA,
-                            extraStats: [
-                              ['Annual openings', fmt(r.open)],
-                              ['Graduates attributed', r.linked.toFixed(1)],
-                            ],
-                          })
-                        ),
-                      cells: [
-                        r.f,
-                        fmt(r.open),
-                        r.linked.toFixed(1),
-                        r.ratio === null ? '—' : r.ratio.toFixed(3),
-                      ],
-                    }))}
-                  />
+                  <Ranked id="q6-align" rows={famAlign}>
+                    {(pick) => (
+                      <RankedBars
+                        rows={pick.map((r) => ({
+                          label: r.f,
+                          value: famShare(r) || 0,
+                          // Grey where no graduate reaches this work at all. It is not
+                          // a low score, it is the absence of a pipeline, and the two
+                          // should not look the same. Keyed off the graduates rather
+                          // than the share, so this counts the same families the
+                          // read-out under the chart does.
+                          color: r.linked > 0 ? '--s1' : '--ink-3',
+                          onClick: () => famDrill(r),
+                          extra: [
+                            ['Openings a year', fmt(r.open)],
+                            ['Graduates attributed', r.linked.toFixed(1)],
+                            ['Jobs', fmt(r.jobs)],
+                          ],
+                        }))}
+                        opts={{
+                          mode: 'pct',
+                          labelWidth: 236,
+                          valueLabel: 'Graduates as % of openings',
+                          aria: 'Graduates as a share of openings by type of work',
+                        }}
+                      />
+                    )}
+                  </Ranked>
                 </Panel>
             ),
           },
