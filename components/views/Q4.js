@@ -6,7 +6,7 @@ import {
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { bandCols, peopleCols } from '@/lib/tables';
-import { Callout, Panel, Table, VHead, LwPicker, N } from '../ui';
+import { Callout, Panel, Picker, Table, VHead, LwPicker, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { Split, occDetail } from '../Detail';
 import { occCols } from '../occCols';
@@ -17,6 +17,13 @@ import Sections from '../Sections';
 import {
   funnelContrast, ladderStep, peopleLadderStep, livingWageJump, largestCategory,
 } from '@/lib/insight';
+
+const CRED_MEASURES = [
+  { id: 'jobs', label: 'Share of jobs' },
+  { id: 'pay', label: 'Typical pay' },
+  { id: 'above', label: 'Above living wage' },
+  { id: 'spread', label: 'Range of outcomes' },
+];
 
 export default function Q4({ lw, setLw, section }) {
   const LWA = lwAnnual(lw);
@@ -101,6 +108,168 @@ export default function Q4({ lw, setLw, section }) {
     ],
   }));
 
+  // Four questions about the same five rungs, which were three sections and four
+  // panels: how much work sits at each level, what it pays, how much of it clears
+  // the benchmark, and how wide the outcomes are. One control, one chart frame.
+  //
+  // The benchmark selector appears only on the two measures it changes, so the page
+  // never carries a control that does nothing.
+  const bands = {
+    cols: bandCols(LWA, 't', 'Entry credential'),
+    rows: LC.tiers,
+    unit: 'credentials',
+  };
+
+  const cred = {
+    jobs: {
+      title: 'How much Vermont employment sits at each credential level?',
+      cap: "What share of Vermont's jobs ask for each level of education.",
+      src: `Vermont occupation data, 2025 · ${fmt(LC.totalJobs)} jobs`,
+      data: { ...bands, label: 'jobs-by-credential', initialSort: { k: 'jobs', dir: -1 } },
+      chart: (
+        <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
+          {(select, active, width) => (
+            <RankedBars
+              rows={TIER_ORDER.map((k, i) => {
+                const r = t[k];
+                return {
+                  label: r.t,
+                  value: r.share,
+                  color: SERIES[i],
+                  mode: 'pct',
+                  onClick: () => select(r.t),
+                  active: active === r.t,
+                  big: [[fmt(r.jobs), 'Jobs today']],
+                  extra: [['Occupations', fmt(r.nocc)]],
+                };
+              })}
+              opts={{
+                mode: 'pct',
+                labelWidth: 176,
+                width,
+                valueLabel: 'Share of jobs',
+                clickHint: 'Click for the occupations at this level',
+                aria: 'Employment share by credential tier',
+              }}
+            />
+          )}
+        </Split>
+      ),
+    },
+
+    pay: {
+      lw: true,
+      title: 'What does each rung pay, by what the job asks for?',
+      note: ladderStep(LC.tiers, TIER_ORDER),
+      cap: 'What a typical job pays at each entry credential. Green bars clear the living wage, amber ones do not.',
+      src: 'Vermont occupation data, 2025 · entry credential · every priced Vermont occupation',
+      data: {
+        cols: occCols(LWA),
+        rows: LC.allOcc,
+        label: 'pay-by-what-the-job-asks',
+        initialSort: { k: 'j', dir: -1 },
+        unit: 'occupations',
+        note: 'Every priced Vermont occupation, the detail behind the five rungs.',
+      },
+      chart: (
+        <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
+          {(select, active, width) => (
+            <RankedBars
+              rows={tierBars.map((b) => ({
+                ...b,
+                onClick: () => select(b.label),
+                active: active === b.label,
+              }))}
+              opts={{
+                money: true,
+                width,
+                rule: LWA,
+                ruleLabel: 'Living wage',
+                valueLabel: 'Typical pay',
+                labelWidth: 236,
+                clickHint: 'Click for the occupations at this level',
+                aria: 'Typical pay by entry credential',
+              }}
+            />
+          )}
+        </Split>
+      ),
+    },
+
+    above: {
+      lw: true,
+      title: 'Which credential levels clear the living wage?',
+      note: livingWageJump(LC.tiers, TIER_ORDER, lw),
+      cap: `What share of each credential's jobs pay at or above the living wage for ${lw} — ${money(LWA)} a year.`,
+      src: 'Vermont occupation data, 2025 · occupation median against the benchmark',
+      data: { ...bands, label: 'above-the-living-wage', initialSort: { k: 'jobs', dir: -1 } },
+      chart: (
+        <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
+          {(select, active, width) => (
+            <RankedBars
+              rows={TIER_ORDER.map((k, i) => {
+                const r = t[k];
+                return {
+                  label: r.t,
+                  value: r.above[lw],
+                  color: SERIES[i],
+                  mode: 'pct',
+                  onClick: () => select(r.t),
+                  active: active === r.t,
+                  big: [[fmt(r.jobs), 'Jobs today']],
+                  extra: [
+                    ['Median earnings', money(r.med)],
+                    ['Occupations', fmt(r.nocc)],
+                  ],
+                };
+              })}
+              opts={{
+                mode: 'pct',
+                labelWidth: 176,
+                max: 100,
+                width,
+                valueLabel: 'Above living wage',
+                clickHint: 'Click for the occupations at this level',
+                aria: 'Living-wage share by credential tier',
+              }}
+            />
+          )}
+        </Split>
+      ),
+    },
+
+    spread: {
+      title: 'How wide is the range of outcomes at each credential level?',
+      cap: 'How many times more the best-paid tenth earn than the worst-paid tenth. A wider range means the credential leads to very different outcomes.',
+      src: 'Vermont occupation data, 2025 · highest-paid tenth against lowest-paid tenth',
+      data: { ...bands, label: 'pay-range-by-credential', initialSort: { k: 'med', dir: -1 } },
+      chart: (
+        <RankedBars
+          rows={TIER_ORDER.filter((k) => P[k]).map((k, i) => {
+            const b = P[k];
+            return {
+              label: k,
+              value: b.p90 / b.p10,
+              color: SERIES[i],
+              dec: 2,
+              big: [[money(b.p50), 'Midpoint pay']],
+              extra: [
+                ['Lowest-paid tenth', money(b.p10)],
+                ['Highest-paid tenth', money(b.p90)],
+              ],
+            };
+          })}
+          opts={{
+            dec: 2,
+            labelWidth: 176,
+            valueLabel: 'Times wider',
+            aria: 'Earnings dispersion by credential tier',
+          }}
+        />
+      ),
+    },
+  };
+
   return (
     <>
       <VHead
@@ -114,113 +283,28 @@ export default function Q4({ lw, setLw, section }) {
         active={section}
         items={[
           {
-            id: 'employment-and-dispersion',
-            label: 'Employment and dispersion',
+            id: 'by-credential-level',
+            label: 'By credential level',
             render: () => (
-                <div className="grid2">
-                  <Panel
-                    title="How much Vermont employment sits at each credential level?"
-                    cap="What share of Vermont's jobs ask for each level of education."
-                    src={`Vermont occupation data, 2025 · ${fmt(LC.totalJobs)} jobs`}
-                    data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'jobs-by-credential',
-                            initialSort: { k: 'jobs', dir: -1 }, unit: 'credentials' }}
-                  >
-                    <RankedBars
-                      rows={TIER_ORDER.map((k, i) => {
-                        const r = t[k];
-                        return {
-                          label: r.t,
-                          value: r.share,
-                          color: SERIES[i],
-                          mode: 'pct',
-                          extra: [
-                            ['Jobs', fmt(r.jobs)],
-                            ['Occupations', fmt(r.nocc)],
-                          ],
-                        };
-                      })}
-                      opts={{
-                        mode: 'pct',
-                        labelWidth: 176,
-                        width: 640,
-                        valueLabel: 'Share of jobs',
-                        aria: 'Employment share by credential tier',
-                      }}
-                    />
-                  </Panel>
-
-                  <Panel
-                    title="How wide is the range of outcomes at each credential level?"
-                    cap="How many times more the best-paid tenth earn than the worst-paid tenth. A wider range means the credential leads to very different outcomes."
-                    src="Vermont occupation data, 2025 · highest-paid tenth against lowest-paid tenth"
-                    data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'pay-range-by-credential',
-                            initialSort: { k: 'med', dir: -1 }, unit: 'credentials' }}
-                  >
-                    <RankedBars
-                      rows={TIER_ORDER.filter((k) => P[k]).map((k, i) => {
-                        const b = P[k];
-                        return {
-                          label: k,
-                          value: b.p90 / b.p10,
-                          color: SERIES[i],
-                          dec: 2,
-                          extra: [
-                            ['10th percentile', money(b.p10)],
-                            ['90th percentile', money(b.p90)],
-                            ['Median', money(b.p50)],
-                          ],
-                        };
-                      })}
-                      opts={{
-                        dec: 2,
-                        labelWidth: 176,
-                        width: 640,
-                        valueLabel: 'Times wider',
-                        aria: 'Earnings dispersion by credential tier',
-                      }}
-                    />
-                  </Panel>
-                </div>
-            ),
-          },
-          {
-            id: 'what-the-job-requires',
-            label: 'What the job requires',
-            render: () => (
-              <>
-                <LwPicker value={lw} onChange={setLw} />
-                <Panel
-                  title="What does each rung pay, by what the job asks for?"
-                  note={ladderStep(LC.tiers, TIER_ORDER)}
-                  cap="What a typical job pays at each entry credential. Green bars clear the living wage, amber ones do not. Hover for the range inside a rung; click for the occupations behind it."
-                  src="Vermont occupation data, 2025 · entry credential · every priced Vermont occupation"
-                    data={{ cols: occCols(LWA), rows: LC.allOcc, label: 'pay-by-what-the-job-asks',
-                            initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
-                            note: 'Every priced Vermont occupation — the dots in the chart above.' }}
-                >
-                  <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
-                    {(select, active, width) => (
-                  <RankedBars
-                    rows={tierBars.map((b) => ({
-                      ...b,
-                      onClick: () => select(b.label),
-                      active: active === b.label,
-                    }))}
-                    opts={{
-                      money: true,
-                      width,
-                      rule: LWA,
-                      ruleLabel: 'Living wage',
-                      valueLabel: 'Typical pay',
-                      labelWidth: 236,
-                      clickHint: 'Click for the occupations at this level',
-                      aria: 'Typical pay by entry credential',
-                    }}
-                  />
-                    )}
-                  </Split>
-                </Panel>
-              </>
+              <Picker id="q4-cred" label="Measure" options={CRED_MEASURES}>
+                {(m) => {
+                  const v = cred[m];
+                  return (
+                    <>
+                      {v.lw ? <LwPicker value={lw} onChange={setLw} /> : null}
+                      <Panel
+                        title={v.title}
+                        note={v.note}
+                        cap={v.cap}
+                        src={v.src}
+                        data={v.data}
+                      >
+                        {v.chart}
+                      </Panel>
+                    </>
+                  );
+                }}
+              </Picker>
             ),
           },
           {
@@ -249,55 +333,6 @@ export default function Q4({ lw, setLw, section }) {
                       aria: 'Midpoint earnings by credential held',
                     }}
                   />
-                </Panel>
-              </>
-            ),
-          },
-          {
-            id: 'above-the-living-wage',
-            label: 'Above the living wage',
-            render: () => (
-              <>
-                <LwPicker value={lw} onChange={setLw} />
-                <Panel
-                  title="Which credential levels clear the living wage?"
-                  note={livingWageJump(LC.tiers, TIER_ORDER, lw)}
-                  cap={`What share of each credential's jobs pay at or above the living wage for ${lw} — ${money(LWA)} a year. Change the household at the top of this tab.`}
-                  src="Vermont occupation data, 2025 · occupation median against the benchmark"
-                    data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'above-the-living-wage',
-                            initialSort: { k: 'jobs', dir: -1 }, unit: 'credentials' }}
-                >
-                  <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
-                    {(select, active, width) => (
-                  <RankedBars
-                    rows={TIER_ORDER.map((k, i) => {
-                      const r = t[k];
-                      return {
-                        label: r.t,
-                        value: r.above[lw],
-                        color: SERIES[i],
-                        mode: 'pct',
-                        onClick: () => select(r.t),
-                        active: active === r.t,
-                        big: [[fmt(r.jobs), 'Jobs today']],
-                        extra: [
-                          ['Median earnings', money(r.med)],
-                          ['Occupations', fmt(r.nocc)],
-                        ],
-                      };
-                    })}
-                    opts={{
-                      mode: 'pct',
-                      labelWidth: 176,
-                      max: 100,
-                      width,
-                      valueLabel: 'Above living wage',
-                      clickHint: 'Click for the occupations at this level',
-                      aria: 'Living-wage share by credential tier',
-                    }}
-                  />
-                    )}
-                  </Split>
                 </Panel>
               </>
             ),

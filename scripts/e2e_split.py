@@ -25,15 +25,20 @@ for _ in range(60):
     except Exception:
         time.sleep(1)
 
-# section label -> the bar to click, and what the pane's title should then read.
+# (sidebar section, measure chip or None, which bar to click)
+#
+# Several of these used to be a section each and are now one panel behind a
+# measure control, so the pane has to work on every measure, not just the one the
+# panel opens on.
 PANELS = [
-    ("Jobs by family", 0),
-    ("Median pay", 0),
-    ("Wage quality by size", 0),
-    ("Median pay by size", 0),
-    ("What the job requires", 0),
-    ("Above the living wage", 1),
-    ("Against openings", 0),
+    ("By type of work", "Share of jobs", 0),
+    ("By type of work", "Typical pay", 0),
+    ("By occupation size", "Typical pay", 0),
+    ("By occupation size", "Above living wage", 0),
+    ("By credential level", "Share of jobs", 0),
+    ("By credential level", "Typical pay", 0),
+    ("By credential level", "Above living wage", 1),
+    ("Against openings", None, 0),
 ]
 
 fails = []
@@ -45,9 +50,13 @@ with sync_playwright() as pw:
     pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(URL, wait_until="networkidle")
 
-    for label, idx in PANELS:
-        pg.locator(".sbitem", has_text=label).first.click()
+    for section, measure, idx in PANELS:
+        label = section if not measure else "%s / %s" % (section, measure)
+        pg.locator(".sbitem", has_text=section).first.click()
         pg.wait_for_timeout(700)
+        if measure:
+            pg.locator(".rankctl .chips button", has_text=measure).first.click()
+            pg.wait_for_timeout(600)
 
         split = pg.locator(".split").first
         if split.count() == 0:
@@ -108,10 +117,10 @@ with sync_playwright() as pw:
         if not vb.startswith("0 0 1180"):
             fails.append("%s: chart did not widen back (viewBox %s)" % (label, vb))
 
-        print("%-24s ok  (%s)" % (label, name))
+        print("%-42s ok  (%s)" % (label, name))
 
     # The hover card: a headline number, and the hint that a click does something.
-    pg.locator(".sbitem", has_text="Jobs by family").first.click()
+    pg.locator(".sbitem", has_text="By type of work").first.click()
     pg.wait_for_timeout(600)
     pg.locator(".split svg.chart g.bar").first.hover()
     pg.wait_for_timeout(300)

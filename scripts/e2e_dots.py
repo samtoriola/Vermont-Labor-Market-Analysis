@@ -107,7 +107,11 @@ with sync_playwright() as pw:
 
     print("")
     print("--- hover a bar gives quick stats ---")
-    open_section(pg, "pathways", "What the job requires")
+    open_section(pg, "pathways", "By credential level")
+    # The spread the dot columns used to show now lives on the pay measure's
+    # hover, and this panel opens on the employment-share measure.
+    pg.locator(".rankctl .chips button", has_text="Typical pay").first.click()
+    pg.wait_for_timeout(600)
     pg.locator(".view svg.chart g.bar").nth(3).hover()
     pg.wait_for_timeout(350)
     tip = pg.locator("#tip")
@@ -126,7 +130,7 @@ with sync_playwright() as pw:
 
     print("")
     print("--- clicking a bar opens the detail beside it ---")
-    open_section(pg, "pathways", "What the job requires")
+    open_section(pg, "pathways", "By credential level")
     pg.locator(".view svg.chart g.bar").first.click()
     pg.wait_for_timeout(700)
     pane = pg.locator(".detail")

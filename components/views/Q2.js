@@ -5,7 +5,7 @@ import {
   lwAnnual, occBySize, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Panel, Ranked, VHead, LwPicker } from '../ui';
+import { Panel, Picker, Ranked, VHead, LwPicker } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
@@ -16,6 +16,11 @@ import { RankedBars, Scatter } from '../charts';
 import { PercentileLadder, LadderLegend } from '../dots';
 import Sections from '../Sections';
 import { meanAboveMedian, meanMedianGap, sizePayStep, sizeWageGap, topOccShare } from '@/lib/insight';
+
+const SIZE_MEASURES = [
+  { id: 'pay', label: 'Typical pay' },
+  { id: 'above', label: 'Above living wage' },
+];
 
 export default function Q2({ lw, setLw, section }) {
   const LWA = lwAnnual(lw);
@@ -140,6 +145,96 @@ export default function Q2({ lw, setLw, section }) {
     .filter(Boolean);
   const ladderMu = ladder.filter((r) => r.mu !== null && r.mu !== undefined).length;
 
+  // Two questions about the same three bands -- what the typical job pays, and how
+  // much of the band clears the benchmark -- which were two sections apart. The
+  // benchmark selector stays on both, because both answers move with it.
+  const size = {
+    pay: {
+      title: 'What does a typical job pay, by how big the occupation is?',
+      note: sizePayStep(PCT.sizeTiers, SIZE_ORDER),
+      cap: 'Green bars clear the living wage, amber ones do not. The grey bars are the state, its nearest comparable state and the country.',
+      src: 'Vermont occupation data, 2025 · reference bars from published state and national wage data',
+      data: {
+        cols: occCols(LWA),
+        rows: LC.allOcc,
+        label: 'pay-by-occupation-size',
+        initialSort: { k: 'j', dir: -1 },
+        unit: 'occupations',
+        note: 'Every priced Vermont occupation, the detail behind the three bands.',
+      },
+      chart: (
+        <Split items={sz} keyOf={(r) => r.s} detail={sizeDetail}>
+          {(select, active, width) => (
+            <RankedBars
+              rows={szBars
+                .map((b) => ({
+                  ...b,
+                  onClick: () => select(b.label),
+                  active: active === b.label,
+                }))
+                .concat(areaRefs)}
+              opts={{
+                money: true,
+                width,
+                rule: LWA,
+                ruleLabel: 'Living wage',
+                valueLabel: 'Typical pay',
+                labelWidth: 236,
+                clickHint: 'Click for the occupations in this band',
+                aria: 'Typical pay by occupation size band and by area',
+              }}
+            />
+          )}
+        </Split>
+      ),
+    },
+
+    above: {
+      title: 'Do the largest occupations pay a living wage?',
+      note: sizeWageGap(LC.sizeTiers, lw),
+      cap: `Benchmark: ${lw} at ${money(LWA)}/yr.`,
+      src: 'Vermont occupation data, 2025 · weighted by jobs · occupation median against the benchmark',
+      data: {
+        cols: bandCols(LWA),
+        rows: sz,
+        label: 'wage-quality-by-size',
+        initialSort: { k: 'jobs', dir: -1 },
+        unit: 'size bands',
+      },
+      chart: (
+        <Split items={sz} keyOf={(r) => r.s} detail={sizeDetail}>
+          {(select, active, width) => (
+            <RankedBars
+              rows={sz.map((r) => ({
+                label: r.s,
+                value: r.above[lw],
+                color: '--s1',
+                mode: 'pct',
+                onClick: () => select(r.s),
+                active: active === r.s,
+                big: [[fmt(r.jobs), 'Jobs today']],
+                extra: [
+                  ['Occupations', fmt(r.nocc)],
+                  ['Share of employment', r.share + '%'],
+                  ['Median earnings', money(r.med)],
+                  ['Annual openings', fmt(r.open)],
+                ],
+              }))}
+              opts={{
+                mode: 'pct',
+                labelWidth: 196,
+                width,
+                valueLabel: 'Above living wage',
+                clickHint: 'Click for the occupations in this band',
+                aria: 'Wage quality by size tier',
+              }}
+            />
+          )}
+        </Split>
+      ),
+    },
+  };
+
   return (
     <>
       <VHead
@@ -153,92 +248,28 @@ export default function Q2({ lw, setLw, section }) {
         active={section}
         items={[
           {
-            id: 'wage-quality-by-size',
-            label: 'Wage quality by size',
+            id: 'by-occupation-size',
+            label: 'By occupation size',
             render: () => (
-              <>
-                <LwPicker value={lw} onChange={setLw} />
-                <Panel
-                  title="Do the largest occupations pay a living wage?"
-                  note={sizeWageGap(LC.sizeTiers, lw)}
-                  cap={`Benchmark: ${lw} at ${money(LWA)}/yr.`}
-                  src="Vermont occupation data, 2025 · weighted by jobs · occupation median against the benchmark"
-                  data={{ cols: bandCols(LWA), rows: sz, label: 'wage-quality-by-size',
-                          initialSort: { k: 'jobs', dir: -1 }, unit: 'size bands' }}
-                >
-                  <Split items={sz} keyOf={(r) => r.s} detail={sizeDetail}>
-                    {(select, active, width) => (
-                  <RankedBars
-                    rows={sz.map((r) => ({
-                      label: r.s,
-                      value: r.above[lw],
-                      color: '--s1',
-                      mode: 'pct',
-                      onClick: () => select(r.s),
-                      active: active === r.s,
-                      big: [[fmt(r.jobs), 'Jobs today']],
-                      extra: [
-                        ['Occupations', fmt(r.nocc)],
-                        ['Share of employment', r.share + '%'],
-                        ['Median earnings', money(r.med)],
-                        ['Annual openings', fmt(r.open)],
-                      ],
-                    }))}
-                    opts={{
-                      mode: 'pct',
-                      labelWidth: 196,
-                      width,
-                      valueLabel: 'Above living wage',
-                      clickHint: 'Click for the occupations in this band',
-                      aria: 'Wage quality by size tier',
-                    }}
-                  />
-                    )}
-                  </Split>
-                </Panel>
-              </>
-            ),
-          },
-          {
-            id: 'median-pay-by-size',
-            label: 'Median pay by size',
-            render: () => (
-              <>
-                <LwPicker value={lw} onChange={setLw} />
-                <Panel
-                  title="What does a typical job pay, by how big the occupation is?"
-                  note={sizePayStep(PCT.sizeTiers, SIZE_ORDER)}
-                  cap="Green bars clear the living wage, amber ones do not. The grey bars are the state, its nearest comparable state and the country. Hover for the range inside a band; click for the occupations behind it."
-                  src="Vermont occupation data, 2025 · reference bars from published state and national wage data"
-                  data={{ cols: occCols(LWA), rows: LC.allOcc, label: 'pay-by-occupation-size',
-                          initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
-                          note: 'Every priced Vermont occupation — the dots in the chart above.' }}
-                >
-                  <Split items={sz} keyOf={(r) => r.s} detail={sizeDetail}>
-                    {(select, active, width) => (
-                  <RankedBars
-                    rows={szBars
-                      .map((b) => ({
-                        ...b,
-                        onClick: () => select(b.label),
-                        active: active === b.label,
-                      }))
-                      .concat(areaRefs)}
-                    opts={{
-                      money: true,
-                      width,
-                      rule: LWA,
-                      ruleLabel: 'Living wage',
-                      valueLabel: 'Typical pay',
-                      labelWidth: 236,
-                      clickHint: 'Click for the occupations in this band',
-                      aria: 'Typical pay by occupation size band and by area',
-                    }}
-                  />
-                    )}
-                  </Split>
-                </Panel>
-              </>
+              <Picker id="q2-size" label="Measure" options={SIZE_MEASURES}>
+                {(m) => {
+                  const v = size[m];
+                  return (
+                    <>
+                      <LwPicker value={lw} onChange={setLw} />
+                      <Panel
+                        title={v.title}
+                        note={v.note}
+                        cap={v.cap}
+                        src={v.src}
+                        data={v.data}
+                      >
+                        {v.chart}
+                      </Panel>
+                    </>
+                  );
+                }}
+              </Picker>
             ),
           },
           {

@@ -3,7 +3,7 @@
 import { DATA, LC, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { familyCols } from '@/lib/tables';
-import { Callout, Panel, Legend, Ranked, VHead, N } from '../ui';
+import { Callout, Panel, Legend, Picker, Ranked, VHead, N } from '../ui';
 import { RankedBars, GroupedBars } from '../charts';
 import Sections from '../Sections';
 // Legend, GroupedBars and demandDivergence are used only by the hidden
@@ -13,6 +13,12 @@ import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
 
 // Callout, Legend, N, GroupedBars and demandDivergence below are used only by the section(s) hidden further down. Kept
 // imported so restoring one stays a single edit.
+
+const DEMAND_MEASURES = [
+  { id: 'ads', label: 'Job ads' },
+  { id: 'observed', label: 'Change since 2021' },
+  { id: 'projected', label: 'Projected growth' },
+];
 
 export default function Q3({ section }) {
   const fams = LC.families.slice();
@@ -52,6 +58,122 @@ export default function Q3({ section }) {
       };
     })
     .sort((x, y) => y.b - y.a - (x.b - x.a));
+
+  // Three readings of the same 22 kinds of work: who is advertising hardest, who
+  // actually grew, and who is expected to. They were three sections, which made a
+  // reader hold one ranking in their head while scrolling to the next. Behind one
+  // control the ranking simply re-sorts in place.
+  //
+  // This is not the old "three demand measures" chart, which put three shares of
+  // three different denominators side by side and asked the reader to reconcile
+  // them. One measure at a time, each on its own scale.
+  const dem = {
+    ads: {
+      title: 'Where do employers advertise more than their employment share would predict?',
+      cap: "A type of work's share of job ads against its share of jobs. Above 1.0 means employers are advertising more than its size alone would suggest — a sign of hiring pressure.",
+      src: `Job ads, ${LC.postWindow} · ${fmt(totPost)} unique ads`,
+      table: 'job-ads-against-size',
+      sort: { k: 'post', dir: -1 },
+      chart: (
+        <Ranked id="q3-fam" rows={hot}>
+          {(pick) => (
+            <RankedBars
+              rows={pick.map((r) => ({
+                label: r.f,
+                value: r.idx,
+                color: r.idx >= 1 ? '--s3' : '--s2',
+                dec: 2,
+                big: [[fmt(r.jobs), 'Jobs today']],
+                extra: [
+                  ['Postings share', r.postSh.toFixed(1) + '%'],
+                  ['Jobs share', r.jobsSh.toFixed(1) + '%'],
+                ],
+              }))}
+              opts={{
+                dec: 2,
+                rule: 1,
+                ruleLabel: 'Parity',
+                valueLabel: 'Ads per job, vs its size',
+                aria: 'Postings alignment index',
+              }}
+            />
+          )}
+        </Ranked>
+      ),
+    },
+
+    observed: {
+      title: 'Which families grew, and which shrank, over the study window?',
+      note: observedSplit(fams),
+      cap: 'How employment actually changed between 2021 and 2025.',
+      src: 'Vermont occupation data · 2021 jobs against 2025 jobs',
+      table: 'change-since-2021',
+      sort: { k: 'chgPct', dir: -1 },
+      chart: (
+        <Ranked
+          id="q3-fam"
+          rows={fams.filter((r) => r.chgPct !== null).sort((a, b) => b.chgPct - a.chgPct)}
+        >
+          {(pick) => (
+            <RankedBars
+              rows={pick.map((r) => ({
+                label: r.f,
+                value: r.chgPct,
+                color: r.chgPct >= 0 ? '--s3' : '--s2',
+                mode: 'pct',
+                big: [[(r.chg >= 0 ? '+' : '') + fmt(r.chg), 'Jobs gained or lost']],
+                extra: [
+                  ['2021 jobs', fmt(r.jobs21)],
+                  ['2025 jobs', fmt(r.jobs)],
+                  ['Annual openings', fmt(r.open)],
+                ],
+              }))}
+              opts={{
+                mode: 'pct',
+                signed: true,
+                valueLabel: 'Change since 2021',
+                aria: 'Observed change 2021 to 2025 by family',
+              }}
+            />
+          )}
+        </Ranked>
+      ),
+    },
+
+    projected: {
+      title: 'Which families are projected to grow over the next five years?',
+      note: growthSplit(fams),
+      cap: 'Projected change in jobs over the next five years. Bars to the left are expected to shrink.',
+      src: 'Vermont occupation data · 2030 projection against 2025 jobs',
+      table: 'projected-growth',
+      sort: { k: 'g5pct', dir: -1 },
+      chart: (
+        <Ranked id="q3-fam" rows={growers}>
+          {(pick) => (
+            <RankedBars
+              rows={pick.map((r) => ({
+                label: r.f,
+                value: r.g5pct,
+                color: r.g5pct >= 0 ? '--s3' : '--s2',
+                mode: 'pct',
+                big: [[fmt(r.g5), 'Jobs projected to be added']],
+                extra: [
+                  ['2025 jobs', fmt(r.jobs)],
+                  ['Annual openings', fmt(r.open)],
+                ],
+              }))}
+              opts={{
+                mode: 'pct',
+                signed: true,
+                valueLabel: 'Growth by 2030',
+                aria: 'Projected five-year growth by family',
+              }}
+            />
+          )}
+        </Ranked>
+      ),
+    },
+  };
 
   return (
     <>
@@ -112,122 +234,31 @@ export default function Q3({ section }) {
           */
 
           {
-            id: 'postings-index',
-            label: 'Job ads against size',
+            id: 'hiring-and-growth',
+            label: 'Hiring and growth',
             render: () => (
-                <Panel
-                  title="Where do employers advertise more than their employment share would predict?"
-                  cap="A type of work's share of job ads against its share of jobs. Above 1.0 means employers are advertising more than its size alone would suggest — a sign of hiring pressure."
-                  src={`Job ads, ${LC.postWindow} · ${fmt(totPost)} unique ads`}
-                  data={{ cols: familyCols(), rows: fams, label: 'job-ads-against-size',
-                          initialSort: { k: 'post', dir: -1 }, unit: 'kinds of work' }}
-                >
-                  <Ranked id="q3-postings" rows={hot}>
-                    {(pick) => (
-                  <RankedBars
-                    rows={pick.map((r) => ({
-                      label: r.f,
-                      value: r.idx,
-                      color: r.idx >= 1 ? '--s3' : '--s2',
-                      dec: 2,
-                      extra: [
-                        ['Postings share', r.postSh.toFixed(1) + '%'],
-                        ['Jobs share', r.jobsSh.toFixed(1) + '%'],
-                        ['Jobs', fmt(r.jobs)],
-                      ],
-                    }))}
-                    opts={{
-                      dec: 2,
-                      rule: 1,
-                      ruleLabel: 'Parity',
-                      valueLabel: 'Ads per job, vs its size',
-                      aria: 'Postings alignment index',
-                    }}
-                  />
-                  )}
-                </Ranked>
-                </Panel>
-            ),
-          },
-          {
-            id: 'observed-change',
-            label: 'Observed change',
-            render: () => (
-                <Panel
-                  title="Which families grew, and which shrank, over the study window?"
-                  note={observedSplit(fams)}
-                  cap="How employment actually changed between 2021 and 2025."
-                  src="Vermont occupation data · 2021 jobs against 2025 jobs"
-                  data={{ cols: familyCols(), rows: fams, label: 'change-since-2021',
-                          initialSort: { k: 'chgPct', dir: -1 }, unit: 'kinds of work' }}
-                >
-                  <Ranked
-                    id="q3-observed"
-                    rows={fams.filter((r) => r.chgPct !== null).sort((a, b) => b.chgPct - a.chgPct)}
-                  >
-                    {(pick) => (
-                  <RankedBars
-                    rows={pick
-                      .map((r) => ({
-                        label: r.f,
-                        value: r.chgPct,
-                        color: r.chgPct >= 0 ? '--s3' : '--s2',
-                        mode: 'pct',
-                        extra: [
-                          ['2021 jobs', fmt(r.jobs21)],
-                          ['2025 jobs', fmt(r.jobs)],
-                          ['Change', (r.chg >= 0 ? '+' : '') + fmt(r.chg) + ' jobs'],
-                          ['Annual openings', fmt(r.open)],
-                        ],
-                      }))}
-                    opts={{
-                      mode: 'pct',
-                      signed: true,
-                      valueLabel: 'Change since 2021',
-                      aria: 'Observed change 2021 to 2025 by family',
-                    }}
-                  />
-                  )}
-                </Ranked>
-                </Panel>
-            ),
-          },
-          {
-            id: 'projected-growth',
-            label: 'Projected growth',
-            render: () => (
-                <Panel
-                  title="Which families are projected to grow over the next five years?"
-                  note={growthSplit(fams)}
-                  cap="Projected change in jobs over the next five years. Bars to the left are expected to shrink."
-                  src="Vermont occupation data · 2030 projection against 2025 jobs"
-                  data={{ cols: familyCols(), rows: fams, label: 'projected-growth',
-                          initialSort: { k: 'g5pct', dir: -1 }, unit: 'kinds of work' }}
-                >
-                  <Ranked id="q3-growth" rows={growers}>
-                    {(pick) => (
-                  <RankedBars
-                    rows={pick.map((r) => ({
-                      label: r.f,
-                      value: r.g5pct,
-                      color: r.g5pct >= 0 ? '--s3' : '--s2',
-                      mode: 'pct',
-                      extra: [
-                        ['2025 jobs', fmt(r.jobs)],
-                        ['Projected change', fmt(r.g5) + ' jobs'],
-                        ['Annual openings', fmt(r.open)],
-                      ],
-                    }))}
-                    opts={{
-                      mode: 'pct',
-                      signed: true,
-                      valueLabel: 'Growth by 2030',
-                      aria: 'Projected five-year growth by family',
-                    }}
-                  />
-                  )}
-                </Ranked>
-                </Panel>
+              <Picker id="q3-measure" label="Measure" options={DEMAND_MEASURES}>
+                {(m) => {
+                  const v = dem[m];
+                  return (
+                    <Panel
+                      title={v.title}
+                      note={v.note}
+                      cap={v.cap}
+                      src={v.src}
+                      data={{
+                        cols: familyCols(),
+                        rows: fams,
+                        label: v.table,
+                        initialSort: v.sort,
+                        unit: 'kinds of work',
+                      }}
+                    >
+                      {v.chart}
+                    </Panel>
+                  );
+                }}
+              </Picker>
             ),
           },
           // --- Hidden for now ---------------------------------------------

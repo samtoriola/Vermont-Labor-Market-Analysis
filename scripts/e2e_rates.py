@@ -19,6 +19,19 @@ for _ in range(60):
         urllib.request.urlopen(URL, timeout=3).read(); break
     except Exception: time.sleep(1)
 
+def pick(pg, section, measure=None):
+    """Open a sidebar section and, where the panel has a measure control, choose one.
+
+    Several sections that used to be a page each are now one panel behind a
+    measure chip, so a fixture has to say which measure it means.
+    """
+    pg.locator(".sbitem", has_text=section).first.click()
+    pg.wait_for_timeout(900)
+    if measure:
+        pg.locator(".rankctl .chips button", has_text=measure).first.click()
+        pg.wait_for_timeout(700)
+
+
 with sync_playwright() as pw:
     b = pw.chromium.launch()
     pg = b.new_context(viewport={"width": 1500, "height": 1050}).new_page()
@@ -27,8 +40,7 @@ with sync_playwright() as pw:
     pg.goto(URL, wait_until="networkidle")
     # The full occupation table used to be a sidebar destination of its own. It now
     # sits under the chart it belongs to, behind the "Show the figures" disclosure.
-    pg.locator(".sbitem", has_text="Median pay by size").first.click()
-    pg.wait_for_timeout(900)
+    pick(pg, "By occupation size", "Typical pay")
     tog = pg.locator(".datatoggle").first
     if "Show" in (tog.text_content() or ""):
         tog.click()
@@ -41,8 +53,7 @@ with sync_playwright() as pw:
 
     # Typical pay by family is a ranked bar chart; check it draws one bar per family
     # plus the three reference bars, and that every bar carries a money label.
-    pg.locator(".sbitem", has_text="Median pay").first.click()
-    pg.wait_for_timeout(1200)
+    pick(pg, "By type of work", "Typical pay")
     pg.locator(".rankctl .chips button", has_text="All").first.click()
     pg.wait_for_timeout(700)
     bars = pg.locator(".panel svg.chart g.bar").count()
@@ -60,8 +71,7 @@ with sync_playwright() as pw:
 
     # Typical pay by occupation size: three bands plus three reference bars, and the
     # green/amber split has to follow the living-wage benchmark the reader picks.
-    pg.locator(".sbitem", has_text="Median pay by size").first.click()
-    pg.wait_for_timeout(1200)
+    pick(pg, "By occupation size", "Typical pay")
 
     def fills_now():
         return pg.evaluate(
