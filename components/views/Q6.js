@@ -5,6 +5,7 @@ import { fmt, money } from '@/lib/format';
 import { awardCols } from '@/lib/tables';
 import { Callout, Panel, Ranked, Table, VHead, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
+import { Split, occDetail } from '../Detail';
 import { RankedBars } from '../charts';
 import DataTable from '../DataTable';
 import Sections from '../Sections';
@@ -44,6 +45,22 @@ export default function Q6({ lw, section }) {
         ],
       })
     );
+
+  // What the pane shows for a kind of work on this tab: the alignment figures
+  // first, because that is the question the chart asked.
+  const famDetail = (r) =>
+    occDetail({
+      label: 'Type of work',
+      title: r.f,
+      occ: occByFamily(r.f),
+      lwAnnual: LWA,
+      stats: [
+        [famShare(r) === null ? '—' : famShare(r).toFixed(1) + '%', 'Graduates vs openings'],
+        [fmt(r.open), 'Openings a year'],
+        [r.linked.toFixed(1), 'Graduates'],
+      ],
+      onMore: () => famDrill(r),
+    });
 
   // Both ends of the linked-completion ratio in one sortable table. `under` is the
   // lowest ratios among occupations paying above the living wage; `over` the highest
@@ -137,6 +154,8 @@ export default function Q6({ lw, section }) {
                     note: 'Click a row for the occupations behind it.',
                   }}
                 >
+                  <Split items={famAlign} keyOf={(r) => r.f} detail={famDetail}>
+                    {(select, active, width) => (
                   <Ranked id="q6-align" rows={famAlign}>
                     {(pick) => (
                       <RankedBars
@@ -149,7 +168,8 @@ export default function Q6({ lw, section }) {
                           // than the share, so this counts the same families the
                           // read-out under the chart does.
                           color: r.linked > 0 ? '--s1' : '--ink-3',
-                          onClick: () => famDrill(r),
+                          onClick: () => select(r.f),
+                          active: active === r.f,
                           extra: [
                             ['Openings a year', fmt(r.open)],
                             ['Graduates attributed', r.linked.toFixed(1)],
@@ -159,12 +179,16 @@ export default function Q6({ lw, section }) {
                         opts={{
                           mode: 'pct',
                           labelWidth: 236,
+                          width,
                           valueLabel: 'Graduates as % of openings',
+                          clickHint: 'Click for the occupations inside it',
                           aria: 'Graduates as a share of openings by type of work',
                         }}
                       />
                     )}
                   </Ranked>
+                    )}
+                  </Split>
                 </Panel>
             ),
           },

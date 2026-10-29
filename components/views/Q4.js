@@ -8,6 +8,7 @@ import { fmt, money } from '@/lib/format';
 import { bandCols, peopleCols } from '@/lib/tables';
 import { Callout, Panel, Table, VHead, LwPicker, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
+import { Split, occDetail } from '../Detail';
 import { occCols } from '../occCols';
 import { RankedBars } from '../charts';
 import Sections from '../Sections';
@@ -40,6 +41,21 @@ export default function Q4({ lw, setLw, section }) {
   LC.tiers.forEach((r) => {
     t[r.t] = r;
   });
+  // What the pane shows for a credential tier.
+  const tierDetail = (r) =>
+    occDetail({
+      label: 'Entry credential',
+      title: r.t,
+      occ: occByTier(r.t),
+      lwAnnual: LWA,
+      stats: [
+        [fmt(r.jobs), 'Jobs today'],
+        [r.share.toFixed(1) + '%', 'Of all VT jobs'],
+        [r.med ? money(r.med) : '—', 'Typical pay'],
+      ],
+      onMore: () => tierDrill(r.t),
+    });
+
   const sub = t['Sub-baccalaureate'];
   const ba = t["Bachelor's"];
   const grad = t['Graduate / professional'];
@@ -56,7 +72,7 @@ export default function Q4({ lw, setLw, section }) {
         label: r.t,
         value: r.med,
         color: r.med >= LWA ? '--s3' : '--s2',
-        onClick: () => tierDrill(r.t),
+        big: [[fmt(r.jobs), 'Jobs today']],
         extra: [
           ['Times the living wage', (r.med / LWA).toFixed(2) + '×'],
           ['Middle half pays', bx.p25 && bx.p75 ? money(bx.p25) + ' to ' + money(bx.p75) : '—'],
@@ -182,17 +198,27 @@ export default function Q4({ lw, setLw, section }) {
                             initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
                             note: 'Every priced Vermont occupation — the dots in the chart above.' }}
                 >
+                  <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
+                    {(select, active, width) => (
                   <RankedBars
-                    rows={tierBars}
+                    rows={tierBars.map((b) => ({
+                      ...b,
+                      onClick: () => select(b.label),
+                      active: active === b.label,
+                    }))}
                     opts={{
                       money: true,
+                      width,
                       rule: LWA,
                       ruleLabel: 'Living wage',
                       valueLabel: 'Typical pay',
                       labelWidth: 236,
+                      clickHint: 'Click for the occupations at this level',
                       aria: 'Typical pay by entry credential',
                     }}
                   />
+                    )}
+                  </Split>
                 </Panel>
               </>
             ),
@@ -241,6 +267,8 @@ export default function Q4({ lw, setLw, section }) {
                     data={{ cols: bandCols(LWA, 't', 'Entry credential'), rows: LC.tiers, label: 'above-the-living-wage',
                             initialSort: { k: 'jobs', dir: -1 }, unit: 'credentials' }}
                 >
+                  <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
+                    {(select, active, width) => (
                   <RankedBars
                     rows={TIER_ORDER.map((k, i) => {
                       const r = t[k];
@@ -249,9 +277,12 @@ export default function Q4({ lw, setLw, section }) {
                         value: r.above[lw],
                         color: SERIES[i],
                         mode: 'pct',
+                        onClick: () => select(r.t),
+                        active: active === r.t,
+                        big: [[fmt(r.jobs), 'Jobs today']],
                         extra: [
-                          ['Jobs', fmt(r.jobs)],
                           ['Median earnings', money(r.med)],
+                          ['Occupations', fmt(r.nocc)],
                         ],
                       };
                     })}
@@ -259,10 +290,14 @@ export default function Q4({ lw, setLw, section }) {
                       mode: 'pct',
                       labelWidth: 176,
                       max: 100,
+                      width,
                       valueLabel: 'Above living wage',
+                      clickHint: 'Click for the occupations at this level',
                       aria: 'Living-wage share by credential tier',
                     }}
                   />
+                    )}
+                  </Split>
                 </Panel>
               </>
             ),

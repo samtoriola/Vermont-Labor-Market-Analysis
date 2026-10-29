@@ -125,21 +125,37 @@ with sync_playwright() as pw:
     print(f"  carries the spread: {all(w in txt for w in ('Middle half pays', 'Lowest-paid tenth'))}")
 
     print("")
-    print("--- clicking a bar opens the drill-down ---")
+    print("--- clicking a bar opens the detail beside it ---")
     open_section(pg, "pathways", "What the job requires")
     pg.locator(".view svg.chart g.bar").first.click()
     pg.wait_for_timeout(700)
-    dr = pg.locator(".drill")
-    print(f"  drill open: {dr.count() > 0}")
-    if dr.count():
-        print(f"  title: {dr.locator('h3').inner_text()!r}")
-        print(f"  rows: {dr.locator('tbody tr').count()}")
-        print(f"  has search + filter: "
-              f"{dr.locator('.dtsearch').count() > 0 and dr.locator('.dtfilter select').count() > 0}")
+    pane = pg.locator(".detail")
+    print(f"  pane open: {pane.count() > 0}")
+    if pane.count():
+        print(f"  title: {pane.locator('h4').inner_text()!r}")
+        print(f"  occupations shown: {pane.locator('.minitable tbody tr').count()}")
     else:
-        errs.append("clicking a bar did not open the drill-down")
-    pg.keyboard.press("Escape")
-    pg.wait_for_timeout(300)
+        errs.append("clicking a bar did not open the detail pane")
+
+    print("")
+    print("--- and the whole table is still one click further on ---")
+    more = pg.locator(".detail .morelink")
+    if not more.count():
+        errs.append("detail pane has no way through to the full table")
+    else:
+        more.click()
+        pg.wait_for_timeout(700)
+        dr = pg.locator(".drill")
+        print(f"  drill open: {dr.count() > 0}")
+        if dr.count():
+            print(f"  title: {dr.locator('h3').inner_text()!r}")
+            print(f"  rows: {dr.locator('tbody tr').count()}")
+            print(f"  has search + filter: "
+                  f"{dr.locator('.dtsearch').count() > 0 and dr.locator('.dtfilter select').count() > 0}")
+        else:
+            errs.append("the detail pane did not open the full table")
+        pg.keyboard.press("Escape")
+        pg.wait_for_timeout(300)
 
     for t, sec, name in [("wage", "Mean against median", "ladder"),
                          ("wage", "Size against pay", "scatter")]:

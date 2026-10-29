@@ -7,6 +7,7 @@ import {
 import { fmt, money } from '@/lib/format';
 import { familyCols, sectorCols } from '@/lib/tables';
 import { Panel, Legend, Ranked, VHead, DrillHint } from '../ui';
+import { Split, occDetail } from '../Detail';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, StackedRows } from '../charts';
 import Sections from '../Sections';
@@ -38,13 +39,11 @@ export default function Q1({ lw, section }) {
       label: r.f,
       value: r.med,
       color: r.med >= LWA ? '--s3' : '--s2',
-      onClick: () => famDrill(r),
+      big: [[fmt(r.jobs), 'Jobs today']],
       extra: [
         ['Times the living wage', (r.med / LWA).toFixed(2) + '×'],
         ['Lowest-paid tenth', r.box && r.box.p10 ? money(r.box.p10) : '—'],
         ['Highest-paid tenth', r.box && r.box.p90 ? money(r.box.p90) : '—'],
-        ['Jobs', fmt(r.jobs)],
-        ['Openings a year', fmt(r.open)],
         ['Occupations', fmt(r.nocc)],
       ],
     }))
@@ -65,6 +64,22 @@ export default function Q1({ lw, section }) {
         ['Basis', a.sub],
       ],
     }));
+
+  // What the pane shows for a family: the headline figures, then the largest
+  // occupations inside it, then a way through to the whole table.
+  const famDetail = (r) =>
+    occDetail({
+      label: 'Type of work',
+      title: r.f,
+      occ: occByFamily(r.f),
+      lwAnnual: LWA,
+      stats: [
+        [fmt(r.jobs), 'Jobs today'],
+        [((r.jobs / TOTJ) * 100).toFixed(1) + '%', 'Of all VT jobs'],
+        [r.med ? money(r.med) : '—', 'Typical pay'],
+      ],
+      onMore: () => famDrill(r),
+    });
 
   const credRows = fams
     .map((r) => {
@@ -146,14 +161,16 @@ export default function Q1({ lw, section }) {
               <Panel
                 title="Which occupational families employ the most Vermonters?"
                 note={familyConcentration(fams, TOTJ)}
-                cap={`Each family's share of the state's ${fmt(TOTJ)} jobs. Hover for the count, pay, openings and change since 2021.`}
+                cap={`Each family's share of the state's ${fmt(TOTJ)} jobs.`}
                 src={`Vermont occupation data, 2025 · 22 occupational groups · ${fmt(TOTJ)} jobs`}
                 data={{ cols: familyCols(LWA), rows: fams, label: 'jobs-by-type-of-work',
                         initialSort: { k: 'jobs', dir: -1 }, onRowClick: famDrill,
                         unit: 'kinds of work',
                         note: 'Click a row for the occupations behind it.' }}
               >
-                <DrillHint />
+                <DrillHint>Click any bar to open the occupations inside it beside the chart.</DrillHint>
+                <Split items={fams} keyOf={(r) => r.f} detail={famDetail}>
+                  {(select, active, width) => (
                 <Ranked id="q1-jobs" rows={fams}>
                   {(pick) => (
                 <RankedBars
@@ -161,25 +178,28 @@ export default function Q1({ lw, section }) {
                     label: r.f,
                     value: (r.jobs / TOTJ) * 100,
                     color: '--s1',
-                    onClick: () => famDrill(r),
+                    onClick: () => select(r.f),
+                    active: active === r.f,
+                    big: [[fmt(r.jobs), 'Jobs today']],
                     extra: [
-                      ['Jobs', fmt(r.jobs)],
                       ['Median earnings', r.med ? money(r.med) : '—'],
-                      ['Employment concentration', r.lq !== null ? r.lq + '× US' : '—'],
                       ['Change 2021–2025', (r.chg >= 0 ? '+' : '') + fmt(r.chg) + ` (${r.chgPct}%)`],
                       ['Annual openings', fmt(r.open)],
-                      ['Unique postings, 5 yr', fmt(r.post)],
                       ['Detailed occupations', fmt(r.nocc)],
                     ],
                   }))}
                   opts={{
                     mode: 'pct',
+                    width,
                     valueLabel: 'Share of all jobs',
+                    clickHint: 'Click for the occupations inside it',
                     aria: 'Share of Vermont jobs by occupational family',
                   }}
                 />
                   )}
                 </Ranked>
+                  )}
+                </Split>
               </Panel>
             ),
           },
@@ -197,20 +217,32 @@ export default function Q1({ lw, section }) {
                         unit: 'kinds of work',
                         note: 'Click a row for the occupations behind it.' }}
               >
+                <Split items={fams} keyOf={(r) => r.f} detail={famDetail}>
+                  {(select, active, width) => (
                 <Ranked id="q1-pay" rows={payBars}>
                   {(pick) => (
                 <RankedBars
-                  rows={pick.concat(famRefs)}
+                  rows={pick
+                    .map((b) => ({
+                      ...b,
+                      onClick: () => select(b.label),
+                      active: active === b.label,
+                    }))
+                    .concat(famRefs)}
                   opts={{
                     money: true,
+                    width,
                     rule: LWA,
                     ruleLabel: 'Living wage',
                     valueLabel: 'Typical pay',
+                    clickHint: 'Click for the occupations inside it',
                     aria: 'Typical pay by occupational family',
                   }}
                 />
                   )}
                 </Ranked>
+                  )}
+                </Split>
               </Panel>
             ),
           },

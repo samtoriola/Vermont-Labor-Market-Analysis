@@ -657,6 +657,17 @@ section.view {
   opacity: 1;
 }
 
+/* A mark is focusable so the keyboard can reach it, which means a mouse click
+   also focuses it and the browser draws its own heavy ring. Dropped here, and
+   given back below for the keyboard, where it is the only way to see where you
+   are. Only noticeable since a clicked bar stays on screen with its detail. */
+.chart g:focus,
+.chart circle:focus,
+.chart rect:focus,
+.chart path:focus {
+  outline: none;
+}
+
 .chart g:focus-visible,
 .chart circle:focus-visible,
 .chart rect:focus-visible,
@@ -1716,4 +1727,228 @@ thead th[aria-sort='descending'] {
 thead th[aria-sort='ascending'] .sortmark,
 thead th[aria-sort='descending'] .sortmark {
   opacity: 1;
+}
+
+/* ---------- chart and detail, side by side ---------- */
+/* A chart gives up part of its width only once a bar is chosen, so a reader who
+   wants the ranking alone never pays for a pane they did not ask for. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.split.open {
+  grid-template-columns: minmax(0, 1fr) 420px;
+}
+
+/* Below this the two would be too narrow to read, so the pane goes under the
+   chart instead of beside it. */
+@media (max-width: 1080px) {
+  .split.open {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.split-chart {
+  min-width: 0;
+}
+
+.detail {
+  background: var(--panel-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 16px 15px;
+  /* Follows the reader down a 22-row chart rather than scrolling off the top. */
+  position: sticky;
+  top: 150px;
+}
+
+.detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.detail-head .dlabel {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.detail-head h4 {
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.dxclose {
+  flex: none;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  color: var(--ink-2);
+  border-radius: 4px;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.dxclose:hover {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.detail-stats .dv {
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.detail-stats .dk {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+
+.detail-note {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  margin: 10px 0 2px;
+}
+
+.minitable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: var(--t-sm);
+}
+
+/* Occupation names run long. Fixed columns let the name wrap inside the pane
+   rather than push the two figures out of it. */
+.minitable th:first-child,
+.minitable td:first-child {
+  width: 52%;
+  /* Tables here set nowrap, which is right for a wide scrolling table and wrong
+     inside a 420px pane: the name has to wrap or it runs over the figures. */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding-right: 8px;
+}
+
+.minitable th {
+  text-align: left;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-3);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.minitable th.num,
+.minitable td.num {
+  text-align: right;
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding-left: 8px;
+}
+
+/* The pane is its own scroll container, not a sticky-header table. */
+.minitable thead th {
+  position: static;
+  background: none;
+}
+
+.minitable td {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+  line-height: 1.3;
+  vertical-align: top;
+}
+
+.minitable tr:last-child td {
+  border-bottom: 0;
+}
+
+.morelink {
+  margin-top: 11px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: var(--t-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.morelink:hover {
+  text-decoration: underline;
+}
+
+/* The chosen bar's label and value, against the faded rest. */
+.clab.on,
+.vlab.on {
+  font-weight: 600;
+}
+
+/* ---------- tooltip: headline, rows, hint ---------- */
+.tsub {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin: -2px 0 6px;
+}
+
+.tbig {
+  margin-bottom: 7px;
+}
+
+.tbig .bv {
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.tbig .bn {
+  font-size: 11px;
+  color: var(--ink-3);
+  line-height: 1.3;
+}
+
+.trows.ruled {
+  border-top: 1px solid var(--rule);
+  padding-top: 6px;
+  margin-top: 1px;
+}
+
+.tfoot {
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid var(--rule);
+  font-size: 10.5px;
+  color: var(--accent);
 }

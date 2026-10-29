@@ -10,8 +10,8 @@ import { shortLabel } from '@/lib/labels';
  * Wraps an SVG group so the tooltip hook runs once per mark instance.
  * Calling useTipHandlers directly inside a .map() would break the rules of hooks.
  */
-function TipMark({ title, rows, className, onClick, children }) {
-  const h = useTipHandlers(title, rows);
+function TipMark({ title, rows, meta, className, onClick, children }) {
+  const h = useTipHandlers(title, rows, meta);
   const clickable = typeof onClick === 'function';
   return (
     <g
@@ -52,6 +52,10 @@ export function RankedBars({ rows, opts = {} }) {
   const h = padT + rows.length * (rowH + gap) + 4;
   const plotW = w - labW - padR;
   const signed = !!opts.signed;
+
+  // A chart with a bar chosen fades the rest, so the pane beside it and the bar it
+  // belongs to read as one thing. Nothing chosen, nothing faded.
+  const hasSel = rows.some((r) => r.active);
 
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.value)));
   // Round the axis to four round steps rather than to one round top. niceMax alone
@@ -136,27 +140,50 @@ export function RankedBars({ rows, opts = {} }) {
           dec: r.dec !== undefined ? r.dec : opts.dec,
           signed,
         });
-        const trows = [[opts.valueLabel || 'Value', shown], ...(r.extra || [])];
+        // The measure the bar is, as the card's headline; everything else stays a
+        // row underneath it.
+        const meta = {
+          sub: opts.tipSub,
+          big: [[shown, opts.valueLabel || 'Value'], ...(r.big || [])],
+          foot: r.onClick ? opts.clickHint || 'Click for the detail' : undefined,
+        };
+        const dim = hasSel && !r.active;
 
         return (
           <g key={r.label + i}>
             <text
               x={labW - 11}
               y={y + rowH / 2 + 4}
-              className="clab"
+              className={r.active ? 'clab on' : 'clab'}
               textAnchor="end"
               fontSize={12}
+              opacity={dim ? 0.55 : 1}
             >
               {trunc(shortLabel(r.label), Math.floor(labW / 6.4))}
             </text>
-            <TipMark title={r.label} rows={trows} className="bar" onClick={r.onClick}>
-              <rect x={bx} y={y} width={bw} height={rowH} rx={4} fill={V(r.color || '--s1')} />
+            <TipMark
+              title={r.label}
+              rows={r.extra || []}
+              meta={meta}
+              className="bar"
+              onClick={r.onClick}
+            >
+              <rect
+                x={bx}
+                y={y}
+                width={bw}
+                height={rowH}
+                rx={4}
+                fill={V(r.color || '--s1')}
+                fillOpacity={dim ? 0.32 : 1}
+              />
               <text
                 x={v < 0 ? bx - 9 : bx + bw + 9}
                 y={y + rowH / 2 + 4}
-                className="vlab"
+                className={r.active ? 'vlab on' : 'vlab'}
                 textAnchor={v < 0 ? 'end' : 'start'}
                 fontSize={11.5}
+                opacity={dim ? 0.5 : 1}
               >
                 {shown}
               </text>

@@ -9,19 +9,26 @@ export function useTip() {
 }
 
 /**
- * Hover/focus tooltip shared by every chart. Charts call show(event, title, rows)
- * where rows is an array of [label, value] pairs.
+ * Hover/focus tooltip shared by every chart.
+ *
+ * show(event, title, rows, meta) where rows is an array of [label, value] pairs and
+ * meta is optional: { sub, big: [[value, note]], foot }.
+ *
+ * `big` is the card's headline -- the measure the mark is, set large with a line of
+ * plain English under it, rather than as one more row in a list where it reads as no
+ * more important than the turnover rate. `foot` says what a click does, which is the
+ * only way a reader learns a bar is clickable before clicking it.
  */
 export function TooltipProvider({ children }) {
   const [tip, setTip] = useState(null);
   const raf = useRef(0);
 
-  const show = useCallback((e, title, rows) => {
+  const show = useCallback((e, title, rows, meta) => {
     const cx = e.clientX;
     const cy = e.clientY;
     cancelAnimationFrame(raf.current);
     raf.current = requestAnimationFrame(() => {
-      setTip({ title, rows: rows || [], cx, cy });
+      setTip({ title, rows: rows || [], meta: meta || {}, cx, cy });
     });
   }, []);
 
@@ -30,11 +37,16 @@ export function TooltipProvider({ children }) {
     setTip(null);
   }, []);
 
+  const meta = tip ? tip.meta : {};
+  const big = meta.big || [];
+
   let style = { opacity: 0 };
   if (tip) {
     const pad = 14;
-    const w = 268;
-    const h = 34 + tip.rows.length * 19;
+    const w = 272;
+    // Rough, and only used to decide which side of the cursor the card sits on.
+    const h =
+      30 + (meta.sub ? 16 : 0) + big.length * 40 + tip.rows.length * 19 + (meta.foot ? 24 : 0);
     let x = tip.cx + pad;
     let y = tip.cy + pad;
     if (typeof window !== 'undefined') {
@@ -51,12 +63,24 @@ export function TooltipProvider({ children }) {
         {tip ? (
           <>
             <div className="tt">{tip.title}</div>
-            {tip.rows.map((r, i) => (
-              <div className="tr" key={i}>
-                <span>{r[0]}</span>
-                <b>{r[1]}</b>
+            {meta.sub ? <div className="tsub">{meta.sub}</div> : null}
+            {big.map((b, i) => (
+              <div className="tbig" key={i}>
+                <div className="bv">{b[0]}</div>
+                {b[1] ? <div className="bn">{b[1]}</div> : null}
               </div>
             ))}
+            {tip.rows.length ? (
+              <div className={big.length ? 'trows ruled' : 'trows'}>
+                {tip.rows.map((r, i) => (
+                  <div className="tr" key={i}>
+                    <span>{r[0]}</span>
+                    <b>{r[1]}</b>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {meta.foot ? <div className="tfoot">{meta.foot}</div> : null}
           </>
         ) : null}
       </div>
@@ -68,15 +92,15 @@ export function TooltipProvider({ children }) {
  * Wraps an SVG mark so it responds to hover and keyboard focus identically.
  * Spread the result onto an <g>, <rect> or <circle>.
  */
-export function useTipHandlers(title, rows) {
+export function useTipHandlers(title, rows, meta) {
   const { show, hide } = useTip();
   return {
     tabIndex: 0,
-    onMouseMove: (e) => show(e, title, rows),
+    onMouseMove: (e) => show(e, title, rows, meta),
     onMouseLeave: hide,
     onFocus: (e) => {
       const b = e.currentTarget.getBoundingClientRect();
-      show({ clientX: b.left + b.width / 2, clientY: b.top + b.height }, title, rows);
+      show({ clientX: b.left + b.width / 2, clientY: b.top + b.height }, title, rows, meta);
     },
     onBlur: hide,
   };

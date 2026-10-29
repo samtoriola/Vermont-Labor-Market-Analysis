@@ -9,6 +9,7 @@ import { Panel, Ranked, VHead, LwPicker } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
+import { Split, occDetail } from '../Detail';
 import { occCols } from '../occCols';
 import { bandCols, ladderCols, peopleCols } from '@/lib/tables';
 import { RankedBars, Scatter } from '../charts';
@@ -33,6 +34,21 @@ export default function Q2({ lw, setLw, section }) {
       })
     );
   const sz = LC.sizeTiers;
+
+  // What the pane shows for a size band.
+  const sizeDetail = (r) =>
+    occDetail({
+      label: 'Occupation size',
+      title: r.s,
+      occ: occBySize(r.s),
+      lwAnnual: LWA,
+      stats: [
+        [fmt(r.jobs), 'Jobs today'],
+        [r.share + '%', 'Of all VT jobs'],
+        [r.med ? money(r.med) : '—', 'Typical pay'],
+      ],
+      onMore: () => sizeDrill(r.s),
+    });
   const [big, mid, small] = sz;
   const top = LC.topOcc.slice(0, 25);
   const topPool = LC.topOcc;
@@ -48,14 +64,13 @@ export default function Q2({ lw, setLw, section }) {
         label: r.s,
         value: r.med,
         color: r.med >= LWA ? '--s3' : '--s2',
-        onClick: () => sizeDrill(r.s),
+        big: [[fmt(r.jobs), 'Jobs today']],
         extra: [
           ['Times the living wage', (r.med / LWA).toFixed(2) + '×'],
           ['Middle half pays', bx.p25 && bx.p75 ? money(bx.p25) + ' to ' + money(bx.p75) : '—'],
           ['Lowest-paid tenth', bx.p10 ? money(bx.p10) : '—'],
           ['Highest-paid tenth', bx.p90 ? money(bx.p90) : '—'],
           ['Occupations', fmt(r.nocc)],
-          ['Jobs', fmt(r.jobs)],
         ],
       };
     })
@@ -151,16 +166,19 @@ export default function Q2({ lw, setLw, section }) {
                   data={{ cols: bandCols(LWA), rows: sz, label: 'wage-quality-by-size',
                           initialSort: { k: 'jobs', dir: -1 }, unit: 'size bands' }}
                 >
+                  <Split items={sz} keyOf={(r) => r.s} detail={sizeDetail}>
+                    {(select, active, width) => (
                   <RankedBars
                     rows={sz.map((r) => ({
                       label: r.s,
                       value: r.above[lw],
                       color: '--s1',
                       mode: 'pct',
-                      onClick: () => sizeDrill(r.s),
+                      onClick: () => select(r.s),
+                      active: active === r.s,
+                      big: [[fmt(r.jobs), 'Jobs today']],
                       extra: [
                         ['Occupations', fmt(r.nocc)],
-                        ['Jobs', fmt(r.jobs)],
                         ['Share of employment', r.share + '%'],
                         ['Median earnings', money(r.med)],
                         ['Annual openings', fmt(r.open)],
@@ -169,10 +187,14 @@ export default function Q2({ lw, setLw, section }) {
                     opts={{
                       mode: 'pct',
                       labelWidth: 196,
+                      width,
                       valueLabel: 'Above living wage',
+                      clickHint: 'Click for the occupations in this band',
                       aria: 'Wage quality by size tier',
                     }}
                   />
+                    )}
+                  </Split>
                 </Panel>
               </>
             ),
@@ -192,17 +214,29 @@ export default function Q2({ lw, setLw, section }) {
                           initialSort: { k: 'j', dir: -1 }, unit: 'occupations',
                           note: 'Every priced Vermont occupation — the dots in the chart above.' }}
                 >
+                  <Split items={sz} keyOf={(r) => r.s} detail={sizeDetail}>
+                    {(select, active, width) => (
                   <RankedBars
-                    rows={szBars.concat(areaRefs)}
+                    rows={szBars
+                      .map((b) => ({
+                        ...b,
+                        onClick: () => select(b.label),
+                        active: active === b.label,
+                      }))
+                      .concat(areaRefs)}
                     opts={{
                       money: true,
+                      width,
                       rule: LWA,
                       ruleLabel: 'Living wage',
                       valueLabel: 'Typical pay',
                       labelWidth: 236,
+                      clickHint: 'Click for the occupations in this band',
                       aria: 'Typical pay by occupation size band and by area',
                     }}
                   />
+                    )}
+                  </Split>
                 </Panel>
               </>
             ),
