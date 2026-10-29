@@ -244,7 +244,7 @@ export default function Q2({ lw, setLw, section }) {
                 <Panel
                   title="Which 25 occupations employ the most Vermonters?"
                   note={topOccShare(top, TOTJ, LC.allOcc.length)}
-                  cap="Ranked by how many people they employ. Green clears the living wage at the typical job, amber does not."
+                  cap="Each occupation's share of the state's jobs, largest first. Green clears the living wage at the typical job, amber does not. Hover for the count."
                   src="Vermont occupation data, 2025 · hover for the occupation code, earnings, entry credential and demand"
                   data={{ cols: occCols(LWA), rows: topPool, label: 'largest-occupations',
                           initialSort: { k: 'j', dir: -1 }, unit: 'occupations' }}
@@ -255,19 +255,26 @@ export default function Q2({ lw, setLw, section }) {
                     rows={pick.map((r) => ({
                       // Full name: the chart shortens and, if it still has to, truncates.
                       label: r.n,
-                      value: r.j,
+                      value: (r.j / TOTJ) * 100,
                       color: r.m && r.m >= LWA ? '--s3' : '--s2',
                       extra: [
-                        ['SOC', r.soc],
+                        ['Jobs', fmt(r.j)],
+                        ['Occupation code', r.soc],
                         ['Median earnings', r.m ? money(r.m) : '—'],
-                        ['vs living wage', r.m ? (r.m / LWA).toFixed(2) + '×' : '—'],
-                        ['Typical entry education', r.e],
-                        ['Annual openings', fmt(r.o)],
-                        ['Unique postings, 5 yr', fmt(r.p)],
-                        ['5-yr projected growth', r.g !== null ? r.g + '%' : '—'],
+                        ['Times the living wage', r.m ? (r.m / LWA).toFixed(2) + '×' : '—'],
+                        ['Entry credential', r.e],
+                        ['Openings a year', fmt(r.o)],
+                        ['Job ads, 5 yr', fmt(r.p)],
+                        ['Projected by 2030', r.g !== null ? r.g + '%' : '—'],
                       ],
                     }))}
-                    opts={{ labelWidth: 262, aria: '25 largest occupations by employment' }}
+                    opts={{
+                      mode: 'pct',
+                      dec: 2,
+                      labelWidth: 262,
+                      valueLabel: 'Share of all jobs',
+                      aria: 'Share of Vermont jobs in the largest occupations',
+                    }}
                   />
                     )}
                   </Ranked>

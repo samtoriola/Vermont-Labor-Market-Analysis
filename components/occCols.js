@@ -1,6 +1,7 @@
 'use client';
 
 import { fmt, money } from '@/lib/format';
+import { TOTJ } from '@/lib/data';
 
 /**
  * Column spec for occupation tables, shared by the master view and the drill-down
@@ -13,6 +14,8 @@ export function occCols(lwAnnual) {
   return [
     { k: 'n', label: 'Occupation', kind: 'text', get: (o) => o.n },
     { k: 'j', label: 'Jobs today', kind: 'num', get: (o) => o.j },
+    // The charts draw the share, so the table carries it beside the count.
+    { k: 'share', label: 'Share of all jobs', kind: 'rate', get: (o) => (o.j / TOTJ) * 100 },
     { k: 'chgPct', label: 'Change since 2021', kind: 'pct', get: (o) => o.chgPct },
     { k: 'g', label: 'Projected by 2030', kind: 'pct', get: (o) => o.g },
     { k: 'm', label: 'Typical pay', kind: 'money', get: (o) => o.m },
