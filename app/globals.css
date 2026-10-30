@@ -1207,6 +1207,26 @@ td.num {
 
 /* Top / bottom selector above a long ranked chart. Borrows the chip styling the
    screen criteria already use, so the two read as the same kind of control. */
+/* Two chip rows that decide one thing between them -- which measure, and how
+   much of the ranking. Side by side while they fit, stacked when they do not. */
+.ctlbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 30px;
+  margin: 0 0 14px;
+}
+
+.ctlbar .rankctl {
+  margin: 0;
+}
+
+/* The first label keeps the 190px gutter, so it lines up with the chart's own
+   row labels below it. A second one would only open a gap before its chips. */
+.ctlbar .rankctl + .rankctl .sclab {
+  min-width: 0;
+}
+
 .rankctl {
   display: flex;
   align-items: center;

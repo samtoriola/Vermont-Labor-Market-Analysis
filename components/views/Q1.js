@@ -7,14 +7,14 @@ import {
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { familyCols, sectorCols, industryCols } from '@/lib/tables';
-import { Panel, Legend, Picker, Ranked, RampLegend, VHead, DrillHint } from '../ui';
+import { Panel, Legend, Picker, Ranked, RampLegend, Scope, VHead, DrillHint } from '../ui';
 import { Split, occDetail, industryDetail } from '../Detail';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, StackedRows } from '../charts';
 import { BubbleChart } from '../bubbles';
 import Sections from '../Sections';
 import {
-  credentialSpread, familyConcentration, oldestWorkforce, topConcentration, vsNation,
+  credentialSpread, familyConcentration, oldestWorkforce, sliceAge, sliceShare, vsNation,
 } from '@/lib/insight';
 
 const SECTOR_MEASURES = [
@@ -170,10 +170,69 @@ export default function Q1({ lw, section }) {
     .filter((x) => x.a)
     .sort((x, y) => y.a.o55 - x.a.o55);
 
-  const sector = {
-    jobs: {
+  const secPool = { jobs: LC.sectors, age: secAge };
+
+  /**
+   * The sector panel, built from the measure and the rows actually on screen.
+   *
+   * An object literal would have been enough while the read-out was a constant.
+   * It is not one any more: "all 21 sectors", "the 11 largest" and "the 10
+   * smallest" are three different claims about three different sets of numbers,
+   * and the line under the chart has to be the one that matches what the reader
+   * chose. So the panel is built per render from `pick`.
+   */
+  const sector = (m, pick) => {
+    if (m === 'age') {
+      return {
+        title: 'How old is the workforce in each industry?',
+        note: sliceAge(pick, secAge, {
+          unit: 'sectors',
+          name: (x) => x.row.s,
+          age: (x) => x.a,
+        }),
+        cap: 'The age mix of each sector, oldest first. The figure on the right is the share aged 55 and over \u2014 the work most likely to need replacing within a decade.',
+        src: 'Vermont industry data, 2025 \u00b7 eight reported age bands rolled up to three',
+        table: 'industries',
+        sort: { k: 'o55', dir: -1 },
+        chart: (
+          <>
+            <Legend labels={AGE_LABELS} colors={AGE_COLORS} />
+            <Split items={LC.sectors} keyOf={(r) => r.s} detail={indDetail}>
+              {(select, active, width) => (
+                <StackedRows
+                  rows={pick.map((x) => ({
+                    label: x.row.s,
+                    parts: x.a.parts,
+                    total: x.a.total,
+                    hi: x.a.o55,
+                    onClick: () => select(x.row.s),
+                    active: active === x.row.s,
+                  }))}
+                  opts={{
+                    labelWidth: 236,
+                    width,
+                    colors: AGE_COLORS,
+                    tierNames: AGE_LABELS,
+                    shareLabel: 'Share of this sector',
+                    rightLabel: '55+',
+                    clickHint: 'Click for the industries inside it',
+                    aria: 'Age mix by industry sector',
+                  }}
+                />
+              )}
+            </Split>
+          </>
+        ),
+      };
+    }
+
+    return {
       title: 'Which industries employ Vermonters?',
-      note: topConcentration(LC.sectors, TOTJ),
+      note: sliceShare(pick, LC.sectors, TOTJ, {
+        unit: 'sectors',
+        value: (r) => r.j,
+        name: (r) => r.s,
+      }),
       cap: `Each industry's share of the state's ${fmt(TOTJ)} jobs.`,
       src: 'Vermont industry data, 2025 \u00b7 757 detailed industries with Vermont jobs, rolled up to sector',
       table: 'industries',
@@ -183,79 +242,33 @@ export default function Q1({ lw, section }) {
           <DrillHint>Click any bar to open the industries inside it beside the chart.</DrillHint>
           <Split items={LC.sectors} keyOf={(r) => r.s} detail={indDetail}>
             {(select, active, width) => (
-              <Ranked id="q1-sectors" rows={LC.sectors}>
-                {(pick) => (
-                  <RankedBars
-                    rows={pick.map((r) => ({
-                      label: r.s,
-                      value: r.share,
-                      color: '--s3',
-                      onClick: () => select(r.s),
-                      active: active === r.s,
-                      big: [[fmt(r.j), 'Jobs']],
-                      extra: [
-                        ['Avg. earnings per job', r.earn ? money(r.earn) : '\u2014'],
-                        ['Industries in this sector', fmt(r.nnaics)],
-                      ],
-                    }))}
-                    opts={{
-                      mode: 'pct',
-                      labelWidth: 236,
-                      width,
-                      valueLabel: 'Share of all jobs',
-                      clickHint: 'Click for the industries inside it',
-                      aria: 'Share of Vermont jobs by industry sector',
-                    }}
-                  />
-                )}
-              </Ranked>
+              <RankedBars
+                rows={pick.map((r) => ({
+                  label: r.s,
+                  value: r.share,
+                  color: '--s3',
+                  onClick: () => select(r.s),
+                  active: active === r.s,
+                  big: [[fmt(r.j), 'Jobs']],
+                  extra: [
+                    ['Avg. earnings per job', r.earn ? money(r.earn) : '\u2014'],
+                    ['Industries in this sector', fmt(r.nnaics)],
+                  ],
+                }))}
+                opts={{
+                  mode: 'pct',
+                  labelWidth: 236,
+                  width,
+                  valueLabel: 'Share of all jobs',
+                  clickHint: 'Click for the industries inside it',
+                  aria: 'Share of Vermont jobs by industry sector',
+                }}
+              />
             )}
           </Split>
         </>
       ),
-    },
-
-    age: {
-      title: 'How old is the workforce in each industry?',
-      note: oldestWorkforce(LC.sectors, (r) => r.s, 'industry'),
-      cap: 'The age mix of each sector, oldest first. The figure on the right is the share aged 55 and over \u2014 the work most likely to need replacing within a decade.',
-      src: 'Vermont industry data, 2025 \u00b7 eight reported age bands rolled up to three',
-      table: 'industries',
-      sort: { k: 'o55', dir: -1 },
-      chart: (
-        <>
-          <Legend labels={AGE_LABELS} colors={AGE_COLORS} />
-          <Split items={LC.sectors} keyOf={(r) => r.s} detail={indDetail}>
-            {(select, active, width) => (
-              <Ranked id="q1-sectors" rows={secAge}>
-                {(pick) => (
-                  <StackedRows
-                    rows={pick.map((x) => ({
-                      label: x.row.s,
-                      parts: x.a.parts,
-                      total: x.a.total,
-                      hi: x.a.o55,
-                      onClick: () => select(x.row.s),
-                      active: active === x.row.s,
-                    }))}
-                    opts={{
-                      labelWidth: 236,
-                      width,
-                      colors: AGE_COLORS,
-                      tierNames: AGE_LABELS,
-                      shareLabel: 'Share of this sector',
-                      rightLabel: '55+',
-                      clickHint: 'Click for the industries inside it',
-                      aria: 'Age mix by industry sector',
-                    }}
-                  />
-                )}
-              </Ranked>
-            )}
-          </Split>
-        </>
-      ),
-    },
+    };
   };
 
   const famAge = fams
@@ -451,9 +464,14 @@ export default function Q1({ lw, section }) {
             id: 'sectors',
             label: 'Industry sectors',
             render: () => (
-              <Picker id="q1-sec" label="Measure" options={SECTOR_MEASURES}>
-                {(m) => {
-                  const v = sector[m];
+              <Scope
+                id="q1-sec"
+                viewId="q1-sectors"
+                measures={SECTOR_MEASURES}
+                rowsFor={(m) => secPool[m]}
+              >
+                {(m, pick) => {
+                  const v = sector(m, pick);
                   return (
                     <Panel
                       title={v.title}
@@ -466,7 +484,7 @@ export default function Q1({ lw, section }) {
                         label: v.table,
                         initialSort: v.sort,
                         onRowClick: indDrill,
-                        unit: 'industries',
+                        unit: 'sectors',
                         note: 'Click a row for the detailed industries behind it.',
                       }}
                     >
@@ -474,7 +492,7 @@ export default function Q1({ lw, section }) {
                     </Panel>
                   );
                 }}
-              </Picker>
+              </Scope>
             ),
           },
           {

@@ -106,6 +106,99 @@ export function PanelData({ cols, rows, label, initialSort, onRowClick, note, un
 }
 
 /**
+ * A row of chips. The three controls below differ in what they hold, not in how
+ * they look, so the markup lives in one place.
+ */
+function ChipRow({ label, options, value, onPick }) {
+  return (
+    <div className="rankctl">
+      {label ? <span className="sclab">{label}</span> : null}
+      <div className="chips">
+        {options.map((o) => (
+          <button
+            key={o.id}
+            type="button"
+            className={o.id === value ? 'on' : undefined}
+            aria-pressed={o.id === value}
+            onClick={() => onPick(o.id)}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * A chip choice that survives a reload. Blocked storage is not an error here:
+ * the control still works, it just forgets. Whether a stored value is still a
+ * valid option is settled at render, where the options are known.
+ */
+function useSticky(key, initial) {
+  const [value, setValue] = useState(initial);
+
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(key);
+      if (v) setValue(v);
+    } catch (e) {
+      /* blocked storage -- keep the default */
+    }
+  }, [key]);
+
+  const pick = useCallback(
+    (next) => {
+      setValue(next);
+      try {
+        localStorage.setItem(key, next);
+      } catch (e) {
+        /* non-fatal */
+      }
+    },
+    [key]
+  );
+
+  return [value, pick];
+}
+
+/**
+ * Measure and depth as one control bar, with the rows that pair selects.
+ *
+ * These used to be two controls that did not look related: a measure picker
+ * above the panel and a top / bottom control inside it. They are related --
+ * between them they decide what the panel is about -- and holding both here is
+ * what lets the panel's read-out answer the combination, instead of reporting a
+ * whole-population figure that does not move when the reader changes either one.
+ *
+ * `rowsFor` returns the whole pool for a measure, already in the order the chart
+ * ranks it. The slice is taken here and handed to the body, so the chart and the
+ * read-out cannot disagree about which rows are on screen.
+ */
+export function Scope({ id, viewId, measures, rowsFor, show, children }) {
+  const [m, pickM] = useSticky(`vt-pick-${id}`, measures.length ? measures[0].id : null);
+  const [v, pickV] = useSticky(`vt-rank-${viewId || id}`, defaultView(show));
+
+  if (!measures.length) return null;
+  const measure = measures.some((o) => o.id === m) ? m : measures[0].id;
+  const rows = rowsFor(measure) || [];
+  const views = rankViews(rows.length, show);
+  const view = views.some((x) => x.id === v) ? v : defaultView(show);
+
+  return (
+    <>
+      <div className="ctlbar">
+        <ChipRow label="Measure" options={measures} value={measure} onPick={pickM} />
+        {views.length ? (
+          <ChipRow label="Show" options={views} value={view} onPick={pickV} />
+        ) : null}
+      </div>
+      {children(measure, views.length ? applyView(rows, view, show) : rows, view)}
+    </>
+  );
+}
+
+/**
  * One of several views of the same shape, chosen with a row of buttons.
  *
  * Where a section would otherwise stack a panel per category -- five credential
@@ -146,22 +239,7 @@ export function Picker({ id, label, options, children }) {
 
   return (
     <>
-      <div className="rankctl">
-        {label ? <span className="sclab">{label}</span> : null}
-        <div className="chips">
-          {options.map((o) => (
-            <button
-              key={o.id}
-              type="button"
-              className={o.id === current ? 'on' : undefined}
-              aria-pressed={o.id === current}
-              onClick={() => pick(o.id)}
-            >
-              {o.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      <ChipRow label={label} options={options} value={current} onPick={pick} />
       {children(current)}
     </>
   );
@@ -211,22 +289,7 @@ export function Ranked({ id, rows, show, children }) {
 
   return (
     <>
-      <div className="rankctl">
-        <span className="sclab">Show</span>
-        <div className="chips">
-          {views.map((v) => (
-            <button
-              key={v.id}
-              type="button"
-              className={v.id === current ? 'on' : undefined}
-              aria-pressed={v.id === current}
-              onClick={() => pick(v.id)}
-            >
-              {v.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      <ChipRow label="Show" options={views} value={current} onPick={pick} />
       {children(applyView(rows, current, show))}
     </>
   );
