@@ -3,7 +3,7 @@
 import { DATA, DEMAND, LC, ORDINAL, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { demandCols, familyCols } from '@/lib/tables';
-import { Callout, Panel, Legend, Picker, Ranked, Scope, VHead, N } from '../ui';
+import { Callout, HowTo, Panel, Legend, Picker, Ranked, Scope, VHead, N } from '../ui';
 import { RankedBars, GroupedBars } from '../charts';
 import { ColumnStack } from '../columns';
 import Sections from '../Sections';
@@ -336,62 +336,80 @@ export default function Q3({ section }) {
             id: 'general-demand',
             label: 'General demand',
             render: () => (
-              <Scope
-                id="q3-asked"
-                viewId="q3-places"
-                measures={ASKED_MEASURES}
-                views={ASKED_PLACES}
-                rowsFor={() => DEMAND.areas}
-              >
-                {(m, _rows, view) => {
-                  const v = asked(m, view);
-                  return (
-                    <Panel
-                      title={v.title}
-                      note={v.note}
-                      cap={v.cap}
-                      src={v.src}
-                      data={{
-                        cols: demandCols(v.order, v.field, v.stated),
-                        rows: v.picked,
-                        label: v.table,
-                        initialSort: { k: 'postings', dir: -1 },
-                        unit: 'places',
-                      }}
-                    >
-                      {v.chart}
-                    </Panel>
-                  );
-                }}
-              </Scope>
+              <>
+                <HowTo>
+                  What employers ask for at the door, place by place. Every share is out of
+                  the postings that state a level — roughly half do — so read these as a
+                  property of the employers who filled the field in, not of the labour
+                  market. The figure under each Vermont column is postings per job, which
+                  is what keeps a county that advertises heavily from reading as a county
+                  that hires heavily.
+                </HowTo>
+                <Scope
+                  id="q3-asked"
+                  viewId="q3-places"
+                  measures={ASKED_MEASURES}
+                  views={ASKED_PLACES}
+                  rowsFor={() => DEMAND.areas}
+                >
+                  {(m, _rows, view) => {
+                    const v = asked(m, view);
+                    return (
+                      <Panel
+                        title={v.title}
+                        note={v.note}
+                        cap={v.cap}
+                        src={v.src}
+                        data={{
+                          cols: demandCols(v.order, v.field, v.stated),
+                          rows: v.picked,
+                          label: v.table,
+                          initialSort: { k: 'postings', dir: -1 },
+                          unit: 'places',
+                        }}
+                      >
+                        {v.chart}
+                      </Panel>
+                    );
+                  }}
+                </Scope>
+              </>
             ),
           },
           {
             id: 'hiring-and-growth',
             label: 'Hiring and growth',
             render: () => (
-              <Picker id="q3-measure" label="Measure" options={DEMAND_MEASURES}>
-                {(m) => {
-                  const v = dem[m];
-                  return (
-                    <Panel
-                      title={v.title}
-                      note={v.note}
-                      cap={v.cap}
-                      src={v.src}
-                      data={{
-                        cols: familyCols(),
-                        rows: fams,
-                        label: v.table,
-                        initialSort: v.sort,
-                        unit: 'kinds of work',
-                      }}
-                    >
-                      {v.chart}
-                    </Panel>
-                  );
-                }}
-              </Picker>
+              <>
+                <HowTo>
+                  Four ways of asking where the hiring is, over the same 22 kinds of work:
+                  openings now, how much of the workforce turns over, how heavily the work
+                  is advertised, and what is projected by 2030. They disagree, which is the
+                  reason to look at more than one.
+                </HowTo>
+                <Picker id="q3-measure" label="Measure" options={DEMAND_MEASURES}>
+                  {(m) => {
+                    const v = dem[m];
+                    return (
+                      <Panel
+                        title={v.title}
+                        note={v.note}
+                        cap={v.cap}
+                        src={v.src}
+                        data={{
+                          cols: familyCols(),
+                          rows: fams,
+                          label: v.table,
+                          initialSort: v.sort,
+                          unit: 'kinds of work',
+                        }}
+                      >
+                        {v.chart}
+                      </Panel>
+                    );
+                  }}
+                </Picker>
+              </>
             ),
           },
           // --- Hidden for now ---------------------------------------------

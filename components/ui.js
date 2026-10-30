@@ -387,6 +387,27 @@ export function PngButton({ panelRef, title, note, src }) {
 }
 
 
+/**
+ * One line above a section saying what the reader is looking at and what the
+ * controls do.
+ *
+ * All of this was already written down -- on the About tab, eleven items deep,
+ * which is not where anyone is when they are looking at a chart. It costs a line
+ * to say it in place, and it is the difference between a control a reader tries
+ * and a control a reader ignores.
+ *
+ * Deliberately outside the panel: it is orientation rather than a finding, so it
+ * must not land in the PNG a reader puts in a slide.
+ */
+export function HowTo({ children }) {
+  return (
+    <div className="howto">
+      <span className="hlab">How to read this</span>
+      <p>{children}</p>
+    </div>
+  );
+}
+
 export function Callout({ label, children }) {
   return (
     <div className="callout">

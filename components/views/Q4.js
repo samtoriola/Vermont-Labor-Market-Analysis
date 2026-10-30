@@ -1,12 +1,12 @@
 'use client';
 
 import {
-  DATA, LC, PCT, TIER_ORDER, SERIES, PEOPLE,
+  DATA, LC, PCT, TIER_ORDER, SERIES,
   lwAnnual, occByTier, credentialFunnel,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { bandCols, peopleCols } from '@/lib/tables';
-import { Callout, Panel, Picker, Table, VHead, LwPicker, N } from '../ui';
+import { bandCols } from '@/lib/tables';
+import { Callout, HowTo, Panel, Picker, Table, VHead, LwPicker, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { Split, occDetail } from '../Detail';
 import { occCols } from '../occCols';
@@ -15,7 +15,7 @@ import Sections from '../Sections';
 // Callout, N and largestCategory are used only by the section hidden further down.
 // Kept imported so restoring it stays a single edit.
 import {
-  funnelContrast, ladderStep, peopleLadderStep, livingWageJump, largestCategory,
+  funnelContrast, ladderStep, livingWageJump, largestCategory,
 } from '@/lib/insight';
 
 const CRED_MEASURES = [
@@ -90,23 +90,6 @@ export default function Q4({ lw, setLw, section }) {
         ],
       };
     });
-
-  // The same ladder measured on people rather than jobs: the midpoint earner at each
-  // credential they hold. The average sits well above the midpoint at the top of the
-  // ladder, so it goes on the hover with the range rather than being dropped.
-  const credBars = PEOPLE.byCred.map((c) => ({
-    label: c.thin ? c.label + ' (small sample)' : c.label,
-    value: c.med,
-    color: c.thin ? '--ink-3' : c.med >= LWA ? '--s3' : '--s2',
-    extra: [
-      ['Times the living wage', (c.med / LWA).toFixed(2) + '×'],
-      ['Average earnings', money(c.avg)],
-      ['Middle half earns', money(c.p25) + ' to ' + money(c.p75)],
-      ['Lowest-paid tenth', money(c.p10)],
-      ['Highest-paid tenth', money(c.p90)],
-      ['Respondents', fmt(c.n)],
-    ],
-  }));
 
   // Four questions about the same five rungs, which were three sections and four
   // panels: how much work sits at each level, what it pays, how much of it clears
@@ -286,7 +269,14 @@ export default function Q4({ lw, setLw, section }) {
             id: 'by-credential-level',
             label: 'By credential level',
             render: () => (
-              <Picker id="q4-cred" label="Measure" options={CRED_MEASURES}>
+              <>
+                <HowTo>
+                  Four measures of the same five rungs. These are the credentials
+                  <strong> jobs ask for</strong>, not the ones workers hold — the Workers
+                  tab answers that, and the two do not match. Click a bar for the
+                  occupations at that level.
+                </HowTo>
+                <Picker id="q4-cred" label="Measure" options={CRED_MEASURES}>
                 {(m) => {
                   const v = cred[m];
                   return (
@@ -304,36 +294,7 @@ export default function Q4({ lw, setLw, section }) {
                     </>
                   );
                 }}
-              </Picker>
-            ),
-          },
-          {
-            id: 'what-people-hold',
-            label: 'What people hold',
-            render: () => (
-              <>
-                <LwPicker value={lw} onChange={setLw} />
-                <Panel
-                  title="What does each rung pay, by the credential workers hold?"
-                  note={peopleLadderStep(PEOPLE.byCred)}
-                  cap="The same ladder measured on people rather than jobs: what the midpoint Vermonter earns at each credential they hold. The self-employed and the military are left out. A bar marked as a small sample rests on fewer than 100 answers and is rough. Hover for the average and the range."
-                  src={`Census household survey, 2024 · ${PEOPLE.universe.toLowerCase()} · living-wage benchmark 2025, ${lw}`}
-                  data={{ cols: peopleCols('Credential held'), rows: PEOPLE.byCred, label: 'pay-by-credential-held',
-                          initialSort: { k: 'med', dir: -1 }, unit: 'credentials',
-                          note: 'Groups, not the individual dots: each dot is one anonymous respondent.' }}
-                >
-                  <RankedBars
-                    rows={credBars}
-                    opts={{
-                      money: true,
-                      rule: LWA,
-                      ruleLabel: 'Living wage',
-                      valueLabel: 'Midpoint earnings',
-                      labelWidth: 236,
-                      aria: 'Midpoint earnings by credential held',
-                    }}
-                  />
-                </Panel>
+                </Picker>
               </>
             ),
           },
@@ -342,6 +303,11 @@ export default function Q4({ lw, setLw, section }) {
             label: 'Which credentials pay',
             render: () => (
               <>
+                <HowTo>
+                  A count of occupations, not of jobs: how many doors each credential
+                  opens once you ask for volume hiring and a living wage at the same time.
+                  The benchmark selector changes the third column.
+                </HowTo>
                 <LwPicker value={lw} onChange={setLw} />
               <Panel
                 title="Which credentials lead to a job that both hires and pays?"

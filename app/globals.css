@@ -2074,3 +2074,59 @@ thead th[aria-sort='descending'] .sortmark {
   font-variant-numeric: tabular-nums;
   color: var(--ink-2);
 }
+
+/* ---------- how to read this ---------- */
+/* Lighter than a callout, which carries a caveat a reader must not miss. This
+   carries orientation, so it has to be legible without competing with the
+   panel under it -- no fill, one rule, and the label doing the separating. */
+.howto {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.howto .hlab {
+  flex: none;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--s1);
+}
+
+.howto p {
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  max-width: 88ch;
+}
+
+@media (max-width: 720px) {
+  .howto {
+    display: block;
+  }
+
+  .howto .hlab {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+
+/* ---------- the concentration grid ---------- */
+/* Charts here are drawn in a fixed coordinate space and rendered at 100%, so a
+   narrow page scales the whole drawing down. That is right for a column of
+   bars, which only gets shorter, and wrong for a grid, which loses both
+   dimensions at once and takes its labels with it. Below the width it was drawn
+   for, the grid scrolls sideways at full size instead. */
+.gridscroll {
+  overflow-x: auto;
+}
+
+@media (max-width: 1000px) {
+  .gridscroll > svg.chart {
+    min-width: 940px;
+  }
+}

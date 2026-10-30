@@ -26,10 +26,10 @@ with sync_playwright() as p:
 
     print("--- the button follows the charts ---")
     checks = [
-        ("By occupation size", True),
-        ("Worker earnings", True),
+        ("Size and pay", True),
+        ("What people earn", True),
         ("By credential level", True),
-        ("All 14 counties", False),   # a table
+        ("Program candidates", False),   # a table
         ("Which credentials pay", False),   # a table, not a chart
     ]
     for label, want in checks:
@@ -43,7 +43,7 @@ with sync_playwright() as p:
         assert ok, "PNG button presence is wrong on " + label
 
     print("\n--- the download produces a real image ---")
-    for label in ["By occupation size", "By credential level", "By type of work"]:
+    for label in ["Size and pay", "By credential level", "By type of work"]:
         pg.locator(".sbitem", has_text=label).first.click()
         pg.wait_for_timeout(1000)
         with pg.expect_download(timeout=30000) as dl:

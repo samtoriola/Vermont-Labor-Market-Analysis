@@ -38,7 +38,7 @@ export default function About() {
             ],
             [
               'Unit of analysis',
-              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry. CPS and ACS count people and what they hold or earn. Each panel states which it uses; the Overview sets the two side by side deliberately.',
+              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry. CPS and ACS count people and what they hold or earn. The navigation follows the distinction: every tab counts jobs except Workers, which counts people. Each panel says so again; the Overview sets the two side by side deliberately.',
             ],
             [
               'When outcomes are measured',
@@ -76,7 +76,7 @@ export default function About() {
             {
               cells: [
                 'Wage quality',
-                'How pay compares with a self-sufficiency benchmark, by occupation size and for individual workers',
+                'How the pay of a job compares with a self-sufficiency benchmark, by how big the occupation is',
               ],
             },
             {
@@ -88,7 +88,13 @@ export default function About() {
             {
               cells: [
                 'Pathways',
-                'What the credential ladder pays — measured both on what jobs require and on what workers hold',
+                'What the credential ladder pays, measured on what jobs require. Jobs, not people',
+              ],
+            },
+            {
+              cells: [
+                'Workers',
+                'What Vermonters themselves earn, and what the credential a worker holds leads to. People, not jobs',
               ],
             },
             {
@@ -104,7 +110,10 @@ export default function About() {
               ],
             },
             {
-              cells: ['Regions', 'How attainment, earnings and the local cost floor differ across the 14 counties'],
+              cells: [
+                'Regions',
+                'How jobs, pay, attainment and the local cost floor differ across the 14 counties, and what each county is concentrated in',
+              ],
             },
             {
               cells: [
@@ -121,11 +130,15 @@ export default function About() {
           items={[
             [
               'Set the living wage first',
-              'Wage quality and Pathways carry a household selector. It moves every figure that compares pay with self-sufficiency, so set it before reading those tabs.',
+              'Wage quality, Pathways, Workers and Regions carry a household selector. It moves every figure that compares pay with self-sufficiency, so set it before reading those tabs.',
             ],
             [
               'Click through to the detail',
               'Bars, dot columns and table rows that sit on underlying occupations open a detail panel when clicked. Employment structure, Wage quality, Pathways and VSCS alignment all support it.',
+            ],
+            [
+              'Read the line above each chart',
+              'Every section opens with one line saying what it shows and what its controls do. Where a section carries a measure control, it is one panel answering several questions rather than several pages, and the read-out under the chart follows whichever you pick.',
             ],
             [
               'Search, filter and sort inside a table',

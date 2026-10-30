@@ -5,7 +5,7 @@ import { LC, SOW, TIER_ORDER, lwAnnual, occByFamily } from '@/lib/data';
 import { opportunityScreen, screenCols, SCREEN_TIERS, SUPPLY } from '@/lib/screen';
 import { fmt, money } from '@/lib/format';
 import { scoreCols } from '@/lib/tables';
-import { Callout, Panel, Picker, Ranked, Table, VHead, N } from '../ui';
+import { Callout, HowTo, Panel, Picker, Ranked, VHead, N } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
@@ -82,13 +82,19 @@ export default function Q5({ lw, setLw, section }) {
     </div>
   );
   const O = SOW.opp;
-  const top = O.top;
-  // Filters narrow the scored list; the composite itself is unchanged.
-  const shown = apply(O.top.map((r) => ({ ...r, f: r.fam })));
-  const tierLead = {};
-  TIER_ORDER.forEach((t) => {
-    if (O.byTier[t] && O.byTier[t].length) tierLead[t] = O.byTier[t][0];
-  });
+
+  // Which credential's list to show. "By credential" was a separate section
+  // holding the same scores in a table: the score is the composite, computed
+  // across every scored occupation, and picking a credential takes the highest
+  // scorers that ask for it. That is a filter, not a second measure -- so it is
+  // a control here rather than a page of its own.
+  const CREDENTIALS = [{ id: 'all', label: 'All credentials' }].concat(
+    TIER_ORDER.filter((t) => O.byTier[t] && O.byTier[t].length).map((t) => ({ id: t, label: t }))
+  );
+  // Filters narrow the scored list; the composite itself is unchanged. Filtered
+  // on the row's own family key -- the rows carry `f`, like every other
+  // occupation list on the dashboard.
+  const poolFor = (cred) => apply(cred === 'all' ? O.top : O.byTier[cred]);
 
   return (
     <>
@@ -107,108 +113,94 @@ export default function Q5({ lw, setLw, section }) {
             label: 'Highest scoring',
             render: () => (
               <>
-                {/* No filter bar: the pool is the 30 highest scoring occupations, and
-                    the Show control on the chart is the only narrowing worth offering
-                    over a list that short. ActiveFilters stays because a filter set on
-                    another tab still applies here -- it appears only when there is one,
-                    and lets the reader see and clear it rather than wonder why the
-                    chart is short. */}
+                <HowTo>
+                  One score per occupation, the average of four percentile ranks: how many
+                  it employs, how fast it is growing, how heavily it is advertised, and
+                  what it pays. Pick a credential to see the highest scorers that ask for
+                  it. The score is the same either way — a credential narrows the list, it
+                  does not re-grade it.
+                </HowTo>
+                {/* No filter bar: the pool is already a short list of the highest
+                    scorers, and the Show control on the chart is the only narrowing
+                    worth offering over it. ActiveFilters stays because a filter set
+                    on another tab still applies here -- it appears only when there
+                    is one, and lets the reader see and clear it rather than wonder
+                    why the chart is short. */}
                 <ActiveFilters />
-                <Panel
-                  title="Which occupations combine scale, growth, demand and pay?"
-                  note={topScoreCredentials(O.top)}
-                  cap={`Each occupation is ranked against all the others on four things — how many it employs, how fast it is growing, how heavily it is advertised, and what it pays — and the four ranks are averaged. Hover a bar for its four scores.`}
-                  src={`Vermont occupation data, 2025 · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
-                  data={{ cols: scoreCols(), rows: shown, label: 'highest-scoring',
-                          initialSort: { k: 'sc', dir: -1 }, unit: 'occupations' }}
-                >
-                  <Ranked id="q5-score" rows={shown} show={20}>
-                    {(pick) => (
-                  <RankedBars
-                    rows={pick.map((r) => ({
-                      label: r.n,
-                      value: r.sc,
-                      color: '--s1',
-                      dec: 1,
-                      extra: [
-                        ['Jobs', fmt(r.j)],
-                        ['Median earnings', money(r.m)],
-                        ['25th percentile', money(r.p25)],
-                        ['Median vs living wage', r.lw + '×'],
-                        ['p25 vs living wage', r.lw25 + '×'],
-                        ['Annual openings (context only)', fmt(r.o) + ' (' + r.op + ' per 100 jobs)'],
-                        ['Postings per 100 jobs', r.pp],
-                        ['5-yr growth', r.g + '%'],
-                        ['Entry credential', r.t],
-                        [`— scored components, ${O.weightEach}% each —`, ''],
-                        ['Employment', r.s_size],
-                        ['Growth', r.s_growth],
-                        ['Postings intensity', r.s_postings],
-                        ['Median pay', r.s_pay],
-                      ],
-                    }))}
-                    opts={{
-                      dec: 1,
-                      labelWidth: 262,
-                      max: 100,
-                      valueLabel: 'Opportunity score',
-                      aria: 'Highest-scoring occupations',
-                    }}
-                  />
-                    )}
-                  </Ranked>
-                </Panel>
-              </>
-            ),
-          },
-          {
-            id: 'by-credential-tier',
-            label: 'By credential',
-            render: () => (
-              <Panel
-                title="Which occupations score highest for each credential?"
-                cap="The same score, but ranked within one credential at a time rather than across all of them, so each is judged against its own field. Pick a credential."
-                src="Vermont occupation data, 2025 · the same four measures, ranked within each credential · openings shown for context, not scored"
-              >
-                <Picker
-                  id="q5-tier"
-                  label="Entry credential"
-                  options={TIER_ORDER.filter((t) => O.byTier[t]).map((t) => ({ id: t, label: t }))}
-                >
-                  {(t) => (
-                    <Table
-                      cols={[
-                        'Occupation',
-                        'Score',
-                        'Jobs',
-                        'Typical pay',
-                        'Times the living wage',
-                        'Ads per 100 jobs',
-                        'Growth by 2030',
-                        'Openings a year',
-                      ]}
-                      rows={O.byTier[t].map((r) => ({
-                        cells: [
-                          r.n,
-                          r.sc.toFixed(1),
-                          fmt(r.j),
-                          money(r.m),
-                          r.lw + '×',
-                          r.pp,
-                          r.g + '%',
-                          fmt(r.o),
-                        ],
-                      }))}
-                    />
-                  )}
+                <Picker id="q5-tier" label="Credential" options={CREDENTIALS}>
+                  {(cred) => {
+                    const shown = poolFor(cred);
+                    return (
+                      <Panel
+                        title={
+                          cred === 'all'
+                            ? 'Which occupations combine scale, growth, demand and pay?'
+                            : `Which ${cred.toLowerCase()} occupations score highest?`
+                        }
+                        note={cred === 'all' ? topScoreCredentials(O.top) : null}
+                        cap={
+                          `Each occupation is ranked against all the others on four things — how many it employs, how fast it is growing, how heavily it is advertised, and what it pays — and the four ranks are averaged. Hover a bar for its four scores.` +
+                          (cred === 'all'
+                            ? ''
+                            : ` These are the highest scorers whose entry credential is ${cred.toLowerCase()}; the score is still the one computed across every occupation, so it can be compared with the others.`)
+                        }
+                        src={`Vermont occupation data, 2025 · mean of four percentile ranks at ${O.weightEach}% each · occupations with ≥${O.minJobs} jobs (${fmt(O.nEligible)} of 798)`}
+                        data={{ cols: scoreCols(), rows: shown, label: 'highest-scoring',
+                                initialSort: { k: 'sc', dir: -1 }, unit: 'occupations' }}
+                      >
+                        <Ranked id="q5-score" rows={shown} show={20}>
+                          {(pick) => (
+                            <RankedBars
+                              rows={pick.map((r) => ({
+                                label: r.n,
+                                value: r.sc,
+                                color: '--s1',
+                                dec: 1,
+                                extra: [
+                                  ['Jobs', fmt(r.j)],
+                                  ['Median earnings', money(r.m)],
+                                  ['25th percentile', money(r.p25)],
+                                  ['Median vs living wage', r.lw + '×'],
+                                  ['p25 vs living wage', r.lw25 + '×'],
+                                  ['Annual openings (context only)', fmt(r.o) + ' (' + r.op + ' per 100 jobs)'],
+                                  ['Postings per 100 jobs', r.pp],
+                                  ['5-yr growth', r.g + '%'],
+                                  ['Entry credential', r.t],
+                                  [`— scored components, ${O.weightEach}% each —`, ''],
+                                  ['Employment', r.s_size],
+                                  ['Growth', r.s_growth],
+                                  ['Postings intensity', r.s_postings],
+                                  ['Median pay', r.s_pay],
+                                ],
+                              }))}
+                              opts={{
+                                dec: 1,
+                                labelWidth: 262,
+                                max: 100,
+                                valueLabel: 'Opportunity score',
+                                aria: 'Highest-scoring occupations',
+                              }}
+                            />
+                          )}
+                        </Ranked>
+                      </Panel>
+                    );
+                  }}
                 </Picker>
-              </Panel>
+              </>
             ),
           },
           {
             id: 'program-candidates',
             label: 'Program candidates',
             render: () => (
+              <>
+                <HowTo>
+                  A screen, not a ranking: set the four tests below and the table shows
+                  what passes all of them. It is a list of places to look, never a
+                  recommendation — the scope of this work stops short of saying whether a
+                  program should be created, expanded or cut.
+                </HowTo>
               <Panel
                 title="Which occupations could VSCS act on?"
                 cap={`Occupations that pass four tests at once: at least ${minOpen} openings a year, pay at or above the living wage, and a credential VSCS already awards${excludeObvious ? ', and not one of the 25 largest' : ''}. Signals counts how many of three things an occupation has going for it — openings, advertising and projected growth — each judged against others needing the same credential. Click a row for its type of work.`}
@@ -226,6 +218,7 @@ export default function Q5({ lw, setLw, section }) {
                   pageSize={30}
                 />
               </Panel>
+              </>
             ),
           },
           // --- Hidden for now ---------------------------------------------

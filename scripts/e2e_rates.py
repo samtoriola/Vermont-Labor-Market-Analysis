@@ -40,7 +40,7 @@ with sync_playwright() as pw:
     pg.goto(URL, wait_until="networkidle")
     # The full occupation table used to be a sidebar destination of its own. It now
     # sits under the chart it belongs to, behind the "Show the figures" disclosure.
-    pick(pg, "By occupation size", "Typical pay")
+    pick(pg, "Size and pay", "Typical pay")
     tog = pg.locator(".datatoggle").first
     if "Show" in (tog.text_content() or ""):
         tog.click()
@@ -71,7 +71,7 @@ with sync_playwright() as pw:
 
     # Typical pay by occupation size: three bands plus three reference bars, and the
     # green/amber split has to follow the living-wage benchmark the reader picks.
-    pick(pg, "By occupation size", "Typical pay")
+    pick(pg, "Size and pay", "Typical pay")
 
     def fills_now():
         return pg.evaluate(

@@ -13,6 +13,7 @@ import Structure from './views/Q1';
 import WageQuality from './views/Q2';
 import Demand from './views/Q3';
 import Pathways from './views/Q4';
+import Workers from './views/Workers';
 import Opportunity from './views/Q5';
 import Alignment from './views/Q6';
 import Regions from './views/Q7';
@@ -28,6 +29,7 @@ const COMPONENTS = {
   wage: WageQuality,
   demand: Demand,
   pathways: Pathways,
+  workers: Workers,
   opportunity: Opportunity,
   alignment: Alignment,
   about: About,

@@ -8,8 +8,8 @@ import pathlib, re, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FILES = {'overview': 'Overview.js', 'regions': 'Q7.js', 'structure': 'Q1.js',
          'wage': 'Q2.js', 'demand': 'Q3.js', 'pathways': 'Q4.js',
-         'opportunity': 'Q5.js', 'alignment': 'Q6.js', 'about': 'About.js',
-         'methods': 'Methods.js'}
+         'workers': 'Workers.js', 'opportunity': 'Q5.js', 'alignment': 'Q6.js',
+         'about': 'About.js', 'methods': 'Methods.js'}
 
 def live(src):
     """Drop commented-out lines.

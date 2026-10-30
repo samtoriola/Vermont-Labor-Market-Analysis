@@ -7,7 +7,7 @@ import {
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { familyCols, sectorCols, industryCols } from '@/lib/tables';
-import { Panel, Legend, Picker, Ranked, RampLegend, Scope, VHead, DrillHint } from '../ui';
+import { HowTo, Panel, Legend, Picker, Ranked, RampLegend, Scope, VHead, DrillHint } from '../ui';
 import { Split, occDetail, industryDetail } from '../Detail';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, StackedRows } from '../charts';
@@ -464,65 +464,79 @@ export default function Q1({ lw, section }) {
             id: 'sectors',
             label: 'Industry sectors',
             render: () => (
-              <Scope
-                id="q1-sec"
-                viewId="q1-sectors"
-                measures={SECTOR_MEASURES}
-                rowsFor={(m) => secPool[m]}
-              >
-                {(m, pick) => {
-                  const v = sector(m, pick);
-                  return (
-                    <Panel
-                      title={v.title}
-                      note={v.note}
-                      cap={v.cap}
-                      src={v.src}
-                      data={{
-                        cols: sectorCols(),
-                        rows: LC.sectors,
-                        label: v.table,
-                        initialSort: v.sort,
-                        onRowClick: indDrill,
-                        unit: 'sectors',
-                        note: 'Click a row for the detailed industries behind it.',
-                      }}
-                    >
-                      {v.chart}
-                    </Panel>
-                  );
-                }}
-              </Scope>
+              <>
+                <HowTo>
+                  Vermont&rsquo;s 21 industry sectors. Measure changes what the bars are;
+                  Show changes how much of the ranking you see, and the line underneath
+                  answers the two together. Click a bar for the industries inside it.
+                </HowTo>
+                <Scope
+                  id="q1-sec"
+                  viewId="q1-sectors"
+                  measures={SECTOR_MEASURES}
+                  rowsFor={(m) => secPool[m]}
+                >
+                  {(m, pick) => {
+                    const v = sector(m, pick);
+                    return (
+                      <Panel
+                        title={v.title}
+                        note={v.note}
+                        cap={v.cap}
+                        src={v.src}
+                        data={{
+                          cols: sectorCols(),
+                          rows: LC.sectors,
+                          label: v.table,
+                          initialSort: v.sort,
+                          onRowClick: indDrill,
+                          unit: 'sectors',
+                          note: 'Click a row for the detailed industries behind it.',
+                        }}
+                      >
+                        {v.chart}
+                      </Panel>
+                    );
+                  }}
+                </Scope>
+              </>
             ),
           },
           {
             id: 'by-type-of-work',
             label: 'By type of work',
             render: () => (
-              <Picker id="q1-fam" label="Measure" options={FAM_MEASURES}>
-                {(m) => {
-                  const v = fam[m];
-                  return (
-                    <Panel
-                      title={v.title}
-                      note={v.note}
-                      cap={v.cap}
-                      src={v.src}
-                      data={{
-                        cols: familyCols(LWA),
-                        rows: fams,
-                        label: v.table,
-                        initialSort: v.sort,
-                        onRowClick: famDrill,
-                        unit: 'kinds of work',
-                        note: 'Click a row for the occupations behind it.',
-                      }}
-                    >
-                      {v.chart}
-                    </Panel>
-                  );
-                }}
-              </Picker>
+              <>
+                <HowTo>
+                  The same 22 kinds of work under every measure — jobs, pay, what they ask
+                  for at the door, and who is doing them. Click a bar for the occupations
+                  inside it.
+                </HowTo>
+                <Picker id="q1-fam" label="Measure" options={FAM_MEASURES}>
+                  {(m) => {
+                    const v = fam[m];
+                    return (
+                      <Panel
+                        title={v.title}
+                        note={v.note}
+                        cap={v.cap}
+                        src={v.src}
+                        data={{
+                          cols: familyCols(LWA),
+                          rows: fams,
+                          label: v.table,
+                          initialSort: v.sort,
+                          onRowClick: famDrill,
+                          unit: 'kinds of work',
+                          note: 'Click a row for the occupations behind it.',
+                        }}
+                      >
+                        {v.chart}
+                      </Panel>
+                    );
+                  }}
+                </Picker>
+              </>
             ),
           },
         ]}

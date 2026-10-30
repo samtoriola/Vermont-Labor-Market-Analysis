@@ -3,7 +3,7 @@
 import { SOW, SERIES, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { awardCols } from '@/lib/tables';
-import { Callout, Panel, Ranked, Table, VHead, N } from '../ui';
+import { Callout, HowTo, Panel, Picker, Ranked, VHead, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { Split, occDetail } from '../Detail';
 import { RankedBars } from '../charts';
@@ -68,6 +68,14 @@ export default function Q6({ lw, section }) {
   const ratioRows = V.under.concat(
     V.over.filter((r) => !V.under.some((u) => u.soc === r.soc))
   );
+  // Two grains of one question -- where does production line up with demand --
+  // which were two sections. The chart answers it for the 22 kinds of work; the
+  // table answers it occupation by occupation, which is where a program sits.
+  const LEVELS = [
+    { id: 'family', label: 'By type of work' },
+    { id: 'occupation', label: 'By occupation' },
+  ];
+
   const ratioCols = [
     { k: 'n', label: 'Occupation', kind: 'text', get: (r) => r.n },
     { k: 'open', label: 'Annual openings', kind: 'num', get: (r) => r.open },
@@ -99,6 +107,12 @@ export default function Q6({ lw, section }) {
             id: 'production-by-award',
             label: 'Production by award',
             render: () => (
+              <>
+                <HowTo>
+                  What VSCS graduates, before any comparison with the labour market. Every
+                  figure counts credentials awarded in one year, not people — one person
+                  earning two is counted twice.
+                </HowTo>
                 <Panel
                   title="What credentials does VSCS award?"
                   note={awardMix(V.byAward, V.totalCompletions)}
@@ -122,94 +136,104 @@ export default function Q6({ lw, section }) {
                     }}
                   />
                 </Panel>
+              </>
             ),
           },
           {
-            id: 'against-openings',
-            label: 'Against openings',
+            id: 'against-demand',
+            label: 'Against demand',
             render: () => (
-                <Panel
-                  title="Where does VSCS production line up with openings?"
-                  note={familiesNoCompletions(V.byFamily)}
-                  cap="Each kind of work's VSCS graduates measured against the openings it has each year. 25% means VSCS graduates a number equal to a quarter of the openings — not that it fills a quarter of them, which no figure here can tell you. Grey bars draw no VSCS graduates at all. Work that needs no credential sits there by nature, because college is not the route into it. Hover for the counts; click for the occupations behind it."
-                  src="Federal completions data, 2024, against Vermont openings · spread by employment"
-                  data={{
-                    cols: [
-                      { k: 'f', label: 'Type of work', kind: 'text', get: (r) => r.f },
-                      { k: 'open', label: 'Openings a year', kind: 'num', get: (r) => r.open },
-                      { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
-                      {
-                        k: 'ratio',
-                        label: 'Graduates as % of openings',
-                        kind: 'rate',
-                        get: famShare,
-                      },
-                      { k: 'jobs', label: 'Jobs', kind: 'num', get: (r) => r.jobs },
-                    ],
-                    rows: famAlign,
-                    label: 'graduates-against-openings',
-                    initialSort: { k: 'ratio', dir: -1 },
-                    unit: 'kinds of work',
-                    onRowClick: famDrill,
-                    note: 'Click a row for the occupations behind it.',
-                  }}
-                >
-                  <Split items={famAlign} keyOf={(r) => r.f} detail={famDetail}>
-                    {(select, active, width) => (
-                  <Ranked id="q6-align" rows={famAlign}>
-                    {(pick) => (
-                      <RankedBars
-                        rows={pick.map((r) => ({
-                          label: r.f,
-                          value: famShare(r) || 0,
-                          // Grey where no graduate reaches this work at all. It is not
-                          // a low score, it is the absence of a pipeline, and the two
-                          // should not look the same. Keyed off the graduates rather
-                          // than the share, so this counts the same families the
-                          // read-out under the chart does.
-                          color: r.linked > 0 ? '--s1' : '--ink-3',
-                          onClick: () => select(r.f),
-                          active: active === r.f,
-                          extra: [
-                            ['Openings a year', fmt(r.open)],
-                            ['Graduates attributed', r.linked.toFixed(1)],
-                            ['Jobs', fmt(r.jobs)],
+              <>
+                <HowTo>
+                  VSCS graduates measured against Vermont openings, at whichever grain you
+                  pick: the 22 kinds of work, or occupation by occupation. A share here is
+                  graduates as a percentage of openings — never the share of openings
+                  filled, which no figure on this dashboard can tell you.
+                </HowTo>
+                <Picker id="q6-level" label="Level" options={LEVELS}>
+                  {(level) =>
+                    level === 'occupation' ? (
+                      <Panel
+                        title="Where does VSCS production sit relative to demand?"
+                        cap="Occupations with at least 50 openings a year, shown at both ends: those paying above the living wage with the fewest graduates, and those with the most. Sort any column or search for an occupation. A lot of graduates per opening can mean a strong pipeline or an oversupplied one, and these figures cannot tell the two apart."
+                        src="Federal completions data, 2024, against Vermont openings · openings ≥ 50"
+                      >
+                        <DataTable
+                          cols={ratioCols}
+                          rows={ratioRows}
+                          initialSort={{ k: 'ratio', dir: 1 }}
+                          exportLabel="vscs-production-against-demand"
+                          rowKey={(r) => r.soc}
+                          pageSize={30}
+                        />
+                      </Panel>
+                    ) : (
+                      <Panel
+                        title="Where does VSCS production line up with openings?"
+                        note={familiesNoCompletions(V.byFamily)}
+                        cap="Each kind of work's VSCS graduates measured against the openings it has each year. 25% means VSCS graduates a number equal to a quarter of the openings — not that it fills a quarter of them, which no figure here can tell you. Grey bars draw no VSCS graduates at all. Work that needs no credential sits there by nature, because college is not the route into it. Hover for the counts; click for the occupations behind it."
+                        src="Federal completions data, 2024, against Vermont openings · spread by employment"
+                        data={{
+                          cols: [
+                            { k: 'f', label: 'Type of work', kind: 'text', get: (r) => r.f },
+                            { k: 'open', label: 'Openings a year', kind: 'num', get: (r) => r.open },
+                            { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
+                            {
+                              k: 'ratio',
+                              label: 'Graduates as % of openings',
+                              kind: 'rate',
+                              get: famShare,
+                            },
+                            { k: 'jobs', label: 'Jobs', kind: 'num', get: (r) => r.jobs },
                           ],
-                        }))}
-                        opts={{
-                          mode: 'pct',
-                          labelWidth: 236,
-                          width,
-                          valueLabel: 'Graduates as % of openings',
-                          clickHint: 'Click for the occupations inside it',
-                          aria: 'Graduates as a share of openings by type of work',
+                          rows: famAlign,
+                          label: 'graduates-against-openings',
+                          initialSort: { k: 'ratio', dir: -1 },
+                          unit: 'kinds of work',
+                          onRowClick: famDrill,
+                          note: 'Click a row for the occupations behind it.',
                         }}
-                      />
-                    )}
-                  </Ranked>
-                    )}
-                  </Split>
-                </Panel>
-            ),
-          },
-          {
-            id: 'production-against-demand',
-            label: 'Production vs demand',
-            render: () => (
-              <Panel
-                title="Where does VSCS production sit relative to demand?"
-                cap="Occupations with at least 50 openings a year, shown at both ends: those paying above the living wage with the fewest graduates, and those with the most. Sort any column or search for an occupation. A lot of graduates per opening can mean a strong pipeline or an oversupplied one, and these figures cannot tell the two apart."
-                src="Federal completions data, 2024, against Vermont openings · openings ≥ 50"
-              >
-                <DataTable
-                  cols={ratioCols}
-                  rows={ratioRows}
-                  initialSort={{ k: 'ratio', dir: 1 }}
-                  exportLabel="vscs-production-against-demand"
-                  rowKey={(r) => r.soc}
-                  pageSize={30}
-                />
-              </Panel>
+                      >
+                        <Split items={famAlign} keyOf={(r) => r.f} detail={famDetail}>
+                          {(select, active, width) => (
+                        <Ranked id="q6-align" rows={famAlign}>
+                          {(pick) => (
+                            <RankedBars
+                              rows={pick.map((r) => ({
+                                label: r.f,
+                                value: famShare(r) || 0,
+                                // Grey where no graduate reaches this work at all. It is not
+                                // a low score, it is the absence of a pipeline, and the two
+                                // should not look the same. Keyed off the graduates rather
+                                // than the share, so this counts the same families the
+                                // read-out under the chart does.
+                                color: r.linked > 0 ? '--s1' : '--ink-3',
+                                onClick: () => select(r.f),
+                                active: active === r.f,
+                                extra: [
+                                  ['Openings a year', fmt(r.open)],
+                                  ['Graduates attributed', r.linked.toFixed(1)],
+                                  ['Jobs', fmt(r.jobs)],
+                                ],
+                              }))}
+                              opts={{
+                                mode: 'pct',
+                                labelWidth: 236,
+                                width,
+                                valueLabel: 'Graduates as % of openings',
+                                clickHint: 'Click for the occupations inside it',
+                                aria: 'Graduates as a share of openings by type of work',
+                              }}
+                            />
+                          )}
+                        </Ranked>
+                          )}
+                        </Split>
+                      </Panel>
+                    )
+                  }
+                </Picker>
+              </>
             ),
           },
           // --- Hidden for now ---------------------------------------------

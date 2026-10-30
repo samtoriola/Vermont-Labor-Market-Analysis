@@ -1,21 +1,21 @@
 'use client';
 
 import {
-  LC, PCT, COMPARE, PEOPLE, SIZE_ORDER, TOTJ,
+  LC, PCT, COMPARE, SIZE_ORDER, TOTJ,
   lwAnnual, occBySize, compareCol,
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Panel, Picker, Ranked, VHead, LwPicker } from '../ui';
+import { HowTo, Panel, Picker, Ranked, VHead, LwPicker } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
 import { Split, occDetail } from '../Detail';
 import { occCols } from '../occCols';
-import { bandCols, ladderCols, peopleCols } from '@/lib/tables';
+import { bandCols, ladderCols } from '@/lib/tables';
 import { RankedBars, Scatter } from '../charts';
 import { PercentileLadder, LadderLegend } from '../dots';
 import Sections from '../Sections';
-import { meanAboveMedian, meanMedianGap, sizePayStep, sizeWageGap, topOccShare } from '@/lib/insight';
+import { meanAboveMedian, sizePayStep, sizeWageGap, topOccShare } from '@/lib/insight';
 
 // The 25 largest occupations were two sections asking two things about one set
 // of rows: how much employment they hold, and how far the average sits above
@@ -26,9 +26,15 @@ const LARGEST_MEASURES = [
   { id: 'spread', label: 'Pay spread' },
 ];
 
+// Three questions about the relationship between how big an occupation is and
+// what it pays, which were two sections: the three size bands at the pay of
+// their typical job, how much of each band clears the benchmark, and the same
+// relationship without the banding at all -- every occupation as one point.
+// The third was its own section and is the ungrouped version of the first two.
 const SIZE_MEASURES = [
   { id: 'pay', label: 'Typical pay' },
   { id: 'above', label: 'Above living wage' },
+  { id: 'each', label: 'Every occupation' },
 ];
 
 export default function Q2({ lw, setLw, section }) {
@@ -104,25 +110,6 @@ export default function Q2({ lw, setLw, section }) {
         ['Basis', a.sub],
       ],
     }));
-
-  // These are people rather than jobs: what a Vermonter earned, not what a role
-  // pays. One bar per place at the midpoint earner, Vermont in colour and the
-  // neighbouring state and the country in grey behind it. The bar is the midpoint,
-  // so the average -- which sits well above it -- is on the hover with the range.
-  const peopleBars = PEOPLE.byArea.map((a, i) => ({
-    label: a.label,
-    value: a.med,
-    color: i > 0 ? '--ink-3' : a.med >= LWA ? '--s3' : '--s2',
-    extra: [
-      ['Times the living wage', (a.med / LWA).toFixed(2) + '×'],
-      ['Average earnings', money(a.avg)],
-      ['Middle half earns', money(a.p25) + ' to ' + money(a.p75)],
-      ['Lowest-paid tenth', money(a.p10)],
-      ['Highest-paid tenth', money(a.p90)],
-      ['Respondents', fmt(a.n)],
-      ['Workers represented', fmt(a.pop)],
-    ],
-  }));
 
   // Percentile ladder for the largest occupations. OEWS supplies the mean alongside
   // the percentiles, so mean and median can be read on one line; Lightcast supplies
@@ -242,6 +229,50 @@ export default function Q2({ lw, setLw, section }) {
         </Split>
       ),
     },
+
+    // The same question with the banding taken off: every occupation as one
+    // point, so a reader can see how much spread the three bars were hiding.
+    // It carries the filter bar, because at 798 points narrowing is the only
+    // way to ask about one part of the market.
+    each: {
+      filters: true,
+      title: 'Does a bigger occupation pay better or worse?',
+      cap: `${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations, one point each. The vertical line is the living wage; colour is the size band the other two measures group by.`,
+      src: 'Vermont occupation data, 2025 · occupations with a usable median · log scale',
+      data: {
+        cols: occCols(LWA),
+        rows: filtered,
+        label: 'size-against-pay',
+        initialSort: { k: 'j', dir: -1 },
+        unit: 'occupations',
+      },
+      chart: (
+        <Scatter
+          pts={filtered
+            .filter((r) => r.m)
+            .map((r) => ({
+              x: r.m,
+              y: r.j,
+              label: r.n,
+              series: r.j >= 2000 ? 0 : r.j >= 500 ? 1 : 2,
+              extra: [
+                ['Median earnings', money(r.m)],
+                ['Jobs', fmt(r.j)],
+                ['Entry education', r.t],
+                ['Family', r.f],
+              ],
+            }))}
+          opts={{
+            xLabel: 'Median annual earnings',
+            yLabel: 'Jobs (log scale)',
+            logY: true,
+            vRule: LWA,
+            vRuleLabel: 'Living wage',
+            aria: 'Occupation size against median earnings',
+          }}
+        />
+      ),
+    },
   };
 
   return (
@@ -257,57 +288,46 @@ export default function Q2({ lw, setLw, section }) {
         active={section}
         items={[
           {
-            id: 'by-occupation-size',
-            label: 'By occupation size',
-            render: () => (
-              <Picker id="q2-size" label="Measure" options={SIZE_MEASURES}>
-                {(m) => {
-                  const v = size[m];
-                  return (
-                    <>
-                      <LwPicker value={lw} onChange={setLw} />
-                      <Panel
-                        title={v.title}
-                        note={v.note}
-                        cap={v.cap}
-                        src={v.src}
-                        data={v.data}
-                      >
-                        {v.chart}
-                      </Panel>
-                    </>
-                  );
-                }}
-              </Picker>
-            ),
-          },
-          {
-            id: 'worker-earnings',
-            label: 'Worker earnings',
+            id: 'size-and-pay',
+            label: 'Size and pay',
             render: () => (
               <>
-                <LwPicker value={lw} onChange={setLw} />
-                <Panel
-                  title="What do individual Vermonters actually earn?"
-                  note={meanMedianGap(PEOPLE.byArea[0])}
-                  cap="What the midpoint Vermonter on a wage or salary earned that year, against the same figure for its nearest comparable state and the country. The self-employed and the military are left out, matching the occupation charts. Hover for the average and the range around it."
-                  src={`Census household survey, 2024 · ${PEOPLE.universe.toLowerCase()} · living-wage benchmark 2025, ${lw}`}
-                  data={{ cols: peopleCols('Place'), rows: PEOPLE.byArea, label: 'worker-earnings',
-                          initialSort: { k: 'med', dir: -1 }, unit: 'places',
-                          note: 'Groups, not the individual dots: each dot is one anonymous respondent.' }}
-                >
-                  <RankedBars
-                    rows={peopleBars}
-                    opts={{
-                      money: true,
-                      rule: LWA,
-                      ruleLabel: 'Living wage',
-                      valueLabel: 'Midpoint earnings',
-                      labelWidth: 236,
-                      aria: 'Midpoint worker earnings by area',
-                    }}
-                  />
-                </Panel>
+                <HowTo>
+                  Pick a measure. The first two group every occupation into three size
+                  bands and ask what that band pays; the third drops the banding and
+                  plots all of them, where the filters apply. Click a bar for the
+                  occupations inside it.
+                </HowTo>
+                <Picker id="q2-size" label="Measure" options={SIZE_MEASURES}>
+                  {(m) => {
+                    const v = size[m];
+                    return (
+                      <>
+                        <LwPicker value={lw} onChange={setLw} />
+                        {v.filters ? (
+                          <>
+                            <ActiveFilters />
+                            <Filters
+                              shown={filtered.length}
+                              total={LC.allOcc.length}
+                              pool={LC.allOcc}
+                              showFamilies
+                            />
+                          </>
+                        ) : null}
+                        <Panel
+                          title={v.title}
+                          note={v.note}
+                          cap={v.cap}
+                          src={v.src}
+                          data={v.data}
+                        >
+                          {v.chart}
+                        </Panel>
+                      </>
+                    );
+                  }}
+                </Picker>
               </>
             ),
           },
@@ -316,6 +336,11 @@ export default function Q2({ lw, setLw, section }) {
             label: 'Largest occupations',
             render: () => (
               <>
+                <HowTo>
+                  The same twenty-five occupations under both measures: how much of
+                  Vermont's employment each holds, and how far the average inside it sits
+                  above the typical worker. Use Show to see the rest of the ranking.
+                </HowTo>
                 <LwPicker value={lw} onChange={setLw} />
                 <Picker id="q2-largest" label="Measure" options={LARGEST_MEASURES}>
                   {(m) =>
@@ -385,51 +410,6 @@ export default function Q2({ lw, setLw, section }) {
                     )
                   }
                 </Picker>
-              </>
-            ),
-          },
-          {
-            id: 'size-against-pay',
-            label: 'Size against pay',
-            render: () => (
-              <>
-                <LwPicker value={lw} onChange={setLw} />
-              <>
-                <ActiveFilters />
-                <Filters shown={filtered.length} total={LC.allOcc.length} pool={LC.allOcc} showFamilies />
-                <Panel
-                  title="Does a bigger occupation pay better or worse?"
-                  cap={`${fmt(filtered.length)} of ${fmt(LC.allOcc.length)} occupations. The vertical line is the living wage; color shows how large the occupation is.`}
-                  src="Vermont occupation data, 2025 · occupations with a usable median · log scale"
-                  data={{ cols: occCols(LWA), rows: filtered, label: 'size-against-pay',
-                          initialSort: { k: 'j', dir: -1 }, unit: 'occupations' }}
-                >
-                  <Scatter
-                    pts={filtered
-                      .filter((r) => r.m)
-                      .map((r) => ({
-                        x: r.m,
-                        y: r.j,
-                        label: r.n,
-                        series: r.j >= 2000 ? 0 : r.j >= 500 ? 1 : 2,
-                        extra: [
-                          ['Median earnings', money(r.m)],
-                          ['Jobs', fmt(r.j)],
-                          ['Entry education', r.t],
-                          ['Family', r.f],
-                        ],
-                      }))}
-                    opts={{
-                      xLabel: 'Median annual earnings',
-                      yLabel: 'Jobs (log scale)',
-                      logY: true,
-                      vRule: LWA,
-                      vRuleLabel: 'Living wage',
-                      aria: 'Occupation size against median earnings',
-                    }}
-                  />
-                </Panel>
-              </>
               </>
             ),
           },

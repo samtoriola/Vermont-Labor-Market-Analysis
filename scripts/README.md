@@ -62,6 +62,22 @@ python verify_app.py       # structural check of the app
 `vt_living_wage.csv` is committed, so `get_lw.py` only needs re-running if MIT publishes
 a new year.
 
+### The county and postings slices, which are not in that loop
+
+Two builds read a materialised CSV instead of `*_data.js`, and write their JSON
+straight into `../data/`. They are out of the run order because the pull behind
+each is a one-off: the tables are unpartitioned and a re-pull costs a full scan.
+
+```bash
+python pull_counties.py    # -> G:\...\VT_CoreLMI_*_by_County_2021_2025.csv   (BigQuery, ~95 GiB)
+python build_counties.py   # -> ../data/counties.json   (county jobs, pay and occupational mix)
+python pull_postings.py    # -> G:\...\VT_Postings_Education_Experience_by_Area.csv
+python build_demand.py     # -> ../data/demand.json     (what postings ask for, by place)
+```
+
+The `build_*` halves are free and safe to re-run; the `pull_*` halves are not.
+Both refuse to run above a scan budget and refuse to write an empty result.
+
 ## Decisions baked into these scripts
 
 Change them here, not in the app.

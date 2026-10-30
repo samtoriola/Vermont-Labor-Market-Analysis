@@ -138,9 +138,9 @@ export default function Methods({ lw }) {
       <Panel title="Not covered">
         <ul className="lim">
           <li>
-            <strong>Demand by county.</strong> Both Lightcast exports are statewide; CPS resolves
-            Vermont no finer than metro and non-metro. Lightcast Core LMI covers all 14 counties
-            and would close that gap.
+            <strong>Projected growth by county.</strong> The county slice carries employment
+            and pay through 2025 and no further; the projections to 2030 shown elsewhere are
+            statewide. A county outlook would need a different, far larger table.
           </li>
           <li>
             <strong>County and survey areas do not line up.</strong> County lines and the areas the

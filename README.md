@@ -37,7 +37,9 @@ components/
   charts.js        RankedBars, BoxPlot, StackedRows, Dumbbell, TrendLine,
                    Scatter, GroupedBars, BoxLegend
   ui.js            Panel, Answer, Callout, QHead, Legend, Tiles, Table, LwPicker
-  views/           Overview + Q1…Q8, one file per research question
+  views/           Overview, Workers, and Q1…Q7 — one file per research question,
+                   except Workers, which holds the panels that count people
+                   rather than jobs
 lib/
   data.js          imports the JSON, exports LC / PCT / DATA / SOW + helpers
   format.js        fmt, money, pct, niceMax, fmtVal
@@ -46,7 +48,17 @@ data/
   lightcast.json   occupation, industry, postings rollups
   percentiles.json wage percentile distributions
   sow.json         Q5 opportunity index, Q6 VSCS alignment, Q7 regions
+  counties.json    jobs, pay and occupational mix for all 14 counties
+  demand.json      what job postings ask for, by place
 ```
+
+## How the navigation is grouped
+
+By **what a figure counts**, not by where the number came from. The occupation
+data counts jobs and job requirements; the household survey counts people and
+what they hold. The two are not interchangeable, so the people panels are their
+own group (Workers) rather than sitting beside jobs panels under Wage quality
+and Pathways, where a reader changed unit without being told.
 
 ## Regenerating the data
 
@@ -64,6 +76,7 @@ and queries BigQuery (`strada-data-lab-c9d1`) plus the Lightcast CSV exports in
 | `pull_counties.py` | **one-off** — Core LMI county slice to the Drive folder |
 | `pull_postings.py` | **one-off** — postings education/experience by place to the Drive folder |
 | `build_demand.py` | `demand.json` — what postings ask for, by place |
+| `build_counties.py` | `counties.json` — county jobs, pay and occupational mix |
 | `mk_app_data.py` | copies all four into `data/` |
 | `verify_app.py` | structural check of the app (stands in for `next build`) |
 
@@ -83,14 +96,17 @@ directly.
 - **Lightcast and CPS measure different things.** Lightcast counts jobs and job
   requirements; CPS counts employed residents and what they hold. Compare shares,
   never levels.
-- **Research question 7 is no longer blocked on data.** Regional attainment and wage
-  sufficiency were already present by county; occupational demand and wage premiums by
-  region were not, because every Lightcast CSV export is statewide. `pull_counties.py`
-  has now materialised the Core LMI slice for all 14 counties
-  (`VT_CoreLMI_Occupation_by_County_2021_2025.csv`), with employment and the full wage
-  percentile set. The panels that use it are not built yet; the data is there.
+- **Research question 7 is answered on both sides now.** Regional attainment and
+  wage sufficiency were always there by county; occupational demand and pay by region
+  were not, because every Lightcast CSV export is statewide. The Core LMI county slice
+  closes it, and the Regions tab reads it: county employment, the pay of the midpoint
+  job, change since 2021, and what each county is concentrated in against the state.
   **Use classes 1+2** (QCEW + non-QCEW employees) — they reproduce the statewide total
   to 0.009%, where summing all four classes lands 40% high.
+- **A county location quotient is a ratio of shares, not a size.** Essex at 6.9× the
+  state concentration in farming is sixty-three jobs. The grid prints the figure only
+  on its top step, puts the job count on every hover, and outlines the two counties
+  (Essex and Grand Isle) too small to split twenty-two ways.
 - **The openings figure carries one assumption** — Lightcast's `2021 - 2025 Openings`
   divided by 4. If that window is meant inclusively as five years, every openings
   number scales down by a fifth.

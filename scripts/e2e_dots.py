@@ -19,17 +19,23 @@ for _ in range(60):
     except Exception:
         time.sleep(1)
 
-def open_section(pg, tab, label):
+def open_section(pg, tab, label, measure=None):
     """Click the sidebar entry whose label starts with `label`.
 
     `tab` is kept only to name the destination in failures: the sidebar lists every
     section directly, so there is no tab to open first.
+
+    Several charts that used to be a section each are now a measure on one, so
+    `measure` clicks the chip after the section opens.
     """
     items = pg.locator(".sbitem")
     for i in range(items.count()):
         if items.nth(i).inner_text().strip().lower().startswith(label.lower()):
             items.nth(i).click()
             pg.wait_for_timeout(480)
+            if measure:
+                pg.locator(".rankctl .chips button", has_text=measure).first.click()
+                pg.wait_for_timeout(600)
             return True
     raise AssertionError(f"no sidebar entry starting {label!r} (for {tab})")
 
@@ -103,7 +109,7 @@ with sync_playwright() as pw:
 
     print("")
     print("--- scatter still plots every occupation ---")
-    open_section(pg, "wage", "Size against pay")
+    open_section(pg, "wage", "Size and pay", "Every occupation")
     pts = pg.locator(".view svg circle").count()
     print(f"  points: {pts}")
     if pts < 200:
@@ -165,9 +171,9 @@ with sync_playwright() as pw:
         pg.keyboard.press("Escape")
         pg.wait_for_timeout(300)
 
-    for t, sec, name in [("wage", "Largest occupations", "ladder"),
-                         ("wage", "Size against pay", "scatter")]:
-        open_section(pg, t, sec)
+    for t, sec, meas, name in [("wage", "Largest occupations", None, "ladder"),
+                               ("wage", "Size and pay", "Every occupation", "scatter")]:
+        open_section(pg, t, sec, meas)
         pg.screenshot(path=str(OUT / f"dots-{name}.png"), full_page=True)
 
     print("")
