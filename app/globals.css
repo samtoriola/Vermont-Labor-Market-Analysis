@@ -2010,6 +2010,26 @@ thead th[aria-sort='descending'] .sortmark {
   fill: #ffffff;
 }
 
+/* Numbers printed inside a stacked column segment. Same problem the bubble
+   labels have: the ramp inverts in dark mode, so the pale steps that take ink
+   here take white there. */
+.chart .seglab {
+  fill: #1c252d;
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .chart .seglab.lo {
+    fill: #ffffff;
+  }
+}
+
+:root[data-theme='dark'] .chart .seglab.lo {
+  fill: #ffffff;
+}
+
 /* ---------- sequential ramp legend ---------- */
 .ramplegend {
   display: flex;

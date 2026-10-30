@@ -30,7 +30,7 @@ export default function About() {
           items={[
             [
               'Sources',
-              'Lightcast Vermont exports for occupations, industries and job postings; BLS OEWS for wage percentiles; Census CPS and ACS microdata for workers and earnings; IPEDS for credential production; MIT Living Wage for the self-sufficiency benchmark.',
+              'Lightcast Vermont exports for occupations, industries and job postings; Lightcast Core LMI for the county slice and for posting-level education, experience and geography; BLS OEWS for wage percentiles; Census CPS and ACS microdata for workers and earnings; IPEDS for credential production; MIT Living Wage for the self-sufficiency benchmark.',
             ],
             [
               'Filter',
@@ -82,7 +82,7 @@ export default function About() {
             {
               cells: [
                 'Demand & growth',
-                'Where openings, advertised demand and projected growth concentrate, and where the three disagree',
+                'What employers ask for at the door by place, and where openings, advertised demand and projected growth concentrate',
               ],
             },
             {

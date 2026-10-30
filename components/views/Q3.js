@@ -1,18 +1,24 @@
 'use client';
 
-import { DATA, LC, TOTJ } from '@/lib/data';
+import { DATA, DEMAND, LC, ORDINAL, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
-import { familyCols } from '@/lib/tables';
+import { demandCols, familyCols } from '@/lib/tables';
 import { Callout, Panel, Legend, Picker, Ranked, VHead, N } from '../ui';
 import { RankedBars, GroupedBars } from '../charts';
+import { ColumnStack } from '../columns';
 import Sections from '../Sections';
 // Legend, GroupedBars and demandDivergence are used only by the hidden
 // "Three demand measures" section further down. Kept imported so bringing it back
 // is the one edit it should be.
-import { demandDivergence, observedSplit, growthSplit } from '@/lib/insight';
+import { demandDivergence, observedSplit, growthSplit, requirementShare } from '@/lib/insight';
 
 // Callout, Legend, N, GroupedBars and demandDivergence below are used only by the section(s) hidden further down. Kept
 // imported so restoring one stays a single edit.
+
+const ASKED_MEASURES = [
+  { id: 'education', label: 'Education' },
+  { id: 'experience', label: 'Experience' },
+];
 
 const DEMAND_MEASURES = [
   { id: 'ads', label: 'Job ads' },
@@ -175,6 +181,60 @@ export default function Q3({ section }) {
     },
   };
 
+  // ---- what postings ask for ---------------------------------------------
+  // The one panel on the dashboard that compares places rather than ranking
+  // categories, which is why it draws as columns. Vermont, four of its counties,
+  // the rest of the state, the neighbouring state the pay charts already use,
+  // and the country.
+  const asked = (m) => {
+    const edu = m === 'education';
+    const field = edu ? 'edu' : 'exp';
+    const stated = edu ? 'eduStated' : 'expStated';
+    const order = edu ? DEMAND.eduOrder : DEMAND.expOrder;
+
+    const rows = DEMAND.areas.map((a) => ({
+      label: a.label,
+      parts: a[field],
+      total: a[stated],
+      // Postings per job is the guard against reading column height as demand.
+      // It is the number that explains Washington County.
+      note: a.perJob ? a.perJob.toFixed(2) + '/job' : null,
+    }));
+
+    return {
+      title: edu
+        ? 'What education do Vermont employers ask for?'
+        : 'How much experience do Vermont employers ask for?',
+      note: edu
+        ? requirementShare(DEMAND.areas, 'edu', 'eduStated', 2, "a bachelor's degree or more")
+        : requirementShare(DEMAND.areas, 'exp', 'expStated', 2, 'four years of experience or more'),
+      cap: edu
+        ? `Each column is one place, and sums to 100%. Shares are of the postings that state an education level — ${((DEMAND.areas[0].eduStated / DEMAND.areas[0].postings) * 100).toFixed(0)}% of Vermont's do, so this is what employers write down, not what every job requires. The figure under each column is postings per job, which is how to tell a county that advertises heavily from one that hires heavily.`
+        : `Each column is one place, and sums to 100%. Shares are of the postings that state a minimum experience — ${((DEMAND.areas[0].expStated / DEMAND.areas[0].postings) * 100).toFixed(0)}% of Vermont's do. The figure under each column is postings per job.`,
+      src: `Vermont job postings, ${DEMAND.window} · ${DEMAND.note}`,
+      table: edu ? 'education-asked-by-place' : 'experience-asked-by-place',
+      order,
+      field,
+      stated,
+      chart: (
+        <>
+          <Legend labels={order} colors={order.map((_, i) => ORDINAL[i])} />
+          <ColumnStack
+            rows={rows}
+            series={order}
+            opts={{
+              height: 470,
+              noteLabel: true,
+              aria: edu
+                ? 'Education asked for in job postings, by place'
+                : 'Experience asked for in job postings, by place',
+            }}
+          />
+        </>
+      ),
+    };
+  };
+
   return (
     <>
       <VHead
@@ -233,6 +293,34 @@ export default function Q3({ section }) {
           // },
           */
 
+          {
+            id: 'general-demand',
+            label: 'General demand',
+            render: () => (
+              <Picker id="q3-asked" label="Measure" options={ASKED_MEASURES}>
+                {(m) => {
+                  const v = asked(m);
+                  return (
+                    <Panel
+                      title={v.title}
+                      note={v.note}
+                      cap={v.cap}
+                      src={v.src}
+                      data={{
+                        cols: demandCols(v.order, v.field, v.stated),
+                        rows: DEMAND.areas,
+                        label: v.table,
+                        initialSort: { k: 'postings', dir: -1 },
+                        unit: 'places',
+                      }}
+                    >
+                      {v.chart}
+                    </Panel>
+                  );
+                }}
+              </Picker>
+            ),
+          },
           {
             id: 'hiring-and-growth',
             label: 'Hiring and growth',

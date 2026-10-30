@@ -86,7 +86,11 @@ with sync_playwright() as pw:
 
     print("")
     print("--- percentile ladder (wage tab) ---")
-    open_section(pg, "wage", "Mean against median")
+    # "Mean against median" and "25 largest by jobs" were two sections over the
+    # same 25 occupations; they are one panel now, with the measure on a control.
+    open_section(pg, "wage", "Largest occupations")
+    pg.locator(".rankctl .chips button", has_text="Pay spread").first.click()
+    pg.wait_for_timeout(700)
     lad = pg.locator(".view svg g.ladder")
     print(f"  ladder rows: {lad.count()}")
     meds = pg.locator(".view svg g.ladder circle[stroke-width='1.2']").count()
@@ -161,7 +165,7 @@ with sync_playwright() as pw:
         pg.keyboard.press("Escape")
         pg.wait_for_timeout(300)
 
-    for t, sec, name in [("wage", "Mean against median", "ladder"),
+    for t, sec, name in [("wage", "Largest occupations", "ladder"),
                          ("wage", "Size against pay", "scatter")]:
         open_section(pg, t, sec)
         pg.screenshot(path=str(OUT / f"dots-{name}.png"), full_page=True)

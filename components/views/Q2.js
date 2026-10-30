@@ -17,6 +17,15 @@ import { PercentileLadder, LadderLegend } from '../dots';
 import Sections from '../Sections';
 import { meanAboveMedian, meanMedianGap, sizePayStep, sizeWageGap, topOccShare } from '@/lib/insight';
 
+// The 25 largest occupations were two sections asking two things about one set
+// of rows: how much employment they hold, and how far the average sits above
+// the typical worker inside them. Same 25 rows both times, so they are one
+// panel with the measure on a control.
+const LARGEST_MEASURES = [
+  { id: 'share', label: 'Share of jobs' },
+  { id: 'spread', label: 'Pay spread' },
+];
+
 const SIZE_MEASURES = [
   { id: 'pay', label: 'Typical pay' },
   { id: 'above', label: 'Above living wage' },
@@ -303,78 +312,79 @@ export default function Q2({ lw, setLw, section }) {
             ),
           },
           {
-            id: '25-largest-by-jobs',
-            label: '25 largest by jobs',
-            render: () => (
-                <Panel
-                  title="Which 25 occupations employ the most Vermonters?"
-                  note={topOccShare(top, TOTJ, LC.allOcc.length)}
-                  cap="Each occupation's share of the state's jobs, largest first. Green clears the living wage at the typical job, amber does not. Hover for the count."
-                  src="Vermont occupation data, 2025 · hover for the occupation code, earnings, entry credential and demand"
-                  data={{ cols: occCols(LWA), rows: topPool, label: 'largest-occupations',
-                          initialSort: { k: 'j', dir: -1 }, unit: 'occupations' }}
-                >
-                  <Ranked id="q2-top" rows={topPool} show={25}>
-                    {(pick) => (
-                  <RankedBars
-                    rows={pick.map((r) => ({
-                      // Full name: the chart shortens and, if it still has to, truncates.
-                      label: r.n,
-                      value: (r.j / TOTJ) * 100,
-                      color: r.m && r.m >= LWA ? '--s3' : '--s2',
-                      extra: [
-                        ['Jobs', fmt(r.j)],
-                        ['Occupation code', r.soc],
-                        ['Median earnings', r.m ? money(r.m) : '—'],
-                        ['Times the living wage', r.m ? (r.m / LWA).toFixed(2) + '×' : '—'],
-                        ['Entry credential', r.e],
-                        ['Openings a year', fmt(r.o)],
-                        ['Job ads, 5 yr', fmt(r.p)],
-                        ['Projected by 2030', r.g !== null ? r.g + '%' : '—'],
-                      ],
-                    }))}
-                    opts={{
-                      mode: 'pct',
-                      dec: 2,
-                      labelWidth: 262,
-                      valueLabel: 'Share of all jobs',
-                      aria: 'Share of Vermont jobs in the largest occupations',
-                    }}
-                  />
-                    )}
-                  </Ranked>
-                </Panel>
-            ),
-          },
-          {
-            id: 'mean-against-median',
-            label: 'Mean against median',
+            id: 'largest-occupations',
+            label: 'Largest occupations',
             render: () => (
               <>
                 <LwPicker value={lw} onChange={setLw} />
-                <Panel
-                  title="In the largest occupations, how far is the average above the typical worker?"
-                  note={meanAboveMedian(ladder)}
-                  cap="The gap between the midpoint and the average is how far top earners pull the average up."
-                  src={`Published wage percentiles, Vermont 2025 · ${ladderMu} of ${ladder.length} with a published average · living-wage benchmark 2025, ${lw}`}
-                  data={{ cols: ladderCols(LWA), rows: ladder, label: 'pay-spread-largest-occupations',
-                          initialSort: { k: 'med', dir: -1 }, unit: 'occupations' }}
-                >
-                  <LadderLegend />
-                  <Ranked id="q2-ladder" rows={ladder}>
-                    {(pick) => (
-                  <PercentileLadder
-                    rows={pick}
-                    opts={{
-                      labelWidth: 262,
-                      rule: LWA,
-                      ruleLabel: 'Living wage',
-                      aria: 'Percentile range, median and mean for the 25 largest occupations',
-                    }}
-                  />
-                    )}
-                  </Ranked>
-                </Panel>
+                <Picker id="q2-largest" label="Measure" options={LARGEST_MEASURES}>
+                  {(m) =>
+                    m === 'spread' ? (
+                      <Panel
+                        title="In the largest occupations, how far is the average above the typical worker?"
+                        note={meanAboveMedian(ladder)}
+                        cap="The gap between the midpoint and the average is how far top earners pull the average up."
+                        src={`Published wage percentiles, Vermont 2025 · ${ladderMu} of ${ladder.length} with a published average · living-wage benchmark 2025, ${lw}`}
+                        data={{ cols: ladderCols(LWA), rows: ladder, label: 'pay-spread-largest-occupations',
+                                initialSort: { k: 'med', dir: -1 }, unit: 'occupations' }}
+                      >
+                        <LadderLegend />
+                        <Ranked id="q2-ladder" rows={ladder}>
+                          {(pick) => (
+                            <PercentileLadder
+                              rows={pick}
+                              opts={{
+                                labelWidth: 262,
+                                rule: LWA,
+                                ruleLabel: 'Living wage',
+                                aria: 'Percentile range, median and mean for the 25 largest occupations',
+                              }}
+                            />
+                          )}
+                        </Ranked>
+                      </Panel>
+                    ) : (
+                      <Panel
+                        title="Which 25 occupations employ the most Vermonters?"
+                        note={topOccShare(top, TOTJ, LC.allOcc.length)}
+                        cap="Each occupation's share of the state's jobs, largest first. Green clears the living wage at the typical job, amber does not. Hover for the count."
+                        src="Vermont occupation data, 2025 · hover for the occupation code, earnings, entry credential and demand"
+                        data={{ cols: occCols(LWA), rows: topPool, label: 'largest-occupations',
+                                initialSort: { k: 'j', dir: -1 }, unit: 'occupations' }}
+                      >
+                        <Ranked id="q2-top" rows={topPool} show={25}>
+                          {(pick) => (
+                            <RankedBars
+                              rows={pick.map((r) => ({
+                                // Full name: the chart shortens and, if it still has to, truncates.
+                                label: r.n,
+                                value: (r.j / TOTJ) * 100,
+                                color: r.m && r.m >= LWA ? '--s3' : '--s2',
+                                extra: [
+                                  ['Jobs', fmt(r.j)],
+                                  ['Occupation code', r.soc],
+                                  ['Median earnings', r.m ? money(r.m) : '—'],
+                                  ['Times the living wage', r.m ? (r.m / LWA).toFixed(2) + '×' : '—'],
+                                  ['Entry credential', r.e],
+                                  ['Openings a year', fmt(r.o)],
+                                  ['Job ads, 5 yr', fmt(r.p)],
+                                  ['Projected by 2030', r.g !== null ? r.g + '%' : '—'],
+                                ],
+                              }))}
+                              opts={{
+                                mode: 'pct',
+                                dec: 2,
+                                labelWidth: 262,
+                                valueLabel: 'Share of all jobs',
+                                aria: 'Share of Vermont jobs in the largest occupations',
+                              }}
+                            />
+                          )}
+                        </Ranked>
+                      </Panel>
+                    )
+                  }
+                </Picker>
               </>
             ),
           },

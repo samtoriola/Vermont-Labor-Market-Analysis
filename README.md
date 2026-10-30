@@ -61,6 +61,9 @@ and queries BigQuery (`strada-data-lab-c9d1`) plus the Lightcast CSV exports in
 | `build.py` | `lightcast.json` — occupation / industry / postings rollups |
 | `build_pct.py` | `percentiles.json` — wage percentile distributions |
 | `build_sow.py` | `sow.json` — opportunity index, VSCS alignment, regions |
+| `pull_counties.py` | **one-off** — Core LMI county slice to the Drive folder |
+| `pull_postings.py` | **one-off** — postings education/experience by place to the Drive folder |
+| `build_demand.py` | `demand.json` — what postings ask for, by place |
 | `mk_app_data.py` | copies all four into `data/` |
 | `verify_app.py` | structural check of the app (stands in for `next build`) |
 
@@ -80,10 +83,14 @@ directly.
 - **Lightcast and CPS measure different things.** Lightcast counts jobs and job
   requirements; CPS counts employed residents and what they hold. Compare shares,
   never levels.
-- **Research question 7 is half-answered.** Regional attainment and wage sufficiency
-  are present by county; occupational demand and wage premiums by region are not,
-  because both Lightcast exports are statewide. Lightcast Core LMI covers all 14
-  Vermont counties and would close the gap.
+- **Research question 7 is no longer blocked on data.** Regional attainment and wage
+  sufficiency were already present by county; occupational demand and wage premiums by
+  region were not, because every Lightcast CSV export is statewide. `pull_counties.py`
+  has now materialised the Core LMI slice for all 14 counties
+  (`VT_CoreLMI_Occupation_by_County_2021_2025.csv`), with employment and the full wage
+  percentile set. The panels that use it are not built yet; the data is there.
+  **Use classes 1+2** (QCEW + non-QCEW employees) — they reproduce the statewide total
+  to 0.009%, where summing all four classes lands 40% high.
 - **The openings figure carries one assumption** — Lightcast's `2021 - 2025 Openings`
   divided by 4. If that window is meant inclusively as five years, every openings
   number scales down by a fifth.

@@ -97,9 +97,36 @@ Change them here, not in the app.
 - **16 occupations have zero earnings** and are excluded from all wage figures. They
   account for 0.00% of jobs.
 - **`bigquery-public-data` and `lightcast.corelmi_us_v3_dat_occ` are expensive.** The
-  latter is 3.03 TB, unpartitioned and unclustered — a single filtered probe scans ~735 GB.
-  Nothing in this pipeline touches it; if you add county-level demand for RQ7, materialise
-  a Vermont slice once rather than querying it live.
+  latter is 2,820 GiB, unpartitioned and unclustered. Unpartitioned means a WHERE clause
+  removes no bytes at all — the scan is the sum of the columns referenced, whatever the
+  filter, so one county costs exactly what fourteen cost. `pull_counties.py` materialises
+  the slice once; nothing else should touch the table.
+- **Use `corelmi_us_v3_dat_occ_earn`, not `dat_occ`.** It is 67.6 GiB against 2,820,
+  shares the grain exactly, and carries `emp` *and* the p10–p90 percentile set that
+  `dat_occ` does not have at all. The cheaper table is also the better one here.
+- **`classid` is 1–4 in the Core LMI fact tables. There is no class 0.** "All Employment"
+  exists only in `dim_classid`, as the level-1 parent. Filtering a fact table to
+  `classid = '0'` returns zero rows — silently, and only after a full scan. That mistake
+  cost a 759 GiB scan for nothing.
+- **Classes 1+2 are the basis the dashboard is on.** QCEW + non-QCEW employees = 326,610
+  against the statewide 326,582 from the CSV export, a 0.009% difference. Adding
+  self-employed and extended proprietors gives 458,172, which would put county totals 40%
+  above the state total shown on every other tab.
+- **Core LMI earnings are hourly**, not the annual figures the rest of the dashboard
+  shows. Multiply by `LC.hours` (2080).
+- **`dat_occ_earn` carries occupation levels 1 and 5 only** — "Total, All Occupations" and
+  detailed SOC — not the level-2 major groups the reference docs describe for `dim_occid`.
+  Roll the 22 families up from detailed SOC with `build_maps.SOC_MAJOR`.
+- **The postings skill arrays are JSON-encoded strings, not JSON arrays.**
+  `common_skills_name` holds the *string* `"[\"Communication\",...]"`, so
+  `JSON_VALUE_ARRAY(common_skills_name)` returns nothing. Unwrap first:
+  `JSON_VALUE_ARRAY(JSON_VALUE(common_skills_name))`.
+- **`min_edulevels_name` is never null.** Postings that state nothing carry the literal
+  `'No Education Listed'` — about half of Vermont's. Any share must divide by the stated
+  subset, not by all postings.
+- **Check your own spend with `bq ls -j`.** `INFORMATION_SCHEMA.JOBS_BY_PROJECT` needs
+  `bigquery.jobs.listAll`, which these roles lack, but `bq ls -j` lists your own jobs with
+  `totalBytesBilled` and works fine. Do that before a large scan, not after.
 
 ## build_compare.py
 
