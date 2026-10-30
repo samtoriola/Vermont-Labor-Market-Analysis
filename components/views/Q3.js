@@ -3,7 +3,7 @@
 import { DATA, DEMAND, LC, ORDINAL, TOTJ } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { demandCols, familyCols } from '@/lib/tables';
-import { Callout, Panel, Legend, Picker, Ranked, VHead, N } from '../ui';
+import { Callout, Panel, Legend, Picker, Ranked, Scope, VHead, N } from '../ui';
 import { RankedBars, GroupedBars } from '../charts';
 import { ColumnStack } from '../columns';
 import Sections from '../Sections';
@@ -18,6 +18,15 @@ import { demandDivergence, observedSplit, growthSplit, requirementShare } from '
 const ASKED_MEASURES = [
   { id: 'education', label: 'Education' },
   { id: 'experience', label: 'Experience' },
+];
+
+// Vermont has 14 counties and the Regions tab shows all 14, so folding ten of
+// them into one bar hides exactly where the pattern differs most. The compact
+// view stays the default because eight columns is what reads at a glance; the
+// full view is one click away.
+const ASKED_PLACES = [
+  { id: 'named', label: '4 largest + rest', group: 'Places' },
+  { id: 'all', label: 'All 14 counties', group: 'Places' },
 ];
 
 const DEMAND_MEASURES = [
@@ -186,20 +195,39 @@ export default function Q3({ section }) {
   // categories, which is why it draws as columns. Vermont, four of its counties,
   // the rest of the state, the neighbouring state the pay charts already use,
   // and the country.
-  const asked = (m) => {
+  const asked = (m, view) => {
     const edu = m === 'education';
     const field = edu ? 'edu' : 'exp';
     const stated = edu ? 'eduStated' : 'expStated';
     const order = edu ? DEMAND.eduOrder : DEMAND.expOrder;
 
-    const rows = DEMAND.areas.map((a) => ({
+    // Both views cover Vermont; they differ in how finely. The compact one puts
+    // ten counties in a rollup, the full one names all fourteen.
+    const keep =
+      view === 'all'
+        ? (a) => a.grp !== 'rollup'
+        : (a) => a.grp !== 'county' || DEMAND.named.indexOf(a.k) >= 0;
+    const picked = DEMAND.areas.filter(keep);
+
+    const rows = picked.map((a) => ({
       label: a.label,
       parts: a[field],
       total: a[stated],
       // Postings per job is the guard against reading column height as demand.
       // It is the number that explains Washington County.
       note: a.perJob ? a.perJob.toFixed(2) + '/job' : null,
+      // Too few postings to split four ways; the column is drawn, and marked.
+      thin: a.thin,
     }));
+
+    // The counties do not quite reconstruct the state: some postings carry no
+    // county at all. The compact view hides that inside the rollup, so the full
+    // view is the one that has to say it.
+    const placed = picked.filter((a) => a.grp === 'county')
+      .reduce((x, a) => x + a.postings, 0);
+    const vt = DEMAND.areas.filter((a) => a.k === 'vt')[0];
+    const unplaced = view === 'all' ? vt.postings - placed : 0;
+    const thin = picked.filter((a) => a.thin).map((a) => a.label);
 
     return {
       title: edu
@@ -208,11 +236,22 @@ export default function Q3({ section }) {
       note: edu
         ? requirementShare(DEMAND.areas, 'edu', 'eduStated', 2, "a bachelor's degree or more")
         : requirementShare(DEMAND.areas, 'exp', 'expStated', 2, 'four years of experience or more'),
-      cap: edu
-        ? `Each column is one place, and sums to 100%. Shares are of the postings that state an education level — ${((DEMAND.areas[0].eduStated / DEMAND.areas[0].postings) * 100).toFixed(0)}% of Vermont's do, so this is what employers write down, not what every job requires. The figure under each column is postings per job, which is how to tell a county that advertises heavily from one that hires heavily.`
-        : `Each column is one place, and sums to 100%. Shares are of the postings that state a minimum experience — ${((DEMAND.areas[0].expStated / DEMAND.areas[0].postings) * 100).toFixed(0)}% of Vermont's do. The figure under each column is postings per job.`,
+      cap:
+        `Each column is one place, and sums to 100%. Shares are of the postings that state ` +
+        (edu ? 'an education level' : 'a minimum experience') +
+        ` — ${((vt[stated] / vt.postings) * 100).toFixed(0)}% of Vermont's do, so this is ` +
+        `what employers write down, not what every job requires. The figure under each column ` +
+        `is postings per job, which is how to tell a place that advertises heavily from one ` +
+        `that hires heavily.` +
+        (thin.length
+          ? ` ${thin.join(' and ')} are shaded: under ${fmt(DEMAND.thinFloor)} postings state one there, too few to split reliably.`
+          : '') +
+        (unplaced > 0
+          ? ` ${fmt(unplaced)} Vermont postings (${((unplaced / vt.postings) * 100).toFixed(1)}%) name no county and are not in any column.`
+          : ''),
       src: `Vermont job postings, ${DEMAND.window} · ${DEMAND.note}`,
       table: edu ? 'education-asked-by-place' : 'experience-asked-by-place',
+      picked,
       order,
       field,
       stated,
@@ -297,9 +336,15 @@ export default function Q3({ section }) {
             id: 'general-demand',
             label: 'General demand',
             render: () => (
-              <Picker id="q3-asked" label="Measure" options={ASKED_MEASURES}>
-                {(m) => {
-                  const v = asked(m);
+              <Scope
+                id="q3-asked"
+                viewId="q3-places"
+                measures={ASKED_MEASURES}
+                views={ASKED_PLACES}
+                rowsFor={() => DEMAND.areas}
+              >
+                {(m, _rows, view) => {
+                  const v = asked(m, view);
                   return (
                     <Panel
                       title={v.title}
@@ -308,7 +353,7 @@ export default function Q3({ section }) {
                       src={v.src}
                       data={{
                         cols: demandCols(v.order, v.field, v.stated),
-                        rows: DEMAND.areas,
+                        rows: v.picked,
                         label: v.table,
                         initialSort: { k: 'postings', dir: -1 },
                         unit: 'places',
@@ -318,7 +363,7 @@ export default function Q3({ section }) {
                     </Panel>
                   );
                 }}
-              </Picker>
+              </Scope>
             ),
           },
           {

@@ -174,28 +174,55 @@ function useSticky(key, initial) {
  * `rowsFor` returns the whole pool for a measure, already in the order the chart
  * ranks it. The slice is taken here and handed to the body, so the chart and the
  * read-out cannot disagree about which rows are on screen.
+ *
+ * The second control is the top / bottom / all split by default, derived from
+ * the row count. Pass `views` to name your own instead -- how many places to
+ * show, say -- and `rowsFor` is then given both the measure and the view and
+ * returns exactly the rows to draw.
  */
-export function Scope({ id, viewId, measures, rowsFor, show, children }) {
+export function Scope({ id, viewId, measures, rowsFor, views: fixed, show, children }) {
   const [m, pickM] = useSticky(`vt-pick-${id}`, measures.length ? measures[0].id : null);
-  const [v, pickV] = useSticky(`vt-rank-${viewId || id}`, defaultView(show));
+  const [v, pickV] = useSticky(
+    `vt-rank-${viewId || id}`,
+    fixed && fixed.length ? fixed[0].id : defaultView(show)
+  );
 
   if (!measures.length) return null;
   const measure = measures.some((o) => o.id === m) ? m : measures[0].id;
+
+  if (fixed && fixed.length) {
+    const view = fixed.some((x) => x.id === v) ? v : fixed[0].id;
+    return (
+      <>
+        <div className="ctlbar">
+          <ChipRow label="Measure" options={measures} value={measure} onPick={pickM} />
+          <ChipRow label={viewLabel(fixed)} options={fixed} value={view} onPick={pickV} />
+        </div>
+        {children(measure, rowsFor(measure, view) || [], view)}
+      </>
+    );
+  }
+
   const rows = rowsFor(measure) || [];
-  const views = rankViews(rows.length, show);
-  const view = views.some((x) => x.id === v) ? v : defaultView(show);
+  const derived = rankViews(rows.length, show);
+  const view = derived.some((x) => x.id === v) ? v : defaultView(show);
 
   return (
     <>
       <div className="ctlbar">
         <ChipRow label="Measure" options={measures} value={measure} onPick={pickM} />
-        {views.length ? (
-          <ChipRow label="Show" options={views} value={view} onPick={pickV} />
+        {derived.length ? (
+          <ChipRow label="Show" options={derived} value={view} onPick={pickV} />
         ) : null}
       </div>
-      {children(measure, views.length ? applyView(rows, view, show) : rows, view)}
+      {children(measure, derived.length ? applyView(rows, view, show) : rows, view)}
     </>
   );
+}
+
+/** Named views can carry their own control label; "Show" is the fallback. */
+function viewLabel(views) {
+  return (views[0] && views[0].group) || 'Show';
 }
 
 /**

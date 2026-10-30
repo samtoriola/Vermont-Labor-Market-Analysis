@@ -2030,6 +2030,15 @@ thead th[aria-sort='descending'] .sortmark {
   fill: #ffffff;
 }
 
+/* A column whose sample is too thin to split. Outlined rather than removed:
+   it is still the only figure there is for that place. */
+.chart .thinmark {
+  stroke: var(--ink-3);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.7;
+}
+
 /* ---------- sequential ramp legend ---------- */
 .ramplegend {
   display: flex;

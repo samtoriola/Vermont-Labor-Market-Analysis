@@ -23,13 +23,14 @@ import { CHART_W } from '@/lib/chartw';
  * rows:   { label, parts: [n], total, note }
  * series: the segment names, bottom to top
  */
-function Seg({ x, y, w, h, k, name, label, value, share, total, colors, dim, note }) {
+function Seg({ x, y, w, h, k, name, label, value, share, total, colors, dim, note, thin }) {
   const tip = useTipHandlers(`${label} — ${name}`, [
     ['Postings', fmt(value)],
     ['Of postings that state one', fmt(total)],
     ...(note ? [['Postings per job', note]] : []),
   ], {
     big: [[share.toFixed(1) + '%', `Share of ${label}`]],
+    foot: thin ? 'Too few postings here to split reliably' : undefined,
   });
 
   return (
@@ -40,7 +41,7 @@ function Seg({ x, y, w, h, k, name, label, value, share, total, colors, dim, not
         width={w}
         height={Math.max(0.5, h)}
         fill={`var(${colors[k]})`}
-        fillOpacity={dim ? 0.32 : 1}
+        fillOpacity={dim ? 0.32 : thin ? 0.45 : 1}
       />
       {/* The number goes inside the segment only where it fits without
           crowding; below that the hover carries it. */}
@@ -71,6 +72,10 @@ export function ColumnStack({ rows, series, opts = {} }) {
   const n = rows.length;
   const slot = (w - padL - padR) / n;
   const colW = Math.min(opts.maxColumnWidth || 104, slot * 0.72);
+  // How much name fits on a line, from the space a column actually has. Fixed at
+  // 13 this read fine at eight columns and ran "New Hampshire" straight into
+  // "United States" at seventeen.
+  const maxChars = Math.max(6, Math.floor(slot / 6.2));
 
   // A gridline every 20 points. The axis is the only way to read a segment that
   // is too thin to carry its own number.
@@ -125,14 +130,30 @@ export function ColumnStack({ rows, series, opts = {} }) {
                   colors={colors}
                   dim={false}
                   note={r.note}
+                  thin={r.thin}
                 />
               );
             })}
+            {/* A column built on too few postings is drawn, not hidden -- but it
+                is outlined so it cannot be read as being as solid as the rest.
+                Hiding a small county would be the worse answer: it is still the
+                only figure there is for that place. */}
+            {r.thin ? (
+              <rect
+                x={x}
+                y={padT}
+                width={colW}
+                height={plotH}
+                fill="none"
+                className="thinmark"
+                pointerEvents="none"
+              />
+            ) : null}
             {/* Place names wrap rather than truncate: "Rest of Vermont" cut to
                 "Rest of Ver…" is not a place. */}
             {String(r.label).split(' ').reduce((lines, word) => {
               const last = lines[lines.length - 1];
-              if (last && (last + ' ' + word).length <= 13) {
+              if (last && (last + ' ' + word).length <= maxChars) {
                 lines[lines.length - 1] = last + ' ' + word;
               } else {
                 lines.push(word);

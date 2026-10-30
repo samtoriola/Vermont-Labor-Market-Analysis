@@ -86,19 +86,11 @@ def main():
         "Windham": "50025", "Windsor": "50027",
     }
 
-    def bucket(area, atype):
-        if atype != "COUNTY":
-            return area
-        name = area.replace(", VT", "")
-        return name if name in NAMED else "Rest of Vermont"
-
-    raw["bucket"] = [bucket(a, t) for a, t in zip(raw.area, raw.area_type)]
     # The state row and the county rows both exist in the pull; using both would
     # count every Vermont posting twice.
     vt_counties = raw[raw.area_type == "COUNTY"].copy()
     others = raw[raw.area_type != "COUNTY"].copy()
 
-    cols = NAMED + ["Rest of Vermont"]
     areas = []
 
     def series(df, field, order, not_stated, mapper=None):
@@ -112,13 +104,14 @@ def main():
         g = d.groupby("k").postings.sum()
         return [int(g.get(k, 0)) for k in order]
 
-    def add(key, label, df, employment=None):
+    def add(key, label, df, employment=None, grp="bench"):
         tot = int(df.postings.sum())
         e = series(df, "education", EDU_ORDER, NOT_STATED_EDU, EDU_MAP)
         x = series(df, "experience", EXP_ORDER, NOT_STATED_EXP)
         areas.append({
             "k": key,
             "label": label,
+            "grp": grp,
             "postings": tot,
             "edu": e,
             "exp": x,
@@ -129,21 +122,44 @@ def main():
             "perJob": round(tot / employment, 2) if employment else None,
         })
 
-    add("vt", "Vermont", others[others.area == "Vermont"], float(emp.get("50", 0)) or None)
-    for n in NAMED:
+    add("vt", "Vermont", others[others.area == "Vermont"],
+        float(emp.get("50", 0)) or None, "state")
+
+    # Every county, largest employer first. The chart decides how many to draw,
+    # not the build.
+    #
+    # Ordered by employment rather than by postings on purpose: posting volume is
+    # the thing being measured, so ranking by it would be circular -- and it is
+    # exactly what makes Washington look like the second-largest labour market in
+    # the state when it is the fourth.
+    for n in sorted(CODES, key=lambda c: -float(emp.get(CODES[c], 0))):
         add(n.lower(), n, vt_counties[vt_counties.area == n + ", VT"],
-            float(emp.get(CODES[n], 0)) or None)
+            float(emp.get(CODES[n], 0)) or None, "county")
+
+    # The rollup the compact view shows in place of the ten smaller counties.
     rest_emp = sum(float(emp.get(CODES[n], 0)) for n in CODES if n not in NAMED)
     add("rest", "Rest of Vermont",
-        vt_counties[~vt_counties.area.isin([n + ", VT" for n in NAMED])], rest_emp or None)
+        vt_counties[~vt_counties.area.isin([n + ", VT" for n in NAMED])],
+        rest_emp or None, "rollup")
+
     add("nh", "New Hampshire", others[others.area == "New Hampshire"])
     add("us", "United States", others[others.area == "United States"])
+
+    # Below this many postings, a four-way split is thinner than the differences
+    # the chart draws with it: at 225 postings a mid-range share carries roughly
+    # six points of sampling error either way. Those columns are marked rather
+    # than quietly shown as though they were as solid as Chittenden's 32,000.
+    THIN = 500
+    for a in areas:
+        a["thin"] = a["grp"] == "county" and min(a["eduStated"], a["expStated"]) < THIN
 
     out = {
         "window": WINDOW,
         "eduOrder": EDU_ORDER,
         "expOrder": EXP_ORDER,
         "areas": areas,
+        "named": [n.lower() for n in NAMED],
+        "thinFloor": THIN,
         "note": ("Non-staffing, unique postings for permanent positions, excluding "
                  "internships. Shares are of postings that state a level."),
     }
@@ -153,16 +169,23 @@ def main():
     print("%-18s %10s %10s %7s  %s" % ("AREA", "POSTINGS", "STATED", "PER JOB", "BA+ SHARE"))
     for a in areas:
         ba = (a["edu"][2] + a["edu"][3]) / a["eduStated"] * 100 if a["eduStated"] else 0
-        print("%-18s %10s %10s %7s  %5.1f%%"
+        print("%-18s %10s %10s %7s  %5.1f%%  %s"
               % (a["label"], f"{a['postings']:,}", f"{a['eduStated']:,}",
-                 a["perJob"] if a["perJob"] else "-", ba))
+                 a["perJob"] if a["perJob"] else "-", ba,
+                 "THIN" if a.get("thin") else ""))
 
-    # The parts have to reconstruct the whole, or a column is missing.
-    parts = sum(a["postings"] for a in areas if a["k"] in
-                [n.lower() for n in NAMED] + ["rest"])
+    # Both ways of covering Vermont have to reconstruct it, or a column is
+    # missing from one of the two views.
     whole = [a for a in areas if a["k"] == "vt"][0]["postings"]
-    print("\ncounty columns %s vs Vermont %s (%+.2f%%)"
-          % (f"{parts:,}", f"{whole:,}", (parts / whole - 1) * 100))
+    for grp, what in (("county", "all 14 counties"),
+                      (None, "4 named + rest")):
+        if grp:
+            parts = sum(a["postings"] for a in areas if a["grp"] == "county")
+        else:
+            keep = [n.lower() for n in NAMED] + ["rest"]
+            parts = sum(a["postings"] for a in areas if a["k"] in keep)
+        print("%-16s %s vs Vermont %s (%+.2f%%)"
+              % (what, f"{parts:,}", f"{whole:,}", (parts / whole - 1) * 100))
     return 0
 
 
