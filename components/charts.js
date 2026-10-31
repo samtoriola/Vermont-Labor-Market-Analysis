@@ -46,8 +46,14 @@ export function RankedBars({ rows, opts = {} }) {
   const labW = opts.labelWidth || 188;
   const rowH = 24;
   const gap = 7;
-  const padR = opts.money ? 96 : 84;
-  const padT = 28;
+  // A second figure per row, printed beside the first. Only worth it where the
+  // bar already carries two measures -- length for one, fill for the other --
+  // and the second has no axis of its own to be read against.
+  const hasRight = rows.some((r) => r.right !== undefined && r.right !== null);
+  const padR = (opts.money ? 96 : 84) + (hasRight ? 58 : 0);
+  // The column heads need a line of their own above the axis ticks, which sit
+  // at padT - 15 and are centre-anchored, so they reach past the plot's end.
+  const padT = opts.valueHead || opts.rightHead ? 46 : 28;
   const w = opts.width || CHART_W;
   const h = padT + rows.length * (rowH + gap) + 4;
   const plotW = w - labW - padR;
@@ -196,10 +202,10 @@ export function RankedBars({ rows, opts = {} }) {
                 fillOpacity={dim ? 0.32 : 1}
               />
               <text
-                {...(opts.track
-                  // On a fixed track the figures belong in a column past the end
-                  // of it. Floating them at each bar's tip puts them on a ragged
-                  // diagonal that competes with the bar ends for the eye.
+                {...(opts.track || hasRight
+                  // In a column past the end of the plot, not at each bar's tip.
+                  // On a fixed track the remainder is the answer; where a second
+                  // figure follows, two ragged diagonals would be unreadable.
                   ? { x: zeroX + max * scale + 9, textAnchor: 'start' }
                   : { x: v < 0 ? bx - 9 : bx + bw + 9, textAnchor: v < 0 ? 'end' : 'start' })}
                 y={y + rowH / 2 + 4}
@@ -209,10 +215,47 @@ export function RankedBars({ rows, opts = {} }) {
               >
                 {shown}
               </text>
+              {hasRight ? (
+                <text
+                  x={zeroX + max * scale + 67}
+                  y={y + rowH / 2 + 4}
+                  className="nbadge"
+                  textAnchor="start"
+                  fontSize={11.5}
+                  opacity={dim ? 0.5 : 1}
+                >
+                  {r.right}
+                </text>
+              ) : null}
             </TipMark>
           </g>
         );
       })}
+
+      {/* Two unlabelled columns of figures would be a guess. The heads sit above
+          the plot rather than in it, so they do not read as a row. */}
+      {opts.valueHead ? (
+        <text
+          x={zeroX + max * scale + 9}
+          y={padT - 30}
+          className="nbadge"
+          textAnchor="start"
+          fontSize={9}
+        >
+          {opts.valueHead}
+        </text>
+      ) : null}
+      {hasRight && opts.rightHead ? (
+        <text
+          x={zeroX + max * scale + 67}
+          y={padT - 30}
+          className="nbadge"
+          textAnchor="start"
+          fontSize={9}
+        >
+          {opts.rightHead}
+        </text>
+      ) : null}
     </svg>
   );
 }
