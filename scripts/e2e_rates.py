@@ -40,7 +40,7 @@ with sync_playwright() as pw:
     pg.goto(URL, wait_until="networkidle")
     # The full occupation table used to be a sidebar destination of its own. It now
     # sits under the chart it belongs to, behind the "Show the figures" disclosure.
-    pick(pg, "Size and pay", "Typical pay")
+    pick(pg, "How much falls short", "Every occupation")
     tog = pg.locator(".datatoggle").first
     if "Show" in (tog.text_content() or ""):
         tog.click()
@@ -69,27 +69,13 @@ with sync_playwright() as pw:
     assert labs[-3:] == ["Vermont", "New Hampshire", "United States"], labs[-3:]
     assert len(fills) == 3, "expected green, amber and grey, got %s" % fills
 
-    # Typical pay by occupation size: three bands plus three reference bars, and the
-    # green/amber split has to follow the living-wage benchmark the reader picks.
-    pick(pg, "Size and pay", "Typical pay")
-
-    def fills_now():
-        return pg.evaluate(
-            "() => { const o = {};"
-            " document.querySelectorAll('.panel svg.chart g.bar rect').forEach(r =>"
-            " { const f = getComputedStyle(r).fill; o[f] = (o[f] || 0) + 1; }); return o; }")
-
-    bars = pg.locator(".panel svg.chart g.bar").count()
-    before = fills_now()
-    opts = pg.eval_on_selector_all("select option", "els => els.map(e => e.textContent)")
-    pg.locator("select").first.select_option(
-        label=[o for o in opts if "2 children" in o][0])
+    # Back to the panel this table belongs to. The family-pay check above left the
+    # page on another one, and the disclosure state is per panel.
+    pick(pg, "How much falls short", "Every occupation")
+    tog = pg.locator(".datatoggle").first
+    if "Show" in (tog.text_content() or ""):
+        tog.click()
     pg.wait_for_timeout(900)
-    after = fills_now()
-    print("size bands: %d bars | fills at default %d | after a higher benchmark %d"
-          % (bars, len(before), len(after)))
-    assert bars == 6, "expected 3 size bands plus 3 reference bars, got %d" % bars
-    assert before != after, "the benchmark no longer drives the green/amber split"
 
     # Headers are upper-cased in CSS and carry a sort glyph, so match on a prefix.
     def col_index(prefix):
@@ -121,6 +107,33 @@ with sync_playwright() as pw:
         else:
             print(f"  {name}: filtered out of this view (below its jobs threshold)")
     pg.locator(".view .dtsearch").fill("")
+
+    # The benchmark has to drive the wage-quality chart, not just label it. The
+    # green/amber size bands this used to check went with the rebuild; the shortfall
+    # bars are computed from the benchmark's position in each pay ladder, so raising
+    # the household has to move every printed figure.
+    pick(pg, "How much falls short", "Occupation groups")
+    pg.locator(".rankctl .chips button", has_text="Share of jobs below").first.click()
+    pg.wait_for_timeout(700)
+
+    def shares_now():
+        return pg.eval_on_selector_all(
+            ".panel svg.chart text.vlab", "els => els.map(e => e.textContent)")
+
+    bars = pg.locator(".panel svg.chart g.bar").count()
+    before = shares_now()
+    opts = pg.eval_on_selector_all("select option", "els => els.map(e => e.textContent)")
+    pg.locator("select").first.select_option(
+        label=[o for o in opts if "2 children" in o][0])
+    pg.wait_for_timeout(900)
+    after = shares_now()
+    print("shortfall: %d bars | first share at default %s | after a higher benchmark %s"
+          % (bars, before[:1], after[:1]))
+    assert bars == 22, "expected one bar per occupation group, got %d" % bars
+    assert before != after, "the benchmark no longer drives the shortfall figures"
+    # Put the household back so the next test does not inherit this one's choice.
+    pg.locator("select").first.select_option(label=[o for o in opts if o.startswith("1 adult, no")][0])
+    pg.wait_for_timeout(500)
     print("\npage errors:", len(errs))
     for e in errs[:3]: print("   ", e[:150])
     b.close()

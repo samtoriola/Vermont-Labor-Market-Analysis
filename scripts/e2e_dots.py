@@ -91,25 +91,12 @@ with sync_playwright() as pw:
         errs.append(f"dot columns reappeared on {stray}")
 
     print("")
-    print("--- percentile ladder (wage tab) ---")
-    # "Mean against median" and "25 largest by jobs" were two sections over the
-    # same 25 occupations; they are one panel now, with the measure on a control.
-    open_section(pg, "wage", "Largest occupations")
-    pg.locator(".rankctl .chips button", has_text="Pay spread").first.click()
-    pg.wait_for_timeout(700)
-    lad = pg.locator(".view svg g.ladder")
-    print(f"  ladder rows: {lad.count()}")
-    meds = pg.locator(".view svg g.ladder circle[stroke-width='1.2']").count()
-    rings = pg.locator(".view svg g.ladder circle[stroke-width='1.8']").count()
-    print(f"  median dots: {meds}   mean rings: {rings}")
-    if rings == 0:
-        errs.append("ladder drew no mean markers")
-    if lad.count() < 20:
-        errs.append(f"ladder has only {lad.count()} rows")
-
-    print("")
     print("--- scatter still plots every occupation ---")
-    open_section(pg, "wage", "Size and pay", "Every occupation")
+    # The percentile ladder was checked here too. It left with the size bands when
+    # the wage tab was rebuilt around how much of the work falls short, so nothing
+    # on the dashboard draws a ladder now -- which the stray-dot sweep above
+    # already proves, without needing a destination to point at.
+    open_section(pg, "wage", "How much falls short", "Every occupation")
     pts = pg.locator(".view svg circle").count()
     print(f"  points: {pts}")
     if pts < 200:
@@ -171,8 +158,7 @@ with sync_playwright() as pw:
         pg.keyboard.press("Escape")
         pg.wait_for_timeout(300)
 
-    for t, sec, meas, name in [("wage", "Largest occupations", None, "ladder"),
-                               ("wage", "Size and pay", "Every occupation", "scatter")]:
+    for t, sec, meas, name in [("wage", "How much falls short", "Every occupation", "scatter")]:
         open_section(pg, t, sec, meas)
         pg.screenshot(path=str(OUT / f"dots-{name}.png"), full_page=True)
 

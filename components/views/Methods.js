@@ -74,7 +74,15 @@ export default function Methods({ lw }) {
             ],
             [
               'Wage percentiles',
-              'As published. One occupation shows its own percentiles and mean. Occupation group, tier and size figures are the employment-weighted mean of their occupations’ percentiles — a faithful range, not an exact group quantile.',
+              'As published. One occupation shows its own percentiles and mean. Occupation group and tier ranges are the employment-weighted mean of their occupations’ percentiles — a faithful range, not an exact group quantile.',
+            ],
+            [
+              'Below a living wage',
+              'The benchmark’s position along each occupation’s own percentile ladder, weighted by that occupation’s jobs and rolled up. Not whether the occupation’s median clears it: that rule counts every job in an occupation on whichever side its midpoint falls, which is out by 19 points on Installation & Repair and 15 on Office & Admin Support. Clamped outside the 10th and 90th percentiles, where the published ladder says nothing.',
+            ],
+            [
+              'The county cost floor',
+              'MIT publishes a living wage per county, one adult with no children, running from $45,323 to $53,768. Where the dashboard compares counties against a cost floor it uses both that figure and the statewide one, because the gap between the two answers is the finding. Every other tab uses the statewide benchmark.',
             ],
             [
               'Projected growth',

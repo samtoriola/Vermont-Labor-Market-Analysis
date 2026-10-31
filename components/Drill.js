@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { fmt } from '@/lib/format';
+import { rollUp } from '@/lib/wage';
 import DataTable from './DataTable';
 import { occCols } from './occCols';
 
@@ -91,11 +92,10 @@ export function DrillProvider({ children }) {
 /** Standard occupation-detail payload, shared by the family and tier drill-downs. */
 export function occDrill({ label, title, cap, occ, lwAnnual, extraStats = [] }) {
   const jobs = occ.reduce((a, o) => a + o.j, 0);
-  const priced = occ.filter((o) => o.m);
-  const above = priced.filter((o) => o.m >= lwAnnual);
-  const wAbove = priced.length
-    ? (above.reduce((a, o) => a + o.j, 0) / priced.reduce((a, o) => a + o.j, 0)) * 100
-    : 0;
+  // Read off each occupation's own pay ladder, not from whether its median clears
+  // the benchmark -- the median rule counts every job in an occupation on one side
+  // of a line half of them are on the wrong side of. See lib/wage.js.
+  const roll = rollUp(occ, lwAnnual);
   const withTurn = occ.filter((o) => o.turn !== null && o.turn !== undefined && o.j > 0);
   const turn = withTurn.length
     ? withTurn.reduce((a, o) => a + o.turn * o.j, 0) / withTurn.reduce((a, o) => a + o.j, 0)
@@ -110,7 +110,7 @@ export function occDrill({ label, title, cap, occ, lwAnnual, extraStats = [] }) 
     stats: [
       ['Occupations', fmt(occ.length)],
       ['Jobs, 2025', fmt(jobs)],
-      ['Above living wage', wAbove.toFixed(1) + '%'],
+      ['Below living wage', roll ? roll.below.toFixed(1) + '%' : '—'],
       ['Turnover', turn === null ? '—' : turn.toFixed(1) + '%'],
       ...extraStats,
     ],

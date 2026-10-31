@@ -33,8 +33,6 @@ for _ in range(60):
 PANELS = [
     ("By occupation group", "Share of jobs", 0),
     ("By occupation group", "Typical pay", 0),
-    ("Size and pay", "Typical pay", 0),
-    ("Size and pay", "Above living wage", 0),
     ("By credential level", "Share of jobs", 0),
     ("By credential level", "Typical pay", 0),
     ("By credential level", "Above living wage", 1),

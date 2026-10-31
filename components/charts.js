@@ -151,6 +151,22 @@ export function RankedBars({ rows, opts = {} }) {
 
         return (
           <g key={r.label + i}>
+            {/* An empty track behind the bar, for charts where the remainder is
+                itself an answer: a bar filling a third of the row says two thirds
+                clear the benchmark, which a bar floating on the panel does not.
+                Only honest on a fixed scale -- on a ranked axis the track would
+                end at the largest row, which means nothing. */}
+            {opts.track ? (
+              <rect
+                x={zeroX}
+                y={y}
+                width={max * scale}
+                height={rowH}
+                rx={4}
+                fill={V('--track')}
+                opacity={dim ? 0.5 : 1}
+              />
+            ) : null}
             <text
               x={labW - 11}
               y={y + rowH / 2 + 4}

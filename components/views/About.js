@@ -76,7 +76,7 @@ export default function About() {
             {
               cells: [
                 'Wage quality',
-                'How the pay of a job compares with a self-sufficiency benchmark, by how big the occupation is',
+                'How much of the work pays less than a self-sufficiency benchmark, and where that bites hardest',
               ],
             },
             {

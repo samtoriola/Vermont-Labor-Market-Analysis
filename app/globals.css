@@ -33,6 +33,7 @@
 
   /* reserved semantic pair */
   --good: #007a58; /* Pine  — at or above benchmark */
+  --track: #e8eaec; /* the unfilled remainder of a 0–100% bar */
   --bad: #fc4c3a; /* Ember — below benchmark */
 
   --flag: #b03325;
@@ -77,6 +78,7 @@
     --ord4: #33afb7;
     --ord5: #66c3c9;
     --good: #339579;
+    --track: #2b3741;
     --bad: #fd7061;
     --flag: #fd9489;
     --flag-bg: #3a1f1b;
@@ -106,6 +108,7 @@
   --ord4: #33afb7;
   --ord5: #66c3c9;
   --good: #339579;
+  --track: #2b3741;
   --bad: #fd7061;
   --flag: #fd9489;
   --flag-bg: #3a1f1b;

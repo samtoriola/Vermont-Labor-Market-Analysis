@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { fmt, money } from '@/lib/format';
 import { CHART_W, SPLIT_W } from '@/lib/chartw';
 import { shortLabel } from '@/lib/labels';
+import { rollUp } from '@/lib/wage';
 
 /**
  * Master and detail, side by side.
@@ -119,18 +120,16 @@ function DetailPane({ d, onClose }) {
 export function occDetail({ label, title, occ, lwAnnual, stats, top = 8, onMore }) {
   const sorted = occ.slice().sort((a, b) => b.j - a.j);
   const jobs = occ.reduce((a, o) => a + o.j, 0);
-  const priced = occ.filter((o) => o.m);
-  const above = priced.filter((o) => o.m >= lwAnnual);
-  const wAbove = priced.length
-    ? (above.reduce((a, o) => a + o.j, 0) / priced.reduce((a, o) => a + o.j, 0)) * 100
-    : 0;
+  // Same measure as everywhere else: the benchmark's position along each
+  // occupation's own ladder, weighted by its jobs. See lib/wage.js.
+  const roll = rollUp(occ, lwAnnual);
 
   return {
     label,
     title,
     stats: stats || [
       [fmt(jobs), 'Jobs today'],
-      [wAbove.toFixed(0) + '%', 'Pay a living wage'],
+      [roll ? (100 - roll.below).toFixed(0) + '%' : '—', 'Pay a living wage'],
     ],
     note:
       occ.length > top
