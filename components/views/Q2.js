@@ -210,8 +210,8 @@ export default function Q2({ lw, setLw, section }) {
         active={section}
         items={[
           {
-            id: 'pay-shortfall',
-            label: 'Pay shortfall',
+            id: 'wage-benchmark',
+            label: 'Wage benchmark',
             render: () => (
               <>
                 <HowTo>
@@ -344,8 +344,8 @@ export default function Q2({ lw, setLw, section }) {
             ),
           },
           {
-            id: 'county-floors',
-            label: 'County floors',
+            id: 'county-living-wage',
+            label: 'County living wage',
             render: () => (
               <>
                 <HowTo>

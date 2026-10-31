@@ -50,7 +50,10 @@ def o55(row):
 BY_JOBS = list(SEC)
 BY_AGE = sorted([r for r in SEC if r.get("age")], key=lambda r: -o55(r)[0])
 
-TOP = len(SEC) // 2             # floor, as rankViews does; the spare row goes to the bottom
+# Mirrors topSlice() in lib/rank.js: the top rounds down to a multiple of ten
+# once half the pool reaches ten, and the bottom takes the remainder.
+_half = len(SEC) // 2
+TOP = (_half // 10) * 10 if _half >= 10 else _half
 
 
 def shown_rows(rows, view):

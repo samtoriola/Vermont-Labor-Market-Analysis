@@ -123,7 +123,7 @@ with sync_playwright() as pw:
     pg.goto(URL, wait_until="networkidle")
     pg.evaluate("localStorage.clear()")
     pg.reload(wait_until="networkidle")
-    pg.locator(".sbitem", has_text="Pay shortfall").first.click()
+    pg.locator(".sbitem", has_text="Wage benchmark").first.click()
     pg.wait_for_timeout(1000)
 
     # ---- the headline the tab leads with --------------------------------
@@ -254,7 +254,7 @@ with sync_playwright() as pw:
     chip(pg, "Rows", "Occupation groups")
 
     # ---- the counties ---------------------------------------------------
-    pg.locator(".sbitem", has_text="County floors").first.click()
+    pg.locator(".sbitem", has_text="County living wage").first.click()
     pg.wait_for_timeout(900)
     C = WF["counties"]
     print("--- counties ---")

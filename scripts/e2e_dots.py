@@ -96,7 +96,7 @@ with sync_playwright() as pw:
     # the wage tab was rebuilt around how much of the work falls short, so nothing
     # on the dashboard draws a ladder now -- which the stray-dot sweep above
     # already proves, without needing a destination to point at.
-    open_section(pg, "wage", "Pay shortfall", "Every occupation")
+    open_section(pg, "wage", "Wage benchmark", "Every occupation")
     pts = pg.locator(".view svg circle").count()
     print(f"  points: {pts}")
     if pts < 200:
@@ -158,7 +158,7 @@ with sync_playwright() as pw:
         pg.keyboard.press("Escape")
         pg.wait_for_timeout(300)
 
-    for t, sec, meas, name in [("wage", "Pay shortfall", "Every occupation", "scatter")]:
+    for t, sec, meas, name in [("wage", "Wage benchmark", "Every occupation", "scatter")]:
         open_section(pg, t, sec, meas)
         pg.screenshot(path=str(OUT / f"dots-{name}.png"), full_page=True)
 
