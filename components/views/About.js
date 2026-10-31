@@ -34,7 +34,7 @@ export default function About() {
             ],
             [
               'Filter',
-              `Vermont only. ${fmt(LC.allOcc.length)} detailed occupations, ${fmt(DATA.families.length)} occupational families, all 14 counties, and the two VSCS institutions — the Community College of Vermont and Vermont State University.`,
+              `Vermont only. ${fmt(LC.allOcc.length)} detailed occupations, ${fmt(DATA.families.length)} occupation groups, all 14 counties, and the two VSCS institutions — the Community College of Vermont and Vermont State University.`,
             ],
             [
               'Unit of analysis',
@@ -70,7 +70,7 @@ export default function About() {
             {
               cells: [
                 'Employment structure',
-                'Which occupational families and industries employ Vermonters, and what each pays',
+                'Which occupation groups and industries employ Vermonters, and what each pays',
               ],
             },
             {
@@ -106,7 +106,7 @@ export default function About() {
             {
               cells: [
                 'VSCS alignment',
-                `How ${fmt(SOW.vscs.totalCompletions)} VSCS completions sit against ${fmt(SOW.vscs.openAll)} annual openings, by family and by occupation`,
+                `How ${fmt(SOW.vscs.totalCompletions)} VSCS completions sit against ${fmt(SOW.vscs.openAll)} annual openings, by occupation group and by occupation`,
               ],
             },
             {
@@ -170,7 +170,7 @@ export default function About() {
             ],
             [
               'Filters carry across tabs',
-              'Credential tier, family, wage and size filters set on Wage quality or Opportunities stay applied as you move between tabs. Active filters are listed at the top of each tab, and can be cleared there.',
+              'Credential tier, occupation group, wage and size filters set on Wage quality or Opportunities stay applied as you move between tabs. Active filters are listed at the top of each tab, and can be cleared there.',
             ],
             [
               'Hover any mark',

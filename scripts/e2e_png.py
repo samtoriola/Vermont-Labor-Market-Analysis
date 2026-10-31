@@ -43,7 +43,7 @@ with sync_playwright() as p:
         assert ok, "PNG button presence is wrong on " + label
 
     print("\n--- the download produces a real image ---")
-    for label in ["Size and pay", "By credential level", "By type of work"]:
+    for label in ["Size and pay", "By credential level", "By occupation group"]:
         pg.locator(".sbitem", has_text=label).first.click()
         pg.wait_for_timeout(1000)
         with pg.expect_download(timeout=30000) as dl:

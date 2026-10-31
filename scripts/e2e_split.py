@@ -31,14 +31,14 @@ for _ in range(60):
 # measure control, so the pane has to work on every measure, not just the one the
 # panel opens on.
 PANELS = [
-    ("By type of work", "Share of jobs", 0),
-    ("By type of work", "Typical pay", 0),
+    ("By occupation group", "Share of jobs", 0),
+    ("By occupation group", "Typical pay", 0),
     ("Size and pay", "Typical pay", 0),
     ("Size and pay", "Above living wage", 0),
     ("By credential level", "Share of jobs", 0),
     ("By credential level", "Typical pay", 0),
     ("By credential level", "Above living wage", 1),
-    ("Against demand", "By type of work", 0),
+    ("Against demand", "By occupation group", 0),
 ]
 
 fails = []
@@ -120,7 +120,7 @@ with sync_playwright() as pw:
         print("%-42s ok  (%s)" % (label, name))
 
     # The hover card: a headline number, and the hint that a click does something.
-    pg.locator(".sbitem", has_text="By type of work").first.click()
+    pg.locator(".sbitem", has_text="By occupation group").first.click()
     pg.wait_for_timeout(600)
     pg.locator(".split svg.chart g.bar").first.hover()
     pg.wait_for_timeout(300)

@@ -5,7 +5,7 @@ import { TIER_ORDER } from '@/lib/data';
 
 const EMPTY = {
   tiers: [], // entry-credential tiers, multi-select
-  families: [], // occupational families, multi-select — set by clicking a chart
+  families: [], // occupation groups, multi-select — set by clicking a chart
   wage: 'all', // all | above | below (vs the living-wage benchmark)
   minJobs: 0, // 0 | 500 | 2000
   growth: 'all', // all | growing | shrinking (projected 2025-2030)

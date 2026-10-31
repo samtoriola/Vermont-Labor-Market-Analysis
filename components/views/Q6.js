@@ -19,7 +19,7 @@ export default function Q6({ lw, section }) {
   const { open } = useDrill();
   const V = SOW.vscs;
 
-  // Ordered by how far each kind of work's graduates go against its openings, with
+  // Ordered by how far each occupation group's graduates go against its openings, with
   // the ones no graduate reaches at the foot rather than scattered through.
   const famShare = (r) => (r.open ? (r.linked / r.open) * 100 : null);
 
@@ -30,9 +30,9 @@ export default function Q6({ lw, section }) {
   const famDrill = (r) =>
     open(
       occDrill({
-        label: 'Type of work',
+        label: 'Occupation group',
         title: r.f,
-        cap: 'The occupations in this kind of work, and the graduates spread across them.',
+        cap: 'The occupations in this group, and the graduates spread across them.',
         occ: occByFamily(r.f),
         lwAnnual: LWA,
         extraStats: [
@@ -46,11 +46,11 @@ export default function Q6({ lw, section }) {
       })
     );
 
-  // What the pane shows for a kind of work on this tab: the alignment figures
+  // What the pane shows for an occupation group on this tab: the alignment figures
   // first, because that is the question the chart asked.
   const famDetail = (r) =>
     occDetail({
-      label: 'Type of work',
+      label: 'Occupation group',
       title: r.f,
       occ: occByFamily(r.f),
       lwAnnual: LWA,
@@ -69,10 +69,10 @@ export default function Q6({ lw, section }) {
     V.over.filter((r) => !V.under.some((u) => u.soc === r.soc))
   );
   // Two grains of one question -- where does production line up with demand --
-  // which were two sections. The chart answers it for the 22 kinds of work; the
+  // which were two sections. The chart answers it for the 22 occupation groups; the
   // table answers it occupation by occupation, which is where a program sits.
   const LEVELS = [
-    { id: 'family', label: 'By type of work' },
+    { id: 'family', label: 'By occupation group' },
     { id: 'occupation', label: 'By occupation' },
   ];
 
@@ -146,7 +146,7 @@ export default function Q6({ lw, section }) {
               <>
                 <HowTo>
                   VSCS graduates measured against Vermont openings, at whichever grain you
-                  pick: the 22 kinds of work, or occupation by occupation. A share here is
+                  pick: the 22 occupation groups, or occupation by occupation. A share here is
                   graduates as a percentage of openings — never the share of openings
                   filled, which no figure on this dashboard can tell you.
                 </HowTo>
@@ -171,11 +171,11 @@ export default function Q6({ lw, section }) {
                       <Panel
                         title="Where does VSCS production line up with openings?"
                         note={familiesNoCompletions(V.byFamily)}
-                        cap="Each kind of work's VSCS graduates measured against the openings it has each year. 25% means VSCS graduates a number equal to a quarter of the openings — not that it fills a quarter of them, which no figure here can tell you. Grey bars draw no VSCS graduates at all. Work that needs no credential sits there by nature, because college is not the route into it. Hover for the counts; click for the occupations behind it."
+                        cap="Each occupation group's VSCS graduates measured against the openings it has each year. 25% means VSCS graduates a number equal to a quarter of the openings — not that it fills a quarter of them, which no figure here can tell you. Grey bars draw no VSCS graduates at all. Work that needs no credential sits there by nature, because college is not the route into it. Hover for the counts; click for the occupations behind it."
                         src="Federal completions data, 2024, against Vermont openings · spread by employment"
                         data={{
                           cols: [
-                            { k: 'f', label: 'Type of work', kind: 'text', get: (r) => r.f },
+                            { k: 'f', label: 'Occupation group', kind: 'text', get: (r) => r.f },
                             { k: 'open', label: 'Openings a year', kind: 'num', get: (r) => r.open },
                             { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
                             {
@@ -189,7 +189,7 @@ export default function Q6({ lw, section }) {
                           rows: famAlign,
                           label: 'graduates-against-openings',
                           initialSort: { k: 'ratio', dir: -1 },
-                          unit: 'kinds of work',
+                          unit: 'occupation groups',
                           onRowClick: famDrill,
                           note: 'Click a row for the occupations behind it.',
                         }}
@@ -222,7 +222,7 @@ export default function Q6({ lw, section }) {
                                 width,
                                 valueLabel: 'Graduates as % of openings',
                                 clickHint: 'Click for the occupations inside it',
-                                aria: 'Graduates as a share of openings by type of work',
+                                aria: 'Graduates as a share of openings by occupation group',
                               }}
                             />
                           )}

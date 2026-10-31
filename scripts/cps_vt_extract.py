@@ -86,7 +86,7 @@ FROM `strada-data-lab-c9d1.monthly_cps.cps` WHERE {BASE}""").to_dataframe().m.il
 out["n_months"] = int(nm)
 print("months in window:", nm)
 
-# 1. occupational family
+# 1. occupation group
 q1 = f"""
 SELECT {OCC_FAMILY} AS family,
        COUNT(*) AS n_unweighted,
@@ -166,7 +166,7 @@ out["family_trend"] = c.query(q7).to_dataframe().to_dict("records")
 with open("cps_vt_dashboard_data.json","w") as f:
     json.dump(out, f, indent=1, default=float)
 
-print("\n=== occupational families (annual avg employment, VT 2021-2025) ===")
+print("\n=== occupation groups (annual avg employment, VT 2021-2025) ===")
 for r in out["by_family"]:
     print(f"  {r['family']:38s} {r['avg_employment']:>9,.0f}  n={r['n_unweighted']:>5d} uniq={r['uniq_persons']:>4d}")
 print("\n=== pathway shares ===")

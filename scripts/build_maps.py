@@ -1,6 +1,6 @@
 """The two rollup maps, in one place.
 
-SOC major group -> occupational family, and NAICS two-digit prefix -> industry
+SOC major group -> occupation group, and NAICS two-digit prefix -> industry
 sector. build.py produces the aggregates from these and build_detail.py produces
 the detail rows underneath them; a copy in each would let the two drift, and a
 drift would show as a detail table whose rows do not add to the bar above it.

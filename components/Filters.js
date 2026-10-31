@@ -143,7 +143,7 @@ export default function Filters({ shown, total, note, pool, showFamilies = false
 
       {showFamilies && families.length > 1 ? (
         <div className="fgroup fgroup-wide">
-          <span className="flab">Type of work</span>
+          <span className="flab">Occupation group</span>
           <div className="chips">
             {families.map(([t]) => (
               <button

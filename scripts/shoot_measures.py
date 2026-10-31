@@ -20,7 +20,7 @@ for _ in range(60):
 
 SHOTS = [
     ("Industry sectors", "Age mix", "m_sec_age"),
-    ("By type of work", "Age mix", "m_fam_age"),
+    ("By occupation group", "Age mix", "m_fam_age"),
     ("By credential level", "Range of outcomes", "m_cred"),
 ]
 

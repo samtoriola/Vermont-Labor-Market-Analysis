@@ -30,7 +30,7 @@ export function occCols(lwAnnual) {
 /** Master table also names the family and SOC, which the drill-down already implies. */
 export function occColsWide(lwAnnual) {
   return occCols(lwAnnual).concat([
-    { k: 'f', label: 'Type of work', kind: 'text', get: (o) => o.f },
+    { k: 'f', label: 'Occupation group', kind: 'text', get: (o) => o.f },
     { k: 's', label: 'Occupation code', kind: 'text', get: (o) => o.s },
   ]);
 }

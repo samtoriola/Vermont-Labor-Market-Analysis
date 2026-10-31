@@ -36,9 +36,9 @@ export default function Q1({ lw, section }) {
   const famDrill = (f) =>
     open(
       occDrill({
-        label: 'Occupational family',
+        label: 'Occupation group',
         title: f.f,
-        cap: 'Every detailed occupation in this family, largest first.',
+        cap: 'Every detailed occupation in this group, largest first.',
         occ: occByFamily(f.f),
         lwAnnual: LWA,
         extraStats: [['Annual openings', fmt(f.open)]],
@@ -67,7 +67,7 @@ export default function Q1({ lw, section }) {
 
   // Reference bars: the state as a whole, the nearest comparable state, the nation.
   // Appended after the ranking rather than ranked with it, and drawn in grey so they
-  // read as a baseline rather than as another kind of work.
+  // read as a baseline rather than as another occupation group.
   const famRefs = ['Vermont', 'New Hampshire', 'United States']
     .map(compareCol)
     .filter(Boolean)
@@ -85,7 +85,7 @@ export default function Q1({ lw, section }) {
   // occupations inside it, then a way through to the whole table.
   const famDetail = (r) =>
     occDetail({
-      label: 'Type of work',
+      label: 'Occupation group',
       title: r.f,
       occ: occByFamily(r.f),
       lwAnnual: LWA,
@@ -131,7 +131,7 @@ export default function Q1({ lw, section }) {
   // ---- industry sectors ---------------------------------------------------
   // The sector chart could count the industries inside a bar but not name them.
   // It can now: 757 detailed industries carry their sector, so a click opens the
-  // ones inside a sector exactly as a click on a kind of work opens its occupations.
+  // ones inside a sector exactly as a click on an occupation group opens its occupations.
   const indDrill = (r) => {
     const ind = indBySector(r.s);
     open({
@@ -276,17 +276,17 @@ export default function Q1({ lw, section }) {
     .filter((x) => x.a)
     .sort((x, y) => y.a.o55 - x.a.o55);
 
-  // One question -- what differs across the 22 kinds of work -- asked three ways.
+  // One question -- what differs across the 22 occupation groups -- asked three ways.
   // These were three sections scrolling past each other; they are the same 22 rows
   // every time, so the reader should be able to swap the measure and watch the
   // ranking move rather than lose their place between pages.
   const fam = {
     jobs: {
-      title: 'Which occupational families employ the most Vermonters?',
+      title: 'Which occupation groups employ the most Vermonters?',
       note: familyConcentration(fams, TOTJ),
-      cap: `Each family's share of the state's ${fmt(TOTJ)} jobs.`,
+      cap: `Each occupation group's share of the state's ${fmt(TOTJ)} jobs.`,
       src: `Vermont occupation data, 2025 · 22 occupational groups · ${fmt(TOTJ)} jobs`,
-      table: 'jobs-by-type-of-work',
+      table: 'jobs-by-occupation-group',
       sort: { k: 'jobs', dir: -1 },
       chart: (
         <>
@@ -315,7 +315,7 @@ export default function Q1({ lw, section }) {
                       width,
                       valueLabel: 'Share of all jobs',
                       clickHint: 'Click for the occupations inside it',
-                      aria: 'Share of Vermont jobs by occupational family',
+                      aria: 'Share of Vermont jobs by occupation group',
                     }}
                   />
                 )}
@@ -327,11 +327,11 @@ export default function Q1({ lw, section }) {
     },
 
     pay: {
-      title: 'What does each occupational family pay?',
+      title: 'What does each occupation group pay?',
       note: vsNation(COMPARE.areas),
       cap: 'Green bars clear the living wage at the typical job, amber ones do not. The grey bars are the state, its nearest comparable state and the country.',
       src: `Vermont occupation data, 2025 · reference bars from published state and national wage data · living-wage benchmark 2025, ${lw}`,
-      table: 'pay-by-type-of-work',
+      table: 'pay-by-occupation-group',
       sort: { k: 'med', dir: -1 },
       chart: (
         <Split items={fams} keyOf={(r) => r.f} detail={famDetail}>
@@ -353,7 +353,7 @@ export default function Q1({ lw, section }) {
                     ruleLabel: 'Living wage',
                     valueLabel: 'Typical pay',
                     clickHint: 'Click for the occupations inside it',
-                    aria: 'Typical pay by occupational family',
+                    aria: 'Typical pay by occupation group',
                   }}
                 />
               )}
@@ -364,11 +364,11 @@ export default function Q1({ lw, section }) {
     },
 
     age: {
-      title: 'How old is the workforce in each kind of work?',
-      note: oldestWorkforce(fams, (r) => r.f, 'kind of work'),
-      cap: 'The age mix of each kind of work, oldest first. The figure on the right is the share aged 55 and over \u2014 the work most likely to need replacing within a decade.',
+      title: 'How old is the workforce in each occupation group?',
+      note: oldestWorkforce(fams, (r) => r.f, 'occupation group'),
+      cap: 'The age mix of each occupation group, oldest first. The figure on the right is the share aged 55 and over \u2014 the work most likely to need replacing within a decade.',
       src: 'Vermont occupation data, 2025 \u00b7 eight reported age bands rolled up to three',
-      table: 'age-by-type-of-work',
+      table: 'age-by-occupation-group',
       sort: { k: 'o55', dir: -1 },
       chart: (
         <>
@@ -390,10 +390,10 @@ export default function Q1({ lw, section }) {
                       width,
                       colors: AGE_COLORS,
                       tierNames: AGE_LABELS,
-                      shareLabel: 'Share of this kind of work',
+                      shareLabel: 'Share of this occupation group',
                       rightLabel: '55+',
                       clickHint: 'Click for the occupations inside it',
-                      aria: 'Age mix by occupational family',
+                      aria: 'Age mix by occupation group',
                     }}
                   />
                 )}
@@ -405,11 +405,11 @@ export default function Q1({ lw, section }) {
     },
 
     credential: {
-      title: 'What credential does each family ask for at entry?',
+      title: 'What credential does each occupation group ask for at entry?',
       note: credentialSpread(fams),
-      cap: 'Each circle is a kind of work, sized by how many jobs it holds and shaded by how much of that work asks for a degree at the door. What the job asks for, not what the people doing it hold. Hover for the full mix across all five levels.',
+      cap: 'Each circle is an occupation group, sized by how many jobs it holds and shaded by how much of that work asks for a degree at the door. What the job asks for, not what the people doing it hold. Hover for the full mix across all five levels.',
       src: 'Vermont occupation data, 2025 · entry credential, weighted by jobs',
-      table: 'entry-credential-by-type-of-work',
+      table: 'entry-credential-by-occupation-group',
       sort: { k: 'jobs', dir: -1 },
       chart: (
         <>
@@ -438,7 +438,7 @@ export default function Q1({ lw, section }) {
                 opts={{
                   width,
                   height: 640,
-                  aria: 'Employment and entry credential by occupational family',
+                  aria: 'Employment and entry credential by occupation group',
                 }}
               />
             )}
@@ -503,12 +503,12 @@ export default function Q1({ lw, section }) {
             ),
           },
           {
-            id: 'by-type-of-work',
-            label: 'By type of work',
+            id: 'by-occupation-group',
+            label: 'By occupation group',
             render: () => (
               <>
                 <HowTo>
-                  The same 22 kinds of work under every measure — jobs, pay, what they ask
+                  The same 22 occupation groups under every measure — jobs, pay, what they ask
                   for at the door, and who is doing them. Click a bar for the occupations
                   inside it.
                 </HowTo>
@@ -527,7 +527,7 @@ export default function Q1({ lw, section }) {
                           label: v.table,
                           initialSort: v.sort,
                           onRowClick: famDrill,
-                          unit: 'kinds of work',
+                          unit: 'occupation groups',
                           note: 'Click a row for the occupations behind it.',
                         }}
                       >

@@ -13,7 +13,7 @@ WIRE = {
     "Q1": (
         ["familyConcentration", "credentialSpread"],
         [
-            ("Which occupational families employ the most", "familyConcentration(fams, TOTJ)"),
+            ("Which occupation groups employ the most", "familyConcentration(fams, TOTJ)"),
             ("What credential does each family ask for", "credentialSpread(fams)"),
         ],
     ),

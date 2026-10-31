@@ -3,7 +3,7 @@
 Closes the demand-side half of SOW research question 7. County attainment and
 income were already on the Regions tab from the household survey; what was
 missing was the labour market itself -- how many jobs each county holds, what
-they pay, and what kind of work each county is actually made of. Reads the CSV
+they pay, and what occupation group each county is actually made of. Reads the CSV
 pull_counties.py wrote; queries nothing.
 
 WHICH ROWS

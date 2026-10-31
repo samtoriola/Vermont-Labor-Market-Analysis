@@ -55,7 +55,7 @@ OCCUPATION LEVELS
 -----------------
 `dat_occ_earn` carries only level 1 ("Total, All Occupations") and level 5
 (detailed SOC, 798 of them here) -- not the level-2 major groups the reference
-docs describe for `dim_occid`. The 22 occupational families have to be rolled up
+docs describe for `dim_occid`. The 22 occupation groups have to be rolled up
 from detailed SOC with the SOC_MAJOR map in build_maps.py, exactly as build.py
 already does for the statewide export.
 

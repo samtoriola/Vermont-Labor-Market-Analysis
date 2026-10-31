@@ -74,7 +74,7 @@ export default function Q3({ section }) {
     })
     .sort((x, y) => y.b - y.a - (x.b - x.a));
 
-  // Three readings of the same 22 kinds of work: who is advertising hardest, who
+  // Three readings of the same 22 occupation groups: who is advertising hardest, who
   // actually grew, and who is expected to. They were three sections, which made a
   // reader hold one ranking in their head while scrolling to the next. Behind one
   // control the ranking simply re-sorts in place.
@@ -85,7 +85,7 @@ export default function Q3({ section }) {
   const dem = {
     ads: {
       title: 'Where do employers advertise more than their employment share would predict?',
-      cap: "A type of work's share of job ads against its share of jobs. Above 1.0 means employers are advertising more than its size alone would suggest — a sign of hiring pressure.",
+      cap: "An occupation group's share of job ads against its share of jobs. Above 1.0 means employers are advertising more than its size alone would suggest — a sign of hiring pressure.",
       src: `Job ads, ${LC.postWindow} · ${fmt(totPost)} unique ads`,
       table: 'job-ads-against-size',
       sort: { k: 'post', dir: -1 },
@@ -118,7 +118,7 @@ export default function Q3({ section }) {
     },
 
     observed: {
-      title: 'Which families grew, and which shrank, over the study window?',
+      title: 'Which occupation groups grew, and which shrank, over the study window?',
       note: observedSplit(fams),
       cap: 'How employment actually changed between 2021 and 2025.',
       src: 'Vermont occupation data · 2021 jobs against 2025 jobs',
@@ -147,7 +147,7 @@ export default function Q3({ section }) {
                 mode: 'pct',
                 signed: true,
                 valueLabel: 'Change since 2021',
-                aria: 'Observed change 2021 to 2025 by family',
+                aria: 'Observed change 2021 to 2025 by occupation group',
               }}
             />
           )}
@@ -156,7 +156,7 @@ export default function Q3({ section }) {
     },
 
     projected: {
-      title: 'Which families are projected to grow over the next five years?',
+      title: 'Which occupation groups are projected to grow over the next five years?',
       note: growthSplit(fams),
       cap: 'Projected change in jobs over the next five years. Bars to the left are expected to shrink.',
       src: 'Vermont occupation data · 2030 projection against 2025 jobs',
@@ -181,7 +181,7 @@ export default function Q3({ section }) {
                 mode: 'pct',
                 signed: true,
                 valueLabel: 'Growth by 2030',
-                aria: 'Projected five-year growth by family',
+                aria: 'Projected five-year growth by occupation group',
               }}
             />
           )}
@@ -298,10 +298,10 @@ export default function Q3({ section }) {
           // <Panel
           // title="Do jobs, openings and postings point at the same families?"
           // note={demandDivergence(align)}
-          // cap="What share of the state's jobs, yearly openings and job ads each type of work accounts for."
+          // cap="What share of the state's jobs, yearly openings and job ads each occupation group accounts for."
           // src={`Lightcast · postings window ${LC.postWindow} · shares within each measure sum to 100%`}
           // data={{ cols: familyCols(), rows: fams, label: 'three-demand-measures',
-          // initialSort: { k: 'jobs', dir: -1 }, unit: 'kinds of work' }}
+          // initialSort: { k: 'jobs', dir: -1 }, unit: 'occupation groups' }}
           // >
           // <Legend
           // labels={['Share of jobs', 'Share of annual openings', 'Share of postings']}
@@ -382,7 +382,7 @@ export default function Q3({ section }) {
             render: () => (
               <>
                 <HowTo>
-                  Four ways of asking where the hiring is, over the same 22 kinds of work:
+                  Four ways of asking where the hiring is, over the same 22 occupation groups:
                   openings now, how much of the workforce turns over, how heavily the work
                   is advertised, and what is projected by 2030. They disagree, which is the
                   reason to look at more than one.
@@ -401,7 +401,7 @@ export default function Q3({ section }) {
                           rows: fams,
                           label: v.table,
                           initialSort: v.sort,
-                          unit: 'kinds of work',
+                          unit: 'occupation groups',
                         }}
                       >
                         {v.chart}

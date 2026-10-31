@@ -74,7 +74,7 @@ export default function Methods({ lw }) {
             ],
             [
               'Wage percentiles',
-              'As published. One occupation shows its own percentiles and mean. Family, tier and size figures are the employment-weighted mean of their occupations’ percentiles — a faithful range, not an exact group quantile.',
+              'As published. One occupation shows its own percentiles and mean. Occupation group, tier and size figures are the employment-weighted mean of their occupations’ percentiles — a faithful range, not an exact group quantile.',
             ],
             [
               'Projected growth',

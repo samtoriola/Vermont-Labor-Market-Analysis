@@ -38,9 +38,9 @@ export default function Q5({ lw, setLw, section }) {
   const screenDrill = (r) =>
     open(
       occDrill({
-        label: 'Occupational family',
+        label: 'Occupation group',
         title: r.f,
-        cap: `Opened from ${r.n}. Every occupation in this family.`,
+        cap: `Opened from ${r.n}. Every occupation in this group.`,
         occ: occByFamily(r.f),
         lwAnnual: LWA,
       })
@@ -203,7 +203,7 @@ export default function Q5({ lw, setLw, section }) {
                 </HowTo>
               <Panel
                 title="Which occupations could VSCS act on?"
-                cap={`Occupations that pass four tests at once: at least ${minOpen} openings a year, pay at or above the living wage, and a credential VSCS already awards${excludeObvious ? ', and not one of the 25 largest' : ''}. Signals counts how many of three things an occupation has going for it — openings, advertising and projected growth — each judged against others needing the same credential. Click a row for its type of work.`}
+                cap={`Occupations that pass four tests at once: at least ${minOpen} openings a year, pay at or above the living wage, and a credential VSCS already awards${excludeObvious ? ', and not one of the 25 largest' : ''}. Signals counts how many of three things an occupation has going for it — openings, advertising and projected growth — each judged against others needing the same credential. Click a row for its occupation group.`}
                 src="Vermont occupation data, 2025, against federal completions data, 2024 · thresholds set above · a candidate for investigation, not a recommendation"
                 note={screenYield(screened, acted, LC.allOcc.length)}
               >

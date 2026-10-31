@@ -208,7 +208,7 @@ export default function Q7({ lw, setLw, section }) {
     mix: {
       title: 'What is each county actually specialised in?',
       note: countyMix(C, CTY.famOrder),
-      cap: `Each cell is the county's share of its own jobs in a kind of work, against Vermont's share of the same work. 1.0 means the county looks exactly like the state, and the shading changes colour there. The figure is printed on the darkest step, from ${HEAT_PRINT_FROM}× up. It is a ratio of shares and says nothing about size, so hover for the job count behind it.${thinLine} Those two are outlined.`,
+      cap: `Each cell is the county's share of its own jobs in an occupation group, against Vermont's share of the same work. 1.0 means the county looks exactly like the state, and the shading changes colour there. The figure is printed on the darkest step, from ${HEAT_PRINT_FROM}× up. It is a ratio of shares and says nothing about size, so hover for the job count behind it.${thinLine} Those two are outlined.`,
       src: `Vermont occupation data by county, ${CTY.year} · share of county employment against share of state employment · counties ordered by employment`,
       chart: (
         <>
@@ -308,7 +308,7 @@ export default function Q7({ lw, setLw, section }) {
                           data={
                             m === 'mix'
                               ? { cols: countyMixCols(), rows: mixRows, label: 'county-concentration',
-                                  initialSort: { k: 'lq', dir: -1 }, unit: 'county and family pairs' }
+                                  initialSort: { k: 'lq', dir: -1 }, unit: 'county and occupation group pairs' }
                               : { cols: countyCols(), rows, label: 'counties-compared',
                                   initialSort: { k: 'emp', dir: -1 }, unit: 'counties',
                                   onRowClick: (r) => pick(r.c) }

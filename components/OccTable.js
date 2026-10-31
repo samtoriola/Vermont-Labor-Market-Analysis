@@ -28,7 +28,7 @@ export default function OccTable({ lw }) {
       <p className="cap">
         Every Vermont occupation passing the active filters. Search, filter on any numeric
         column, or click a heading to sort — then export exactly what you are looking at.
-        Click a row to open its occupational family.
+        Click a row to open its occupation group.
       </p>
 
       <DataTable
@@ -40,9 +40,9 @@ export default function OccTable({ lw }) {
         onRowClick={(r) =>
           open(
             occDrill({
-              label: 'Occupational family',
+              label: 'Occupation group',
               title: r.f,
-              cap: `Opened from ${r.n}. Every occupation in this family.`,
+              cap: `Opened from ${r.n}. Every occupation in this group.`,
               occ: occByFamily(r.f),
               lwAnnual: LWA,
             })

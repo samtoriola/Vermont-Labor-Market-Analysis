@@ -93,7 +93,7 @@ with sync_playwright() as pw:
     # ---------------- age mix ----------------
     print("")
     print("--- the age measure draws three ordered bands ---")
-    for section, hint in (("Industry sectors", "sector"), ("By type of work", "family")):
+    for section, hint in (("Industry sectors", "sector"), ("By occupation group", "family")):
         pg.locator(".sbitem", has_text=section).first.click()
         pg.wait_for_timeout(700)
         pg.locator(".rankctl .chips button", has_text="Age mix").first.click()
@@ -151,8 +151,8 @@ with sync_playwright() as pw:
 
     # ---------------- entry credential, as packed circles ----------------
     print("")
-    print("--- the credential measure packs one circle per kind of work ---")
-    pg.locator(".sbitem", has_text="By type of work").first.click()
+    print("--- the credential measure packs one circle per occupation group ---")
+    pg.locator(".sbitem", has_text="By occupation group").first.click()
     pg.wait_for_timeout(700)
     pg.locator(".rankctl .chips button", has_text="Entry credential").first.click()
     pg.wait_for_timeout(900)
@@ -161,10 +161,10 @@ with sync_playwright() as pw:
     n = circles.count()
     print("  circles: %d" % n)
     if n != 22:
-        fails.append("packed %d circles, expected one per kind of work (22)" % n)
+        fails.append("packed %d circles, expected one per occupation group (22)" % n)
 
     # Area has to track the value, so no two circles may overlap and the largest
-    # has to be the largest kind of work.
+    # has to be the largest occupation group.
     geo = pg.evaluate(
         """() => [...document.querySelectorAll('.chart .bub circle')].map(c => ({
              x: +c.getAttribute('cx'), y: +c.getAttribute('cy'), r: +c.getAttribute('r') }))"""

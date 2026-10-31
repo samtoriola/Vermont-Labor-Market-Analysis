@@ -259,7 +259,7 @@ export default function Q2({ lw, setLw, section }) {
                 ['Median earnings', money(r.m)],
                 ['Jobs', fmt(r.j)],
                 ['Entry education', r.t],
-                ['Family', r.f],
+                ['Occupation group', r.f],
               ],
             }))}
           opts={{

@@ -9,7 +9,7 @@ import { CHART_W } from '@/lib/chartw';
  * 100% stacked columns, one per place.
  *
  * Everything else on this dashboard is a horizontal ranked bar, because
- * everything else is a ranking: twenty-two kinds of work, twenty-one sectors,
+ * everything else is a ranking: twenty-two occupation groups, twenty-one sectors,
  * sorted so the eye can run down the order. This is not a ranking. It is a small
  * fixed set of places whose composition is being compared, and the order is
  * meaningful but not a result -- so it reads across, and the orientation itself

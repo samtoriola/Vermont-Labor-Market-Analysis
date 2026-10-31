@@ -315,7 +315,7 @@ export function Dumbbell({ rows }) {
       viewBox={`0 0 ${w} ${h}`}
       preserveAspectRatio="xMinYMin meet"
       role="img"
-      aria-label="Employment 2021 versus 2025 by occupational family"
+      aria-label="Employment 2021 versus 2025 by occupation group"
     >
       {[0, 1, 2, 3, 4].map((t) => {
         const gx = labW + (plotW * t) / 4;
