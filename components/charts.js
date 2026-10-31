@@ -192,6 +192,12 @@ export function RankedBars({ rows, opts = {} }) {
               className="bar"
               onClick={r.onClick}
             >
+              {/* Choosing a bar fades the rest, so the pane beside it and the bar
+                  it belongs to read as one thing. Where fill carries a measure
+                  rather than a category, fading it destroys the chart's second
+                  variable -- five shaded bands wash out to one. `keepFill` holds
+                  the bars at full strength and lets the labels do the fading,
+                  marking the chosen bar with an outline instead. */}
               <rect
                 x={bx}
                 y={y}
@@ -199,7 +205,9 @@ export function RankedBars({ rows, opts = {} }) {
                 height={rowH}
                 rx={4}
                 fill={V(r.color || '--s1')}
-                fillOpacity={dim ? 0.32 : 1}
+                fillOpacity={dim && !opts.keepFill ? 0.32 : 1}
+                stroke={r.active && opts.keepFill ? V('--ink') : undefined}
+                strokeWidth={r.active && opts.keepFill ? 1.5 : undefined}
               />
               <text
                 {...(opts.track || hasRight

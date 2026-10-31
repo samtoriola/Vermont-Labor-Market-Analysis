@@ -5,6 +5,7 @@ import { fmt, money } from '@/lib/format';
 import { Panel, Legend, Tiles, LwPicker } from '../ui';
 import { RankedBars } from '../charts';
 import { useDrill, occDrill } from '../Drill';
+import { Split, occDetail } from '../Detail';
 import { pricedPool, rollUp, rollUpBy } from '@/lib/wage';
 import { marketShape } from '@/lib/insight';
 
@@ -71,21 +72,45 @@ export default function Overview({ lw, setLw }) {
     ],
   ];
 
-  const bars = groups.map((r) => ({
+  const groupDrill = (r) =>
+    open(
+      occDrill({
+        label: 'Occupation group',
+        title: r.f,
+        cap: 'Every occupation in this group, largest first.',
+        occ: occByFamily(r.f),
+        lwAnnual: LWA,
+      })
+    );
+
+  // What the pane beside the chart shows: the three figures the bar encodes,
+  // then the largest occupations inside the group, then the way through to the
+  // whole table. The same shape Employment opens, because it is the same click.
+  //
+  // The list is every occupation in the group, not only the priced ones the bar
+  // was drawn over -- the pane answers "what work is this", and an occupation
+  // without a published pay ladder is still part of the answer.
+  const groupDetail = (r) =>
+    occDetail({
+      label: 'Occupation group',
+      title: r.f,
+      occ: occByFamily(r.f),
+      lwAnnual: LWA,
+      stats: [
+        [fmt(r.jobs), 'Jobs today'],
+        [r.below.toFixed(0) + '%', 'Below a living wage'],
+        [fmt(r.belowN), 'People short'],
+      ],
+      onMore: () => groupDrill(r),
+    });
+
+  const bar = (r, select, active) => ({
     label: r.f,
     value: r.jobs,
     color: bandOf(r.below),
     right: r.below.toFixed(0) + '%',
-    onClick: () =>
-      open(
-        occDrill({
-          label: 'Occupation group',
-          title: r.f,
-          cap: 'Every occupation in this group, largest first.',
-          occ: occByFamily(r.f),
-          lwAnnual: LWA,
-        })
-      ),
+    onClick: () => select(r.f),
+    active: active === r.f,
     big: [[r.below.toFixed(1) + '%', 'Below the benchmark']],
     extra: [
       ['People below it', fmt(r.belowN)],
@@ -96,7 +121,7 @@ export default function Overview({ lw, setLw }) {
         ? [['Most people short', `${r.worst.o.n} (${fmt(Math.round(r.worst.n))})`]]
         : []),
     ],
-  }));
+  });
 
   return (
     <>
@@ -133,18 +158,26 @@ export default function Overview({ lw, setLw }) {
           labels={BANDS.map((b) => b.label)}
           colors={BANDS.map((b) => b.color)}
         />
-        <RankedBars
-          rows={bars}
-          opts={{
-            labelWidth: 206,
-            valueLabel: 'Jobs',
-            valueHead: 'JOBS',
-            rightHead: 'BELOW',
-            clickHint: 'Click for the occupations inside it',
-            aria:
-              'Vermont employment by occupation group, shaded by how much of it pays below a living wage',
-          }}
-        />
+        <Split items={groups} keyOf={(r) => r.f} detail={groupDetail}>
+          {(select, active, width) => (
+            <RankedBars
+              rows={groups.map((r) => bar(r, select, active))}
+              opts={{
+                width,
+                // The fill is the second measure here, so a chosen bar must not
+                // fade the other twenty-one into one colour.
+                keepFill: true,
+                labelWidth: 206,
+                valueLabel: 'Jobs',
+                valueHead: 'JOBS',
+                rightHead: 'BELOW',
+                clickHint: 'Click for the occupations inside it',
+                aria:
+                  'Vermont employment by occupation group, shaded by how much of it pays below a living wage',
+              }}
+            />
+          )}
+        </Split>
       </Panel>
     </>
   );

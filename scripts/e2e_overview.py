@@ -189,6 +189,50 @@ with sync_playwright() as pw:
     if not note:
         fails.append("no read-out under the chart")
 
+    # ---- the click-through: pane beside the chart, table one click on ----
+    before = pg.locator(".view svg.chart").first.get_attribute("viewBox")
+    pg.locator(".view svg.chart g.bar").nth(2).click()
+    pg.wait_for_timeout(700)
+    pane = pg.locator(".view .detail")
+    print("--- click-through ---")
+    print("  pane open: %s" % (pane.count() > 0))
+    if not pane.count():
+        fails.append("clicking a bar opened no detail pane")
+    else:
+        stats = [" ".join(x.inner_text().split())
+                 for x in pane.locator(".detail-stats > div").all()]
+        print("  pane stats: %s" % " | ".join(stats))
+        if len(stats) < 3:
+            fails.append("the pane shows %d stats, expected 3" % len(stats))
+        if not pane.locator(".morelink").count():
+            fails.append("the pane offers no way through to the whole table")
+
+    after = pg.locator(".view svg.chart").first.get_attribute("viewBox")
+    print("  chart viewBox %s -> %s" % (before, after))
+    if before == after:
+        fails.append("the chart did not narrow to make room for the pane")
+
+    # The fill carries the second measure, so choosing a bar must not fade the
+    # others -- five shaded bands washing out to one is the regression this
+    # guards. The labels do the fading instead.
+    ops = pg.evaluate("() => [...document.querySelectorAll('.view svg.chart g.bar rect')].map(r => getComputedStyle(r).fillOpacity)")
+    print("  fill-opacities with a bar chosen: %s" % sorted(set(ops)))
+    if any(float(o) < 1 for o in ops):
+        fails.append("choosing a bar faded the shading, the chart's second measure")
+
+    if pane.count():
+        pane.locator(".morelink").click()
+        pg.wait_for_timeout(800)
+        dr = pg.locator(".drill")
+        rows = dr.locator("tbody tr").count() if dr.count() else 0
+        print("  full table opens: %s (%d rows)" % (dr.count() > 0, rows))
+        if not dr.count():
+            fails.append("the pane's link did not open the full table")
+        elif rows < 5:
+            fails.append("the full table opened with only %d rows" % rows)
+        pg.keyboard.press("Escape")
+        pg.wait_for_timeout(300)
+
     b.close()
 
 print("")
