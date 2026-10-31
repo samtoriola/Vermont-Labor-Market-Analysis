@@ -23,7 +23,7 @@ with sync_playwright() as pw:
     pg = b.new_context(viewport={"width": 1680, "height": 1150}).new_page()
     pg.goto(URL, wait_until="networkidle")
 
-    pg.locator(".sbitem", has_text="By occupation group").first.click()
+    pg.locator(".sbitem", has_text="Occupation").first.click()
     pg.wait_for_timeout(900)
     pg.locator(".panel").first.screenshot(path=os.path.join(OUT, "split_closed.png"))
 

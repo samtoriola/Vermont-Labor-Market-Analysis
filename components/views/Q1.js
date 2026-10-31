@@ -285,7 +285,7 @@ export default function Q1({ lw, section }) {
       title: 'Which occupation groups employ the most Vermonters?',
       note: familyConcentration(fams, TOTJ),
       cap: `Each occupation group's share of the state's ${fmt(TOTJ)} jobs.`,
-      src: `Vermont occupation data, 2025 · 22 occupational groups · ${fmt(TOTJ)} jobs`,
+      src: `Vermont occupation data, 2025 · 22 occupation groups · ${fmt(TOTJ)} jobs`,
       table: 'jobs-by-occupation-group',
       sort: { k: 'jobs', dir: -1 },
       chart: (
@@ -503,8 +503,8 @@ export default function Q1({ lw, section }) {
             ),
           },
           {
-            id: 'by-occupation-group',
-            label: 'By occupation group',
+            id: 'occupations',
+            label: 'Occupation',
             render: () => (
               <>
                 <HowTo>

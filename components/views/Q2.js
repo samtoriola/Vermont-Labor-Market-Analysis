@@ -201,8 +201,7 @@ export default function Q2({ lw, setLw, section }) {
       <VHead title="Does the work pay enough?">
         {head
           ? `${fmt(head.belowN)} Vermont jobs — ${head.below.toFixed(0)}% of the ` +
-            `${fmt(head.jobs)} the published distributions can price — pay less than ` +
-            `${money(LWA)} a year.`
+            `${fmt(head.jobs)} we can price — pay less than ${money(LWA)} a year.`
           : 'How much of Vermont’s work pays less than it costs to live here.'}
       </VHead>
 
@@ -211,8 +210,8 @@ export default function Q2({ lw, setLw, section }) {
         active={section}
         items={[
           {
-            id: 'how-much-falls-short',
-            label: 'How much falls short',
+            id: 'pay-shortfall',
+            label: 'Pay shortfall',
             render: () => (
               <>
                 <HowTo>
@@ -345,8 +344,8 @@ export default function Q2({ lw, setLw, section }) {
             ),
           },
           {
-            id: 'where-the-floor-bites',
-            label: 'Where the floor bites',
+            id: 'county-floors',
+            label: 'County floors',
             render: () => (
               <>
                 <HowTo>

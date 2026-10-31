@@ -50,7 +50,7 @@ def o55(row):
 BY_JOBS = list(SEC)
 BY_AGE = sorted([r for r in SEC if r.get("age")], key=lambda r: -o55(r)[0])
 
-TOP = -(-len(SEC) // 2)         # ceil, as rankViews does; the bottom is the rest
+TOP = len(SEC) // 2             # floor, as rankViews does; the spare row goes to the bottom
 
 
 def shown_rows(rows, view):

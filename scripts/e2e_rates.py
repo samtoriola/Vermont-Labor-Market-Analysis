@@ -40,7 +40,7 @@ with sync_playwright() as pw:
     pg.goto(URL, wait_until="networkidle")
     # The full occupation table used to be a sidebar destination of its own. It now
     # sits under the chart it belongs to, behind the "Show the figures" disclosure.
-    pick(pg, "How much falls short", "Every occupation")
+    pick(pg, "Pay shortfall", "Every occupation")
     tog = pg.locator(".datatoggle").first
     if "Show" in (tog.text_content() or ""):
         tog.click()
@@ -53,7 +53,7 @@ with sync_playwright() as pw:
 
     # Typical pay by family is a ranked bar chart; check it draws one bar per family
     # plus the three reference bars, and that every bar carries a money label.
-    pick(pg, "By occupation group", "Typical pay")
+    pick(pg, "Occupation", "Typical pay")
     pg.locator(".rankctl .chips button", has_text="All").first.click()
     pg.wait_for_timeout(700)
     bars = pg.locator(".panel svg.chart g.bar").count()
@@ -71,7 +71,7 @@ with sync_playwright() as pw:
 
     # Back to the panel this table belongs to. The family-pay check above left the
     # page on another one, and the disclosure state is per panel.
-    pick(pg, "How much falls short", "Every occupation")
+    pick(pg, "Pay shortfall", "Every occupation")
     tog = pg.locator(".datatoggle").first
     if "Show" in (tog.text_content() or ""):
         tog.click()
@@ -112,7 +112,7 @@ with sync_playwright() as pw:
     # green/amber size bands this used to check went with the rebuild; the shortfall
     # bars are computed from the benchmark's position in each pay ladder, so raising
     # the household has to move every printed figure.
-    pick(pg, "How much falls short", "Occupation groups")
+    pick(pg, "Pay shortfall", "Occupation groups")
     pg.locator(".rankctl .chips button", has_text="Share of jobs below").first.click()
     pg.wait_for_timeout(700)
 
