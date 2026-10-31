@@ -98,7 +98,9 @@ export function RankedBars({ rows, opts = {} }) {
               strokeWidth={1}
             />
             <text x={gx} y={padT - 15} className="nbadge" textAnchor="middle" fontSize={10}>
-              {fmtVal(tv, opts)}
+              {/* An axis of round numbers and bars carrying a decimal: "0% 25% 50%"
+                  over "86.5%" reads better than five copies of ".0%". */}
+              {fmtVal(tv, opts.tickDec === undefined ? opts : { ...opts, dec: opts.tickDec })}
             </text>
           </g>
         );
@@ -194,10 +196,14 @@ export function RankedBars({ rows, opts = {} }) {
                 fillOpacity={dim ? 0.32 : 1}
               />
               <text
-                x={v < 0 ? bx - 9 : bx + bw + 9}
+                {...(opts.track
+                  // On a fixed track the figures belong in a column past the end
+                  // of it. Floating them at each bar's tip puts them on a ragged
+                  // diagonal that competes with the bar ends for the eye.
+                  ? { x: zeroX + max * scale + 9, textAnchor: 'start' }
+                  : { x: v < 0 ? bx - 9 : bx + bw + 9, textAnchor: v < 0 ? 'end' : 'start' })}
                 y={y + rowH / 2 + 4}
                 className={r.active ? 'vlab on' : 'vlab'}
-                textAnchor={v < 0 ? 'end' : 'start'}
                 fontSize={11.5}
                 opacity={dim ? 0.5 : 1}
               >

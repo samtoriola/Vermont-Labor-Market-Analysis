@@ -226,6 +226,42 @@ function viewLabel(views) {
 }
 
 /**
+ * Two chip rows that decide one panel between them, in one control bar.
+ *
+ * Stacking two `Picker`s gets two separate `.rankctl` blocks, each keeping the
+ * 190px label gutter that lines a single control up with the chart's row labels
+ * below it. Two of those read as two unrelated controls and cost a whole line of
+ * vertical space for nothing. `.ctlbar` is the rule that puts them side by side
+ * and drops the gutter on the second label, and it only applies to rows that
+ * share a parent -- so they have to be rendered together, which is this.
+ *
+ * `hideB` is for a first choice that changes the chart rather than the measure
+ * of it: "Every occupation" is a scatter, and offering "share or headcount"
+ * beside a chart that answers neither is a control that lies.
+ */
+export function PickerPair({ id, aLabel, a, bLabel, b, hideB, children }) {
+  const [av, pickA] = useSticky(`vt-pick-${id}`, a.length ? a[0].id : null);
+  const [bv, pickB] = useSticky(`vt-pick-${id}-2`, b.length ? b[0].id : null);
+  if (!a.length || !b.length) return null;
+
+  // Settled at render, where the options are known: a stored choice can outlive
+  // the option it named.
+  const A = a.some((o) => o.id === av) ? av : a[0].id;
+  const B = b.some((o) => o.id === bv) ? bv : b[0].id;
+  const showB = !(hideB && hideB(A));
+
+  return (
+    <>
+      <div className="ctlbar">
+        <ChipRow label={aLabel} options={a} value={A} onPick={pickA} />
+        {showB ? <ChipRow label={bLabel} options={b} value={B} onPick={pickB} /> : null}
+      </div>
+      {children(A, B)}
+    </>
+  );
+}
+
+/**
  * One of several views of the same shape, chosen with a row of buttons.
  *
  * Where a section would otherwise stack a panel per category -- five credential

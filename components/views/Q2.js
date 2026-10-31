@@ -2,8 +2,8 @@
 
 import { LC, TIER_ORDER, WF, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { HowTo, Panel, Picker, VHead, LwPicker, Legend } from '../ui';
-import Filters, { ActiveFilters } from '../Filters';
+import { HowTo, Panel, Picker, PickerPair, VHead, LwPicker, Legend } from '../ui';
+import { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import { useDrill, occDrill } from '../Drill';
 import { occCols } from '../occCols';
@@ -223,20 +223,26 @@ export default function Q2({ lw, setLw, section }) {
                   occupations behind it.
                 </HowTo>
                 <LwPicker value={lw} onChange={setLw} />
+                {/* The benchmark is the only control this tab needs: it is the
+                    question. The five-group filter bar the other tabs carry was
+                    four more ways to narrow a chart whose rows are already the
+                    narrowing -- a credential filter on a chart of credentials is
+                    a chart with rows missing. A filter set on another tab still
+                    applies and still says so, because it moves these figures. */}
                 <ActiveFilters />
-                <Filters
-                  shown={filtered.length}
-                  total={pool.length}
-                  pool={pool}
-                  showFamilies
-                  note="Every figure here is recomputed from the occupations left after filtering."
-                />
-                <Picker id="q2-rows" label="Rows" options={ROWS}>
-                  {(kind) =>
+                <PickerPair
+                  id="q2-rows"
+                  aLabel="Rows"
+                  a={ROWS}
+                  bLabel="Measure"
+                  b={MEASURES}
+                  hideB={(kind) => kind === 'each'}
+                >
+                  {(kind, measure) =>
                     kind === 'each' ? (
                       <Panel
                         title="Does a bigger occupation pay better or worse?"
-                        cap={`${fmt(filtered.length)} of ${fmt(pool.length)} occupations, one point each. The vertical line is the living wage, so everything left of it is work whose typical job falls short.`}
+                        cap={`${filtered.length === pool.length ? fmt(pool.length) : `${fmt(filtered.length)} of ${fmt(pool.length)}`} occupations, one point each. The vertical line is the living wage, so everything left of it is work whose typical job falls short.`}
                         src={`Vermont occupation data, 2025 · occupations with a published pay distribution · log scale · benchmark ${money(LWA)} a year (${lw})`}
                         data={{
                           cols: occCols(LWA),
@@ -272,70 +278,69 @@ export default function Q2({ lw, setLw, section }) {
                         />
                       </Panel>
                     ) : (
-                      <Picker id="q2-measure" label="Measure" options={MEASURES}>
-                        {(measure) => {
-                          const rows = rowsFor(kind);
-                          return (
-                            <Panel
-                              title={
-                                measure === 'share'
-                                  ? `How much of each ${rowLabel(kind).toLowerCase()} pays below a living wage?`
-                                  : 'How many people are in work that pays below a living wage?'
-                              }
-                              note={wageShortfall(rows, measure, rowLabel(kind).toLowerCase())}
-                              cap={
-                                measure === 'share'
-                                  ? 'The share of each row’s jobs paying under the benchmark, read off every occupation’s own pay distribution rather than from its median. The track behind each bar is 100% of that row’s jobs.'
-                                  : 'The same calculation weighted by employment, so a large row with a moderate share outranks a small row with a high one.'
-                              }
-                              src={src}
-                              data={{
-                                cols: shortfallCols(rowLabel(kind)),
-                                rows,
-                                label: 'wage-shortfall-by-' + kind,
-                                initialSort: {
-                                  k: measure === 'share' ? 'below' : 'belowN',
-                                  dir: -1,
-                                },
-                                unit: unit(kind),
+                      (() => {
+                        const rows = rowsFor(kind);
+                        return (
+                          <Panel
+                            title={
+                              measure === 'share'
+                                ? `How much of each ${rowLabel(kind).toLowerCase()} pays below a living wage?`
+                                : 'How many people are in work that pays below a living wage?'
+                            }
+                            note={wageShortfall(rows, measure, rowLabel(kind).toLowerCase())}
+                            cap={
+                              measure === 'share'
+                                ? 'The share of each row’s jobs paying under the benchmark, read off every occupation’s own pay distribution rather than from its median. The track behind each bar is 100% of that row’s jobs.'
+                                : 'The same calculation weighted by employment, so a large row with a moderate share outranks a small row with a high one.'
+                            }
+                            src={src}
+                            data={{
+                              cols: shortfallCols(rowLabel(kind)),
+                              rows,
+                              label: 'wage-shortfall-by-' + kind,
+                              initialSort: {
+                                k: measure === 'share' ? 'below' : 'belowN',
+                                dir: -1,
+                              },
+                              unit: unit(kind),
+                            }}
+                          >
+                            <Legend
+                              labels={['Below the benchmark', 'At or above it']}
+                              colors={['--s2', '--track']}
+                            />
+                            <RankedBars
+                              rows={bars(rows, measure, kind)}
+                              opts={{
+                                mode: measure === 'share' ? 'pct' : undefined,
+                                // A headcount wants thousands separators, which
+                                // fmtVal gives only when no decimal count is set.
+                                dec: measure === 'share' ? 1 : undefined,
+                                // A share belongs on a 0-100 track, where the empty
+                                // part of the bar is itself the answer. A headcount
+                                // has no natural top, so it keeps the ranked axis.
+                                max: measure === 'share' ? 100 : undefined,
+                                tickDec: 0,
+                                track: measure === 'share',
+                                labelWidth: kind === 'occ' ? 262 : 212,
+                                valueLabel:
+                                  measure === 'share' ? 'Below the benchmark' : 'People below',
+                                clickHint:
+                                  kind === 'occ'
+                                    ? 'Click for the occupation group this belongs to'
+                                    : 'Click for the occupations behind it',
+                                aria:
+                                  measure === 'share'
+                                    ? 'Share of jobs paying below the living wage'
+                                    : 'People in jobs paying below the living wage',
                               }}
-                            >
-                              <Legend
-                                labels={['Below the benchmark', 'At or above it']}
-                                colors={['--s2', '--track']}
-                              />
-                              <RankedBars
-                                rows={bars(rows, measure, kind)}
-                                opts={{
-                                  mode: measure === 'share' ? 'pct' : undefined,
-                                  // A headcount wants thousands separators, which
-                                  // fmtVal gives only when no decimal count is set.
-                                  dec: measure === 'share' ? 1 : undefined,
-                                  // A share belongs on a 0-100 track, where the empty
-                                  // part of the bar is itself the answer. A headcount
-                                  // has no natural top, so it keeps the ranked axis.
-                                  max: measure === 'share' ? 100 : undefined,
-                                  track: measure === 'share',
-                                  labelWidth: kind === 'occ' ? 262 : 212,
-                                  valueLabel:
-                                    measure === 'share' ? 'Below the benchmark' : 'People below',
-                                  clickHint:
-                                    kind === 'occ'
-                                      ? 'Click for the occupation group this belongs to'
-                                      : 'Click for the occupations behind it',
-                                  aria:
-                                    measure === 'share'
-                                      ? 'Share of jobs paying below the living wage'
-                                      : 'People in jobs paying below the living wage',
-                                }}
-                              />
-                            </Panel>
-                          );
-                        }}
-                      </Picker>
+                            />
+                          </Panel>
+                        );
+                      })()
                     )
                   }
-                </Picker>
+                </PickerPair>
               </>
             ),
           },
@@ -382,6 +387,7 @@ export default function Q2({ lw, setLw, section }) {
                         opts={{
                           mode: 'pct',
                           dec: 1,
+                          tickDec: 0,
                           max: 100,
                           track: true,
                           labelWidth: 150,

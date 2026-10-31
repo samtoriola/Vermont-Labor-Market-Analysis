@@ -169,10 +169,6 @@ export default function About() {
               'The PNG button on a chart saves what is on screen, carrying the question, the read-out and the source with it, so a chart dropped into a deck stays attributable.',
             ],
             [
-              'Filters carry across tabs',
-              'Credential tier, occupation group, wage and size filters set on Wage quality or Opportunities stay applied as you move between tabs. Active filters are listed at the top of each tab, and can be cleared there.',
-            ],
-            [
               'Hover any mark',
               'Points, bars and dots carry their own figures on hover, including the occupation behind a single dot.',
             ],

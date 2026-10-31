@@ -166,7 +166,7 @@ with sync_playwright() as pw:
 
     axis = [t.strip() for t in pg.eval_on_selector_all(
         ".view svg.chart text.nbadge", "els => els.map(e => e.textContent)")]
-    if "100.0%" not in axis and "100%" not in axis:
+    if "100%" not in axis:
         fails.append("groups/share: axis does not reach 100%% (%s)" % axis[:6])
 
     lead = labels(pg)[0] if labels(pg) else "-"
@@ -205,22 +205,53 @@ with sync_playwright() as pw:
     if pts < 500:
         fails.append("scatter: %d points, expected the priced pool" % pts)
 
-    # ---- the filters actually move the figures --------------------------
+    # ---- the benchmark, which is the only control besides the chips ------
     chip(pg, "Rows", "Occupation groups")
     chip(pg, "Measure", "Share of jobs below")
     before = values(pg)
-    pg.locator(".fgroup", has_text="Entry credential").first.locator(
-        "button", has_text="High school").first.click()
-    pg.wait_for_timeout(800)
+    opts = pg.eval_on_selector_all("select option", "els => els.map(e => e.textContent)")
+    pg.locator("select").first.select_option(
+        label=[o for o in opts if "2 children" in o][0])
+    pg.wait_for_timeout(900)
     after = values(pg)
-    print("--- filters ---\n  %d bars before, %d after a credential filter"
-          % (len(before), len(after)))
+    print("--- the benchmark drives the figures ---")
+    print("  top share %s at one adult, %s at a larger household" % (before[:1], after[:1]))
     if before == after:
-        fails.append("a credential filter changed nothing, so the figures are precomputed")
-    pg.locator(".activebar .freset").first.click()
-    pg.wait_for_timeout(700)
+        fails.append("the household selector moved nothing, so the figures are precomputed")
+    pg.locator("select").first.select_option(
+        label=[o for o in opts if o.startswith("1 adult, no")][0])
+    pg.wait_for_timeout(800)
     if values(pg) != before:
-        fails.append("clearing the filter did not restore the unfiltered figures")
+        fails.append("putting the benchmark back did not restore the figures")
+
+    # The five-group filter bar the other tabs carried was taken off this one: the
+    # rows are already the narrowing, and the benchmark is the question.
+    groups = pg.locator(".view .fgroup").count()
+    print("  filter groups on this tab: %d (expected 0)" % groups)
+    if groups:
+        fails.append("the filter bar is back on the wage tab (%d groups)" % groups)
+
+    # ---- the controls are one bar, not two stacked rows -----------------
+    barcount = pg.locator(".view .ctlbar").count()
+    rowcount = pg.locator(".view .ctlbar .rankctl").count()
+    print("--- controls ---")
+    print("  %d control bar(s) holding %d chip rows" % (barcount, rowcount))
+    if barcount != 1 or rowcount != 2:
+        fails.append("Rows and Measure are not one control bar (%d bars, %d rows)"
+                     % (barcount, rowcount))
+
+    axis = [t.strip() for t in pg.eval_on_selector_all(
+        ".view svg.chart text.nbadge", "els => els.map(e => e.textContent)")]
+    print("  axis: %s" % " ".join(axis[:5]))
+    if [a for a in axis if a.endswith(".0%")]:
+        fails.append("axis ticks still carry a decimal: %s" % axis[:5])
+
+    # A scatter is a different chart, not a different measure of the same one, so
+    # the Measure row has to go when it is on screen.
+    chip(pg, "Rows", "Every occupation")
+    if pg.locator(".view .ctlbar .rankctl").count() != 1:
+        fails.append("the Measure control is still shown beside the scatter")
+    chip(pg, "Rows", "Occupation groups")
 
     # ---- the counties ---------------------------------------------------
     pg.locator(".sbitem", has_text="Where the floor bites").first.click()
