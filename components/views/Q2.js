@@ -61,10 +61,14 @@ const ROWS = [
 
 // Share and headcount give different answers over the same rows, and the gap
 // between them is the reason to carry both: the work least likely to pay a living
-// wage is not where most of the people paid under one actually are.
+// wage is not where most of the underpaid work actually is.
+//
+// Both count JOBS. The headcount is each occupation's jobs times the share of them
+// under the benchmark, so a person holding two jobs is in it twice -- it is not a
+// count of underpaid Vermonters, which is a figure this data cannot give.
 const MEASURES = [
   { id: 'share', label: 'Share of jobs below' },
-  { id: 'count', label: 'People below' },
+  { id: 'count', label: 'Jobs below' },
 ];
 
 const BENCH = [
@@ -156,14 +160,14 @@ export default function Q2({ lw, setLw, section }) {
         onClick: r.onOpen,
         extra: [
           [
-            measure === 'share' ? 'People below it' : 'Share of its jobs',
+            measure === 'share' ? 'Jobs below it' : 'Share of its jobs',
             measure === 'share' ? fmt(r.belowN) : r.below.toFixed(1) + '%',
           ],
           ['At or above it', fmt(r.jobs - r.belowN)],
           ['The midpoint job pays', r.med ? money(r.med) : '—'],
           ...(kind === 'occ' ? [['Occupation code', r.soc]] : [['Occupations', fmt(r.nocc)]]),
           ...(r.worst && kind !== 'occ'
-            ? [['Most people short', `${r.worst.o.n} (${fmt(Math.round(r.worst.n))})`]]
+            ? [['Most jobs short', `${r.worst.o.n} (${fmt(Math.round(r.worst.n))})`]]
             : []),
         ],
       }));
@@ -296,7 +300,7 @@ export default function Q2({ lw, setLw, section }) {
                             title={
                               measure === 'share'
                                 ? `How much of each ${rowLabel(kind).toLowerCase()} pays below a living wage?`
-                                : 'How many people are in work that pays below a living wage?'
+                                : 'How many jobs pay below a living wage?'
                             }
                             note={wageShortfall(rows, measure, rowLabel(kind).toLowerCase())}
                             cap={
@@ -335,7 +339,7 @@ export default function Q2({ lw, setLw, section }) {
                                 track: measure === 'share',
                                 labelWidth: kind === 'occ' ? 262 : 212,
                                 valueLabel:
-                                  measure === 'share' ? 'Below the benchmark' : 'People below',
+                                  measure === 'share' ? 'Below the benchmark' : 'Jobs below',
                                 clickHint:
                                   kind === 'occ'
                                     ? 'Click for the occupation group this belongs to'
@@ -343,7 +347,7 @@ export default function Q2({ lw, setLw, section }) {
                                 aria:
                                   measure === 'share'
                                     ? 'Share of jobs paying below the living wage'
-                                    : 'People in jobs paying below the living wage',
+                                    : 'Jobs paying below the living wage',
                               }}
                             />
                           </Panel>

@@ -26,6 +26,7 @@ Run against a dev or `next start` server on VT_PORT.
 """
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -100,8 +101,17 @@ fails = []
 
 
 def chip(pg, group, label):
-    pg.locator(".rankctl", has_text=group).first.locator(
-        "button", has_text=label).first.click()
+    """Exact chip text where one matches, substring otherwise.
+
+    Playwright's has_text is a case-insensitive substring match, and "Jobs below"
+    sits inside "Share of jobs below". The loose selector picks the wrong chip,
+    the page never switches measure, and the test reports a ranking failure for
+    a chart that is working.
+    """
+    ctl = pg.locator(".rankctl", has_text=group).first
+    exact = ctl.locator("button", has_text=re.compile(r"^\s*%s\s*$" % re.escape(label)))
+    btn = exact.first if exact.count() else ctl.locator("button", has_text=label).first
+    btn.click()
     pg.wait_for_timeout(700)
 
 
@@ -173,7 +183,7 @@ with sync_playwright() as pw:
     if lead != by_share[0]["f"]:
         fails.append("groups/share: leads with %s, expected %s" % (lead, by_share[0]["f"]))
 
-    chip(pg, "Measure", "People below")
+    chip(pg, "Measure", "Jobs below")
     lead = labels(pg)[0] if labels(pg) else "-"
     print("  headcount leads with %s" % lead)
     if lead != by_count[0]["f"]:

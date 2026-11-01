@@ -99,7 +99,7 @@ export default function Overview({ lw, setLw }) {
       stats: [
         [fmt(r.jobs), 'Jobs today'],
         [r.below.toFixed(0) + '%', 'Below a living wage'],
-        [fmt(r.belowN), 'People short'],
+        [fmt(r.belowN), 'Jobs short'],
       ],
       onMore: () => groupDrill(r),
     });
@@ -113,12 +113,12 @@ export default function Overview({ lw, setLw }) {
     active: active === r.f,
     big: [[r.below.toFixed(1) + '%', 'Below the benchmark']],
     extra: [
-      ['People below it', fmt(r.belowN)],
+      ['Jobs below it', fmt(r.belowN)],
       ['At or above it', fmt(r.jobs - r.belowN)],
       ['Share of all Vermont jobs', ((r.jobs / TOTJ) * 100).toFixed(1) + '%'],
       ['Occupations', fmt(r.nocc)],
       ...(r.worst
-        ? [['Most people short', `${r.worst.o.n} (${fmt(Math.round(r.worst.n))})`]]
+        ? [['Most jobs short', `${r.worst.o.n} (${fmt(Math.round(r.worst.n))})`]]
         : []),
     ],
   });
@@ -145,7 +145,7 @@ export default function Overview({ lw, setLw }) {
               get: (r) => (r.jobs / TOTJ) * 100,
             },
             { k: 'below', label: 'Share below the benchmark', kind: 'rate', get: (r) => r.below },
-            { k: 'belowN', label: 'People below it', kind: 'num', get: (r) => r.belowN },
+            { k: 'belowN', label: 'Jobs below it', kind: 'num', get: (r) => r.belowN },
             { k: 'nocc', label: 'Occupations', kind: 'num', get: (r) => r.nocc },
           ],
           rows: groups,

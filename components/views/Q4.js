@@ -315,7 +315,7 @@ export default function Q4({ lw, setLw, section }) {
                   big: [[fmt(r.jobs), 'Jobs today']],
                   extra: [
                     ['Clears the benchmark', r.above.toFixed(1) + '%'],
-                    ['People below it', fmt(r.belowN)],
+                    ['Jobs below it', fmt(r.belowN)],
                     ['Middle half pays', money(r.box.p25) + ' to ' + money(r.box.p75)],
                     ['Lowest-paid tenth', money(r.box.p10)],
                     ['Highest-paid tenth', money(r.box.p90)],
