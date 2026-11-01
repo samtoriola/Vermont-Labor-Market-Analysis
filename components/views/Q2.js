@@ -39,6 +39,15 @@ import { countyFloorShift, wageShortfall } from '@/lib/insight';
  * The controls are the ones Employment and Demand already carry -- rows and measure
  * on chips, the filter bar above, click a bar for the occupations behind it -- so
  * the reader is not learning a new tab, only a different question.
+ *
+ * THE COLOUR
+ * The filled part of every bar is Ocean, the house single-series colour, against the
+ * --track remainder. It was Ember, on the reading that below-a-living-wage is the
+ * semantic "bad" half of the GOOD/BAD pair in lib/brand.js. That was the wrong call
+ * for a whole chart: red is a warning the reader is meant to act on, and a bar that
+ * is 86% red reads as an alarm rather than a measurement. The same argument the
+ * Overview makes for its ramp. The pair stays reserved for marks that genuinely
+ * contrast two sides within one chart.
  */
 
 // What the rows are. The first three are rankings; the fourth drops the grouping
@@ -142,7 +151,7 @@ export default function Q2({ lw, setLw, section }) {
       .map((r) => ({
         label: r.f,
         value: measure === 'share' ? r.below : r.belowN,
-        color: '--s2',
+        color: '--s1',
         big: [[fmt(r.jobs), 'Priced jobs']],
         onClick: r.onOpen,
         extra: [
@@ -184,7 +193,7 @@ export default function Q2({ lw, setLw, section }) {
       .map((r) => ({
         label: r.c,
         value: mode === 'local' ? r.local : r.state,
-        color: '--s2',
+        color: '--s1',
         big: [[fmt(r.jobs), 'Jobs in the county']],
         extra: [
           ['Against its own floor', r.local.toFixed(1) + '%'],
@@ -258,7 +267,10 @@ export default function Q2({ lw, setLw, section }) {
                               x: r.m,
                               y: r.j,
                               label: r.n,
-                              series: r.j >= 2000 ? 0 : r.j >= 500 ? 1 : 2,
+                              // One colour. The y-axis already is jobs, so shading
+                              // the points by size band said the same thing twice,
+                              // with no key, in three colours one of which was red.
+                              series: 0,
                               extra: [
                                 ['Median earnings', money(r.m)],
                                 ['Jobs', fmt(r.j)],
@@ -306,7 +318,7 @@ export default function Q2({ lw, setLw, section }) {
                           >
                             <Legend
                               labels={['Below the benchmark', 'At or above it']}
-                              colors={['--s2', '--track']}
+                              colors={['--s1', '--track']}
                             />
                             <RankedBars
                               rows={bars(rows, measure, kind)}
@@ -379,7 +391,7 @@ export default function Q2({ lw, setLw, section }) {
                     >
                       <Legend
                         labels={['Below the benchmark', 'At or above it']}
-                        colors={['--s2', '--track']}
+                        colors={['--s1', '--track']}
                       />
                       <RankedBars
                         rows={ctyBars(mode)}
