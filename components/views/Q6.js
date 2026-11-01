@@ -1,6 +1,6 @@
 'use client';
 
-import { SOW, SERIES, lwAnnual, occByFamily } from '@/lib/data';
+import { SOW, SERIES, lwAnnual, occByFamily, credOpenByFamily, VSCS_TIERS } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { awardCols } from '@/lib/tables';
 import { Callout, HowTo, Panel, Picker, Ranked, VHead, N } from '../ui';
@@ -9,7 +9,7 @@ import { Split, occDetail } from '../Detail';
 import { RankedBars } from '../charts';
 import DataTable from '../DataTable';
 import Sections from '../Sections';
-import { awardMix, familiesNoCompletions } from '@/lib/insight';
+import { awardMix, credGap } from '@/lib/insight';
 
 // Callout and N below are used only by the section(s) hidden further down. Kept
 // imported so restoring one stays a single edit.
@@ -19,13 +19,47 @@ export default function Q6({ lw, section }) {
   const { open } = useDrill();
   const V = SOW.vscs;
 
-  // Ordered by how far each occupation group's graduates go against its openings, with
-  // the ones no graduate reaches at the foot rather than scattered through.
-  const famShare = (r) => (r.open ? (r.linked / r.open) * 100 : null);
+  /**
+    * WHICH OPENINGS VSCS IS MEASURED AGAINST
+    * ---------------------------------------
+    * Not all of them. Dividing a group's graduates by every opening it has asks
+    * VSCS to supply work a college is not the route into -- 6,065 food preparation
+    * openings a year, 4,190 in sales -- and the chart then reads 3.5% overall with
+    * five groups at zero. Against the openings whose entry credential is one VSCS
+    * awards, the same production reads 9.7%, and three of those five turn out to
+    * have no such openings at all.
+    *
+    * This is not a new measure. scripts/build_sow.py computes the total and its
+    * own comment says why: "comparing VSCS output to ALL openings understates
+    * alignment". It reaches the app as SOW.vscs.openCred and the chart had never
+    * used it. All this does is split it by occupation group.
+    */
+  const CRED_OPEN = credOpenByFamily();
+  const famRows = V.byFamily.map((r) => ({
+    ...r,
+    // Left unrounded: rounding every group before summing them put the read-out's
+    // total a job above the caption's, and two totals for one thing on one panel
+    // reads as an error. Rounded once, at the point each is printed.
+    openCred: CRED_OPEN[r.f] || 0,
+    openAll: r.open,
+  }));
+  const CRED_TOTAL = famRows.reduce((a, r) => a + r.openCred, 0);
+  const famShare = (r) => (r.openCred ? (r.linked / r.openCred) * 100 : null);
 
-  const famAlign = V.byFamily
-    .slice()
+  // A ratio needs a base worth dividing by. Lightcast models openings to a
+  // fraction, so "greater than zero" is not a test: food preparation carries 0.3
+  // credential-requiring openings a year across 6,065 openings, and on a bare
+  // > 0 test it joined Sales and Legal on the chart as though it were the same
+  // kind of finding. Ten a year is the floor the dashboard already uses for a
+  // rate -- see "Rates need a real base" on Methods -- and it separates food
+  // preparation at 0.3 from farming at 11.8, which is the next one up.
+  const MIN_CRED_OPEN = 10;
+  const famAlign = famRows
+    .filter((r) => r.openCred >= MIN_CRED_OPEN)
     .sort((a, b) => (famShare(b) || 0) - (famShare(a) || 0));
+  const noCred = famRows
+    .filter((r) => r.openCred < MIN_CRED_OPEN)
+    .sort((a, b) => b.openAll - a.openAll);
 
   const famDrill = (r) =>
     open(
@@ -36,10 +70,11 @@ export default function Q6({ lw, section }) {
         occ: occByFamily(r.f),
         lwAnnual: LWA,
         extraStats: [
-          ['Openings a year', fmt(r.open)],
+          ['Openings asking for a VSCS credential', fmt(r.openCred)],
+          ['All openings a year', fmt(r.openAll)],
           ['Graduates attributed', r.linked.toFixed(1)],
           [
-            'Graduates as % of openings',
+            'Graduates as % of the openings that ask',
             famShare(r) === null ? '—' : famShare(r).toFixed(1) + '%',
           ],
         ],
@@ -55,8 +90,8 @@ export default function Q6({ lw, section }) {
       occ: occByFamily(r.f),
       lwAnnual: LWA,
       stats: [
-        [famShare(r) === null ? '—' : famShare(r).toFixed(1) + '%', 'Graduates vs openings'],
-        [fmt(r.open), 'Openings a year'],
+        [famShare(r) === null ? '—' : famShare(r).toFixed(0) + '%', 'Of the openings that ask'],
+        [fmt(r.openCred), 'Openings asking'],
         [r.linked.toFixed(1), 'Graduates'],
       ],
       onMore: () => famDrill(r),
@@ -145,10 +180,11 @@ export default function Q6({ lw, section }) {
             render: () => (
               <>
                 <HowTo>
-                  VSCS graduates measured against Vermont openings, at whichever grain you
-                  pick: the 22 occupation groups, or occupation by occupation. A share here is
-                  graduates as a percentage of openings — never the share of openings
-                  filled, which no figure on this dashboard can tell you.
+                  VSCS graduates measured against the Vermont openings that ask for a
+                  credential it awards, at whichever grain you pick: the 22 occupation
+                  groups, or occupation by occupation. A share here is graduates as a
+                  percentage of those openings — never the share of openings filled,
+                  which no figure on this dashboard can tell you.
                 </HowTo>
                 <Picker id="q6-level" label="Level" options={LEVELS}>
                   {(level) =>
@@ -170,23 +206,32 @@ export default function Q6({ lw, section }) {
                     ) : (
                       <Panel
                         title="Where does VSCS production line up with openings?"
-                        note={familiesNoCompletions(V.byFamily)}
-                        cap="Each occupation group's VSCS graduates measured against the openings it has each year. 25% means VSCS graduates a number equal to a quarter of the openings — not that it fills a quarter of them, which no figure here can tell you. Grey bars draw no VSCS graduates at all. Work that needs no credential sits there by nature, because college is not the route into it. Hover for the counts; click for the occupations behind it."
-                        src="Federal completions data, 2024, against Vermont openings · spread by employment"
+                        note={credGap(famRows, MIN_CRED_OPEN)}
+                        cap={`Each occupation group's VSCS graduates measured against the openings it has each year whose entry credential is one VSCS awards — ${fmt(CRED_TOTAL)} of Vermont's ${fmt(V.openAll)} annual openings. 25% means VSCS graduates a number equal to a quarter of those openings, not that it fills a quarter of them, which no figure here can tell you. The openings column sits beside the bar because a high share of a small number is a different finding from a high share of a large one. Hover for the counts; click for the occupations behind it.`}
+                        src={`Federal completions data, 2024, against Vermont openings asking for a sub-baccalaureate, bachelor's or graduate credential · ${fmt(CRED_TOTAL)} openings a year · graduates spread by employment`}
                         data={{
                           cols: [
                             { k: 'f', label: 'Occupation group', kind: 'text', get: (r) => r.f },
-                            { k: 'open', label: 'Openings a year', kind: 'num', get: (r) => r.open },
+                            { k: 'openCred', label: 'Openings asking for a VSCS credential', kind: 'num', get: (r) => r.openCred },
                             { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
                             {
                               k: 'ratio',
-                              label: 'Graduates as % of openings',
+                              label: 'Graduates as % of the openings that ask',
                               kind: 'rate',
                               get: famShare,
                             },
+                            { k: 'openAll', label: 'All openings a year', kind: 'num', get: (r) => r.openAll },
+                            {
+                              k: 'ratioAll',
+                              label: 'Against all openings',
+                              kind: 'rate',
+                              get: (r) => (r.openAll ? (r.linked / r.openAll) * 100 : null),
+                            },
                             { k: 'jobs', label: 'Jobs', kind: 'num', get: (r) => r.jobs },
                           ],
-                          rows: famAlign,
+                          // Every group, including the three with nothing to divide
+                          // by -- the table is where the full list belongs.
+                          rows: famRows,
                           label: 'graduates-against-openings',
                           initialSort: { k: 'ratio', dir: -1 },
                           unit: 'occupation groups',
@@ -194,6 +239,7 @@ export default function Q6({ lw, section }) {
                           note: 'Click a row for the occupations behind it.',
                         }}
                       >
+                        <>
                         <Split items={famAlign} keyOf={(r) => r.f} detail={famDetail}>
                           {(select, active, width) => (
                         <Ranked id="q6-align" rows={famAlign}>
@@ -202,33 +248,52 @@ export default function Q6({ lw, section }) {
                               rows={pick.map((r) => ({
                                 label: r.f,
                                 value: famShare(r) || 0,
-                                // Grey where no graduate reaches this work at all. It is not
-                                // a low score, it is the absence of a pipeline, and the two
-                                // should not look the same. Keyed off the graduates rather
-                                // than the share, so this counts the same families the
-                                // read-out under the chart does.
+                                // Grey where work asks for a credential VSCS awards and
+                                // no graduate reaches it. That is the absence of a
+                                // pipeline rather than a low one, and the two should not
+                                // look the same. The groups with nothing to divide by are
+                                // off the chart entirely, named underneath.
                                 color: r.linked > 0 ? '--s1' : '--ink-3',
+                                right: fmt(r.openCred),
                                 onClick: () => select(r.f),
                                 active: active === r.f,
                                 extra: [
-                                  ['Openings a year', fmt(r.open)],
+                                  ['Openings asking for a VSCS credential', fmt(r.openCred)],
+                                  ['All openings a year', fmt(r.openAll)],
+                                  ['Against all openings', r.openAll ? ((r.linked / r.openAll) * 100).toFixed(1) + '%' : '—'],
                                   ['Graduates attributed', r.linked.toFixed(1)],
                                   ['Jobs', fmt(r.jobs)],
                                 ],
                               }))}
                               opts={{
                                 mode: 'pct',
+                                dec: 0,
                                 labelWidth: 236,
                                 width,
-                                valueLabel: 'Graduates as % of openings',
+                                keepFill: true,
+                                valueLabel: 'Graduates as % of the openings that ask',
+                                valueHead: 'SHARE',
+                                rightHead: 'OPENINGS',
                                 clickHint: 'Click for the occupations inside it',
-                                aria: 'Graduates as a share of openings by occupation group',
+                                aria:
+                                  'Graduates as a share of the credential-requiring openings in each occupation group',
                               }}
                             />
                           )}
                         </Ranked>
                           )}
                         </Split>
+                        {noCred.length ? (
+                          <p className="cap nocred">
+                            Not on the chart: <strong>{noCred.map((r) => r.f).join(', ')}</strong>.
+                            Between {noCred.length === 1 ? 'it' : 'them'}{' '}
+                            {fmt(noCred.reduce((a, r) => a + r.openAll, 0))} openings a year, and
+                            fewer than {MIN_CRED_OPEN} of those ask for a credential VSCS awards —
+                            too small a base to divide by, so there is no share to draw. They are
+                            in the table below.
+                          </p>
+                        ) : null}
+                        </>
                       </Panel>
                     )
                   }

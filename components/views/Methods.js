@@ -201,9 +201,9 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'VSCS alignment · Against demand',
-                'Completions linked to occupations, set against annual openings',
-                'IPEDS · CIP-to-SOC crosswalk · Lightcast openings',
-                'sow.json',
+                'Completions linked to occupations, set against the annual openings that ask for a credential VSCS awards',
+                'IPEDS · CIP-to-SOC crosswalk · Lightcast openings and entry credential',
+                'sow.json, lightcast.json',
               ],
             },
             {
@@ -260,6 +260,10 @@ export default function Methods({ lw }) {
             [
               'Opportunity index',
               'Mean of four percentile ranks, 25% each: employment, projected growth, postings per 100 jobs, median pay. Occupations with 100+ jobs and a published wage.',
+            ],
+            [
+              'Openings that ask for a VSCS credential',
+              'The denominator the alignment chart divides by: the 17,436 openings a year, of 48,893, in occupations whose entry credential is sub-baccalaureate, bachelor’s or graduate — the three VSCS awards into. Measured against every opening instead, VSCS production reads 3.5% rather than 9.8%, and five occupation groups read as zero when three of them have almost no such openings to begin with. Food preparation has 0.3 a year. A group is left off the chart below ten, under the same rule as any other rate here, and named underneath it.',
             ],
             [
               'Linked completions',

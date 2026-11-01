@@ -42,14 +42,16 @@ PANELS = [
 ]
 
 
-# How many rows read as dimmed on screen, whichever way a chart does it: a faded
-# fill on the bar, or a faded group around the whole row. Asking the browser for
-# the effective opacity covers both and anything added later.
-DIMMED_JS = """() => [...document.querySelectorAll('.split svg.chart g.bar')]
-  .filter(g => {
-    const rect = g.querySelector('rect:not([fill="transparent"])');
-    if (rect && parseFloat(getComputedStyle(rect).fillOpacity) < 0.99) return true;
-    for (let el = g; el && el.tagName !== 'svg'; el = el.parentElement) {
+# How many rows read as dimmed on screen, counted on the row LABEL rather than on
+# the mark. Three charts fade three different things: a plain ranked bar fades its
+# own fill, a range row fades the group around it, and a chart whose colour is a
+# measure -- an absent pipeline, a credential's four ranks -- holds its fill at
+# full strength and fades only the label, because washing those colours together
+# is what the fade would destroy. The label is the one part every chart fades, and
+# there is exactly one per row.
+DIMMED_JS = """() => [...document.querySelectorAll('.split svg.chart text.clab')]
+  .filter(t => {
+    for (let el = t; el && el.tagName !== 'svg'; el = el.parentElement) {
       if (parseFloat(getComputedStyle(el).opacity) < 0.99) return true;
     }
     return false;

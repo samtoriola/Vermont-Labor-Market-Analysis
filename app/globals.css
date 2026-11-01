@@ -503,6 +503,17 @@ section.view {
   max-width: 96ch;
 }
 
+/* What a chart leaves out, said under it. Separate from .cap because it sits
+   below the chart rather than above it, and is not a direct child of .panel. */
+.nocred {
+  color: var(--ink-2);
+  font-size: var(--t-sm);
+  margin: 14px 0 0;
+  max-width: 96ch;
+  padding-top: 11px;
+  border-top: 1px dashed var(--rule);
+}
+
 .srcline {
   font-size: var(--t-xs);
   color: var(--ink-3);
