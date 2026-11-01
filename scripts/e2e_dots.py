@@ -105,9 +105,9 @@ with sync_playwright() as pw:
     print("")
     print("--- hover a bar gives quick stats ---")
     open_section(pg, "pathways", "By credential level")
-    # The spread the dot columns used to show now lives on the pay measure's
-    # hover, and this panel opens on the employment-share measure.
-    pg.locator(".rankctl .chips button", has_text="Typical pay").first.click()
+    # The spread the dot columns used to show is drawn on the pay ladder now, and
+    # carried on its hover as well, which is what the next block checks.
+    pg.locator(".rankctl .chips button", has_text="The pay ladder").first.click()
     pg.wait_for_timeout(600)
     pg.locator(".view svg.chart g.bar").nth(3).hover()
     pg.wait_for_timeout(350)
@@ -118,7 +118,7 @@ with sync_playwright() as pw:
         errs.append("bar hover produced no tooltip")
 
     print("")
-    print("--- the range is still reachable on a bar ---")
+    print("--- the range is still reachable on a row ---")
     txt = tip.inner_text()
     for want in ("Middle half pays", "Lowest-paid tenth", "Highest-paid tenth"):
         if want not in txt:

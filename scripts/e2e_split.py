@@ -34,10 +34,31 @@ PANELS = [
     ("Occupation", "Share of jobs", 0),
     ("Occupation", "Typical pay", 0),
     ("By credential level", "Share of jobs", 0),
-    ("By credential level", "Typical pay", 0),
-    ("By credential level", "Above living wage", 1),
+    # Typical pay, Above living wage and Range of outcomes were three chips over
+    # one distribution. The pay ladder replaced all three, and e2e_pathways.py
+    # checks it against the arithmetic; here it only has to open a pane.
+    ("By credential level", "The pay ladder", 0),
     ("Against demand", "By occupation group", 0),
 ]
+
+
+# How many rows read as dimmed on screen, whichever way a chart does it: a faded
+# fill on the bar, or a faded group around the whole row. Asking the browser for
+# the effective opacity covers both and anything added later.
+DIMMED_JS = """() => [...document.querySelectorAll('.split svg.chart g.bar')]
+  .filter(g => {
+    const rect = g.querySelector('rect:not([fill="transparent"])');
+    if (rect && parseFloat(getComputedStyle(rect).fillOpacity) < 0.99) return true;
+    for (let el = g; el && el.tagName !== 'svg'; el = el.parentElement) {
+      if (parseFloat(getComputedStyle(el).opacity) < 0.99) return true;
+    }
+    return false;
+  }).length"""
+
+
+def dimmed(pg):
+    return pg.evaluate(DIMMED_JS)
+
 
 fails = []
 
@@ -66,9 +87,9 @@ with sync_playwright() as pw:
             fails.append("%s: pane open before any click" % label)
         if "open" in (split.get_attribute("class") or ""):
             fails.append("%s: split marked open before any click" % label)
-        faded = pg.locator('.split svg.chart rect[fill-opacity="0.32"]').count()
+        faded = dimmed(pg)
         if faded:
-            fails.append("%s: %d bars faded with nothing chosen" % (label, faded))
+            fails.append("%s: %d rows faded with nothing chosen" % (label, faded))
 
         bars = pg.locator(".split svg.chart g.bar")
         n_before = bars.count()
@@ -90,12 +111,12 @@ with sync_playwright() as pw:
         if not pane.locator(".detail-stats .dv").count():
             fails.append("%s: pane has no headline figures" % label)
 
-        # Every bar but the chosen one fades. Reference bars fade with the rest,
+        # Every row but the chosen one fades. Reference bars fade with the rest,
         # so the count is "all but one" rather than a number worth naming here.
-        faded = pg.locator('.split svg.chart rect[fill-opacity="0.32"]').count()
+        faded = dimmed(pg)
         if faded != n_before - 1:
             fails.append(
-                "%s: %d of %d bars faded, expected %d"
+                "%s: %d of %d rows faded, expected %d"
                 % (label, faded, n_before, n_before - 1)
             )
 

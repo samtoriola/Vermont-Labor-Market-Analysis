@@ -1,28 +1,55 @@
 'use client';
 
 import {
-  DATA, LC, PCT, TIER_ORDER, SERIES,
+  DATA, LC, TIER_ORDER, SERIES,
   lwAnnual, occByTier, credentialFunnel,
 } from '@/lib/data';
+import { pooledLadder, rollUp } from '@/lib/wage';
 import { fmt, money } from '@/lib/format';
-import { bandCols } from '@/lib/tables';
+import { bandCols, credLadderCols } from '@/lib/tables';
 import { Callout, HowTo, Panel, Picker, Table, VHead, LwPicker, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { Split, occDetail } from '../Detail';
-import { occCols } from '../occCols';
-import { RankedBars } from '../charts';
+import { RankedBars, RangeRows } from '../charts';
 import Sections from '../Sections';
 // Callout, N and largestCategory are used only by the section hidden further down.
 // Kept imported so restoring it stays a single edit.
-import {
-  funnelContrast, ladderStep, livingWageJump, largestCategory,
-} from '@/lib/insight';
+import { funnelContrast, ladderShape, largestCategory } from '@/lib/insight';
 
+/**
+ * THE TAB, REBUILT
+ * ----------------
+ * This section carried four measures over the same five rungs: share of jobs,
+ * typical pay, above the living wage, and range of outcomes. The last three are
+ * one distribution asked three times, and splitting them across three charts is
+ * what hid the shape of the ladder -- a reader had to hold two charts in their
+ * head to see that a rung's midpoint clears the benchmark while a third of the
+ * work behind it does not.
+ *
+ * They are one chart now: each rung drawn as the pay range its work covers, with
+ * the benchmark ruled down all five. Where the line cuts a rung is the share
+ * falling short, so the sufficiency measure is a position rather than a second
+ * chart, and the spread is visible instead of being a ratio in a bar.
+ *
+ * Both retired measures were also wrong:
+ *
+ *   "Above living wage" read LC.tiers[].above, the median rule -- every job in an
+ *   occupation counted on whichever side that occupation's midpoint falls. It
+ *   reported that 100% of graduate / professional jobs clear the benchmark. 2.2%
+ *   of them do not. lib/wage.js rollUp() replaces it, and Pathways was the last
+ *   place the old rule survived.
+ *
+ *   "Range of outcomes" read PCT.tiers, the employment-weighted mean of its
+ *   occupations' percentiles, which understates the spread by up to 44% because a
+ *   mean of tenth percentiles averages away the gaps between occupations.
+ *   lib/wage.js pooledLadder() replaces it.
+ *
+ * Share of jobs stays: it answers a different question and is the only measure
+ * here that is not about pay.
+ */
 const CRED_MEASURES = [
+  { id: 'ladder', label: 'The pay ladder' },
   { id: 'jobs', label: 'Share of jobs' },
-  { id: 'pay', label: 'Typical pay' },
-  { id: 'above', label: 'Above living wage' },
-  { id: 'spread', label: 'Range of outcomes' },
 ];
 
 export default function Q4({ lw, setLw, section }) {
@@ -49,13 +76,13 @@ export default function Q4({ lw, setLw, section }) {
     t[r.t] = r;
   });
   // What the pane shows for a credential tier.
-  const tierDetail = (r) =>
+  const tierDetail = (r, stats) =>
     occDetail({
       label: 'Entry credential',
       title: r.t,
       occ: occByTier(r.t),
       lwAnnual: LWA,
-      stats: [
+      stats: stats || [
         [fmt(r.jobs), 'Jobs today'],
         [r.share.toFixed(1) + '%', 'Of all VT jobs'],
         [r.med ? money(r.med) : '—', 'Typical pay'],
@@ -67,35 +94,34 @@ export default function Q4({ lw, setLw, section }) {
   const ba = t["Bachelor's"];
   const grad = t['Graduate / professional'];
   const lastCps = DATA.trend[DATA.trend.length - 1];
-  const P = PCT.tiers;
 
-  // One bar per entry credential at the pay of its typical occupation. A bar cannot
-  // show the spread, so the hover carries the range the occupations in it cover.
-  const tierBars = TIER_ORDER.map((k) => t[k])
-    .filter((r) => r && r.med)
-    .map((r) => {
-      const bx = r.box || {};
-      return {
-        label: r.t,
-        value: r.med,
-        color: r.med >= LWA ? '--s3' : '--s2',
-        big: [[fmt(r.jobs), 'Jobs today']],
-        extra: [
-          ['Times the living wage', (r.med / LWA).toFixed(2) + '×'],
-          ['Middle half pays', bx.p25 && bx.p75 ? money(bx.p25) + ' to ' + money(bx.p75) : '—'],
-          ['Lowest-paid tenth', bx.p10 ? money(bx.p10) : '—'],
-          ['Highest-paid tenth', bx.p90 ? money(bx.p90) : '—'],
-          ['Share of all jobs', r.share.toFixed(1) + '%'],
-          ['Occupations', fmt(r.nocc)],
-        ],
-      };
-    });
+  // One row per rung: the pooled pay range, and how much of that work clears the
+  // benchmark. The ladder is cached by tier because it does not depend on the
+  // household selector -- only the rule drawn across it does -- so moving the
+  // selector redraws without recomputing 781 ladders.
+  const ladder = TIER_ORDER.map((key) => {
+    const occ = occByTier(key);
+    const box = pooledLadder(occ, key);
+    const roll = rollUp(occ, LWA);
+    if (!box || !roll) return null;
+    return {
+      t: key,
+      box,
+      jobs: roll.jobs,
+      belowN: roll.belowN,
+      above: 100 - roll.below,
+      nocc: roll.nocc,
+      share: t[key] ? t[key].share : null,
+      occ,
+    };
+  }).filter(Boolean);
 
-  // Four questions about the same five rungs, which were three sections and four
-  // panels: how much work sits at each level, what it pays, how much of it clears
-  // the benchmark, and how wide the outcomes are. One control, one chart frame.
-  //
-  // The benchmark selector appears only on the two measures it changes, so the page
+  const lo = Math.min(...ladder.map((r) => r.box.p10));
+  const hi = Math.max(...ladder.map((r) => r.box.p90));
+  const xMin = Math.floor(lo / 25000) * 25000;
+  const xMax = Math.ceil(hi / 25000) * 25000;
+
+  // The benchmark selector appears only on the measure it changes, so the page
   // never carries a control that does nothing.
   const bands = {
     cols: bandCols(LWA, 't', 'Entry credential'),
@@ -140,117 +166,89 @@ export default function Q4({ lw, setLw, section }) {
       ),
     },
 
-    pay: {
+    ladder: {
       lw: true,
-      title: 'What does each rung pay, by what the job asks for?',
-      note: ladderStep(LC.tiers, TIER_ORDER),
-      cap: 'What a typical job pays at each entry credential. Green bars clear the living wage, amber ones do not.',
-      src: 'Vermont occupation data, 2025 · entry credential · every priced Vermont occupation',
+      title: 'What does each rung of the ladder actually pay?',
+      note: ladderShape(ladder, LWA),
+      cap:
+        'The solid bar is the middle half of the work at that entry credential, the line ' +
+        'reaches from the lowest-paid tenth to the highest, and the heavy mark is the ' +
+        'midpoint job. Pooled across the occupations at each rung and weighted by their ' +
+        'employment, so the spread is the one the work actually has. Where the dashed ' +
+        'benchmark crosses a rung is the share of it falling short. Click a rung for the ' +
+        'occupations inside it.',
+      src:
+        `Vermont occupation data, 2025 · ${fmt(ladder.reduce((a, r) => a + r.jobs, 0))} jobs ` +
+        'with a published pay distribution · pay ladders pooled across the occupations at ' +
+        `each entry credential and weighted by employment · benchmark ${money(LWA)} a year (${lw})`,
       data: {
-        cols: occCols(LWA),
-        rows: LC.allOcc,
-        label: 'pay-by-what-the-job-asks',
-        initialSort: { k: 'j', dir: -1 },
-        unit: 'occupations',
-        note: 'Every priced Vermont occupation, the detail behind the five rungs.',
+        cols: credLadderCols(LWA),
+        rows: ladder,
+        label: 'pay-ladder-by-credential',
+        initialSort: { k: 'p50', dir: -1 },
+        unit: 'credentials',
+        note:
+          'Every pay figure here is pooled across the occupations at that credential, not ' +
+          'the published roll-up, which understates the spread.',
       },
       chart: (
-        <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
-          {(select, active, width) => (
-            <RankedBars
-              rows={tierBars.map((b) => ({
-                ...b,
-                onClick: () => select(b.label),
-                active: active === b.label,
-              }))}
-              opts={{
-                money: true,
-                width,
-                rule: LWA,
-                ruleLabel: 'Living wage',
-                valueLabel: 'Typical pay',
-                labelWidth: 236,
-                clickHint: 'Click for the occupations at this level',
-                aria: 'Typical pay by entry credential',
-              }}
-            />
-          )}
-        </Split>
-      ),
-    },
-
-    above: {
-      lw: true,
-      title: 'Which credential levels clear the living wage?',
-      note: livingWageJump(LC.tiers, TIER_ORDER, lw),
-      cap: `What share of each credential's jobs pay at or above the living wage for ${lw} — ${money(LWA)} a year.`,
-      src: 'Vermont occupation data, 2025 · occupation median against the benchmark',
-      data: { ...bands, label: 'above-the-living-wage', initialSort: { k: 'jobs', dir: -1 } },
-      chart: (
-        <Split items={LC.tiers} keyOf={(r) => r.t} detail={tierDetail}>
-          {(select, active, width) => (
-            <RankedBars
-              rows={TIER_ORDER.map((k, i) => {
-                const r = t[k];
-                return {
+        <>
+          {/* No legend. Three swatches cut from one ramp read as three shades of
+              the same thing at 13px, and the caption already names the solid bar,
+              the line and the heavy mark in the order the eye meets them. */}
+          <Split
+            items={ladder}
+            keyOf={(r) => r.t}
+            detail={(r) =>
+              tierDetail(r, [
+                [fmt(r.jobs), 'Jobs today'],
+                [r.above.toFixed(0) + '%', 'Clears the benchmark'],
+                [money(r.box.p50), 'The midpoint job'],
+              ])
+            }
+          >
+            {(select, active, width) => (
+              <RangeRows
+                rows={ladder.map((r) => ({
                   label: r.t,
-                  value: r.above[lw],
-                  color: SERIES[i],
-                  mode: 'pct',
+                  box: r.box,
+                  right: fmt(r.jobs),
+                  right2: r.above.toFixed(0) + '%',
                   onClick: () => select(r.t),
                   active: active === r.t,
                   big: [[fmt(r.jobs), 'Jobs today']],
                   extra: [
-                    ['Median earnings', money(r.med)],
+                    ['Clears the benchmark', r.above.toFixed(1) + '%'],
+                    ['People below it', fmt(r.belowN)],
+                    ['Middle half pays', money(r.box.p25) + ' to ' + money(r.box.p75)],
+                    ['Lowest-paid tenth', money(r.box.p10)],
+                    ['Highest-paid tenth', money(r.box.p90)],
+                    ['Times wider, top tenth over bottom', (r.box.p90 / r.box.p10).toFixed(2) + '×'],
                     ['Occupations', fmt(r.nocc)],
                   ],
-                };
-              })}
-              opts={{
-                mode: 'pct',
-                labelWidth: 176,
-                max: 100,
-                width,
-                valueLabel: 'Above living wage',
-                clickHint: 'Click for the occupations at this level',
-                aria: 'Living-wage share by credential tier',
-              }}
-            />
-          )}
-        </Split>
+                }))}
+                opts={{
+                  width,
+                  money: true,
+                  xMin,
+                  xMax,
+                  tickStep: 50000,
+                  labelWidth: 206,
+                  rule: LWA,
+                  ruleLabel: `Living wage ${money(LWA)}`,
+                  valueLabel: 'The midpoint job',
+                  valueHead: 'JOBS',
+                  rightHead: 'CLEARS IT',
+                  clickHint: 'Click for the occupations at this level',
+                  aria: 'Annual pay by entry credential, lowest-paid tenth to highest',
+                }}
+              />
+            )}
+          </Split>
+        </>
       ),
     },
 
-    spread: {
-      title: 'How wide is the range of outcomes at each credential level?',
-      cap: 'How many times more the best-paid tenth earn than the worst-paid tenth. A wider range means the credential leads to very different outcomes.',
-      src: 'Vermont occupation data, 2025 · highest-paid tenth against lowest-paid tenth',
-      data: { ...bands, label: 'pay-range-by-credential', initialSort: { k: 'med', dir: -1 } },
-      chart: (
-        <RankedBars
-          rows={TIER_ORDER.filter((k) => P[k]).map((k, i) => {
-            const b = P[k];
-            return {
-              label: k,
-              value: b.p90 / b.p10,
-              color: SERIES[i],
-              dec: 2,
-              big: [[money(b.p50), 'Midpoint pay']],
-              extra: [
-                ['Lowest-paid tenth', money(b.p10)],
-                ['Highest-paid tenth', money(b.p90)],
-              ],
-            };
-          })}
-          opts={{
-            dec: 2,
-            labelWidth: 176,
-            valueLabel: 'Times wider',
-            aria: 'Earnings dispersion by credential tier',
-          }}
-        />
-      ),
-    },
   };
 
   return (
@@ -271,9 +269,10 @@ export default function Q4({ lw, setLw, section }) {
             render: () => (
               <>
                 <HowTo>
-                  Four measures of the same five rungs. These are the credentials
+                  The same five rungs, as what the work pays and as how much work sits
+                  there. These are the credentials
                   <strong> jobs ask for</strong>, not the ones workers hold — the Workers
-                  tab answers that, and the two do not match. Click a bar for the
+                  tab answers that, and the two do not match. Click a rung for the
                   occupations at that level.
                 </HowTo>
                 <Picker id="q4-cred" label="Measure" options={CRED_MEASURES}>

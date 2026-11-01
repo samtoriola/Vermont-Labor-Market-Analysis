@@ -167,8 +167,8 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'Pathways · By credential level',
-                'Jobs, typical pay, living-wage clearance and the pay range at five entry credentials',
-                'Lightcast occupations · OEWS percentiles · MIT',
+                'The pay range of each of five entry credentials, with the benchmark ruled across them, and how much employment sits at each',
+                'Lightcast occupations · OEWS percentiles, pooled across the occupations at each credential · MIT',
                 'lightcast.json, percentiles.json',
               ],
             },
@@ -269,7 +269,7 @@ export default function Methods({ lw }) {
             ],
             [
               'Below a living wage',
-              'The benchmark’s position along each occupation’s own percentile ladder, weighted by that occupation’s jobs and rolled up. Not whether the occupation’s median clears it: that rule counts every job in an occupation on whichever side its midpoint falls, which is out by 19 points on Installation & Repair and 15 on Office & Admin Support. Clamped outside the 10th and 90th percentiles, where the published ladder says nothing.',
+              'The benchmark’s position along each occupation’s own percentile ladder, weighted by that occupation’s jobs and rolled up. Used by the Overview, Wage quality and Pathways, which is every chart that compares pay with self-sufficiency. Not whether the occupation’s median clears it: that rule counts every job in an occupation on whichever side its midpoint falls, which is out by 19 points on Installation & Repair and 15 on Office & Admin Support. Clamped outside the 10th and 90th percentiles, where the published ladder says nothing.',
             ],
             [
               'The county cost floor',
