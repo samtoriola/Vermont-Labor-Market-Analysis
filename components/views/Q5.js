@@ -244,7 +244,7 @@ export default function Q5({ lw, setLw, section }) {
                         />
                         <Split items={shown} keyOf={(r) => r.n} detail={scoreDetail}>
                           {(select, active, width) => (
-                            <Ranked id="q5-score" rows={shown} show={20}>
+                            <Ranked id="q5-score" rows={shown} show={10}>
                               {(pick) => (
                                 <StackedRows
                                   rows={pick.map((r) => ({
@@ -323,7 +323,7 @@ export default function Q5({ lw, setLw, section }) {
                 />
                 <Split items={screened} keyOf={(r) => r.s} detail={candDetail}>
                   {(select, active, width) => (
-                    <Ranked id="q5-screen" rows={screened} show={16}>
+                    <Ranked id="q5-screen" rows={screened} show={20}>
                       {(pick) => (
                         <RankedBars
                           rows={pick.map((r) => ({

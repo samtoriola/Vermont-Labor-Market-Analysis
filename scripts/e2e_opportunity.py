@@ -143,6 +143,28 @@ with sync_playwright() as pw:
     if fills != 4:
         fails.append("%d segment colours, expected four" % fills)
 
+    # Two views of a ranking have to be two ends of it. Top 20 over a pool of 30
+    # was not -- the slices shared ten rows and the chart looked fine either way.
+    ctl = pg.locator(".rankctl", has_text="Show").first
+    if ctl.count():
+        def drawn():
+            return [t.strip() for t in pg.eval_on_selector_all(
+                ".view svg.chart text.clab", "els => els.map(e => e.textContent)")]
+        ctl.locator("button", has_text="Top").first.click()
+        pg.wait_for_timeout(600)
+        top_rows = drawn()
+        ctl.locator("button", has_text="Bottom").first.click()
+        pg.wait_for_timeout(600)
+        bottom_rows = drawn()
+        shared = set(top_rows) & set(bottom_rows)
+        print("  show control: top %d, bottom %d, sharing %d"
+              % (len(top_rows), len(bottom_rows), len(shared)))
+        if shared:
+            fails.append("the top and bottom views share %d rows: %s"
+                         % (len(shared), sorted(shared)[:3]))
+        ctl.locator("button", has_text="Top").first.click()
+        pg.wait_for_timeout(600)
+
     pg.locator(".view svg.chart g.bar").nth(5).click()
     pg.wait_for_timeout(700)
     pane = pg.locator(".view .detail")
