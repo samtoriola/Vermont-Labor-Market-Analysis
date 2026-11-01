@@ -5,14 +5,15 @@ import { LC, SOW, TIER_ORDER, lwAnnual, occByFamily } from '@/lib/data';
 import { opportunityScreen, screenCols, SCREEN_TIERS, SUPPLY } from '@/lib/screen';
 import { fmt, money } from '@/lib/format';
 import { scoreCols } from '@/lib/tables';
-import { Callout, HowTo, Panel, Picker, Ranked, VHead, N } from '../ui';
+import { Callout, HowTo, Legend, Panel, Picker, Ranked, VHead, N } from '../ui';
 import Filters, { ActiveFilters } from '../Filters';
 import { useFilters } from '../FilterContext';
 import OccTable from '../OccTable';
-import { RankedBars } from '../charts';
+import { RankedBars, StackedRows } from '../charts';
 import Sections from '../Sections';
 import { topScoreCredentials, screenYield, screenNarration } from '@/lib/insight';
 import DataTable from '../DataTable';
+import { Split } from '../Detail';
 import { useDrill, occDrill } from '../Drill';
 import { LwPicker } from '../ui';
 
@@ -83,6 +84,94 @@ export default function Q5({ lw, setLw, section }) {
   );
   const O = SOW.opp;
 
+  /**
+   * THE SCORE, UNPACKED
+   * -------------------
+   * The score is the mean of four percentile ranks at 25% each, and the chart used
+   * to draw only the mean. Two occupations two points apart can be nothing alike:
+   * Registered Nurses score 79.7 off the 99th percentile for size and the 52nd for
+   * growth, Computer Network Architects 77.5 off the 23rd and the 96th. One is a
+   * large occupation that is not growing; the other is a small one growing fast,
+   * and they call for different responses. The four ranks were on the hover, which
+   * put the chart's argument in a tooltip.
+   *
+   * So the bar is split into what it is made of. Length is unchanged, so the
+   * ranking is unchanged and nothing a reader learned is now wrong -- they can
+   * just see which legs a score stands on.
+   *
+   * The ramp skips --ord3: four segments from one hue need the contrast between
+   * neighbours more than they need even spacing.
+   */
+  const COMPS = [
+    { k: 's_size', label: 'Employment', color: '--ord5' },
+    { k: 's_growth', label: 'Growth', color: '--ord4' },
+    { k: 's_postings', label: 'Advertising', color: '--ord2' },
+    { k: 's_pay', label: 'Pay', color: '--ord1' },
+  ];
+
+  const occDrillFor = (r, from) =>
+    open(
+      occDrill({
+        label: 'Occupation group',
+        title: r.f,
+        cap: `Opened from ${r.n}. Every occupation in this group.`,
+        occ: occByFamily(r.f),
+        lwAnnual: LWA,
+      })
+    );
+
+  const scoreDetail = (r) => ({
+    label: 'Occupation',
+    title: r.n,
+    stats: [
+      [r.sc.toFixed(1), 'Opportunity score'],
+      [fmt(r.j), 'Jobs today'],
+      [r.m ? money(r.m) : '\u2014', 'Typical pay'],
+    ],
+    note: `Each rank is this occupation against the ${fmt(O.nEligible)} scored ones, on that measure alone.`,
+    cols: ['Component', 'Rank', 'Behind it'],
+    rows: [
+      ['Employment', r.s_size, fmt(r.j) + ' jobs'],
+      [
+        'Growth',
+        r.s_growth,
+        r.g === null || r.g === undefined ? '\u2014' : (r.g > 0 ? '+' : '') + r.g + '% by 2030',
+      ],
+      ['Advertising', r.s_postings, r.pp + ' ads per 100'],
+      ['Pay', r.s_pay, r.m ? money(r.m) : '\u2014'],
+    ],
+    more: { label: `All occupations in ${r.f}`, onClick: () => occDrillFor(r) },
+  });
+
+  // What the pane shows for a screened candidate: the three figures the bar
+  // carries, then the three signal tests spelled out rather than counted.
+  const PIPE_COLOR = {
+    [SUPPLY.none]: '--ord5',
+    [SUPPLY.thin]: '--ord3',
+    [SUPPLY.established]: '--ord1',
+  };
+  const candDetail = (r) => ({
+    label: 'Candidate',
+    title: r.n,
+    stats: [
+      [fmt(r.o), 'Openings a year'],
+      [r.linked ? r.linked.toFixed(1) : 'none', 'Graduates attributed'],
+      [r.m ? money(r.m) : '\u2014', 'Typical pay'],
+    ],
+    note: `${r.supply}. Each signal is judged against other occupations needing ${r.t.toLowerCase()}.`,
+    cols: ['Signal', 'This', 'Passes'],
+    rows: [
+      ['Openings per 100 jobs', r.opRate.toFixed(1), r.signals.includes('openings') ? 'yes' : 'no'],
+      ['Ads per 100 jobs', r.postRate.toFixed(1), r.signals.includes('postings') ? 'yes' : 'no'],
+      [
+        'Projected by 2030',
+        r.g === null || r.g === undefined ? '\u2014' : (r.g > 0 ? '+' : '') + r.g + '%',
+        r.signals.includes('growth') ? 'yes' : 'no',
+      ],
+    ],
+    more: { label: `All occupations in ${r.f}`, onClick: () => occDrillFor(r) },
+  });
+
   // Which credential's list to show. "By credential" was a separate section
   // holding the same scores in a table: the score is the composite, computed
   // across every scored occupation, and picking a credential takes the highest
@@ -116,8 +205,9 @@ export default function Q5({ lw, setLw, section }) {
                 <HowTo>
                   One score per occupation, the average of four percentile ranks: how many
                   it employs, how fast it is growing, how heavily it is advertised, and
-                  what it pays. Pick a credential to see the highest scorers that ask for
-                  it. The score is the same either way — a credential narrows the list, it
+                  what it pays. Each bar is split into those four, so a score you can see
+                  the inside of. Pick a credential to see the highest scorers that ask for
+                  it — the score is the same either way, a credential narrows the list, it
                   does not re-grade it.
                 </HowTo>
                 {/* No filter bar: the pool is already a short list of the highest
@@ -139,7 +229,7 @@ export default function Q5({ lw, setLw, section }) {
                         }
                         note={cred === 'all' ? topScoreCredentials(O.top) : null}
                         cap={
-                          `Each occupation is ranked against all the others on four things — how many it employs, how fast it is growing, how heavily it is advertised, and what it pays — and the four ranks are averaged. Hover a bar for its four scores.` +
+                          `Each occupation is ranked against all the others on four things — how many it employs, how fast it is growing, how heavily it is advertised, and what it pays — and the four ranks are averaged. The bar is that average; the segments are the four ranks it is made of, each contributing up to a quarter of the length. An even bar is strong on everything; a lopsided one is a bet on one thing. Click a bar for its ranks and the occupations around it.` +
                           (cred === 'all'
                             ? ''
                             : ` These are the highest scorers whose entry credential is ${cred.toLowerCase()}; the score is still the one computed across every occupation, so it can be compared with the others.`)
@@ -148,41 +238,59 @@ export default function Q5({ lw, setLw, section }) {
                         data={{ cols: scoreCols(), rows: shown, label: 'highest-scoring',
                                 initialSort: { k: 'sc', dir: -1 }, unit: 'occupations' }}
                       >
-                        <Ranked id="q5-score" rows={shown} show={20}>
-                          {(pick) => (
-                            <RankedBars
-                              rows={pick.map((r) => ({
-                                label: r.n,
-                                value: r.sc,
-                                color: '--s1',
-                                dec: 1,
-                                extra: [
-                                  ['Jobs', fmt(r.j)],
-                                  ['Median earnings', money(r.m)],
-                                  ['25th percentile', money(r.p25)],
-                                  ['Median vs living wage', r.lw + '×'],
-                                  ['p25 vs living wage', r.lw25 + '×'],
-                                  ['Annual openings (context only)', fmt(r.o) + ' (' + r.op + ' per 100 jobs)'],
-                                  ['Postings per 100 jobs', r.pp],
-                                  ['5-yr growth', r.g + '%'],
-                                  ['Entry credential', r.t],
-                                  [`— scored components, ${O.weightEach}% each —`, ''],
-                                  ['Employment', r.s_size],
-                                  ['Growth', r.s_growth],
-                                  ['Postings intensity', r.s_postings],
-                                  ['Median pay', r.s_pay],
-                                ],
-                              }))}
-                              opts={{
-                                dec: 1,
-                                labelWidth: 262,
-                                max: 100,
-                                valueLabel: 'Opportunity score',
-                                aria: 'Highest-scoring occupations',
-                              }}
-                            />
+                        <Legend
+                          labels={COMPS.map((c) => c.label)}
+                          colors={COMPS.map((c) => c.color)}
+                        />
+                        <Split items={shown} keyOf={(r) => r.n} detail={scoreDetail}>
+                          {(select, active, width) => (
+                            <Ranked id="q5-score" rows={shown} show={20}>
+                              {(pick) => (
+                                <StackedRows
+                                  rows={pick.map((r) => ({
+                                    label: r.n,
+                                    // Fixed total with the parts in the same units as
+                                    // the axis: the bar ends at the score, and each
+                                    // segment is one rank's quarter of it.
+                                    total: 100,
+                                    parts: COMPS.map((c) => ({
+                                      v: r[c.k] / 4,
+                                      extra: [
+                                        ['Jobs', fmt(r.j)],
+                                        ['Typical pay', r.m ? money(r.m) : '—'],
+                                        ['Openings a year', fmt(r.o)],
+                                        ['Ads per 100 jobs', r.pp],
+                                        ['Projected by 2030', r.g === null || r.g === undefined ? '—' : r.g + '%'],
+                                        ['Entry credential', r.t],
+                                      ],
+                                    })),
+                                    hi: r.sc.toFixed(1),
+                                    onClick: () => select(r.n),
+                                    active: active === r.n,
+                                  }))}
+                                  opts={{
+                                    width,
+                                    labelWidth: 262,
+                                    ticks: [0, 25, 50, 75, 100],
+                                    axisMax: 100,
+                                    absolute: true,
+                                    partFmt: (v) => String(Math.round(v * 4)),
+                                    shareLabel: 'Percentile rank',
+                                    tierNames: COMPS.map((c) => c.label),
+                                    colors: COMPS.map((c) => c.color),
+                                    rightLabel: 'SCORE',
+                                    hiFmt: (v) => v,
+                                    // The segments are the measure here.
+                                    keepFill: true,
+                                    clickHint: 'Click for its four ranks and its group',
+                                    aria:
+                                      'Highest-scoring occupations, each bar split into the four ranks it is the mean of',
+                                  }}
+                                />
+                              )}
+                            </Ranked>
                           )}
-                        </Ranked>
+                        </Split>
                       </Panel>
                     );
                   }}
@@ -196,18 +304,67 @@ export default function Q5({ lw, setLw, section }) {
             render: () => (
               <>
                 <HowTo>
-                  A screen, not a ranking: set the four tests below and the table shows
-                  what passes all of them. It is a list of places to look, never a
-                  recommendation — the scope of this work stops short of saying whether a
-                  program should be created, expanded or cut.
+                  A screen, not a ranking: set the four tests below and the chart shows
+                  what passes all of them, shaded by how much VSCS already produces for
+                  it. It is a list of places to look, never a recommendation — the scope
+                  of this work stops short of saying whether a program should be created,
+                  expanded or cut.
                 </HowTo>
               <Panel
                 title="Which occupations could VSCS act on?"
-                cap={`Occupations that pass four tests at once: at least ${minOpen} openings a year, pay at or above the living wage, and a credential VSCS already awards${excludeObvious ? ', and not one of the 25 largest' : ''}. Signals counts how many of three things an occupation has going for it — openings, advertising and projected growth — each judged against others needing the same credential. Click a row for its occupation group.`}
+                cap={`Occupations that pass four tests at once: at least ${minOpen} openings a year, pay at or above the living wage, and a credential VSCS already awards${excludeObvious ? ', and not one of the 25 largest' : ''}. The bar is annual openings and its shade is how much VSCS already produces for that work, so the order stays the one that matters while the gap shows without a sort. Signals counts how many of three things an occupation has going for it — openings, advertising and projected growth — each judged against others needing the same credential. Click a bar or a row for the detail.`}
                 src="Vermont occupation data, 2025, against federal completions data, 2024 · thresholds set above · a candidate for investigation, not a recommendation"
                 note={screenYield(screened, acted, LC.allOcc.length)}
               >
                 {controls}
+                <Legend
+                  labels={[SUPPLY.none, SUPPLY.thin, SUPPLY.established]}
+                  colors={[PIPE_COLOR[SUPPLY.none], PIPE_COLOR[SUPPLY.thin], PIPE_COLOR[SUPPLY.established]]}
+                />
+                <Split items={screened} keyOf={(r) => r.s} detail={candDetail}>
+                  {(select, active, width) => (
+                    <Ranked id="q5-screen" rows={screened} show={16}>
+                      {(pick) => (
+                        <RankedBars
+                          rows={pick.map((r) => ({
+                            label: r.n,
+                            value: r.o,
+                            // Shaded by pipeline rather than ranked by it, so the
+                            // order stays the one a reader expects -- hardest hiring
+                            // first -- and the gap shows without a sort.
+                            color: PIPE_COLOR[r.supply] || '--ord3',
+                            right: r.linked ? r.linked.toFixed(1) : 'none',
+                            right2: r.nSignals + ' of 3',
+                            onClick: () => select(r.s),
+                            active: active === r.s,
+                            big: [[r.supply, 'VSCS pipeline']],
+                            extra: [
+                              ['Jobs', fmt(r.j)],
+                              ['Typical pay', r.m ? money(r.m) : '—'],
+                              ['Projected by 2030', r.g === null || r.g === undefined ? '—' : r.g + '%'],
+                              ['Signals', r.signals.length ? r.signals.join(', ') : 'none'],
+                              ['Entry credential', r.t],
+                            ],
+                          }))}
+                          opts={{
+                            width,
+                            labelWidth: 290,
+                            // The bar's shade is the pipeline, so choosing one must
+                            // not fade the other fifteen into one colour.
+                            keepFill: true,
+                            valueLabel: 'Openings a year',
+                            valueHead: 'OPENINGS',
+                            rightHead: 'GRADUATES',
+                            rightHead2: 'SIGNALS',
+                            clickHint: 'Click for its signals and its group',
+                            aria:
+                              'Occupations clearing the screen, by annual openings, shaded by VSCS pipeline',
+                          }}
+                        />
+                      )}
+                    </Ranked>
+                  )}
+                </Split>
                 <DataTable
                   cols={screenCols()}
                   rows={screened}

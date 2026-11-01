@@ -154,7 +154,10 @@ with sync_playwright() as pw:
         fails.append("printed job counts not reproducible: %s" % off[:4])
 
     # ---- the fill is the band, and every band is used -------------------
+    # Only the rects that paint. A mark also carries a transparent band so the
+    # whole row is a click target, and that is not part of the ramp.
     fills = pg.evaluate("""() => [...document.querySelectorAll('.view svg.chart g.bar rect')]
+        .filter(r => (r.getAttribute('fill') || '').startsWith('var'))
         .map(r => getComputedStyle(r).fill)""")
     print("--- shading ---")
     print("  %d distinct fills across %d bars" % (len(set(fills)), len(fills)))
@@ -215,7 +218,10 @@ with sync_playwright() as pw:
     # The fill carries the second measure, so choosing a bar must not fade the
     # others -- five shaded bands washing out to one is the regression this
     # guards. The labels do the fading instead.
-    ops = pg.evaluate("() => [...document.querySelectorAll('.view svg.chart g.bar rect')].map(r => getComputedStyle(r).fillOpacity)")
+    ops = pg.evaluate(
+        "() => [...document.querySelectorAll('.view svg.chart g.bar rect')]"
+        ".filter(r => (r.getAttribute('fill') || '').startsWith('var'))"
+        ".map(r => getComputedStyle(r).fillOpacity)")
     print("  fill-opacities with a bar chosen: %s" % sorted(set(ops)))
     if any(float(o) < 1 for o in ops):
         fails.append("choosing a bar faded the shading, the chart's second measure")

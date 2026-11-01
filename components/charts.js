@@ -50,7 +50,8 @@ export function RankedBars({ rows, opts = {} }) {
   // bar already carries two measures -- length for one, fill for the other --
   // and the second has no axis of its own to be read against.
   const hasRight = rows.some((r) => r.right !== undefined && r.right !== null);
-  const padR = (opts.money ? 96 : 84) + (hasRight ? 58 : 0);
+  const hasRight2 = rows.some((r) => r.right2 !== undefined && r.right2 !== null);
+  const padR = (opts.money ? 96 : 84) + (hasRight ? 58 : 0) + (hasRight2 ? 58 : 0);
   // The column heads need a line of their own above the axis ticks, which sit
   // at padT - 15 and are centre-anchored, so they reach past the plot's end.
   const padT = opts.valueHead || opts.rightHead ? 46 : 28;
@@ -200,6 +201,13 @@ export function RankedBars({ rows, opts = {} }) {
                   variable -- five shaded bands wash out to one. `keepFill` holds
                   the bars at full strength and lets the labels do the fading,
                   marking the chosen bar with an outline instead. */}
+              {/* Where the value sits in a fixed column, the drawn bar is only
+                  part of the row the reader is aiming at. A transparent band makes
+                  the rest of it hit, rather than leaving a dead zone between the
+                  bar's end and its figure. */}
+              {opts.track || hasRight || r.backdrop ? (
+                <rect x={zeroX} y={y} width={max * scale} height={rowH} fill="transparent" />
+              ) : null}
               {/* A backdrop belonging to this row rather than to the scale: the
                   bar is a part of it, and the gap between the two is the measure.
                   Inside the mark, so the whole row hovers and clicks as one
@@ -253,6 +261,18 @@ export function RankedBars({ rows, opts = {} }) {
                   {r.right}
                 </text>
               ) : null}
+              {hasRight2 ? (
+                <text
+                  x={zeroX + max * scale + 125}
+                  y={y + rowH / 2 + 4}
+                  className="nbadge"
+                  textAnchor="start"
+                  fontSize={11.5}
+                  opacity={dim ? 0.5 : 1}
+                >
+                  {r.right2}
+                </text>
+              ) : null}
             </TipMark>
           </g>
         );
@@ -280,6 +300,17 @@ export function RankedBars({ rows, opts = {} }) {
           fontSize={9}
         >
           {opts.rightHead}
+        </text>
+      ) : null}
+      {hasRight2 && opts.rightHead2 ? (
+        <text
+          x={zeroX + max * scale + 125}
+          y={padT - 30}
+          className="nbadge"
+          textAnchor="start"
+          fontSize={9}
+        >
+          {opts.rightHead2}
         </text>
       ) : null}
     </svg>
@@ -487,10 +518,17 @@ export function StackedRows({ rows, opts = {} }) {
   const padR = 58;
   const padT = 14;
   const w = opts.width || CHART_W;
-  const h = padT + rows.length * (rowH + gap) + 2;
+  const ticks = opts.ticks || null;
+  const padTop = ticks ? padT + 18 : padT;
+  const h = padTop + rows.length * (rowH + gap) + 2;
   const plotW = w - labW - padR;
   const names = opts.tierNames || [];
   const colors = opts.colors || SERIES;
+  // What one segment IS. The default is this chart's first use -- a share of the
+  // row's jobs -- but with the row total fixed and the parts in the same units as
+  // the axis it is an absolute chart, and then "Jobs" would be wrong.
+  const partLabel = opts.partLabel || 'Jobs';
+  const partFmt = opts.partFmt || fmt;
   // Same rule as the ranked bars: fade the rest only once something is chosen.
   const hasSel = rows.some((r) => r.active);
 
@@ -503,13 +541,29 @@ export function StackedRows({ rows, opts = {} }) {
       aria-label={opts.aria || 'Stacked share chart'}
     >
       {opts.rightLabel ? (
-        <text x={w - padR + 9} y={padT - 3} className="nbadge" textAnchor="start" fontSize={9}>
+        <text x={w - padR + 9} y={padTop - 3} className="nbadge" textAnchor="start" fontSize={9}>
           {opts.rightLabel}
         </text>
       ) : null}
 
+      {/* Only where the row total is fixed. On a 100% chart every bar is the same
+          length and an axis of shares would say nothing. */}
+      {ticks
+        ? ticks.map((tv) => {
+            const gx = labW + (tv / (opts.axisMax || 100)) * plotW;
+            return (
+              <g key={`t${tv}`}>
+                <line x1={gx} y1={padTop - 8} x2={gx} y2={h - 2} className="grid" strokeWidth={1} />
+                <text x={gx} y={padTop - 14} className="nbadge" textAnchor="middle" fontSize={10}>
+                  {tv}
+                </text>
+              </g>
+            );
+          })
+        : null}
+
       {rows.map((r, i) => {
-        const y = padT + i * (rowH + gap);
+        const y = padTop + i * (rowH + gap);
         const tot = r.total || 1;
         const dim = hasSel && !r.active;
         let x = labW;
@@ -522,13 +576,21 @@ export function StackedRows({ rows, opts = {} }) {
               key={k}
               className="bar"
               title={`${r.label} — ${names[k] || 'Series ' + (k + 1)}`}
-              rows={[['Jobs', fmt(p.v)]]}
+              rows={p.extra || [[partLabel, partFmt(p.v)]]}
               meta={{
-                big: [[share.toFixed(1) + '%', opts.shareLabel || 'Share of this row']],
+                big: [
+                  [
+                    opts.absolute ? partFmt(p.v) : share.toFixed(1) + '%',
+                    opts.shareLabel || 'Share of this row',
+                  ],
+                ],
                 foot: r.onClick ? opts.clickHint || 'Click for the detail' : undefined,
               }}
               onClick={r.onClick}
             >
+              {/* Where the segment colours are a measure rather than a set of
+                   categories, fading them destroys what the chart is saying. The
+                   labels fade instead, and the chosen row takes an outline. */}
               <rect
                 x={x}
                 y={y}
@@ -536,7 +598,7 @@ export function StackedRows({ rows, opts = {} }) {
                 height={rowH}
                 rx={2}
                 fill={V(colors[k])}
-                fillOpacity={dim ? 0.32 : 1}
+                fillOpacity={dim && !opts.keepFill ? 0.32 : 1}
               />
             </TipMark>
           );
@@ -557,6 +619,19 @@ export function StackedRows({ rows, opts = {} }) {
               {trunc(shortLabel(r.label), Math.floor(labW / 6.4))}
             </text>
             {segs}
+            {r.active && opts.keepFill ? (
+              <rect
+                x={labW}
+                y={y}
+                width={Math.max(1, x - labW)}
+                height={rowH}
+                rx={2}
+                fill="none"
+                stroke={V('--ink')}
+                strokeWidth={1.5}
+                pointerEvents="none"
+              />
+            ) : null}
             {r.hi !== undefined ? (
               <text
                 x={w - padR + 9}
@@ -566,7 +641,10 @@ export function StackedRows({ rows, opts = {} }) {
                 fontSize={11}
                 opacity={dim ? 0.5 : 1}
               >
-                {(r.hi * 100).toFixed(0) + '%'}
+                {/* `hi` is a share on a 100% chart, where turning it into a
+                    percentage is right. On an absolute one it is already the
+                    figure, so the caller formats it. */}
+                {opts.hiFmt ? opts.hiFmt(r.hi) : (r.hi * 100).toFixed(0) + '%'}
               </text>
             ) : null}
           </g>

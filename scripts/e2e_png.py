@@ -29,7 +29,7 @@ with sync_playwright() as p:
         ("Wage benchmark", True),
         ("What people earn", True),
         ("By credential level", True),
-        ("Program candidates", False),   # a table
+        ("Program candidates", True),   # a table
         ("Which credentials pay", True),
     ]
     for label, want in checks:

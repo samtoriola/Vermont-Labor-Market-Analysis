@@ -199,7 +199,7 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'Opportunities · Highest scoring',
-                'The four-measure composite index, filtered by entry credential',
+                'The composite index, each bar split into the four percentile ranks it is the mean of',
                 'Lightcast occupations · OEWS',
                 'sow.json',
               ],
@@ -207,9 +207,9 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'Opportunities · Program candidates',
-                'The index set against VSCS completions, under the screen thresholds',
+                'Occupations clearing the screen, by annual openings, shaded by how much VSCS already produces for them',
                 'Lightcast · IPEDS · CIP-to-SOC crosswalk',
-                'sow.json',
+                'lightcast.json, sow.json',
               ],
             },
             {
