@@ -2,6 +2,7 @@
 
 import { fmt, money } from '@/lib/format';
 import { TOTJ } from '@/lib/data';
+import { shareBelow, occBox } from '@/lib/wage';
 
 /**
  * Column spec for occupation tables, shared by the master view and the drill-down
@@ -23,6 +24,36 @@ export function occCols(lwAnnual) {
     { k: 'o', label: 'Openings a year', kind: 'num', get: (o) => o.o },
     { k: 'turn', label: 'Turnover', kind: 'rate', get: (o) => o.turn },
     { k: 'pp', label: 'Ads per 100 jobs', kind: 'num1', get: (o) => (o.j ? (o.p / o.j) * 100 : null) },
+    { k: 't', label: 'Entry credential', kind: 'text', get: (o) => o.t },
+  ];
+}
+
+/**
+ * The drill behind the openings chart.
+ *
+ * Leads with openings rather than with jobs, because that is what the chart above
+ * it counts, and carries the two measures the chart is built from: how much of
+ * each occupation pays below the benchmark, and what that leaves of its openings.
+ */
+export function occOpenCols(lwAnnual) {
+  const below = (o) => shareBelow(occBox(o), lwAnnual);
+  return [
+    { k: 'n', label: 'Occupation', kind: 'text', get: (o) => o.n },
+    { k: 'o', label: 'Openings a year', kind: 'num', get: (o) => o.o },
+    { k: 'm', label: 'Typical pay', kind: 'money', get: (o) => o.m },
+    { k: 'lw', label: 'Times the living wage', kind: 'x', get: (o) => (o.m ? o.m / lwAnnual : null) },
+    { k: 'below', label: 'Share of its jobs below the benchmark', kind: 'rate', get: below },
+    {
+      k: 'openPay',
+      label: 'Openings in work that pays',
+      kind: 'num',
+      get: (o) => {
+        const b = below(o);
+        return b === null || !o.o ? null : (o.o * (100 - b)) / 100;
+      },
+    },
+    { k: 'j', label: 'Jobs today', kind: 'num', get: (o) => o.j },
+    { k: 'turn', label: 'Turnover', kind: 'rate', get: (o) => o.turn },
     { k: 't', label: 'Entry credential', kind: 'text', get: (o) => o.t },
   ];
 }

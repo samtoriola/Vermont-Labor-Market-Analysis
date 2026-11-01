@@ -63,7 +63,9 @@ export function RankedBars({ rows, opts = {} }) {
   // belongs to read as one thing. Nothing chosen, nothing faded.
   const hasSel = rows.some((r) => r.active);
 
-  const maxAbs = Math.max(...rows.map((r) => Math.abs(r.value)));
+  const maxAbs = Math.max(
+    ...rows.map((r) => Math.max(Math.abs(r.value), Math.abs(r.backdrop || 0)))
+  );
   // Round the axis to four round steps rather than to one round top. niceMax alone
   // takes $111,896 to $150,000, whose quarters are $37,500 and $112,500; rounding
   // the step instead gives $30,000 and a top of $120,000, and every tick is a
@@ -198,6 +200,22 @@ export function RankedBars({ rows, opts = {} }) {
                   variable -- five shaded bands wash out to one. `keepFill` holds
                   the bars at full strength and lets the labels do the fading,
                   marking the chosen bar with an outline instead. */}
+              {/* A backdrop belonging to this row rather than to the scale: the
+                  bar is a part of it, and the gap between the two is the measure.
+                  Inside the mark, so the whole row hovers and clicks as one
+                  thing -- outside it, it covered the bar and swallowed the
+                  click. */}
+              {r.backdrop ? (
+                <rect
+                  x={zeroX}
+                  y={y}
+                  width={Math.max(1.5, r.backdrop * scale)}
+                  height={rowH}
+                  rx={4}
+                  fill={V('--track')}
+                  opacity={dim ? 0.5 : 1}
+                />
+              ) : null}
               <rect
                 x={bx}
                 y={y}

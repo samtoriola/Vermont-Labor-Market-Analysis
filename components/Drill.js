@@ -71,11 +71,15 @@ export function DrillProvider({ children }) {
                 ))}
               </div>
             ) : null}
+            {/* The table sorts by jobs unless the caller says otherwise. A drill
+                opened from a chart of openings should land sorted the way that
+                chart ranks, or the first thing the reader sees disagrees with
+                what they just clicked. */}
             {d.occ && d.occ.length ? (
               <DataTable
                 cols={d.cols}
                 rows={d.occ}
-                initialSort={{ k: 'j', dir: -1 }}
+                initialSort={d.initialSort || { k: 'j', dir: -1 }}
                 exportLabel={d.title}
                 rowKey={d.rowKey || ((r) => r.s)}
                 pageSize={25}

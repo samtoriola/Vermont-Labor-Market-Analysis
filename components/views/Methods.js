@@ -175,9 +175,9 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'Pathways · Which credentials pay',
-                'Occupations at each credential that both hire in volume and pay a living wage',
-                'Lightcast occupations · MIT',
-                'lightcast.json',
+                'A year of hiring at each credential, and how much of it is in work paying a living wage',
+                'Lightcast occupations and openings · OEWS percentiles · MIT',
+                'lightcast.json, percentiles.json',
               ],
             },
             {
