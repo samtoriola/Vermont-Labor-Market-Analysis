@@ -1,0 +1,17 @@
+﻿"# Regions / Counties compared. Core LMI county slice, classes 1+2 (QCEW and non-QCEW employees), which reproduce the statewide total to 0.009%; summing all four classes lands 40% high. Pay is the employment-weighted midpoint job, annualised at 2080 hours."
+county,jobs,jobs_2021,change_pct,midpoint_pay,occupations
+Chittenden,110328.0,104290.0,5.8,60422,1475
+Washington,35511.0,33485.0,6.1,59033,1473
+Rutland,26451.0,25639.0,3.2,50983,1457
+Windsor,24440.0,23430.0,4.3,55299,1448
+Windham,21747.0,19755.0,10.1,52088,1458
+Franklin,17406.0,17678.0,-1.5,52788,1448
+Bennington,17328.0,16441.0,5.4,51996,1461
+Addison,17120.0,15792.0,8.4,55309,1465
+Lamoille,13292.0,11748.0,13.1,52429,1442
+Caledonia,11635.0,10637.0,9.4,50489,1456
+Orleans,10803.0,10776.0,0.3,49252,1437
+Orange,8766.0,8414.0,4.2,53863,1450
+Grand Isle,1497.0,1187.0,26.1,50145,1357
+Essex,1154.0,1089.0,6.0,55636,1352
+Vermont,326610.0,308667.0,5.8,55515,

@@ -59,7 +59,7 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'CPS (IPUMS)',
-                'Vermont monthly microdata — labor force, attainment held',
+                'Vermont monthly microdata. Reaches one figure: the employed-Vermonters tile on the home page',
                 '2021–2025',
                 '“Census household survey”',
               ],
@@ -67,9 +67,9 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'ACS (IPUMS)',
-                'Person-level earnings; county attainment and income',
-                '1-year 2024; 5-year 2016–2020',
-                '“Census household survey”, “County survey data”',
+                'County attainment and median income, on the Regions map',
+                '5-year 2016–2020',
+                '“County survey data”',
               ],
             },
             {
@@ -102,11 +102,11 @@ export default function Methods({ lw }) {
 
       <Panel
         title="What each chart uses"
-        cap="One row per section. Where a section carries a measure control, every measure on it draws from the same files. The file column is what the app imports at build time; scripts/README.md says which script writes each one and what it reads."
+        cap="One row per section. Where a section carries a measure control, every measure on it draws from the same files. The file column is what the app imports at build time, and scripts/README.md says which script writes each one and what it reads. The workfile column is the spreadsheet in workfiles/ that reproduces that chart&rsquo;s figures by hand, inputs and intermediate steps included."
       >
         <Table
-          cols={['Section', 'What it draws', 'Source', 'File']}
-          text={[1, 2, 3]}
+          cols={['Section', 'What it draws', 'Source', 'File', 'Workfile']}
+          text={[1, 2, 3, 4]}
           rows={[
             {
               cells: [
@@ -114,6 +114,7 @@ export default function Methods({ lw }) {
                 'Jobs per occupation group, shaded by how much of that work pays below a living wage',
                 'Lightcast occupations · OEWS percentiles · MIT',
                 'lightcast.json, percentiles.json',
+                '02_overview_and_wage_by_group.csv',
               ],
             },
             {
@@ -122,6 +123,7 @@ export default function Methods({ lw }) {
                 'Jobs and the 55-and-over share across 21 sectors, and the industries inside one',
                 'Lightcast industries',
                 'lightcast.json',
+                '06_employment_sectors.csv',
               ],
             },
             {
@@ -130,6 +132,7 @@ export default function Methods({ lw }) {
                 'Jobs, typical pay, entry credential and age mix across 22 occupation groups',
                 'Lightcast occupations · OEWS for the state and national reference bars',
                 'lightcast.json, compare.json',
+                '07_employment_occupation_groups.csv',
               ],
             },
             {
@@ -138,6 +141,7 @@ export default function Methods({ lw }) {
                 'The share and the headcount paying below the benchmark, by group, credential or occupation',
                 'Lightcast occupations · OEWS percentiles · MIT',
                 'lightcast.json, percentiles.json',
+                '02_overview_and_wage_by_group.csv',
               ],
             },
             {
@@ -146,6 +150,7 @@ export default function Methods({ lw }) {
                 'The same share for all 14 counties, against each county’s own floor and the statewide one',
                 'Lightcast Core LMI county slice · MIT by county',
                 'wagefloor.json',
+                '05_wage_county_floor.csv',
               ],
             },
             {
@@ -154,6 +159,7 @@ export default function Methods({ lw }) {
                 'What job ads ask for in education and experience, by county and against the nation',
                 'Lightcast Core LMI postings',
                 'demand.json',
+                '12_demand_what_postings_ask.csv',
               ],
             },
             {
@@ -162,6 +168,7 @@ export default function Methods({ lw }) {
                 'Job ads per 100 jobs, change over 2021–2025, and the projection to 2030',
                 'Lightcast occupations and postings',
                 'lightcast.json',
+                '01_occupations_master.csv',
               ],
             },
             {
@@ -170,6 +177,7 @@ export default function Methods({ lw }) {
                 'The pay range of each of five entry credentials, with the benchmark ruled across them, and how much employment sits at each',
                 'Lightcast occupations · OEWS percentiles, pooled across the occupations at each credential · MIT',
                 'lightcast.json, percentiles.json',
+                '03_pathways_credential_ladder.csv',
               ],
             },
             {
@@ -178,6 +186,7 @@ export default function Methods({ lw }) {
                 'A year of hiring at each credential, and how much of it is in work paying a living wage',
                 'Lightcast occupations and openings · OEWS percentiles · MIT',
                 'lightcast.json, percentiles.json',
+                '04_pathways_openings_by_credential.csv',
               ],
             },
 
@@ -187,6 +196,7 @@ export default function Methods({ lw }) {
                 'The composite index, each bar split into the four percentile ranks it is the mean of',
                 'Lightcast occupations · OEWS',
                 'sow.json',
+                '08_opportunity_scores.csv',
               ],
             },
 
@@ -196,6 +206,7 @@ export default function Methods({ lw }) {
                 'CCV and Vermont State University completions by award level',
                 'IPEDS',
                 'sow.json',
+                '10_vscs_production.csv',
               ],
             },
             {
@@ -204,6 +215,7 @@ export default function Methods({ lw }) {
                 'Completions linked to occupations, set against the annual openings that ask for a credential VSCS awards',
                 'IPEDS · CIP-to-SOC crosswalk · Lightcast openings and entry credential',
                 'sow.json, lightcast.json',
+                '09_vscs_alignment_by_group.csv',
               ],
             },
             {
@@ -212,6 +224,7 @@ export default function Methods({ lw }) {
                 'County attainment, median income and the local cost floor',
                 'ACS 5-year · MIT by county · simplified county outlines',
                 'sow.json, counties.json, vt-map.json',
+                '13_regions_county_map.csv',
               ],
             },
             {
@@ -220,6 +233,7 @@ export default function Methods({ lw }) {
                 'County jobs, typical pay, change since 2021, and what each county is concentrated in',
                 'Lightcast Core LMI county slice',
                 'counties.json',
+                '11_regions_counties.csv',
               ],
             },
           ]}
@@ -231,7 +245,7 @@ export default function Methods({ lw }) {
           items={[
             [
               'Jobs vs workers',
-              'Lightcast counts jobs and what a job asks for (326,582). CPS counts employed residents and what they hold (335,775). The ~3% gap is definitional — compare shares, not levels.',
+              'Every chart that ranks or compares work counts jobs and what a job asks for at entry. The credential a job asks for is not the credential the person in it holds, and nothing here measures the second — the section that did is not currently in the dashboard. Where the Census surveys do appear, on the Regions map and the home page, they count people, and no chart puts a jobs figure and a people figure on the same scale.',
             ],
             [
               'Openings',
@@ -247,7 +261,7 @@ export default function Methods({ lw }) {
             ],
             [
               'Below a living wage',
-              'The benchmark’s position along each occupation’s own percentile ladder, weighted by that occupation’s jobs and rolled up. Used by the Overview, Wage quality and Pathways, which is every chart that compares pay with self-sufficiency. Not whether the occupation’s median clears it: that rule counts every job in an occupation on whichever side its midpoint falls, which is out by 19 points on Installation & Repair and 15 on Office & Admin Support. Clamped outside the 10th and 90th percentiles, where the published ladder says nothing.',
+              'The benchmark’s position along each occupation’s own percentile ladder, weighted by that occupation’s jobs and rolled up. Used by the Overview, Wage quality and Pathways, which is every chart that compares pay with self-sufficiency. Pathways’ hiring chart weights the same measure by annual openings rather than by jobs, because an occupation can hold a great many jobs and almost never hire. Not whether the occupation’s median clears it: that rule counts every job in an occupation on whichever side its midpoint falls, which is out by 19 points on Installation & Repair and 15 on Office & Admin Support. Clamped outside the 10th and 90th percentiles, where the published ladder says nothing.',
             ],
             [
               'The county cost floor',
@@ -292,21 +306,25 @@ export default function Methods({ lw }) {
               'Rates need a real base',
               'Lightcast models employment to a fraction of a job, so growth, change and turnover are left blank below 10 jobs. Without the rule Gambling Managers reads 19,390% growth on 0.005 jobs. Suppresses ~120 of 796 occupations per measure, 0.11% of employment. A blank means the base was too small, not zero.',
             ],
-            [
-              'Who counts as a worker',
-              'The person-level earnings charts cover wage and salary workers aged 25–64 in civilian occupations, full-time year-round. The self-employed and military are excluded, matching the OEWS universe.',
-            ],
-            [
-              'Person dots are sampled',
-              'Columns hold more respondents than a chart can draw, so dots are a random draw made in proportion to survey weight. Average and median lines come from every respondent, not the dots shown.',
-            ],
-            [
-              'Full-time and part-time',
-              'Full-time is usual hours of 35 or more, taken from reported hours rather than the summary status code. 9.5% of employed Vermonters report that their hours vary and cannot be placed either side, so the split is shown over those with reportable hours.',
-            ],
+            // --- Hidden for now ------------------------------------------
+            // These three govern the person-level earnings charts on Workers,
+            // which is commented out of lib/nav.js, and the dot columns, which
+            // no section draws. Restore them with the section.
+            // [
+            //   'Who counts as a worker',
+            //   'The person-level earnings charts cover wage and salary workers aged 25–64 in civilian occupations, full-time year-round. The self-employed and military are excluded, matching the OEWS universe.',
+            // ],
+            // [
+            //   'Person dots are sampled',
+            //   'Columns hold more respondents than a chart can draw, so dots are a random draw made in proportion to survey weight. Average and median lines come from every respondent, not the dots shown.',
+            // ],
+            // [
+            //   'Full-time and part-time',
+            //   'Full-time is usual hours of 35 or more, taken from reported hours rather than the summary status code. 9.5% of employed Vermonters report that their hours vary and cannot be placed either side, so the split is shown over those with reportable hours.',
+            // ],
             [
               'CPS precision',
-              'October 2025 is missing nationally, so 2025 is an 11-month average. Vermont weights are near-uniform (Kish 0.94), so intervals assume a design effect near 1. 80,569 person-month records cover 16,887 distinct people, and rate intervals use the person count, not the record count, because the survey re-interviews the same households. The unemployment rate shown is the direct CPS estimate; Vermont’s official rate comes from the model-based LAUS series, so the two differ by construction.',
+              'Governs the employed-Vermonters figure on the home page, which is the only CPS number currently on screen. October 2025 is missing nationally, so 2025 is an 11-month average. 80,569 person-month records cover 16,887 distinct people, and anything computed as a rate would use the person count rather than the record count, because the survey re-interviews the same households. It is a direct survey estimate; Vermont’s official labour-force figures come from the model-based LAUS series, so the two differ by construction.',
             ],
           ]}
         />
@@ -349,6 +367,32 @@ export default function Methods({ lw }) {
           it guards against reading a weak score as a judgement on a program
           rather than on the market. Do not restore it here as well.
       */}
+
+      <Panel
+        title="Checking the numbers"
+        cap="Every figure the dashboard draws is also a spreadsheet, built from the same files the app reads."
+      >
+        <Defs
+          items={[
+            [
+              'The workfiles',
+              'The workfiles/ folder carries one CSV per chart, listed in the register above. Each holds the inputs and the intermediate steps rather than only the answer, so a measure can be redone with a calculator — the share of an occupation’s jobs below the benchmark arrives with that occupation’s five published percentiles beside it.',
+            ],
+            [
+              'Start at the headline',
+              '00_headline_figures.csv lists every number quoted in a caption, a read-out or a tile, with the workfile and the arithmetic that reproduces it. 01_occupations_master.csv carries all 796 occupations with every field and the derived share-below, and most other workfiles are a roll-up of it.',
+            ],
+            [
+              'They cannot drift',
+              'scripts/build_workfiles.py writes them from data/, the same JSON the app imports at build time, so a figure in a workfile and the same figure on screen come from one source. scripts/check_workfiles.py walks the chain — occupation rows sum to group rows, group rows sum to the headline, the headline is what the page prints — and fails if any link comes apart.',
+            ],
+            [
+              'What they cannot settle',
+              'Three things are modelled rather than observed, and checking the arithmetic will not change that: where VSCS graduates go, growth projected to 2030, and the openings divisor. Each is defined above; workfiles/README.md repeats them beside the files.',
+            ],
+          ]}
+        />
+      </Panel>
 
       <Panel
         title="Color"

@@ -79,6 +79,8 @@ and queries BigQuery (`strada-data-lab-c9d1`) plus the Lightcast CSV exports in
 | `build_counties.py` | `counties.json` — county jobs, pay and occupational mix |
 | `mk_app_data.py` | copies all four into `data/` |
 | `verify_app.py` | structural check of the app (stands in for `next build`) |
+| `build_workfiles.py` | `../workfiles/*.csv` — every figure the dashboard draws, as a spreadsheet |
+| `check_workfiles.py` | walks the chain: occupation rows → group rows → headline → what the page prints |
 
 **See [`scripts/README.md`](scripts/README.md)** for the exact run order, BigQuery auth
 setup (including the `--disable-quota-project` flag you must use), the inputs each script
@@ -87,6 +89,19 @@ living-wage default, the Q5 composite, and the Q6 allocation assumption.
 
 Re-run them, then commit the refreshed JSON. Nothing in the app queries BigQuery
 directly.
+
+## Checking the numbers by hand
+
+`workfiles/` carries every figure the dashboard draws as a CSV, built by
+`scripts/build_workfiles.py` from the same JSON in `data/` that the app imports at
+build time — so a figure there and the same figure on screen come from one source
+and cannot drift. Each file holds the inputs and the intermediate steps rather
+than only the answer.
+
+Start at `workfiles/00_headline_figures.csv`, which lists every number quoted in a
+caption, a read-out or a tile with the file and the arithmetic that reproduces it.
+`scripts/check_workfiles.py` walks that chain end to end and fails if any link
+comes apart. See [`workfiles/README.md`](workfiles/README.md).
 
 ## Things to know before presenting this
 

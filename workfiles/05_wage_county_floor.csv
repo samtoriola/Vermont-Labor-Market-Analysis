@@ -1,0 +1,16 @@
+﻿"# Wage quality / County living wage. Built by scripts/build_wagefloor.py from the Core LMI county slice, because a pay ladder per occupation per county exists nowhere else. Both floors are one adult with no children -- the only household MIT publishes per county -- so the pair isolates geography."
+county,jobs,county_living_wage,statewide_living_wage,pct_below_own_floor,jobs_below_own_floor,pct_below_statewide_floor,jobs_below_statewide_floor,difference_points,midpoint_pay,pct_of_jobs_priced,small_market
+Grand Isle,1497.0,53768.0,49816.0,56.3,844.0,50.2,752.0,6.1,50145.0,100.0,yes
+Franklin,17406.0,50440.0,49816.0,46.3,8067.0,44.9,7808.0,1.4,52788.0,100.0,no
+Rutland,26451.0,47133.0,49816.0,42.9,11359.0,47.9,12662.0,-5.0,50983.0,100.0,no
+Windsor,24440.0,50315.0,49816.0,42.7,10426.0,41.7,10182.0,1.0,55299.0,100.0,no
+Orange,8766.0,49858.0,49816.0,42.6,3736.0,42.5,3729.0,0.1,53863.0,100.0,no
+Addison,17120.0,50981.0,49816.0,41.7,7133.0,39.6,6781.0,2.1,55309.0,100.0,no
+Orleans,10803.0,45323.0,49816.0,41.4,4473.0,50.6,5466.0,-9.2,49252.0,100.0,no
+Chittenden,110328.0,53310.0,49816.0,40.3,44445.0,33.6,37078.0,6.7,60422.0,100.0,no
+Windham,21747.0,47216.0,49816.0,39.7,8628.0,45.6,9916.0,-5.9,52088.0,100.0,no
+Lamoille,13292.0,48298.0,49816.0,39.6,5263.0,43.0,5712.0,-3.4,52429.0,100.0,no
+Caledonia,11635.0,46592.0,49816.0,39.6,4608.0,46.6,5424.0,-7.0,50489.0,100.0,no
+Bennington,17328.0,46738.0,49816.0,39.2,6788.0,46.0,7964.0,-6.8,51996.0,100.0,no
+Washington,35511.0,49150.0,49816.0,33.6,11928.0,35.0,12439.0,-1.4,59033.0,100.0,no
+Essex,1154.0,45885.0,49816.0,31.7,366.0,39.0,451.0,-7.3,55636.0,100.0,yes

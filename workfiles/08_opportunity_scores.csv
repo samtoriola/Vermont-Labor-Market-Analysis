@@ -1,0 +1,32 @@
+﻿# Opportunities / Highest scoring. Each rank is a percentile against the 406 scored occupations on that measure alone; the score is their mean at 25% each. mean_of_four_ranks is that arithmetic redone here -- it should equal score to a rounding place. The chart draws each rank as a quarter of the bar.
+soc,occupation,occupation_group,entry_credential,score,rank_employment,rank_growth,rank_advertising,rank_pay,mean_of_four_ranks,jobs,projected_pct_2030,ads_per_100_jobs,median_pay,widest_gap_between_ranks
+15-1252,Software Developers,Computer & Mathematical,Bachelor's,93.9,90,96,96,93,93.8,1801.0,13.0,604.9,125278,6
+11-9111,Medical and Health Services Managers,Management,Bachelor's,91.8,78,97,98,94,91.8,905.0,13.5,711.4,128690,20
+11-3031,Financial Managers,Management,Bachelor's,88.3,91,89,79,94,88.2,1858.0,8.8,233.6,128690,15
+15-1299,"Computer Occupations, All Other",Computer & Mathematical,Bachelor's,88.1,88,76,96,92,88.0,1382.0,5.7,558.4,111530,20
+13-1111,Management Analysts,Business & Financial Operations,Bachelor's,87.3,76,95,88,90,87.2,846.0,12.1,351.0,107515,19
+29-1171,Nurse Practitioners,Healthcare Practitioners & Technical,Graduate / professional,84.8,71,100,72,96,84.8,721.0,19.1,182.2,134742,29
+15-2051,Data Scientists,Computer & Mathematical,Bachelor's,84.1,43,100,100,94,84.2,269.0,22.8,1780.6,127067,57
+13-1082,Project Management Specialists,Business & Financial Operations,Bachelor's,83.9,85,85,89,76,83.8,1250.0,7.6,354.9,80808,13
+11-9199,"Managers, All Other",Management,Bachelor's,83.6,85,67,90,93,83.8,1249.0,4.9,368.2,125445,26
+11-2022,Sales Managers,Management,Bachelor's,82.6,80,63,91,97,82.8,981.0,4.4,401.2,138653,34
+15-1211,Computer Systems Analysts,Computer & Mathematical,Bachelor's,82.6,69,88,86,88,82.8,640.0,8.4,312.4,99611,19
+11-2021,Marketing Managers,Management,Bachelor's,82.5,86,55,93,97,82.8,1255.0,3.8,423.2,140770,42
+13-2051,Financial and Investment Analysts,Business & Financial Operations,Bachelor's,81.1,48,90,99,87,81.0,305.0,9.2,885.6,99091,51
+41-3091,"Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",Sales,High school,81.0,86,83,83,72,81.0,1263.0,7.3,270.5,77522,14
+17-2112,Industrial Engineers,Architecture & Engineering,Bachelor's,80.7,61,79,95,88,80.8,465.0,6.3,539.2,103002,34
+11-1011,Chief Executives,Management,Bachelor's,80.7,57,85,82,98,80.5,410.0,7.7,260.5,175074,41
+13-1161,Market Research Analysts and Marketing Specialists,Business & Financial Operations,Bachelor's,80.1,80,89,82,69,80.0,992.0,8.8,259.9,74880,20
+29-1141,Registered Nurses,Healthcare Practitioners & Technical,Bachelor's,79.7,99,52,81,86,79.5,7555.0,3.6,253.7,97469,47
+11-3121,Human Resources Managers,Management,Bachelor's,78.5,58,69,92,96,78.8,412.0,5.1,404.5,132059,38
+29-1071,Physician Assistants,Healthcare Practitioners & Technical,Graduate / professional,78.3,58,90,67,98,78.2,426.0,9.7,141.5,150488,40
+13-1081,Logisticians,Business & Financial Operations,Bachelor's,78.1,54,90,90,79,78.2,361.0,9.0,379.8,83554,36
+13-1071,Human Resources Specialists,Business & Financial Operations,Bachelor's,78.0,89,79,72,72,78.0,1439.0,6.4,173.9,77792,17
+11-9021,Construction Managers,Management,Bachelor's,77.8,78,77,68,88,77.8,926.0,5.7,151.8,103459,20
+15-1241,Computer Network Architects,Computer & Mathematical,Bachelor's,77.5,23,96,99,91,77.2,163.0,12.7,1095.5,110926,76
+13-2052,Personal Financial Advisors,Business & Financial Operations,Bachelor's,77.4,65,84,70,91,77.5,534.0,7.5,159.0,110011,26
+17-2141,Mechanical Engineers,Architecture & Engineering,Bachelor's,77.1,64,75,79,90,77.0,530.0,5.6,227.7,107328,26
+15-1212,Information Security Analysts,Computer & Mathematical,Bachelor's,76.7,41,100,76,91,77.0,256.0,17.3,202.0,109762,59
+21-1021,"Child, Family, and School Social Workers",Community & Social Service,Bachelor's,76.4,70,80,92,63,76.2,672.0,6.6,421.8,67350,29
+15-1255,Web and Digital Interface Designers,Computer & Mathematical,Bachelor's,76.2,43,83,94,84,76.0,271.0,7.4,463.1,93311,51
+17-2051,Civil Engineers,Architecture & Engineering,Bachelor's,76.0,74,67,77,85,75.8,779.0,4.9,211.4,95597,18

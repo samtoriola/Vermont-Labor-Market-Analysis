@@ -1,0 +1,14 @@
+﻿"# Every number quoted in a caption, a read-out or a tile, with the workfile and the arithmetic that reproduces it. Start here."
+figure,value,source,how_to_check_it,where_it_appears
+"Jobs, 2025",326582.0,data/lightcast.json totalJobs,Sum of jobs_2025 in 01,Employment / every tab
+Occupations,796,data/lightcast.json allOcc,Row count of 01,About
+Jobs with a published pay ladder,325131.9,01 where has_pay_ladder = yes,Sum of jobs_2025 over those rows,"Overview, Wage quality"
+"Living-wage benchmark, 1 adult, no children",49816.0,MIT Living Wage 2025 x 2080 hours,$23.95/hr x 2080,Every wage chart
+Share of priced jobs below it,41.1,"02, jobs_below_benchmark / jobs_priced",Sum both columns in 02,Overview
+Midpoint high-school job,49969.1,03 pooled_p50,Pooled ladder over high-school occupations,Pathways
+Annual openings,48892.8,Lightcast 2021-2025 openings / 4,195571.0 / 4,"Demand, Pathways"
+Openings asking for a VSCS credential,17436.0,"01 where entry_credential is sub-bacc, bachelor's or graduate",Sum openings_per_year over those rows,VSCS alignment
+"VSCS completions, 2024",1983,"IPEDS, 10",Sum of completions in 10,VSCS alignment
+Completions landing in a Vermont occupation,1700.1,09 graduates_attributed,Sum that column in 09,VSCS alignment
+Graduates vs openings that ask,9.8,09,"graduates_attributed / openings_asking_*, both summed",VSCS alignment
+Occupations scored on the opportunity index,406,100+ jobs and a published wage,01 filtered,Opportunities

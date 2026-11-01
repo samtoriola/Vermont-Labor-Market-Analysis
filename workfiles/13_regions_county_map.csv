@@ -1,0 +1,16 @@
+﻿"# Regions / County map. Population, attainment and income are the county's RESIDENTS, from the Census ACS 5-year; jobs and pay are the workplaces located there, from the Core LMI county slice. The two count different people and are in one file because the map shades by one and the figures under it carry both. income_times_the_living_wage sets a median HOUSEHOLD income against a floor built for one adult, so read it as distance from the floor rather than as any one worker's position."
+county,fips,population,pct_with_a_bachelors_or_more,median_household_income,county_living_wage_hourly,county_living_wage_annual,income_times_the_living_wage,jobs_located_in_the_county,midpoint_pay_of_those_jobs
+Chittenden,50007,163414.0,55.0,76316.0,25.6,53310.0,1.43,110328.0,60422
+Rutland,50021,58527.0,32.4,57176.0,22.7,47133.0,1.21,26451.0,50983
+Washington,50023,58336.0,44.7,64862.0,23.6,49150.0,1.32,35511.0,59033
+Windsor,50027,55191.0,38.8,61503.0,24.2,50315.0,1.22,24440.0,55299
+Franklin,50011,49275.0,28.3,65314.0,24.2,50440.0,1.29,17406.0,52788
+Windham,50025,42628.0,38.0,54188.0,22.7,47216.0,1.15,21747.0,52088
+Addison,50001,36947.0,40.5,70262.0,24.5,50981.0,1.38,17120.0,55309
+Bennington,50003,35649.0,36.4,58200.0,22.5,46738.0,1.25,17328.0,51996
+Caledonia,50005,30027.0,30.6,52481.0,22.4,46592.0,1.13,11635.0,50489
+Orange,50017,28873.0,30.9,62737.0,24.0,49858.0,1.26,8766.0,53863
+Orleans,50019,26843.0,24.4,54390.0,21.8,45323.0,1.2,10803.0,49252
+Lamoille,50015,25376.0,39.2,64179.0,23.2,48298.0,1.33,13292.0,52429
+Grand Isle,50013,7075.0,41.9,81667.0,25.9,53768.0,1.52,1497.0,50145
+Essex,50009,6179.0,19.0,47035.0,22.1,45885.0,1.03,1154.0,55636

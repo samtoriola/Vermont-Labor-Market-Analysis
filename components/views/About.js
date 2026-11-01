@@ -30,7 +30,7 @@ export default function About() {
           items={[
             [
               'Sources',
-              'Lightcast Vermont exports for occupations, industries and job postings; Lightcast Core LMI for the county slice and for posting-level education, experience and geography; BLS OEWS for wage percentiles; Census CPS and ACS microdata for workers and earnings; IPEDS for credential production; MIT Living Wage for the self-sufficiency benchmark.',
+              'Six, and every figure traces to one of them. Lightcast Vermont exports — occupations, industries and job postings, 2021–2025. Lightcast Core LMI — the county slice, and posting-level education, experience and geography. BLS OEWS 2025 — the wage percentiles every pay figure is read off. IPEDS 2024 — credential production at the Community College of Vermont and Vermont State University, with the federal CIP-to-SOC crosswalk linking a programme to the occupations it feeds. MIT Living Wage 2025 — the self-sufficiency benchmark, statewide and per county. Census ACS — county attainment and median income, on the Regions map only. Methods names which of them sits behind each chart, and what each chart calls it.',
             ],
             [
               'Filter',
@@ -46,7 +46,11 @@ export default function About() {
             ],
             [
               'How the data gets in',
-              'Nothing is queried live. Build scripts pull from BigQuery and the Lightcast exports and write a small set of JSON files that the app reads at build time. Numbers change only when a script is re-run and the app redeployed.',
+              'Nothing is queried live. Build scripts in scripts/ pull from BigQuery and the Lightcast exports and write eleven JSON files that the app imports at build time. Numbers change only when a script is re-run and the app redeployed, so what is on screen is always the committed data and never a live query that might answer differently tomorrow.',
+            ],
+            [
+              'Checking the numbers',
+              'The workfiles/ folder carries every figure the dashboard draws as a spreadsheet, built from the same JSON the app reads. Each one holds the inputs and the intermediate steps rather than only the answer, so a measure can be redone with a calculator. Start at 00_headline_figures.csv, which lists each number quoted in a caption or a tile with the file and the arithmetic that reproduces it.',
             ],
             [
               'What this is not',
@@ -88,20 +92,20 @@ export default function About() {
             {
               cells: [
                 'Pathways',
-                'What the credential ladder pays, measured on what jobs require. Jobs, not people',
+                'The pay range of each rung of the credential ladder with the benchmark ruled across it, and how much of a year\u2019s hiring at each pays a living wage. Measured on what jobs require, not on what workers hold',
               ],
             },
 
             {
               cells: [
                 'Opportunities',
-                'Occupations scoring highest on scale, growth, demand and pay — and which of them VSCS could act on',
+                'Occupations scoring highest on scale, growth, advertised demand and pay, each bar split into the four ranks the score is the mean of',
               ],
             },
             {
               cells: [
                 'VSCS alignment',
-                `How ${fmt(SOW.vscs.totalCompletions)} VSCS completions sit against ${fmt(SOW.vscs.openAll)} annual openings, by occupation group and by occupation`,
+                `What VSCS awards, and how its ${fmt(SOW.vscs.totalCompletions)} completions sit against the ${fmt(SOW.vscs.openCred)} openings a year that ask for a credential it awards \u2014 of ${fmt(SOW.vscs.openAll)} in all`,
               ],
             },
             {
@@ -133,7 +137,7 @@ export default function About() {
             ],
             [
               'Check where a number came from',
-              'Every chart carries a source line underneath it, written in plain words rather than by vendor. Methods holds the key to those names and a row per section saying what it draws, which source it came from, and which file the app reads.',
+              'Every chart carries a source line underneath it, written in plain words rather than by vendor. Methods holds the key to those names and a row per section saying what it draws, which source it came from, which file the app reads, and which workfile reproduces it by hand.',
             ],
             [
               'Read the line above each chart',
@@ -169,7 +173,7 @@ export default function About() {
             ],
             [
               'Hover any mark',
-              'Points, bars and dots carry their own figures on hover, including the occupation behind a single dot.',
+              'Every mark carries its own figures on hover — a bar, a point on a scatter, one segment of a split bar, or one rung of a pay range. A segment names the measure it is as well as its value, so a score built from four ranks can be read a rank at a time.',
             ],
           ]}
         />

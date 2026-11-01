@@ -1,0 +1,12 @@
+﻿"# VSCS alignment / Production by award. IPEDS 2024, CCV and Vermont State University. Counts credentials awarded in one year, not people -- one person earning two is counted twice."
+award_level,completions,share_of_all_completions
+Associate degree,805,40.6
+Bachelor's degree,706,35.6
+"Certificate, 1-2 years",252,12.7
+Master's degree,124,6.3
+"Certificate, 12 weeks-1 year",91,4.6
+Post-master's certificate,5,0.3
+TOTAL,1983,100.0
+-- by institution --,,
+Community College of Vermont,655,33.0
+Vermont State University,1328,67.0
