@@ -27,9 +27,7 @@ with sync_playwright() as p:
     print("--- the button follows the charts ---")
     checks = [
         ("Wage benchmark", True),
-        ("What people earn", True),
         ("By credential level", True),
-        ("Program candidates", True),   # a table
         ("Which credentials pay", True),
     ]
     for label, want in checks:

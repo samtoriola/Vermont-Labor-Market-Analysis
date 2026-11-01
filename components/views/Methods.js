@@ -180,22 +180,7 @@ export default function Methods({ lw }) {
                 'lightcast.json, percentiles.json',
               ],
             },
-            {
-              cells: [
-                'Workers · What people hold',
-                'What credentials employed Vermonters hold, and how that has moved since 2021',
-                'CPS via IPUMS',
-                'cps.json',
-              ],
-            },
-            {
-              cells: [
-                'Workers · What people earn',
-                'Person-level earnings against the benchmark, by the credential a worker holds',
-                'ACS 1-year via IPUMS · MIT',
-                'people.json',
-              ],
-            },
+
             {
               cells: [
                 'Opportunities · Highest scoring',
@@ -204,14 +189,7 @@ export default function Methods({ lw }) {
                 'sow.json',
               ],
             },
-            {
-              cells: [
-                'Opportunities · Program candidates',
-                'Occupations clearing the screen, by annual openings, shaded by how much VSCS already produces for them',
-                'Lightcast · IPEDS · CIP-to-SOC crosswalk',
-                'lightcast.json, sow.json',
-              ],
-            },
+
             {
               cells: [
                 'VSCS alignment · Production by award',

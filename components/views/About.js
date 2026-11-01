@@ -38,7 +38,7 @@ export default function About() {
             ],
             [
               'Unit of analysis',
-              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry. CPS and ACS count people and what they hold or earn. The navigation follows the distinction: every tab counts jobs except Workers, which counts people. Each panel says so again, and no chart puts a jobs figure and a people figure on the same scale.',
+              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry — including the credential a job asks for, which is not the credential the person in it holds. The Census surveys count people, and are used here only for what a county\u2019s residents hold and earn, on the Regions map. Every chart that ranks or compares work counts jobs, each panel says which, and no chart puts a jobs figure and a people figure on the same scale.',
             ],
             [
               'When outcomes are measured',
@@ -91,12 +91,7 @@ export default function About() {
                 'What the credential ladder pays, measured on what jobs require. Jobs, not people',
               ],
             },
-            {
-              cells: [
-                'Workers',
-                'What Vermonters themselves earn, and what the credential a worker holds leads to. People, not jobs',
-              ],
-            },
+
             {
               cells: [
                 'Opportunities',
@@ -130,7 +125,7 @@ export default function About() {
           items={[
             [
               'Set the living wage first',
-              'The Overview, Wage quality, Pathways, Workers, Opportunities and Regions all carry a household selector. It moves every figure that compares pay with self-sufficiency, so set it before reading those tabs. The default is one adult with no children, which is the only household MIT publishes for every county.',
+              'The Overview, Wage quality, Pathways, Opportunities and Regions all carry a household selector. It moves every figure that compares pay with self-sufficiency, so set it before reading those tabs. The default is one adult with no children, which is the only household MIT publishes for every county.',
             ],
             [
               'Click through to the detail',

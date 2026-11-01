@@ -82,6 +82,15 @@ for _ in range(90):
 
 fails = []
 
+
+def report():
+    print("")
+    if errs:
+        print("PAGE ERRORS:", errs[:3])
+    print("FAIL: " + "; ".join(fails) if fails or errs else "CLEAN")
+    sys.exit(1 if fails or errs else 0)
+
+
 with sync_playwright() as pw:
     b = pw.chromium.launch()
     pg = b.new_context(viewport={"width": 1680, "height": 1400}).new_page()
@@ -190,6 +199,13 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(250)
 
     # ================= Program candidates ================================
+    # Hidden from lib/nav.js for now. Everything below is kept rather than deleted,
+    # so restoring that one line restores the checks with it.
+    if not pg.locator(".sbitem", has_text="Program candidates").count():
+        print("--- the screen --- not in the nav, skipped")
+        b.close()
+        report()
+
     pg.locator(".sbitem", has_text="Program candidates").first.click()
     pg.wait_for_timeout(1400)
     print("--- the screen ---")
@@ -264,8 +280,4 @@ with sync_playwright() as pw:
 
     b.close()
 
-print("")
-if errs:
-    print("PAGE ERRORS:", errs[:3])
-print("FAIL: " + "; ".join(fails) if fails or errs else "CLEAN")
-sys.exit(1 if fails or errs else 0)
+report()
