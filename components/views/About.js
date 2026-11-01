@@ -38,7 +38,7 @@ export default function About() {
             ],
             [
               'Unit of analysis',
-              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry. CPS and ACS count people and what they hold or earn. The navigation follows the distinction: every tab counts jobs except Workers, which counts people. Each panel says so again; the Overview sets the two side by side deliberately.',
+              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry. CPS and ACS count people and what they hold or earn. The navigation follows the distinction: every tab counts jobs except Workers, which counts people. Each panel says so again, and no chart puts a jobs figure and a people figure on the same scale.',
             ],
             [
               'When outcomes are measured',
@@ -64,19 +64,19 @@ export default function About() {
             {
               cells: [
                 'Overview',
-                'Headline scale of the labor market, and the gap between what jobs require and what workers hold',
+                'The whole labor market on one chart: every occupation group by size, shaded by how much of its work pays below a living wage',
               ],
             },
             {
               cells: [
-                'Employment structure',
+                'Employment',
                 'Which occupation groups and industries employ Vermonters, and what each pays',
               ],
             },
             {
               cells: [
                 'Wage quality',
-                'How much of the work pays less than a self-sufficiency benchmark, and where that bites hardest',
+                'How much of the work pays less than a self-sufficiency benchmark, and how that changes when each county is measured against its own cost floor',
               ],
             },
             {
@@ -130,11 +130,15 @@ export default function About() {
           items={[
             [
               'Set the living wage first',
-              'Wage quality, Pathways, Workers and Regions carry a household selector. It moves every figure that compares pay with self-sufficiency, so set it before reading those tabs.',
+              'The Overview, Wage quality, Pathways, Workers, Opportunities and Regions all carry a household selector. It moves every figure that compares pay with self-sufficiency, so set it before reading those tabs. The default is one adult with no children, which is the only household MIT publishes for every county.',
             ],
             [
               'Click through to the detail',
-              'Bars, dot columns and table rows that sit on underlying occupations open a detail panel when clicked. Employment structure, Wage quality, Pathways and VSCS alignment all support it.',
+              'Bars and table rows that sit on underlying occupations open a panel beside the chart, with that row’s figures and its largest occupations. A link in the panel opens the whole table. The Overview, Employment, Wage quality, Demand & growth, Pathways and VSCS alignment all support it.',
+            ],
+            [
+              'Check where a number came from',
+              'Every chart carries a source line underneath it, written in plain words rather than by vendor. Methods holds the key to those names and a row per section saying what it draws, which source it came from, and which file the app reads.',
             ],
             [
               'Read the line above each chart',
