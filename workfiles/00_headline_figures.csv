@@ -1,6 +1,8 @@
 ﻿"# Every number quoted in a caption, a read-out or a tile, with the workfile and the arithmetic that reproduces it. Start here."
 figure,value,source,how_to_check_it,where_it_appears
-"Jobs, 2025",326582.0,data/lightcast.json totalJobs,Sum of jobs_2025 in 01,Employment / every tab
+"Jobs, 2025",326582.0,data/lightcast.json totalJobs,"Export total; 01 sums to 325131.9, 1450.1 less, being military and unmapped SOCs",Home / every tab
+Jobs in the charted occupations,325131.9,"01, all rows",Sum of jobs_2025 in 01,Every chart that ranks or compares work
+Employed Vermonters,335775,data/glance.json emp,"15, Employed; a PEOPLE count, not comparable with the job counts above",Home
 Occupations,796,data/lightcast.json allOcc,Row count of 01,About
 Jobs with a published pay ladder,325131.9,01 where has_pay_ladder = yes,Sum of jobs_2025 over those rows,"Overview, Wage quality"
 "Living-wage benchmark, 1 adult, no children",49816.0,MIT Living Wage 2025 x 2080 hours,$23.95/hr x 2080,Every wage chart

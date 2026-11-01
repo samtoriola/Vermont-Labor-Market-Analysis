@@ -21,7 +21,7 @@ Nothing in the app reads these files.
 
 | File | What it carries | Rows |
 | --- | --- | --- |
-| `00_headline_figures.csv` | Every number quoted in a caption, a read-out or a tile, with the workfile and the arithmetic that reproduces it | 12 rows |
+| `00_headline_figures.csv` | Every number quoted in a caption, a read-out or a tile, with the workfile and the arithmetic that reproduces it | 14 rows |
 | `01_occupations_master.csv` | Every Vermont occupation | 796 rows |
 | `02_overview_and_wage_by_group.csv` | The Overview chart and Wage quality / Wage benchmark, by occupation group | 22 rows |
 | `03_pathways_credential_ladder.csv` | Pathways / By credential level | 5 rows |
@@ -35,6 +35,8 @@ Nothing in the app reads these files.
 | `11_regions_counties.csv` | Regions / Counties compared | 15 rows |
 | `12_demand_what_postings_ask.csv` | Demand & growth / General demand | 18 rows |
 | `13_regions_county_map.csv` | Regions / County map | 14 rows |
+| `14_home_tiles.csv` | Home | 4 rows |
+| `15_labor_force_cps.csv` | Home / Employed Vermonters | 14 rows |
 
 ## How to check a figure by hand
 

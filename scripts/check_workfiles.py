@@ -52,6 +52,8 @@ grp = read("02_overview_and_wage_by_group.csv")
 lad = read("03_pathways_credential_ladder.csv")
 vscs = read("09_vscs_alignment_by_group.csv")
 head = {r["figure"]: num(r["value"]) for r in read("00_headline_figures.csv")}
+tiles = read("14_home_tiles.csv")
+lforce = {r["measure"]: num(r["value"]) for r in read("15_labor_force_cps.csv")}
 
 print("--- 01 sums to 02 ---")
 by_group = {}
@@ -104,6 +106,36 @@ close(o, head["Openings asking for a VSCS credential"], 1, "credential-requiring
 close(g / o * 100, head["Graduates vs openings that ask"], 0.05, "graduates vs openings")
 print("  %.0f graduates against %s openings = %.1f%%" % (g, "{:,.0f}".format(o), g / o * 100))
 
+print("--- 14 agrees with 00, and the files it names exist ---")
+# 00 names the year where a tile does not have room for it.
+ALIAS = {"VSCS completions": "VSCS completions, 2024"}
+for t in tiles:
+    want = head.get(ALIAS.get(t["tile"], t["tile"]))
+    if want is None:
+        fails.append("14 has a tile 00 does not list: %s" % t["tile"])
+    else:
+        close(num(t["value"]), want, 1, "tile %s" % t["tile"])
+    wf = t["workfile_to_check"]
+    if not os.path.exists(os.path.join(WF, wf)):
+        fails.append("the %s tile points at %s, which is not in workfiles/" % (t["tile"], wf))
+close(lforce.get("Employed"), head.get("Employed Vermonters"), 1, "15 Employed against 00")
+close(lforce.get("Employed", 0) + lforce.get("Unemployed", 0), lforce.get("Labor force"), 1,
+      "15 employed + unemployed against the labor force")
+print("  %d tiles, each naming a workfile that exists" % len(tiles))
+
+# 01 is the detailed export and the statewide total is not: anyone summing 01 to
+# check the home tile should land 1,450 short, and 00 should say so.
+close(head.get("Jobs in the charted occupations"),
+      head.get("Jobs with a published pay ladder"), 1,
+      "01's job total against the priced total")
+if head.get("Jobs, 2025", 0) <= head.get("Jobs in the charted occupations", 0):
+    fails.append("00 no longer shows the statewide total above the charted total")
+else:
+    print("  statewide %s, charted %s, gap %s"
+          % ("{:,.0f}".format(head["Jobs, 2025"]),
+             "{:,.0f}".format(head["Jobs in the charted occupations"]),
+             "{:,.0f}".format(head["Jobs, 2025"] - head["Jobs in the charted occupations"])))
+
 # ---- and the headline figures are what the dashboard prints ----------------
 URL = "http://127.0.0.1:%s/" % os.environ.get("VT_PORT", "3205")
 try:
@@ -125,6 +157,12 @@ else:
         pg.evaluate("localStorage.clear()")
         pg.reload(wait_until="networkidle")
         want = [
+            ("Home", "{:,.0f}".format(head["Jobs, 2025"]), "the jobs tile"),
+            ("Home", "{:,.0f}".format(head["Employed Vermonters"]),
+             "the employed-Vermonters tile"),
+            ("Home", "{:,.0f}".format(head["Annual openings"]), "the openings tile"),
+            ("Home", "{:,.0f}".format(head["VSCS completions, 2024"]),
+             "the completions tile"),
             ("Overview", "{:,.0f}".format(head["Jobs with a published pay ladder"]),
              "jobs with a published pay ladder"),
             ("By credential level", "${:,.0f}".format(head["Midpoint high-school job"]),

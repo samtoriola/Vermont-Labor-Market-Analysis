@@ -1,6 +1,6 @@
 'use client';
 
-import { LC, TOTJ, DATA, SOW, GLANCE } from '@/lib/data';
+import { LC, TOTJ, SOW, GLANCE } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { Panel, Table, VHead, Defs } from '../ui';
 
@@ -34,11 +34,11 @@ export default function About() {
             ],
             [
               'Filter',
-              `Vermont only. ${fmt(LC.allOcc.length)} detailed occupations, ${fmt(DATA.families.length)} occupation groups, all 14 counties, and the two VSCS institutions — the Community College of Vermont and Vermont State University.`,
+              `Vermont only. ${fmt(LC.allOcc.length)} detailed occupations, ${fmt(LC.families.length)} occupation groups, all 14 counties, and the two VSCS institutions — the Community College of Vermont and Vermont State University.`,
             ],
             [
               'Unit of analysis',
-              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry — including the credential a job asks for, which is not the credential the person in it holds. The Census surveys count people, and are used here only for what a county\u2019s residents hold and earn, on the Regions map. Every chart that ranks or compares work counts jobs, each panel says which, and no chart puts a jobs figure and a people figure on the same scale.',
+              'Two units, and they are not interchangeable. Lightcast and OEWS count jobs and what a job asks for at entry — including the credential a job asks for, which is not the credential the person in it holds. The Census surveys count people, and reach two figures: employed Vermonters, on the home page, and what a county\u2019s residents hold and earn, on the Regions map. Every chart that ranks or compares work counts jobs, each panel says which, and no chart puts a jobs figure and a people figure on the same scale.',
             ],
             [
               'When outcomes are measured',
@@ -137,7 +137,7 @@ export default function About() {
             ],
             [
               'Check where a number came from',
-              'Every chart carries a source line underneath it, written in plain words rather than by vendor. Methods holds the key to those names and a row per section saying what it draws, which source it came from, which file the app reads, and which workfile reproduces it by hand.',
+              'Every chart carries a source line underneath it, written in plain words rather than by vendor, and each of the four tiles on the home page carries its own on hover — source, vintage, the file the app reads, and the workfile that reproduces it. Methods holds the key to those names and a row per section saying what it draws, which source it came from, which file the app reads, and which workfile reproduces it by hand.',
             ],
             [
               'Read the line above each chart',

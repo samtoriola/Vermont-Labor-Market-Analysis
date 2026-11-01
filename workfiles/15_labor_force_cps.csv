@@ -1,0 +1,16 @@
+﻿"# Home / Employed Vermonters. The Census household survey (CPS) figures behind the one CPS number the dashboard draws. Weighted estimates from Vermont monthly microdata; October 2025 is missing nationally, so the year is an 11-month average. These count PEOPLE where they live, and the job counts elsewhere in these files count JOBS where they are located: the two differ by construction and should not be differenced."
+measure,value,note
+Year,2025,Months available: 11
+Population 16 and over,545884.0,"Civilian, non-institutional"
+Labor force,345510.0,Employed plus unemployed
+Employed,335775.0,The home page tile
+Unemployed,9735.0,Looking for work and available for it
+Labor force participation rate,63.3,Labor force / population 16+
+Unemployment rate,2.82,Unemployed / labor force
+"Unemployment rate, 95% interval",0.62,"Plus or minus, in points; survey estimate, not the official LAUS series"
+Working full time,245146.0,Usual hours 35 or more: 80.7%
+Working part time,58645.0,Usual hours under 35: 19.3%
+Hours vary,31984.0,9.5% report hours that vary and cannot be placed either side
+Sample: labor force records,7166,"Person-months, not people"
+Sample: distinct people,2726,"The survey re-interviews households, so rates use this, not the record count"
+Sample: unemployed records,190,"Small, which is why the rate carries an interval"

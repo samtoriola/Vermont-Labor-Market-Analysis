@@ -59,7 +59,7 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'CPS (IPUMS)',
-                'Vermont monthly microdata. Reaches one figure: the employed-Vermonters tile on the home page',
+                'Vermont monthly microdata. Reaches one figure on screen: the employed-Vermonters tile on the home page, which 15_labor_force_cps.csv carries in full',
                 '2021–2025',
                 '“Census household survey”',
               ],
@@ -108,6 +108,15 @@ export default function Methods({ lw }) {
           cols={['Section', 'What it draws', 'Source', 'File', 'Workfile']}
           text={[1, 2, 3, 4]}
           rows={[
+            {
+              cells: [
+                'Home',
+                'Four headline tiles, each citing its source on hover',
+                'Lightcast occupations · Census household survey · IPEDS',
+                'lightcast.json, glance.json, sow.json',
+                '14_home_tiles.csv',
+              ],
+            },
             {
               cells: [
                 'Overview',
@@ -301,6 +310,10 @@ export default function Methods({ lw }) {
             [
               'A low score is not a verdict',
               'Every measure here is a labor-market one. Programs serve need that labor demand does not price — public, civic and care work among them — and none of that is visible in this data. A low score means the market signals are weak, not that a program lacks value.',
+            ],
+            [
+              'Two job totals',
+              'The home page prints 326,582 jobs and every chart totals 325,132. The difference is 1,450 jobs in military occupations and in SOC codes falling outside the 22 occupation groups, which the exports carry in the statewide total and the charts drop, because neither has an occupation group, a credential or a pay ladder to sit under. It is 0.4% of employment, and it is why group shares read off a chart will not quite reproduce against the tile.',
             ],
             [
               'Rates need a real base',
