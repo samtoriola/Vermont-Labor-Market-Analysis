@@ -1,21 +1,18 @@
-"""The home page tiles, and the sources they now carry.
+"""The home page tiles, against the JSON rather than against themselves.
 
-Four figures sit side by side on the landing page and come from four different
-places. Two of them count jobs, one counts people and one counts credentials, so
-a reader who assumes one universe will subtract two of them and get a number that
-means nothing. The source is on hover, which is only useful if it is actually
-there and actually says the right thing -- a tooltip that silently stops firing
-looks exactly like a tile with no source, and nobody files a bug about a thing
-they never knew existed.
+Four figures sit side by side on the landing page, from four different places,
+and they are the first numbers anyone sees. The tiles carry no source line -- that
+is in Methods' register and in workfiles/14_home_tiles.csv -- so the one thing
+that can be checked here is that each tile prints what its file says, and that
+the workfile register still matches the page.
 
-So this hovers each tile and reads the card: the source name, the vintage, the
-file the app imports and the workfile that reproduces the figure, every one of
-them checked against data/ rather than against the page. It also checks the
-keyboard path, because a hover-only source is no source for anyone navigating by
-tab, and that the workfile each card names is on disk.
+Two of these count jobs, one counts people and one counts credentials. The page
+cannot say so without crowding, but the workfile must, or a reader will subtract
+two of them and get a number that means nothing. That is checked too.
 
 Run against a dev or `next start` server on VT_PORT.
 """
+import csv
 import json
 import os
 import sys
@@ -39,41 +36,12 @@ def n(x):
     return "{:,.0f}".format(x)
 
 
-# What each tile must print, and what its card must say. Figures come from the
-# JSON, not from the page, so a stale tile fails rather than agreeing with itself.
+# Recomputed from the JSON, so a stale tile fails rather than agreeing with itself.
 WANT = [
-    {
-        "label": "Jobs, 2025",
-        "figure": n(LC["totalJobs"]),
-        "says": ["Vermont occupation data", "2025", "lightcast.json",
-                 "01_occupations_master.csv", n(sum(o.get("j") or 0 for o in LC["allOcc"]))],
-        "unit": "not people",
-        "workfile": "01_occupations_master.csv",
-    },
-    {
-        "label": "Employed Vermonters",
-        "figure": n(GLA["emp"]),
-        "says": ["Census household survey", str(GLA["year"]), "glance.json",
-                 "15_labor_force_cps.csv", n(GLA["nPeopleLf"])],
-        "unit": "survey estimate",
-        "workfile": "15_labor_force_cps.csv",
-    },
-    {
-        "label": "Annual openings",
-        "figure": n(LC["openTotal"] / LC["openYears"]),
-        "says": ["Vermont occupation data", LC["window"], "lightcast.json",
-                 "00_headline_figures.csv", n(LC["openTotal"])],
-        "unit": "replacing people who leave",
-        "workfile": "00_headline_figures.csv",
-    },
-    {
-        "label": "VSCS completions",
-        "figure": n(SOW["vscs"]["totalCompletions"]),
-        "says": ["Federal completions data", "2024", "sow.json",
-                 "10_vscs_production.csv", "Vermont State University"],
-        "unit": "not people",
-        "workfile": "10_vscs_production.csv",
-    },
+    ("Jobs, 2025", n(LC["totalJobs"]), n(len(LC["allOcc"])) + " occupations"),
+    ("Employed Vermonters", n(GLA["emp"]), str(GLA["year"])),
+    ("Annual openings", n(LC["openTotal"] / LC["openYears"]), LC["window"]),
+    ("VSCS completions", n(SOW["vscs"]["totalCompletions"]), "2024"),
 ]
 
 URL = "http://127.0.0.1:%s/" % os.environ.get("VT_PORT", "3205")
@@ -98,65 +66,47 @@ with sync_playwright() as pw:
 
     tiles = pg.locator(".tile")
     print("--- the four tiles ---")
-    print("  %d tiles, %d cited" % (tiles.count(), pg.locator(".tile.cited").count()))
     if tiles.count() != len(WANT):
         fails.append("%d tiles on the home page, expected %d" % (tiles.count(), len(WANT)))
-    if pg.locator(".tile.cited .tcite").count() != len(WANT):
-        fails.append("not every tile carries the badge that says it has a source")
 
-    for w in WANT:
-        t = pg.locator(".tile", has_text=w["label"]).first
+    for label, figure, detail in WANT:
+        t = pg.locator(".tile", has_text=label).first
         if not t.count():
-            fails.append("no tile labelled %s" % w["label"])
+            fails.append("no tile labelled %s" % label)
             continue
         txt = " ".join(t.inner_text().split())
-        if w["figure"] not in txt:
-            fails.append("%s prints %r, not %s" % (w["label"], txt[:60], w["figure"]))
+        ok = figure in txt and detail in txt
+        print("  %-20s %-9s %s" % (label, figure, "ok" if ok else "PROBLEM"))
+        if figure not in txt:
+            fails.append("%s prints %r, not %s" % (label, txt[:60], figure))
+        if detail not in txt:
+            fails.append("%s does not say %r under the figure" % (label, detail))
 
-        t.hover()
-        pg.wait_for_timeout(260)
-        card = " ".join(pg.locator("#tip").inner_text().split())
-        missing = [x for x in w["says"] + [w["unit"]] if x not in card]
-        shown = pg.evaluate("getComputedStyle(document.getElementById('tip')).opacity") == "1"
-        print("  %-20s %-9s card: %s"
-              % (w["label"], w["figure"], "ok" if shown and not missing else "PROBLEM"))
-        if not shown:
-            fails.append("hovering %s showed no card" % w["label"])
-        if missing:
-            fails.append("%s's card does not say: %s" % (w["label"], ", ".join(missing)))
-        if w["label"] not in card:
-            fails.append("%s's card is not titled with the tile" % w["label"])
-
-        pg.mouse.move(4, 4)
-        pg.wait_for_timeout(200)
-        if pg.evaluate("getComputedStyle(document.getElementById('tip')).opacity") == "1":
-            fails.append("%s's card stayed up after the pointer left" % w["label"])
-
-        p = os.path.join(HERE, "..", "workfiles", w["workfile"])
-        if not os.path.exists(p):
-            fails.append("%s's card names %s, which is not in workfiles/"
-                         % (w["label"], w["workfile"]))
-
-    # A source only on hover is no source for anyone moving by keyboard.
-    print("--- the keyboard path ---")
-    pg.locator(".tile.cited").first.focus()
-    pg.wait_for_timeout(260)
-    kb = " ".join(pg.locator("#tip").inner_text().split())
-    ok = pg.evaluate("getComputedStyle(document.getElementById('tip')).opacity") == "1"
-    print("  focusing a tile shows its card: %s" % ("yes" if ok and "Source" in kb else "NO"))
-    if not ok or "Source" not in kb:
-        fails.append("focusing a tile does not show its source")
-
-    # The second tile counts people and the others count jobs. If that ever stops
-    # being said, the page invites a subtraction that means nothing.
-    people = pg.locator(".tile", has_text="Employed Vermonters").first
-    people.hover()
-    pg.wait_for_timeout(240)
-    card = " ".join(pg.locator("#tip").inner_text().split())
-    if "People" not in card:
-        fails.append("the employed-Vermonters card no longer says it counts people")
+    # Kept deliberately plain: a badge or a card on each of these turns the first
+    # thing on the page into the busiest thing on it.
+    extra = pg.locator(".tile .tcite, .tile.cited").count()
+    print("  nothing else on them: %s" % ("yes" if extra == 0 else "NO, %d marks" % extra))
+    if extra:
+        fails.append("the tiles have picked up %d extra marks" % extra)
 
     b.close()
+
+# The page cannot say which unit each figure is in, so the register has to.
+print("--- 14_home_tiles.csv still matches the page ---")
+with open(os.path.join(HERE, "..", "workfiles", "14_home_tiles.csv"),
+          encoding="utf-8-sig", newline="") as f:
+    rows = list(csv.reader(f))
+reg = {r[0]: dict(zip(rows[1], r)) for r in rows[2:] if len(r) == len(rows[1])}
+for label, figure, _ in WANT:
+    r = reg.get(label)
+    if not r:
+        fails.append("14 has no row for the %s tile" % label)
+        continue
+    if "{:,.0f}".format(float(r["value"])) != figure:
+        fails.append("14 says %s for %s, the page says %s" % (r["value"], label, figure))
+    if not r["what_it_counts"] or not r["source"] or not r["workfile_to_check"]:
+        fails.append("14's %s row does not say what it counts, or where it came from" % label)
+print("  %d rows, each naming a unit and a source" % len(reg))
 
 print("")
 if errs:

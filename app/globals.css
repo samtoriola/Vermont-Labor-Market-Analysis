@@ -569,45 +569,6 @@ section.view {
   margin-top: 3px;
 }
 
-/* A tile carrying its source. The badge is the cue that hovering does something;
-   the source is on hover because the card has no room for a line of provenance. */
-.tile.cited {
-  position: relative;
-  cursor: help;
-}
-
-.tile.cited .tl {
-  padding-right: 22px;
-}
-
-.tile.cited .tcite {
-  position: absolute;
-  top: 9px;
-  right: 10px;
-  width: 13px;
-  height: 13px;
-  border: 1px solid var(--rule-strong);
-  border-radius: 50%;
-  color: var(--ink-3);
-  font-family: var(--fig);
-  font-size: 9px;
-  font-style: italic;
-  font-weight: 700;
-  line-height: 12px;
-  text-align: center;
-}
-
-.tile.cited:hover .tcite,
-.tile.cited:focus-visible .tcite {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.tile.cited:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
 /* ---------- charts ---------- */
 .chart {
   width: 100%;

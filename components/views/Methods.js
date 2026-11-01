@@ -111,7 +111,7 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'Home',
-                'Four headline tiles, each citing its source on hover',
+                'Four headline tiles. Two count jobs, one counts people, one counts credentials',
                 'Lightcast occupations · Census household survey · IPEDS',
                 'lightcast.json, glance.json, sow.json',
                 '14_home_tiles.csv',

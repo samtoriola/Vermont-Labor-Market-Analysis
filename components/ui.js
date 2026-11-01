@@ -6,7 +6,6 @@ import { fmt, money } from '@/lib/format';
 import { downloadCsv, exportName } from '@/lib/csv';
 import { downloadPanelPng } from '@/lib/png';
 import DataTable from './DataTable';
-import { useTip } from './Tooltip';
 import { ExportButton } from './ExportButton';
 import { rankViews, defaultView, applyView } from '@/lib/rank';
 
@@ -501,46 +500,21 @@ export function RampLegend({ label, lo, hi }) {
 }
 
 /**
- * The headline figures. A tile may carry a fourth element saying where its figure
- * came from -- { counts, rows, foot } -- which shows on hover rather than on the
- * card: a tile has room for a number and one line of context, and a source line
- * under each would crowd out both. The badge is the only cue that hovering does
- * anything, and without it the source is there and nobody finds it.
+ * The headline figures. Deliberately plain: a tile is a number and one line of
+ * context, and anything more on it -- a source, a badge, a card on hover -- turns
+ * the first thing on the page into the busiest. Where each figure comes from is
+ * in Methods' register and in workfiles/14_home_tiles.csv.
  */
 export function Tiles({ items }) {
-  const { show, hide } = useTip();
   return (
     <div className="tiles">
-      {items.map((t) => {
-        const s = t[3];
-        const on = s
-          ? {
-              tabIndex: 0,
-              onMouseMove: (e) => show(e, t[0], s.rows, { sub: s.counts, foot: s.foot }),
-              onMouseLeave: hide,
-              onFocus: (e) => {
-                const b = e.currentTarget.getBoundingClientRect();
-                show({ clientX: b.left + b.width / 2, clientY: b.bottom }, t[0], s.rows, {
-                  sub: s.counts,
-                  foot: s.foot,
-                });
-              },
-              onBlur: hide,
-            }
-          : {};
-        return (
-          <div className={s ? 'tile cited' : 'tile'} key={t[0]} {...on}>
-            {s ? (
-              <span className="tcite" aria-hidden="true">
-                i
-              </span>
-            ) : null}
-            <div className="tl">{t[0]}</div>
-            <div className="tv">{t[1]}</div>
-            <div className="td">{t[2]}</div>
-          </div>
-        );
-      })}
+      {items.map((t) => (
+        <div className="tile" key={t[0]}>
+          <div className="tl">{t[0]}</div>
+          <div className="tv">{t[1]}</div>
+          <div className="td">{t[2]}</div>
+        </div>
+      ))}
     </div>
   );
 }

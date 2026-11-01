@@ -137,7 +137,7 @@ export default function About() {
             ],
             [
               'Check where a number came from',
-              'Every chart carries a source line underneath it, written in plain words rather than by vendor, and each of the four tiles on the home page carries its own on hover — source, vintage, the file the app reads, and the workfile that reproduces it. Methods holds the key to those names and a row per section saying what it draws, which source it came from, which file the app reads, and which workfile reproduces it by hand.',
+              'Every chart carries a source line underneath it, written in plain words rather than by vendor. The home page’s four tiles are the exception, and carry no source line; the Methods register has a row for them, as it does for every section. Methods holds the key to those names and a row per section saying what it draws, which source it came from, which file the app reads, and which workfile reproduces it by hand.',
             ],
             [
               'Read the line above each chart',

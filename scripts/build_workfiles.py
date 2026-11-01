@@ -480,8 +480,9 @@ write(
          "IPEDS", "2024 academic year", "data/sow.json", "10_vscs_production.csv",
          "Sum of completions in 10, across CCV and Vermont State University"],
     ],
-    "Home. One row per headline tile, which is what that tile's hover card says: "
-    "source, vintage, the file the app reads and the workfile that reproduces it. "
+    "Home. One row per headline tile: source, vintage, the file the app reads and "
+    "the workfile that reproduces it. The tiles themselves carry no source line -- "
+    "this file and the Methods register are where that lives. "
     "The four figures count two different things -- the first and third count "
     "jobs, the second counts people, the fourth counts credentials -- so none of "
     "them adds to another.",
