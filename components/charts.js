@@ -902,13 +902,15 @@ export function Scatter({ pts, opts }) {
           </text>
         </g>
       ) : null}
+      {/* A point may name its own colour token, the way a bar row does, for the
+          charts where the mark means something rather than belonging to a series. */}
       {pts.map((p, i) => (
         <TipMark key={i} title={p.label} rows={p.extra || []}>
           <circle
             cx={X(p.x)}
             cy={Y(p.y)}
             r={4}
-            fill={V(SERIES[p.series])}
+            fill={V(p.color || SERIES[p.series])}
             fillOpacity={0.72}
             stroke={V('--panel')}
             strokeWidth={1}

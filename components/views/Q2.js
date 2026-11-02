@@ -10,6 +10,7 @@ import { occCols } from '../occCols';
 import { shortfallCols, floorCols } from '@/lib/tables';
 import { RankedBars, Scatter } from '../charts';
 import { pricedPool, rollUp, rollUpBy } from '@/lib/wage';
+import { BAD } from '@/lib/brand';
 import Sections from '../Sections';
 import { countyFloorShift, wageShortfall } from '@/lib/insight';
 
@@ -48,6 +49,14 @@ import { countyFloorShift, wageShortfall } from '@/lib/insight';
  * is 86% red reads as an alarm rather than a measurement. The same argument the
  * Overview makes for its ramp. The pair stays reserved for marks that genuinely
  * contrast two sides within one chart.
+ *
+ * The scatter is that case. Its points are not a quantity shaded by degree but two
+ * groups either side of the benchmark, which is the comparison the chart exists to
+ * make, and it was asking position alone to carry it across 796 points. So the
+ * shortfall takes Ember. The other half keeps Ocean rather than taking Pine: the
+ * palette notes Pine against Ember is 4.5 dE under deuteranopia, and a scatter has
+ * no value labels to fall back on the way the bars do. The rule is the secondary
+ * encoding regardless -- every Ember point sits left of it.
  */
 
 // What the rows are. The first three are rankings; the fourth drops the grouping
@@ -101,6 +110,12 @@ export default function Q2({ lw, setLw, section }) {
   const pool = pricedPool(LC.allOcc);
   const filtered = apply(pool);
   const head = rollUp(filtered, LWA);
+
+  // The scatter's rows: one point per occupation that has a median to plot. The
+  // count of those falling short is of OCCUPATIONS, not jobs -- a point is one
+  // occupation whatever its size, which is the whole reason the y-axis exists.
+  const plotted = filtered.filter((o) => o.m);
+  const shortOcc = plotted.filter((o) => o.m < LWA).length;
 
   const drill = (title, occ, cap) =>
     open(occDrill({ label: 'Occupation group', title, cap, occ, lwAnnual: LWA }));
@@ -254,7 +269,7 @@ export default function Q2({ lw, setLw, section }) {
                     kind === 'each' ? (
                       <Panel
                         title="Does a bigger occupation pay better or worse?"
-                        cap={`${filtered.length === pool.length ? fmt(pool.length) : `${fmt(filtered.length)} of ${fmt(pool.length)}`} occupations, one point each. The vertical line is the living wage, so everything left of it is work whose typical job falls short.`}
+                        cap={`${filtered.length === pool.length ? fmt(pool.length) : `${fmt(filtered.length)} of ${fmt(pool.length)}`} occupations, one point each. The vertical line is the living wage, and the points left of it — ${fmt(shortOcc)} of the ${fmt(plotted.length)} plotted — are work whose typical job falls short. That counts occupations, not jobs: one point is one occupation whatever its size, which is what the vertical axis is for.`}
                         src={`Vermont occupation data, 2025 · occupations with a published pay distribution · log scale · benchmark ${money(LWA)} a year (${lw})`}
                         data={{
                           cols: occCols(LWA),
@@ -264,24 +279,29 @@ export default function Q2({ lw, setLw, section }) {
                           unit: 'occupations',
                         }}
                       >
+                        <Legend
+                          labels={['Typical job below the benchmark', 'At or above it']}
+                          colors={[BAD, '--s1']}
+                        />
                         <Scatter
-                          pts={filtered
-                            .filter((r) => r.m)
-                            .map((r) => ({
-                              x: r.m,
-                              y: r.j,
-                              label: r.n,
-                              // One colour. The y-axis already is jobs, so shading
-                              // the points by size band said the same thing twice,
-                              // with no key, in three colours one of which was red.
-                              series: 0,
-                              extra: [
-                                ['Median earnings', money(r.m)],
-                                ['Jobs', fmt(r.j)],
-                                ['Entry education', r.t],
-                                ['Occupation group', r.f],
-                              ],
-                            }))}
+                          pts={plotted.map((r) => ({
+                            x: r.m,
+                            y: r.j,
+                            label: r.n,
+                            // The colour is the benchmark, not a series: it says
+                            // which side of the rule the point is on. Shading by
+                            // size band, which this used to do, said what the
+                            // y-axis already says, with no key and in three colours.
+                            series: 0,
+                            color: r.m < LWA ? BAD : '--s1',
+                            extra: [
+                              ['Median earnings', money(r.m)],
+                              ['Against the benchmark', (r.m / LWA).toFixed(2) + '\u00d7'],
+                              ['Jobs', fmt(r.j)],
+                              ['Entry education', r.t],
+                              ['Occupation group', r.f],
+                            ],
+                          }))}
                           opts={{
                             xLabel: 'Median annual earnings',
                             yLabel: 'Jobs (log scale)',

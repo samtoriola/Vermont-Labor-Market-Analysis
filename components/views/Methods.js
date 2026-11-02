@@ -416,7 +416,11 @@ export default function Methods({ lw }) {
           chart — the pay of a credential level, an occupation group or a county, some of which
           clears it and some of which does not. It is not used for a whole chart: a bar that is
           86% red reads as an alarm rather than a measurement, which is why Wage quality and the
-          Overview use the ordinal ramp instead.
+          Overview use the ordinal ramp instead. Where the two sides are points rather than a
+          range — the scatter of every occupation on Wage quality — the shortfall keeps red
+          and the other half takes Ocean rather than green. Green against red is too close to
+          tell apart under the commonest colour blindness, and a point carries no value label
+          to read instead; the benchmark line separates the two either way.
         </p>
         <Swatches
           items={[
