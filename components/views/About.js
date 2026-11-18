@@ -99,7 +99,7 @@ export default function About() {
             {
               cells: [
                 'Opportunities',
-                'Occupations scoring highest on scale, growth, advertised demand and pay, each bar split into the four ranks the score is the mean of',
+                'Occupations scoring highest on scale, growth, stability and pay, each bar split into the four ranks the score is the mean of',
               ],
             },
             {

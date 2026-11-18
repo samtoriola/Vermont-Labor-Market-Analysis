@@ -101,11 +101,18 @@ export default function Q5({ lw, setLw, section }) {
    *
    * The ramp skips --ord3: four segments from one hue need the contrast between
    * neighbours more than they need even spacing.
+   *
+   * STABILITY, not advertising. The 11/18 review swapped the postings component
+   * for the replacement rate, inverted: an occupation that replaces less of its
+   * workforce each year scores higher. Worth knowing when reading the bar that
+   * this component ranks r = +0.611 against pay, where postings ranked +0.394 --
+   * low-replacement work is well-paid work in Vermont, so the pay dimension is
+   * carrying more of this score than a quarter of it. Methods says so too.
    */
   const COMPS = [
     { k: 's_size', label: 'Employment', color: '--ord5' },
     { k: 's_growth', label: 'Growth', color: '--ord4' },
-    { k: 's_postings', label: 'Advertising', color: '--ord2' },
+    { k: 's_replacement', label: 'Stability', color: '--ord2' },
     { k: 's_pay', label: 'Pay', color: '--ord1' },
   ];
 
@@ -137,7 +144,7 @@ export default function Q5({ lw, setLw, section }) {
         r.s_growth,
         r.g === null || r.g === undefined ? '\u2014' : (r.g > 0 ? '+' : '') + r.g + '% by 2030',
       ],
-      ['Advertising', r.s_postings, r.pp + ' ads per 100'],
+      ['Stability', r.s_replacement, r.turn + '% replaced a year'],
       ['Pay', r.s_pay, r.m ? money(r.m) : '\u2014'],
     ],
     more: { label: `All occupations in ${r.f}`, onClick: () => occDrillFor(r) },
@@ -204,8 +211,8 @@ export default function Q5({ lw, setLw, section }) {
               <>
                 <HowTo>
                   One score per occupation, the average of four percentile ranks: how many
-                  it employs, how fast it is growing, how heavily it is advertised, and
-                  what it pays. Each bar is split into those four, so a score you can see
+                  it employs, how fast it is growing, how little of it has to be replaced
+                  each year, and what it pays. Each bar is split into those four, so a score you can see
                   the inside of. Pick a credential to see the highest scorers that ask for
                   it — the score is the same either way, a credential narrows the list, it
                   does not re-grade it.
@@ -270,7 +277,10 @@ export default function Q5({ lw, setLw, section }) {
                                   }))}
                                   opts={{
                                     width,
-                                    labelWidth: 262,
+                                    // 11/18 review moved Computer and Information
+                                    // Systems Managers to the top of this chart, and
+                                    // it is the longest name in the eligible set.
+                                    labelWidth: 300,
                                     ticks: [0, 25, 50, 75, 100],
                                     axisMax: 100,
                                     absolute: true,

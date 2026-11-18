@@ -80,6 +80,12 @@ const MEASURES = [
   { id: 'count', label: 'Jobs below' },
 ];
 
+// The filter, as distinct from the Rows option. See the note at the top of the
+// credential Picker below for why picking one here removes the other.
+const CREDS = [{ id: 'all', label: 'All credentials' }].concat(
+  TIER_ORDER.map((t) => ({ id: t, label: t }))
+);
+
 const BENCH = [
   { id: 'local', label: "Each county's own floor" },
   { id: 'state', label: 'One statewide floor' },
@@ -109,13 +115,9 @@ export default function Q2({ lw, setLw, section }) {
   // the jobs we can price and a share of all of them.
   const pool = pricedPool(LC.allOcc);
   const filtered = apply(pool);
+  // The tab headline stays over everything priced: it is above the controls and
+  // describes the state, not whatever the reader has narrowed to.
   const head = rollUp(filtered, LWA);
-
-  // The scatter's rows: one point per occupation that has a median to plot. The
-  // count of those falling short is of OCCUPATIONS, not jobs -- a point is one
-  // occupation whatever its size, which is the whole reason the y-axis exists.
-  const plotted = filtered.filter((o) => o.m);
-  const shortOcc = plotted.filter((o) => o.m < LWA).length;
 
   const drill = (title, occ, cap) =>
     open(occDrill({ label: 'Occupation group', title, cap, occ, lwAnnual: LWA }));
@@ -123,16 +125,16 @@ export default function Q2({ lw, setLw, section }) {
   // One row per occupation group, per credential, or one per occupation for the
   // largest 25 -- the same five measures either way, so the chart and the table
   // under it do not care which is on screen.
-  const rowsFor = (kind) => {
+  const rowsFor = (kind, rows) => {
     if (kind === 'group') {
-      return rollUpBy(filtered, (o) => o.f, LWA).map((r) => ({
+      return rollUpBy(rows, (o) => o.f, LWA).map((r) => ({
         ...r,
         med: midpointPay(r.occ),
         onOpen: () => drill(r.f, r.occ, 'Every occupation in this group, largest first.'),
       }));
     }
     if (kind === 'cred') {
-      return rollUpBy(filtered, (o) => o.t, LWA)
+      return rollUpBy(rows, (o) => o.t, LWA)
         .sort((a, b) => TIER_ORDER.indexOf(a.f) - TIER_ORDER.indexOf(b.f))
         .map((r) => ({
           ...r,
@@ -143,7 +145,7 @@ export default function Q2({ lw, setLw, section }) {
     }
     // One occupation is its own row, so there is nothing inside it to open; the
     // click opens the group it belongs to instead, which is the next question.
-    return filtered
+    return rows
       .slice()
       .sort((a, b) => b.j - a.j)
       .slice(0, 25)
@@ -187,10 +189,11 @@ export default function Q2({ lw, setLw, section }) {
         ],
       }));
 
-  const src =
-    `Vermont occupation data, 2025 · ${fmt(head ? head.jobs : 0)} jobs with a published pay ` +
-    `distribution · benchmark ${money(LWA)} a year (${lw}) · the benchmark's position read off ` +
-    `each occupation's own 10th-to-90th percentile ladder, weighted by its jobs`;
+  const srcFor = (h, tier) =>
+    `Vermont occupation data, 2025 · ${fmt(h ? h.jobs : 0)} jobs with a published pay ` +
+    `distribution${tier === 'all' ? '' : `, entered at ${tier.toLowerCase()}`} · benchmark ` +
+    `${money(LWA)} a year (${lw}) · the benchmark's position read off each occupation's own ` +
+    `10th-to-90th percentile ladder, weighted by its jobs`;
 
   // The counties are the one answer that cannot be computed in the browser: it needs
   // a pay ladder per occupation per county, which lives only in the Core LMI county
@@ -264,10 +267,22 @@ export default function Q2({ lw, setLw, section }) {
                     a chart with rows missing. A filter set on another tab still
                     applies and still says so, because it moves these figures. */}
                 <ActiveFilters />
+                <Picker id="q2-cred" label="Credential" options={CREDS}>
+                  {(tier) => {
+                    const scoped =
+                      tier === 'all' ? filtered : filtered.filter((o) => o.t === tier);
+                    const sHead = rollUp(scoped, LWA);
+                    const src = srcFor(sHead, tier);
+                    // One point per occupation with a median. The count falling
+                    // short is of OCCUPATIONS, not jobs -- a point is one
+                    // occupation whatever its size.
+                    const plotted = scoped.filter((o) => o.m);
+                    const shortOcc = plotted.filter((o) => o.m < LWA).length;
+                    return (
                 <PickerPair
                   id="q2-rows"
                   aLabel="Rows"
-                  a={ROWS}
+                  a={tier === 'all' ? ROWS : ROWS.filter((r) => r.id !== 'cred')}
                   bLabel="Measure"
                   b={MEASURES}
                   hideB={(kind) => kind === 'each'}
@@ -276,11 +291,11 @@ export default function Q2({ lw, setLw, section }) {
                     kind === 'each' ? (
                       <Panel
                         title="Does a bigger occupation pay better or worse?"
-                        cap={`${filtered.length === pool.length ? fmt(pool.length) : `${fmt(filtered.length)} of ${fmt(pool.length)}`} occupations, one point each. The vertical line is the living wage, and the points left of it — ${fmt(shortOcc)} of the ${fmt(plotted.length)} plotted — are work whose typical job falls short. That counts occupations, not jobs: one point is one occupation whatever its size, which is what the vertical axis is for.`}
+                        cap={`${scoped.length === pool.length ? fmt(pool.length) : `${fmt(scoped.length)} of ${fmt(pool.length)}`} occupations, one point each. The vertical line is the living wage, and the points left of it — ${fmt(shortOcc)} of the ${fmt(plotted.length)} plotted — are work whose typical job falls short. That counts occupations, not jobs: one point is one occupation whatever its size, which is what the vertical axis is for.`}
                         src={`Vermont occupation data, 2025 · occupations with a published pay distribution · log scale · benchmark ${money(LWA)} a year (${lw})`}
                         data={{
                           cols: occCols(LWA),
-                          rows: filtered,
+                          rows: scoped,
                           label: 'size-against-pay',
                           initialSort: { k: 'j', dir: -1 },
                           unit: 'occupations',
@@ -321,7 +336,7 @@ export default function Q2({ lw, setLw, section }) {
                       </Panel>
                     ) : (
                       (() => {
-                        const rows = rowsFor(kind);
+                        const rows = rowsFor(kind, scoped);
                         return (
                           <Panel
                             title={
@@ -383,6 +398,9 @@ export default function Q2({ lw, setLw, section }) {
                     )
                   }
                 </PickerPair>
+                    );
+                  }}
+                </Picker>
               </>
             ),
           },

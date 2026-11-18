@@ -3,7 +3,7 @@
 import { SOW, SERIES, lwAnnual, occByFamily, credOpenByFamily, VSCS_TIERS } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { awardCols } from '@/lib/tables';
-import { Callout, HowTo, Panel, Picker, Ranked, VHead, N } from '../ui';
+import { Callout, HowTo, LwPicker, Panel, Picker, Ranked, VHead, N } from '../ui';
 import { useDrill, occDrill } from '../Drill';
 import { Split, occDetail } from '../Detail';
 import { RankedBars } from '../charts';
@@ -14,7 +14,7 @@ import { awardMix, credGap } from '@/lib/insight';
 // Callout and N below are used only by the section(s) hidden further down. Kept
 // imported so restoring one stays a single edit.
 
-export default function Q6({ lw, section }) {
+export default function Q6({ lw, setLw, section }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
   const V = SOW.vscs;
@@ -186,6 +186,7 @@ export default function Q6({ lw, section }) {
                   percentage of those openings — never the share of openings filled,
                   which no figure on this dashboard can tell you.
                 </HowTo>
+                <LwPicker value={lw} onChange={setLw} />
                 <Picker id="q6-level" label="Level" options={LEVELS}>
                   {(level) =>
                     level === 'occupation' ? (

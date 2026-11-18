@@ -1,8 +1,8 @@
 'use client';
 
-import { LC, PCT, TOTJ, lwAnnual, occByFamily } from '@/lib/data';
+import { LC, PCT, TIER_ORDER, TOTJ, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
-import { Panel, Legend, Tiles, LwPicker } from '../ui';
+import { Panel, Legend, PickerPair, Tiles, LwPicker } from '../ui';
 import { RankedBars } from '../charts';
 import { useDrill, occDrill } from '../Drill';
 import { Split, occDetail } from '../Detail';
@@ -25,10 +25,13 @@ import { marketShape } from '@/lib/insight';
  * ends of the shading, and that contrast is the finding.
  *
  * THE RAMP
- * --ord1 to --ord5, the house sequential scale the concentration grid and the
- * age mix already use. Not a red one: red reads as a warning that the reader is
- * meant to act on, and this is a measurement. The ramp inverts between light and
- * dark so that ord1 is always the least and ord5 the most.
+ * --ovr1 to --ovr5: the house Ocean tints, but over the top four fifths of the
+ * scale rather than all of it. The grid and the age mix use the full --ord1..5
+ * and are right to -- they are small cells. A bar is long and sits against the
+ * page, and --ord1 at 20% tint was a bar you had to hunt for, which is what the
+ * review caught. Not a red ramp: red reads as a warning the reader is meant to
+ * act on, and this is a measurement. The ramp inverts between light and dark so
+ * the first step is always the least and the fifth the most.
  *
  * WHAT LEFT
  * The jobs-require-against-workers-hold chart and the four labour-force tiles.
@@ -40,11 +43,26 @@ import { marketShape } from '@/lib/insight';
 // intervals: under a tenth and over three quarters are different kinds of work,
 // and the middle three are where most of the groups actually land.
 const BANDS = [
-  { max: 10, color: '--ord1', label: 'Under 10%' },
-  { max: 30, color: '--ord2', label: '10 to 30%' },
-  { max: 50, color: '--ord3', label: '30 to 50%' },
-  { max: 75, color: '--ord4', label: '50 to 75%' },
-  { max: Infinity, color: '--ord5', label: '75% and over' },
+  { max: 10, color: '--ovr1', label: 'Under 10%' },
+  { max: 30, color: '--ovr2', label: '10 to 30%' },
+  { max: 50, color: '--ovr3', label: '30 to 50%' },
+  { max: 75, color: '--ovr4', label: '50 to 75%' },
+  { max: Infinity, color: '--ovr5', label: '75% and over' },
+];
+
+// Narrowing to a tier asks a different question of the same chart: not "how much
+// of this group's work pays enough" but "how much of the work it enters people
+// into at this credential does". The roll-up happens after the filter for that
+// reason, and the caption changes with it.
+const CREDS = [{ id: 'all', label: 'All credentials' }].concat(
+  TIER_ORDER.map((t) => ({ id: t, label: t }))
+);
+
+// The table could always sort by any column. The chart could only rank by size,
+// which is the one measure on it that is not the finding.
+const SORTS = [
+  { id: 'jobs', label: 'Jobs' },
+  { id: 'below', label: 'Share below' },
 ];
 
 function bandOf(pc) {
@@ -60,7 +78,6 @@ export default function Overview({ lw, setLw }) {
   // state that is.
   const pool = pricedPool(LC.allOcc);
   const head = rollUp(pool, LWA);
-  const groups = rollUpBy(pool, (o) => o.f, LWA).sort((a, b) => b.jobs - a.jobs);
 
   const tiles = [
     ['Jobs', fmt(TOTJ), `across ${fmt(LC.allOcc.length)} occupations`],
@@ -129,11 +146,20 @@ export default function Overview({ lw, setLw }) {
 
       <LwPicker value={lw} onChange={setLw} />
 
+      <PickerPair id="ov-rows" aLabel="Credential" a={CREDS} bLabel="Sort by" b={SORTS}>
+        {(tier, sort) => {
+          const sub = tier === 'all' ? pool : pool.filter((o) => o.t === tier);
+          const subHead = rollUp(sub, LWA);
+          const groups = rollUpBy(sub, (o) => o.f, LWA).sort((a, b) =>
+            sort === 'below' ? b.below - a.below : b.jobs - a.jobs
+          );
+          const scope = tier === 'all' ? '' : ` entered at ${tier.toLowerCase()}`;
+          return (
       <Panel
         title="What Vermont does for a living, and how much of it pays enough"
-        note={marketShape(groups, head ? head.jobs : TOTJ)}
-        cap={`Bar length is jobs. Shading is the share of that group’s jobs paying below a living wage for ${lw}, read off each occupation’s own pay distribution rather than from its median. Click any bar for the occupations inside it.`}
-        src={`Vermont occupation data, 2025 · ${fmt(head ? head.jobs : 0)} jobs with a published pay distribution · benchmark ${money(LWA)} a year (${lw})`}
+        note={marketShape(groups, subHead ? subHead.jobs : TOTJ)}
+        cap={`Bar length is jobs${scope}. Shading is the share of that group’s jobs${scope} paying below a living wage for ${lw}, read off each occupation’s own pay distribution rather than from its median. Click any bar for the occupations inside it.`}
+        src={`Vermont occupation data, 2025 · ${fmt(subHead ? subHead.jobs : 0)} jobs with a published pay distribution${scope} · benchmark ${money(LWA)} a year (${lw})`}
         data={{
           cols: [
             { k: 'f', label: 'Occupation group', kind: 'text', get: (r) => r.f },
@@ -150,7 +176,7 @@ export default function Overview({ lw, setLw }) {
           ],
           rows: groups,
           label: 'vermont-at-a-glance',
-          initialSort: { k: 'jobs', dir: -1 },
+          initialSort: { k: sort === 'below' ? 'below' : 'jobs', dir: -1 },
           unit: 'occupation groups',
         }}
       >
@@ -179,6 +205,9 @@ export default function Overview({ lw, setLw }) {
           )}
         </Split>
       </Panel>
+          );
+        }}
+      </PickerPair>
     </>
   );
 }

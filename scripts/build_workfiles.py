@@ -322,11 +322,11 @@ write(
      "mean_of_four_ranks", "jobs", "projected_pct_2030", "ads_per_100_jobs",
      "median_pay", "widest_gap_between_ranks"],
     [[r["soc"], r["n"], r["f"], r["t"], n1(r["sc"]),
-      r["s_size"], r["s_growth"], r["s_postings"], r["s_pay"],
-      n1((r["s_size"] + r["s_growth"] + r["s_postings"] + r["s_pay"]) / 4),
+      r["s_size"], r["s_growth"], r["s_replacement"], r["s_pay"],
+      n1((r["s_size"] + r["s_growth"] + r["s_replacement"] + r["s_pay"]) / 4),
       n1(r["j"]), n1(r.get("g")), n1(r.get("pp")), r.get("m") or "",
-      max(r["s_size"], r["s_growth"], r["s_postings"], r["s_pay"])
-      - min(r["s_size"], r["s_growth"], r["s_postings"], r["s_pay"])]
+      max(r["s_size"], r["s_growth"], r["s_replacement"], r["s_pay"])
+      - min(r["s_size"], r["s_growth"], r["s_replacement"], r["s_pay"])]
      for r in sorted(O["top"], key=lambda r: -r["sc"])],
     "Opportunities / Highest scoring. Each rank is a percentile against the %d "
     "scored occupations on that measure alone; the score is their mean at 25%% "

@@ -119,8 +119,15 @@ elig = o[(o["med"] > 0) & (o["p25"] > 0) & (o["jobs"] >= 100) &
 #
 # Living-wage ratios (lw, lw25) and absolute openings (o, op) are still reported per
 # occupation for context -- they are simply not scored.
+# 11/18 review: replacement, inverted, in place of postings intensity. Low
+# replacement ranks high. See scripts/rebuild_opp.py, which did this against the
+# committed data and prints the correlation matrix -- replacement ranks r=+0.611
+# against pay where postings ranked +0.394, so this component is less independent
+# than the one it displaced. Kept because the review asked for it and stability is
+# a defensible signal, but it is not a free swap.
+elig["negTurn"] = -elig["turnRate"]
 COMPS = [("size", "jobs"), ("growth", "g5pct"),
-         ("postings", "postPer100"), ("pay", "med")]
+         ("replacement", "negTurn"), ("pay", "med")]
 for label, col in COMPS:
     elig["s_" + label] = elig[col].rank(pct=True) * 100
 elig["score"] = elig[["s_" + l for l, _ in COMPS]].mean(axis=1)

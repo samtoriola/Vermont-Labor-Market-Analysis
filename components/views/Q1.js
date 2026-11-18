@@ -7,7 +7,7 @@ import {
 } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { familyCols, sectorCols, industryCols } from '@/lib/tables';
-import { HowTo, Panel, Legend, Picker, Ranked, RampLegend, Scope, VHead, DrillHint } from '../ui';
+import { HowTo, LwPicker, Panel, Legend, Picker, Ranked, RampLegend, Scope, VHead, DrillHint } from '../ui';
 import { Split, occDetail, industryDetail } from '../Detail';
 import { useDrill, occDrill } from '../Drill';
 import { RankedBars, StackedRows } from '../charts';
@@ -29,7 +29,7 @@ const FAM_MEASURES = [
   { id: 'age', label: 'Age mix' },
 ];
 
-export default function Q1({ lw, section }) {
+export default function Q1({ lw, setLw, section }) {
   const LWA = lwAnnual(lw);
   const { open } = useDrill();
 
@@ -139,7 +139,7 @@ export default function Q1({ lw, section }) {
       title: r.s,
       cap: 'Every detailed industry in this sector, largest first.',
       occ: ind,
-      cols: industryCols(),
+      cols: industryCols(r.j),
       rowKey: (d) => d.naics,
       stats: [
         ['Industries', fmt(ind.length)],
@@ -510,8 +510,9 @@ export default function Q1({ lw, section }) {
                 <HowTo>
                   The same 22 occupation groups under every measure — jobs, pay, what they ask
                   for at the door, and who is doing them. Click a bar for the occupations
-                  inside it.
+                  inside it, priced against the benchmark below.
                 </HowTo>
+                <LwPicker value={lw} onChange={setLw} />
                 <Picker id="q1-fam" label="Measure" options={FAM_MEASURES}>
                   {(m) => {
                     const v = fam[m];

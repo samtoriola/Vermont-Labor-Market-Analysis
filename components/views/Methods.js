@@ -282,7 +282,7 @@ export default function Methods({ lw }) {
             ],
             [
               'Opportunity index',
-              'Mean of four percentile ranks, 25% each: employment, projected growth, postings per 100 jobs, median pay. Occupations with 100+ jobs and a published wage.',
+              'Mean of four percentile ranks, 25% each: employment, projected growth, stability, median pay. Occupations with 100+ jobs and a published wage. Stability is the replacement rate inverted — an occupation replacing less of its workforce each year ranks higher — and it replaced postings per 100 jobs at the November 2025 review. Read it knowing that it ranks r = +0.611 against pay, where postings ranked +0.394: Vermont’s high-replacement work is its low-paid work, and inverting the sign flips that relationship rather than removing it, so the pay dimension carries more of this score than its quarter. The panel shows all four ranks for that reason.',
             ],
             [
               'Openings that ask for a VSCS credential',

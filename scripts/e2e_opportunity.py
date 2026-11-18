@@ -33,7 +33,9 @@ LC, SOW = D("lightcast.json"), D("sow.json")
 LWA = LC["livingWage"][LC["defaultLW"]] * LC["hours"]
 O = SOW["opp"]
 BYSOC = SOW["vscs"].get("bySoc", {})
-COMPS = ["s_size", "s_growth", "s_postings", "s_pay"]
+# 11/18 review: the third component is the replacement rate, inverted, in
+# place of postings intensity. The order here is the order the bar stacks in.
+COMPS = ["s_size", "s_growth", "s_replacement", "s_pay"]
 
 # The screen, recomputed from the JSON rather than imported. Mirrors
 # opportunityScreen() in lib/screen.js at its defaults.

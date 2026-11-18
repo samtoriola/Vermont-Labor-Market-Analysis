@@ -31,6 +31,14 @@
   --ord4: #33afb7;
   --ord5: #009ba5;
 
+  /* The Overview's ramp: the same Ocean tints, but starting at 40% rather than
+     20%. A full-width bar at --ord1 is barely a bar on a white panel. */
+  --ovr1: #99d7db;
+  --ovr2: #73c9cf;
+  --ovr3: #4dbcc3;
+  --ovr4: #26aeb7;
+  --ovr5: #009ba5;
+
   /* reserved semantic pair */
   --good: #007a58; /* Pine  — at or above benchmark */
   --track: #e8eaec; /* the unfilled remainder of a 0–100% bar */
@@ -77,6 +85,12 @@
     --ord3: #008c9b;
     --ord4: #33afb7;
     --ord5: #66c3c9;
+
+    --ovr1: #15606a;
+    --ovr2: #0d7d8a;
+    --ovr3: #008c9b;
+    --ovr4: #33afb7;
+    --ovr5: #66c3c9;
     --good: #339579;
     --track: #2b3741;
     --bad: #fd7061;
@@ -107,6 +121,12 @@
   --ord3: #008c9b;
   --ord4: #33afb7;
   --ord5: #66c3c9;
+
+  --ovr1: #15606a;
+  --ovr2: #0d7d8a;
+  --ovr3: #008c9b;
+  --ovr4: #33afb7;
+  --ovr5: #66c3c9;
   --good: #339579;
   --track: #2b3741;
   --bad: #fd7061;

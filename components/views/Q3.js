@@ -1,9 +1,10 @@
 'use client';
 
-import { DATA, DEMAND, LC, ORDINAL, TOTJ } from '@/lib/data';
+import { DATA, DEMAND, LC, ORDINAL, TOTJ, lwAnnual, occByFamily } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { demandCols, familyCols } from '@/lib/tables';
-import { Callout, HowTo, Panel, Legend, Picker, Ranked, Scope, VHead, N } from '../ui';
+import { Callout, HowTo, LwPicker, Panel, Legend, Picker, Ranked, Scope, VHead, N } from '../ui';
+import { useDrill, occDrill } from '../Drill';
 import { RankedBars, GroupedBars } from '../charts';
 import { ColumnStack } from '../columns';
 import Sections from '../Sections';
@@ -33,10 +34,27 @@ const DEMAND_MEASURES = [
   { id: 'ads', label: 'Job ads' },
   { id: 'observed', label: 'Change since 2021' },
   { id: 'projected', label: 'Projected growth' },
+  { id: 'momentum', label: 'Projected vs observed' },
 ];
 
-export default function Q3({ section }) {
+export default function Q3({ lw, setLw, section }) {
+  const LWA = lwAnnual(lw);
+  const { open } = useDrill();
   const fams = LC.families.slice();
+
+  // Every ranking on this section is one bar per occupation group, so every one
+  // of them can open the same way: the occupations inside it, priced against the
+  // benchmark, with their typical entry education beside them.
+  const famDrill = (f) =>
+    open(
+      occDrill({
+        label: 'Occupation group',
+        title: f,
+        cap: 'Every occupation in this group, largest first.',
+        occ: occByFamily(f),
+        lwAnnual: LWA,
+      })
+    );
   const totPost = fams.reduce((a, r) => a + r.post, 0);
   const totOpen = fams.reduce((a, r) => a + r.open, 0);
 
@@ -53,6 +71,13 @@ export default function Q3({ section }) {
   const growers = fams
     .filter((r) => r.g5pct !== null)
     .sort((a, b) => b.g5pct - a.g5pct);
+
+  // Both halves have to exist for the difference to mean anything, so a group
+  // missing either is left out rather than counted as zero.
+  const momentum = fams
+    .filter((r) => r.g5pct !== null && r.chgPct !== null)
+    .map((r) => ({ ...r, gap: r.g5pct - r.chgPct }))
+    .sort((a, b) => b.gap - a.gap);
 
   const cpsRows = DATA.families
     .map((f) => {
@@ -98,6 +123,7 @@ export default function Q3({ section }) {
                 value: r.idx,
                 color: r.idx >= 1 ? '--s3' : '--s2',
                 dec: 2,
+                onClick: () => famDrill(r.f),
                 big: [[fmt(r.jobs), 'Jobs today']],
                 extra: [
                   ['Postings share', r.postSh.toFixed(1) + '%'],
@@ -109,6 +135,7 @@ export default function Q3({ section }) {
                 rule: 1,
                 ruleLabel: 'Parity',
                 valueLabel: 'Ads per job, vs its size',
+                clickHint: 'Click for the occupations inside it',
                 aria: 'Postings alignment index',
               }}
             />
@@ -136,6 +163,7 @@ export default function Q3({ section }) {
                 value: r.chgPct,
                 color: r.chgPct >= 0 ? '--s3' : '--s2',
                 mode: 'pct',
+                onClick: () => famDrill(r.f),
                 big: [[(r.chg >= 0 ? '+' : '') + fmt(r.chg), 'Jobs gained or lost']],
                 extra: [
                   ['2021 jobs', fmt(r.jobs21)],
@@ -147,6 +175,7 @@ export default function Q3({ section }) {
                 mode: 'pct',
                 signed: true,
                 valueLabel: 'Change since 2021',
+                clickHint: 'Click for the occupations inside it',
                 aria: 'Observed change 2021 to 2025 by occupation group',
               }}
             />
@@ -171,6 +200,7 @@ export default function Q3({ section }) {
                 value: r.g5pct,
                 color: r.g5pct >= 0 ? '--s3' : '--s2',
                 mode: 'pct',
+                onClick: () => famDrill(r.f),
                 big: [[fmt(r.g5), 'Jobs projected to be added']],
                 extra: [
                   ['2025 jobs', fmt(r.jobs)],
@@ -181,7 +211,56 @@ export default function Q3({ section }) {
                 mode: 'pct',
                 signed: true,
                 valueLabel: 'Growth by 2030',
+                clickHint: 'Click for the occupations inside it',
                 aria: 'Projected five-year growth by occupation group',
+              }}
+            />
+          )}
+        </Ranked>
+      ),
+    },
+
+    // Projection against recent history. Both halves were already on this
+    // control as rankings of their own, and the quantity the review is after is
+    // in neither: whether the next five years are expected to go faster or
+    // slower than the last four did. A group can be projected to grow and still
+    // be projected to lose pace.
+    //
+    // Signed, so the semantic pair is doing what it is reserved for -- two sides
+    // of a line inside one chart -- rather than shading a magnitude.
+    momentum: {
+      title: 'Is the projection faster or slower than what already happened?',
+      cap:
+        'Projected five-year growth minus the change already observed between 2021 and ' +
+        '2025, in percentage points. To the right is a group expected to pick up pace; to ' +
+        'the left, one expected to grow more slowly than it just did — which includes ' +
+        'groups that are still growing.',
+      src: 'Vermont occupation data · 2030 projection against 2025 jobs, and 2025 against 2021',
+      table: 'projected-against-observed',
+      sort: { k: 'g5pct', dir: -1 },
+      chart: (
+        <Ranked id="q3-fam" rows={momentum}>
+          {(pick) => (
+            <RankedBars
+              rows={pick.map((r) => ({
+                label: r.f,
+                value: r.gap,
+                color: r.gap >= 0 ? '--good' : '--bad',
+                mode: 'pct',
+                onClick: () => famDrill(r.f),
+                big: [[fmt(r.jobs), 'Jobs today']],
+                extra: [
+                  ['Change since 2021', (r.chgPct >= 0 ? '+' : '') + r.chgPct.toFixed(1) + '%'],
+                  ['Projected by 2030', (r.g5pct >= 0 ? '+' : '') + r.g5pct.toFixed(1) + '%'],
+                  ['Annual openings', fmt(r.open)],
+                ],
+              }))}
+              opts={{
+                mode: 'pct',
+                signed: true,
+                valueLabel: 'Projection minus what happened',
+                clickHint: 'Click for the occupations inside it',
+                aria: 'Projected growth against observed change by occupation group',
               }}
             />
           )}
@@ -213,9 +292,12 @@ export default function Q3({ section }) {
       label: a.label,
       parts: a[field],
       total: a[stated],
-      // Postings per job is the guard against reading column height as demand.
-      // It is the number that explains Washington County.
-      note: a.perJob ? a.perJob.toFixed(2) + '/job' : null,
+      // No postings-per-job figure under the column. Each column sums to 100%
+      // and encodes no height at all, so it was guarding against a misreading
+      // the chart shape already prevents -- and a second number under every
+      // column competes with the four-way split that is the chart. It is still
+      // in the table underneath, which demandCols carries.
+      note: null,
       // Too few postings to split four ways; the column is drawn, and marked.
       thin: a.thin,
     }));
@@ -240,9 +322,7 @@ export default function Q3({ section }) {
         `Each column is one place, and sums to 100%. Shares are of the postings that state ` +
         (edu ? 'an education level' : 'a minimum experience') +
         ` — ${((vt[stated] / vt.postings) * 100).toFixed(0)}% of Vermont's do, so this is ` +
-        `what employers write down, not what every job requires. The figure under each column ` +
-        `is postings per job, which is how to tell a place that advertises heavily from one ` +
-        `that hires heavily.` +
+        `what employers write down, not what every job requires.` +
         (thin.length
           ? ` ${thin.join(' and ')} are shaded: under ${fmt(DEMAND.thinFloor)} postings state one there, too few to split reliably.`
           : '') +
@@ -341,9 +421,8 @@ export default function Q3({ section }) {
                   What employers ask for at the door, place by place. Every share is out of
                   the postings that state a level — roughly half do — so read these as a
                   property of the employers who filled the field in, not of the labour
-                  market. The figure under each Vermont column is postings per job, which
-                  is what keeps a county that advertises heavily from reading as a county
-                  that hires heavily.
+                  market. Postings per job, which separates a place that advertises
+                  heavily from one that hires heavily, is in the table under the chart.
                 </HowTo>
                 <Scope
                   id="q3-asked"
@@ -384,9 +463,12 @@ export default function Q3({ section }) {
                 <HowTo>
                   Four ways of asking where the hiring is, over the same 22 occupation groups:
                   openings now, how much of the workforce turns over, how heavily the work
-                  is advertised, and what is projected by 2030. They disagree, which is the
-                  reason to look at more than one.
+                  is advertised, what is projected by 2030, and whether that projection is
+                  faster or slower than what already happened. They disagree, which is the
+                  reason to look at more than one. Click any bar for the occupations inside
+                  it, priced against the benchmark below.
                 </HowTo>
+                <LwPicker value={lw} onChange={setLw} />
                 <Picker id="q3-measure" label="Measure" options={DEMAND_MEASURES}>
                   {(m) => {
                     const v = dem[m];

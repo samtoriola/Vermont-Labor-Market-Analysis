@@ -117,17 +117,26 @@ with sync_playwright() as pw:
             if missing:
                 fails.append("%s: printed shares not in the data: %s" % (tag, missing[:4]))
 
-            # Postings per job, on the Vermont columns only.
+            # Postings per job came off the columns in the 11/18 review: each
+            # column sums to 100% and encodes no height, so the figure was
+            # guarding a misreading the chart shape already prevents, and it
+            # competed with the four-way split that IS the chart.
             notes = pg.eval_on_selector_all(
                 ".view svg.chart text.vlab", "els => els.map(e => e.textContent)")
-            n_expected = sum(1 for a in expect if a["perJob"])
-            if len(notes) != n_expected:
-                fails.append("%s: %d per-job figures, expected %d"
-                             % (tag, len(notes), n_expected))
+            if notes:
+                fails.append("%s: the per-job figure is back under the columns (%d)"
+                             % (tag, len(notes)))
 
             cap = " ".join(pg.locator(".view .cap").first.inner_text().split())
             if "state" not in cap.lower():
                 fails.append("%s: caption does not say the denominator is stated-only" % tag)
+
+            # Removed from the chart, not from the dashboard: the table under it
+            # still has to carry postings per job, or the figure is simply lost.
+            heads = pg.eval_on_selector_all(
+                ".view table th", "els => els.map(e => e.textContent.toLowerCase())")
+            if heads and not [h for h in heads if "per job" in h]:
+                fails.append("%s: postings per job is not in the table either" % tag)
 
             # Thin columns are drawn but outlined, and named in the caption.
             want_thin = sum(1 for a in expect if a.get("thin"))
