@@ -1,5 +1,5 @@
 ﻿# Employment / Occupation. The 22 SOC major groups.
-occupation_group,jobs,jobs_2021,change_pct,median_pay,occupations,openings_per_year,turnover_pct,job_ads,aged_55_plus,aged_55_plus_pct,location_quotient
+occupation_group,jobs,jobs_2021,change_pct,median_pay,occupations,openings_per_year,replacement_rate_pct,job_ads,aged_55_plus,aged_55_plus_pct,location_quotient
 Office & Administrative Support,33658.0,35945.0,-6.4,51124,54,4855.0,53.1,30786.0,11315.0,33.6,1.06
 Educational Instruction & Library,27437.0,26878.0,2.1,64286,28,3268.0,53.9,23864.0,7815.0,28.5,1.6
 Food Preparation & Serving,26686.0,22589.0,18.1,43338,17,6065.0,132.6,19268.0,4005.0,15.0,1.06

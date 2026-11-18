@@ -19,12 +19,12 @@ export function occCols(lwAnnual) {
     { k: 'share', label: 'Share of all jobs', kind: 'rate', get: (o) => (o.j / TOTJ) * 100 },
     { k: 'chgPct', label: 'Change since 2021', kind: 'pct', get: (o) => o.chgPct },
     { k: 'g', label: 'Projected by 2030', kind: 'pct', get: (o) => o.g },
-    { k: 'm', label: 'Typical pay', kind: 'money', get: (o) => o.m },
+    { k: 'm', label: 'Median pay', kind: 'money', get: (o) => o.m },
     { k: 'lw', label: 'Times the living wage', kind: 'x', get: (o) => (o.m ? o.m / lwAnnual : null) },
     { k: 'o', label: 'Openings a year', kind: 'num', get: (o) => o.o },
-    { k: 'turn', label: 'Turnover', kind: 'rate', get: (o) => o.turn },
+    { k: 'turn', label: 'Replacement rate', kind: 'rate', get: (o) => o.turn },
     { k: 'pp', label: 'Ads per 100 jobs', kind: 'num1', get: (o) => (o.j ? (o.p / o.j) * 100 : null) },
-    { k: 't', label: 'Entry credential', kind: 'text', get: (o) => o.t },
+    { k: 't', label: 'Typical entry education', kind: 'text', get: (o) => o.t },
   ];
 }
 
@@ -40,7 +40,7 @@ export function occOpenCols(lwAnnual) {
   return [
     { k: 'n', label: 'Occupation', kind: 'text', get: (o) => o.n },
     { k: 'o', label: 'Openings a year', kind: 'num', get: (o) => o.o },
-    { k: 'm', label: 'Typical pay', kind: 'money', get: (o) => o.m },
+    { k: 'm', label: 'Median pay', kind: 'money', get: (o) => o.m },
     { k: 'lw', label: 'Times the living wage', kind: 'x', get: (o) => (o.m ? o.m / lwAnnual : null) },
     { k: 'below', label: 'Share of its jobs below the benchmark', kind: 'rate', get: below },
     {
@@ -53,8 +53,8 @@ export function occOpenCols(lwAnnual) {
       },
     },
     { k: 'j', label: 'Jobs today', kind: 'num', get: (o) => o.j },
-    { k: 'turn', label: 'Turnover', kind: 'rate', get: (o) => o.turn },
-    { k: 't', label: 'Entry credential', kind: 'text', get: (o) => o.t },
+    { k: 'turn', label: 'Replacement rate', kind: 'rate', get: (o) => o.turn },
+    { k: 't', label: 'Typical entry education', kind: 'text', get: (o) => o.t },
   ];
 }
 
@@ -87,10 +87,10 @@ export function occDotTip(lwAnnual) {
               d.g === null || d.g === undefined ? '—' : (d.g >= 0 ? '+' : '') + d.g + '%',
             ],
             [
-              'Turnover',
+              'Replacement rate',
               d.turn === null || d.turn === undefined ? '—' : d.turn.toFixed(1) + '%',
             ],
-            ['Entry credential', d.t || '—'],
+            ['Typical entry education', d.t || '—'],
           ]),
     ],
   });

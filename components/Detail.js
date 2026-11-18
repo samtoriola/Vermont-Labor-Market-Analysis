@@ -135,7 +135,7 @@ export function occDetail({ label, title, occ, lwAnnual, stats, top = 8, onMore 
       occ.length > top
         ? `The ${top} largest of ${fmt(occ.length)} occupations.`
         : `All ${fmt(occ.length)} occupations.`,
-    cols: ['Occupation', 'Jobs', 'Typical pay'],
+    cols: ['Occupation', 'Jobs', 'Median pay'],
     // Trailing "Except ..." and "All Other" clauses are dropped here as they are on
     // a chart axis: the pane is for a glance, and the full name is one click away.
     rows: sorted.slice(0, top).map((o) => [shortLabel(o.n), fmt(o.j), o.m ? money(o.m) : '—']),

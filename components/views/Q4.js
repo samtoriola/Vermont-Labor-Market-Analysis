@@ -66,7 +66,7 @@ export default function Q4({ lw, setLw, section }) {
   const tierDrill = (k) =>
     open(
       occDrill({
-        label: 'Entry credential',
+        label: 'Typical entry education',
         title: k,
         cap: 'Every occupation whose typical entry credential is this tier, largest first.',
         occ: occByTier(k),
@@ -80,14 +80,14 @@ export default function Q4({ lw, setLw, section }) {
   // What the pane shows for a credential tier.
   const tierDetail = (r, stats) =>
     occDetail({
-      label: 'Entry credential',
+      label: 'Typical entry education',
       title: r.t,
       occ: occByTier(r.t),
       lwAnnual: LWA,
       stats: stats || [
         [fmt(r.jobs), 'Jobs today'],
         [r.share.toFixed(1) + '%', 'Of all VT jobs'],
-        [r.med ? money(r.med) : '—', 'Typical pay'],
+        [r.med ? money(r.med) : '—', 'Median pay'],
       ],
       onMore: () => tierDrill(r.t),
     });
@@ -162,7 +162,7 @@ export default function Q4({ lw, setLw, section }) {
 
   const openDrill = (r) =>
     open({
-      label: 'Entry credential',
+      label: 'Typical entry education',
       title: r.t,
       cap:
         `Every occupation whose typical entry credential is this tier, most openings first. ` +
@@ -192,7 +192,7 @@ export default function Q4({ lw, setLw, section }) {
       .sort((a, b) => b.o - a.o)
       .slice(0, 8);
     return {
-      label: 'Entry credential',
+      label: 'Typical entry education',
       title: r.t,
       stats: [
         [fmt(r.openAll), 'Openings a year'],
@@ -220,7 +220,7 @@ export default function Q4({ lw, setLw, section }) {
   // The benchmark selector appears only on the measure it changes, so the page
   // never carries a control that does nothing.
   const bands = {
-    cols: bandCols(LWA, 't', 'Entry credential'),
+    cols: bandCols(LWA, 't', 'Typical entry education'),
     rows: LC.tiers,
     unit: 'credentials',
   };

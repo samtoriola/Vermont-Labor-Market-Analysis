@@ -19,7 +19,7 @@ import {
 
 const MEASURES = [
   { id: 'jobs', label: 'Jobs' },
-  { id: 'pay', label: 'Typical pay' },
+  { id: 'pay', label: 'Median pay' },
   { id: 'change', label: 'Change since ' + CTY.base },
   { id: 'mix', label: 'What it specialises in' },
 ];
@@ -63,7 +63,7 @@ export default function Q7({ lw, setLw, section }) {
             <div className="v">{picked.emp ? fmt(picked.emp) : '—'}</div>
           </div>
           <div className="dstat">
-            <div className="k">Typical job pays</div>
+            <div className="k">Median pay</div>
             <div className="v">{picked.med ? money(picked.med) : '—'}</div>
           </div>
           <div className="dstat">
@@ -108,7 +108,7 @@ export default function Q7({ lw, setLw, section }) {
     active: sel === r.c,
     big: [[fmt(r.emp), 'Jobs in the county']],
     extra: [
-      ['Typical job pays', money(r.med)],
+      ['Median pay', money(r.med)],
       ['Change since ' + CTY.base, (r.chg > 0 ? '+' : '') + r.chg + '%'],
       ['Share of state employment', ((r.emp / ST.emp) * 100).toFixed(1) + '%'],
       ...(r.thin ? [['Note', 'One of the two smallest counties']] : []),
@@ -175,9 +175,9 @@ export default function Q7({ lw, setLw, section }) {
             labelWidth: 150,
             rule: LWA,
             ruleLabel: 'Living wage',
-            valueLabel: 'Typical pay',
+            valueLabel: 'Median pay',
             clickHint: 'Click to pin this county',
-            aria: 'Typical pay by county',
+            aria: 'Median pay by county',
           }}
         />
       ),
@@ -267,7 +267,7 @@ export default function Q7({ lw, setLw, section }) {
                   data={{ cols: countyCols(), rows, label: 'counties',
                           initialSort: { k: 'emp', dir: -1 }, unit: 'counties',
                           onRowClick: (r) => pick(r.c),
-                          note: 'Jobs and typical pay are the county’s workplaces; population, attainment and income are its residents. Click a row to pin that county.' }}
+                          note: 'Jobs and median pay are the county’s workplaces; population, attainment and income are its residents. Click a row to pin that county.' }}
                 >
                   <VermontMap
                     regions={R}

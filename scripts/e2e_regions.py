@@ -76,7 +76,7 @@ with sync_playwright() as pw:
         # No Vermont bar on jobs: the state total is the counties' sum, not a
         # peer, and drawing it would squeeze all fourteen into the left third.
         ("Jobs", "emp", False, lambda v: format(v, ","), False),
-        ("Typical pay", "med", True, money, False),
+        ("Median pay", "med", True, money, False),
         ("Change since %d" % D["base"], "chg", False,
          lambda v: ("+" if v > 0 else "") + "%.1f%%" % v, True),
     ]

@@ -32,9 +32,9 @@ for _ in range(60):
 # panel opens on.
 PANELS = [
     ("Occupation", "Share of jobs", 0),
-    ("Occupation", "Typical pay", 0),
+    ("Occupation", "Median pay", 0),
     ("By credential level", "Share of jobs", 0),
-    # Typical pay, Above living wage and Range of outcomes were three chips over
+    # Median pay, Above living wage and Range of outcomes were three chips over
     # one distribution. The pay ladder replaced all three, and e2e_pathways.py
     # checks it against the arithmetic; here it only has to open a pane.
     ("By credential level", "The pay ladder", 0),

@@ -52,7 +52,7 @@ export default function OccTable({ lw }) {
 
       <div className="srcline">
         Lightcast · observed change from 2021/2025 jobs · projection from 2030 jobs ·
-        turnover is separations ÷ jobs and counts job-to-job transfers, so it reads as
+        the replacement rate is separations ÷ jobs and counts job-to-job transfers, so it reads as
         churn rather than unmet demand · suppressed below 10 jobs
       </div>
     </div>

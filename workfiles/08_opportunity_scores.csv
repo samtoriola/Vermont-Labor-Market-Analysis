@@ -1,5 +1,5 @@
 ﻿# Opportunities / Highest scoring. Each rank is a percentile against the 406 scored occupations on that measure alone; the score is their mean at 25% each. mean_of_four_ranks is that arithmetic redone here -- it should equal score to a rounding place. The chart draws each rank as a quarter of the bar.
-soc,occupation,occupation_group,entry_credential,score,rank_employment,rank_growth,rank_advertising,rank_pay,mean_of_four_ranks,jobs,projected_pct_2030,ads_per_100_jobs,median_pay,widest_gap_between_ranks
+soc,occupation,occupation_group,typical_entry_education,score,rank_employment,rank_growth,rank_advertising,rank_pay,mean_of_four_ranks,jobs,projected_pct_2030,ads_per_100_jobs,median_pay,widest_gap_between_ranks
 15-1252,Software Developers,Computer & Mathematical,Bachelor's,93.9,90,96,96,93,93.8,1801.0,13.0,604.9,125278,6
 11-9111,Medical and Health Services Managers,Management,Bachelor's,91.8,78,97,98,94,91.8,905.0,13.5,711.4,128690,20
 11-3031,Financial Managers,Management,Bachelor's,88.3,91,89,79,94,88.2,1858.0,8.8,233.6,128690,15

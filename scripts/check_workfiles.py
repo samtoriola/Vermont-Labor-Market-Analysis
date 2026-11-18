@@ -88,7 +88,7 @@ close(below / jobs * 100, head["Share of priced jobs below it"], 0.05, "share be
 print("  %s priced jobs, %.1f%% below the benchmark" % ("{:,.0f}".format(jobs), below / jobs * 100))
 
 print("--- 03 carries the pooled ladder, not the published one ---")
-hs = [r for r in lad if r["entry_credential"] == "High school"]
+hs = [r for r in lad if r["typical_entry_education"] == "High school"]
 if not hs:
     fails.append("03 has no high-school row")
 else:

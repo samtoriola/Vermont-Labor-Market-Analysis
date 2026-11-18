@@ -190,7 +190,7 @@ def main():
             "share": {f: round(st_share[f], 1) for f in fam_order},
         },
         "counties": counties,
-        "note": ("Employees only. Typical pay is the midpoint job, annualised at "
+        "note": ("Employees only. Median pay is the midpoint job, annualised at "
                  "%s hours." % f"{HOURS:,}"),
     }
     json.dump(out, open(OUT, "w", encoding="utf-8"), separators=(",", ":"))

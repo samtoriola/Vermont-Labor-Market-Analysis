@@ -153,9 +153,9 @@ for o in sorted(LC["allOcc"], key=lambda o: -o["j"]):
     ])
 write(
     "01_occupations_master.csv",
-    ["soc", "occupation", "occupation_group", "entry_credential", "jobs_2025",
+    ["soc", "occupation", "occupation_group", "typical_entry_education", "jobs_2025",
      "jobs_2021", "change_pct", "projected_pct_2030", "median_pay", "openings_per_year",
-     "job_ads", "turnover_pct", "p10", "p25", "p50", "p75", "p90",
+     "job_ads", "replacement_rate_pct", "p10", "p25", "p50", "p75", "p90",
      "has_pay_ladder", "pct_of_jobs_below_benchmark", "jobs_below_benchmark",
      "median_times_living_wage"],
     master,
@@ -227,7 +227,7 @@ for t in TIER_ORDER:
     ])
 write(
     "03_pathways_credential_ladder.csv",
-    ["entry_credential", "occupations_priced", "jobs_priced", "jobs_below_benchmark",
+    ["typical_entry_education", "occupations_priced", "jobs_priced", "jobs_below_benchmark",
      "pct_below_benchmark", "pct_clearing_benchmark",
      "pooled_p10", "pooled_p25", "pooled_p50", "pooled_p75", "pooled_p90",
      "pooled_p90_over_p10",
@@ -252,7 +252,7 @@ for t in TIER_ORDER:
                  n1(sum(o["o"] for o in paying) / sum(o.get("o") or 0 for o in ms) * 100)])
 write(
     "04_pathways_openings_by_credential.csv",
-    ["entry_credential", "occupations", "openings_per_year_priced",
+    ["typical_entry_education", "occupations", "openings_per_year_priced",
      "openings_in_work_paying_benchmark", "pct_of_openings_paying",
      "occupations_hiring_50_plus", "of_those_median_above_benchmark",
      "their_openings", "pct_on_the_old_gated_measure"],
@@ -302,7 +302,7 @@ fam = {f["f"]: f for f in LC["families"]}
 write(
     "07_employment_occupation_groups.csv",
     ["occupation_group", "jobs", "jobs_2021", "change_pct", "median_pay",
-     "occupations", "openings_per_year", "turnover_pct", "job_ads",
+     "occupations", "openings_per_year", "replacement_rate_pct", "job_ads",
      "aged_55_plus", "aged_55_plus_pct", "location_quotient"],
     [[f["f"], n1(f.get("jobs")), n1(f.get("jobs21")), n1(f.get("chgPct")),
       f.get("med") or "", f.get("nocc") or "", n1(f.get("open")), n1(f.get("turn")),
@@ -317,7 +317,7 @@ write(
 O = SOW["opp"]
 write(
     "08_opportunity_scores.csv",
-    ["soc", "occupation", "occupation_group", "entry_credential", "score",
+    ["soc", "occupation", "occupation_group", "typical_entry_education", "score",
      "rank_employment", "rank_growth", "rank_advertising", "rank_pay",
      "mean_of_four_ranks", "jobs", "projected_pct_2030", "ads_per_100_jobs",
      "median_pay", "widest_gap_between_ranks"],
@@ -551,7 +551,7 @@ heads = [
      "Lightcast 2021-2025 openings / %d" % LC["openYears"],
      "%s / %d" % (n1(LC["openTotal"]), LC["openYears"]), "Demand, Pathways"],
     ["Openings asking for a VSCS credential", n1(tot_cred_open),
-     "01 where entry_credential is sub-bacc, bachelor's or graduate",
+     "01 where typical_entry_education is sub-bacc, bachelor's or graduate",
      "Sum openings_per_year over those rows", "VSCS alignment"],
     ["VSCS completions, 2024", V["totalCompletions"], "IPEDS, 10",
      "Sum of completions in 10", "VSCS alignment"],

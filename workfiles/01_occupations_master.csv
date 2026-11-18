@@ -1,5 +1,5 @@
 ﻿# Every Vermont occupation. p10-p90 are BLS OEWS 2025 as published; pct_of_jobs_below_benchmark interpolates $49816 along that ladder and is the measure every wage chart rolls up. openings_per_year is Lightcast 2021-2025 openings / 4.
-soc,occupation,occupation_group,entry_credential,jobs_2025,jobs_2021,change_pct,projected_pct_2030,median_pay,openings_per_year,job_ads,turnover_pct,p10,p25,p50,p75,p90,has_pay_ladder,pct_of_jobs_below_benchmark,jobs_below_benchmark,median_times_living_wage
+soc,occupation,occupation_group,typical_entry_education,jobs_2025,jobs_2021,change_pct,projected_pct_2030,median_pay,openings_per_year,job_ads,replacement_rate_pct,p10,p25,p50,p75,p90,has_pay_ladder,pct_of_jobs_below_benchmark,jobs_below_benchmark,median_times_living_wage
 31-1128,Home Health and Personal Care Aides,Healthcare Support,High school,8881.7,7616.4,16.6,0.7,41600,1604.0,5360.0,70.6,31304,36130,41600,46405,48048,yes,100.0,8881.7,0.84
 41-2031,Retail Salespersons,Sales,No formal credential,8149.2,7413.8,9.9,0.1,37398,1319.3,11328.0,72.8,31075,34528,37398,45718,55702,yes,81.2,6613.6,0.75
 11-1021,General and Operations Managers,Management,Bachelor's,7986.9,7039.2,13.5,4.1,98634,822.4,5676.0,40.7,59509,75462,98634,148616,218546,yes,0.0,0.0,1.98

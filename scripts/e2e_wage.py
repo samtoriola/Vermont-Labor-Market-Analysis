@@ -199,7 +199,7 @@ with sync_playwright() as pw:
         fails.append("groups/count: %d tracks on a ranked axis" % tracks)
 
     # ---- the other row options still draw -------------------------------
-    for rowopt, expect in (("Entry credential", len(group_by(lambda o: o["t"]))),
+    for rowopt, expect in (("Typical entry education", len(group_by(lambda o: o["t"]))),
                            ("Largest occupations", 25)):
         chip(pg, "Rows", rowopt)
         n = pg.locator(".view svg.chart g.bar").count()

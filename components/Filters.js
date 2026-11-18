@@ -67,7 +67,7 @@ export default function Filters({ shown, total, note, pool, showFamilies = false
     <div className="filterbar">
       {tiers.length > 1 ? (
         <div className="fgroup">
-          <span className="flab">Entry credential</span>
+          <span className="flab">Typical entry education</span>
           <div className="chips">
             {tiers.map(([t]) => (
               <button

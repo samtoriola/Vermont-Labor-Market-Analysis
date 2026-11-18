@@ -51,9 +51,9 @@ with sync_playwright() as pw:
             for h in tbl.locator("thead th").all()]
     print("columns:", hdrs)
 
-    # Typical pay by family is a ranked bar chart; check it draws one bar per family
+    # Median pay by family is a ranked bar chart; check it draws one bar per family
     # plus the three reference bars, and that every bar carries a money label.
-    pick(pg, "Occupation", "Typical pay")
+    pick(pg, "Occupation", "Median pay")
     pg.locator(".rankctl .chips button", has_text="All").first.click()
     pg.wait_for_timeout(700)
     bars = pg.locator(".panel svg.chart g.bar").count()

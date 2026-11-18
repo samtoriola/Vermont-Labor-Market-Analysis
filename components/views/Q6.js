@@ -121,9 +121,9 @@ export default function Q6({ lw, section }) {
       kind: 'rate',
       get: (r) => (r.ratio === null ? null : r.ratio * 100),
     },
-    { k: 'm', label: 'Typical pay', kind: 'money', get: (r) => r.m },
+    { k: 'm', label: 'Median pay', kind: 'money', get: (r) => r.m },
     { k: 'lw', label: 'Times the living wage', kind: 'x', get: (r) => r.lw },
-    { k: 't', label: 'Entry credential', kind: 'text', get: (r) => r.t },
+    { k: 't', label: 'Typical entry education', kind: 'text', get: (r) => r.t },
   ];
 
   return (

@@ -63,7 +63,7 @@ import { countyFloorShift, wageShortfall } from '@/lib/insight';
 // and plots every occupation, which is where the filter bar earns its place.
 const ROWS = [
   { id: 'group', label: 'Occupation groups' },
-  { id: 'cred', label: 'Entry credential' },
+  { id: 'cred', label: 'Typical entry education' },
   { id: 'occ', label: 'Largest occupations' },
   { id: 'each', label: 'Every occupation' },
 ];
@@ -161,7 +161,7 @@ export default function Q2({ lw, setLw, section }) {
   const unit = (kind) =>
     kind === 'cred' ? 'credential levels' : kind === 'occ' ? 'occupations' : 'occupation groups';
   const rowLabel = (kind) =>
-    kind === 'cred' ? 'Entry credential' : kind === 'occ' ? 'Occupation' : 'Occupation group';
+    kind === 'cred' ? 'Typical entry education' : kind === 'occ' ? 'Occupation' : 'Occupation group';
 
   const bars = (rows, measure, kind) =>
     rows
@@ -195,7 +195,14 @@ export default function Q2({ lw, setLw, section }) {
   // The counties are the one answer that cannot be computed in the browser: it needs
   // a pay ladder per occupation per county, which lives only in the Core LMI county
   // slice. scripts/build_wagefloor.py does it once and commits the result.
-  const cty = WF.counties;
+  // Each county at the household the reader picked. byLw carries all eight,
+  // each computed the same way as the default -- the benchmark's position on
+  // every occupation's own ladder, weighted by its employment in that county --
+  // so overlaying it leaves the bars, the table and the read-out reading the
+  // same field names they always did.
+  const cty = WF.counties.map((r) => ({ ...r, ...((r.byLw || {})[lw] || {}) }));
+  const ctyRange = (WF.lwRangeBy || {})[lw] || WF.lwRange;
+  const ctyFloor = (WF.stateLw || {})[lw] || WF.lwA;
   // Grand Isle and Essex are a few thousand jobs each, and on this chart they land
   // at the two ends of the ranking. A figure resting on that little is a true
   // reading and a weak finding, and the chart cannot say so by itself.
@@ -298,7 +305,7 @@ export default function Q2({ lw, setLw, section }) {
                               ['Median earnings', money(r.m)],
                               ['Against the benchmark', (r.m / LWA).toFixed(2) + '\u00d7'],
                               ['Jobs', fmt(r.j)],
-                              ['Entry education', r.t],
+                              ['Typical entry education', r.t],
                               ['Occupation group', r.f],
                             ],
                           }))}
@@ -388,8 +395,10 @@ export default function Q2({ lw, setLw, section }) {
                   The share of each county’s jobs paying below a living wage. Switch the
                   benchmark between the county’s own cost floor and one statewide figure,
                   and watch which counties move — a high-wage county with a high floor can
-                  look better than it is on the statewide number.
+                  look better than it is on the statewide number. The household applies to
+                  both floors at once, so changing it never muddles the comparison.
                 </HowTo>
+                <LwPicker value={lw} onChange={setLw} />
                 <Picker id="q2-bench" label="Benchmark" options={BENCH}>
                   {(mode) => (
                     <Panel
@@ -401,10 +410,10 @@ export default function Q2({ lw, setLw, section }) {
                       note={countyFloorShift(cty, mode)}
                       cap={
                         mode === 'local'
-                          ? `Each county against its own living wage, which runs from ${money(WF.lwRange[0])} in the cheapest county to ${money(WF.lwRange[1])} in the dearest. Both benchmarks are one adult with no children — the only household type published per county — so the pair isolates geography and nothing else.${thinLine}`
-                          : `Every county against the statewide ${money(WF.lwA)}, which is how the rest of the dashboard reads them. Switch to each county’s own floor to see what that assumption costs.${thinLine}`
+                          ? `Each county against its own living wage for ${lw}, which runs from ${money(ctyRange[0])} in the cheapest county to ${money(ctyRange[1])} in the dearest. Both floors are the same household, so the pair isolates geography and nothing else.${thinLine}`
+                          : `Every county against the statewide ${money(ctyFloor)} for ${lw}, which is how the rest of the dashboard reads them. Switch to each county’s own floor to see what that assumption costs.${thinLine}`
                       }
-                      src={`Vermont occupation data by county, ${WF.year} · employees · the benchmark’s position read off each occupation’s own pay ladder, weighted by its employment in that county · county living wage, one adult, no children`}
+                      src={`Vermont occupation data by county, ${WF.year} · employees · the benchmark’s position read off each occupation’s own pay ladder, weighted by its employment in that county · county living wage, ${lw}`}
                       data={{
                         cols: floorCols(),
                         rows: cty,

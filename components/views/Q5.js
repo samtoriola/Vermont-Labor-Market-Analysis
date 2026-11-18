@@ -126,7 +126,7 @@ export default function Q5({ lw, setLw, section }) {
     stats: [
       [r.sc.toFixed(1), 'Opportunity score'],
       [fmt(r.j), 'Jobs today'],
-      [r.m ? money(r.m) : '\u2014', 'Typical pay'],
+      [r.m ? money(r.m) : '\u2014', 'Median pay'],
     ],
     note: `Each rank is this occupation against the ${fmt(O.nEligible)} scored ones, on that measure alone.`,
     cols: ['Component', 'Rank', 'Behind it'],
@@ -156,7 +156,7 @@ export default function Q5({ lw, setLw, section }) {
     stats: [
       [fmt(r.o), 'Openings a year'],
       [r.linked ? r.linked.toFixed(1) : 'none', 'Graduates attributed'],
-      [r.m ? money(r.m) : '\u2014', 'Typical pay'],
+      [r.m ? money(r.m) : '\u2014', 'Median pay'],
     ],
     note: `${r.supply}. Each signal is judged against other occupations needing ${r.t.toLowerCase()}.`,
     cols: ['Signal', 'This', 'Passes'],
@@ -257,11 +257,11 @@ export default function Q5({ lw, setLw, section }) {
                                       v: r[c.k] / 4,
                                       extra: [
                                         ['Jobs', fmt(r.j)],
-                                        ['Typical pay', r.m ? money(r.m) : '—'],
+                                        ['Median pay', r.m ? money(r.m) : '—'],
                                         ['Openings a year', fmt(r.o)],
                                         ['Ads per 100 jobs', r.pp],
                                         ['Projected by 2030', r.g === null || r.g === undefined ? '—' : r.g + '%'],
-                                        ['Entry credential', r.t],
+                                        ['Typical entry education', r.t],
                                       ],
                                     })),
                                     hi: r.sc.toFixed(1),
@@ -340,10 +340,10 @@ export default function Q5({ lw, setLw, section }) {
                             big: [[r.supply, 'VSCS pipeline']],
                             extra: [
                               ['Jobs', fmt(r.j)],
-                              ['Typical pay', r.m ? money(r.m) : '—'],
+                              ['Median pay', r.m ? money(r.m) : '—'],
                               ['Projected by 2030', r.g === null || r.g === undefined ? '—' : r.g + '%'],
                               ['Signals', r.signals.length ? r.signals.join(', ') : 'none'],
-                              ['Entry credential', r.t],
+                              ['Typical entry education', r.t],
                             ],
                           }))}
                           opts={{

@@ -138,7 +138,7 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'Employment · Occupation',
-                'Jobs, typical pay, entry credential and age mix across 22 occupation groups',
+                'Jobs, median pay, typical entry education and age mix across 22 occupation groups',
                 'Lightcast occupations · OEWS for the state and national reference bars',
                 'lightcast.json, compare.json',
                 '07_employment_occupation_groups.csv',
@@ -239,7 +239,7 @@ export default function Methods({ lw }) {
             {
               cells: [
                 'Regions · Counties compared',
-                'County jobs, typical pay, change since 2021, and what each county is concentrated in',
+                'County jobs, median pay, change since 2021, and what each county is concentrated in',
                 'Lightcast Core LMI county slice',
                 'counties.json',
                 '11_regions_counties.csv',
@@ -261,7 +261,7 @@ export default function Methods({ lw }) {
               'Lightcast’s 2021–2025 openings (195,571) ÷ 4 = 48,893 a year, 15.0% of employment. Not separations (202,870), which count job-to-job moves.',
             ],
             [
-              'Turnover',
+              'Replacement rate',
               'Separations over jobs. Includes people moving between employers, so it reads as churn, not unmet hiring need.',
             ],
             [
@@ -317,7 +317,7 @@ export default function Methods({ lw }) {
             ],
             [
               'Rates need a real base',
-              'Lightcast models employment to a fraction of a job, so growth, change and turnover are left blank below 10 jobs. Without the rule Gambling Managers reads 19,390% growth on 0.005 jobs. Suppresses ~120 of 796 occupations per measure, 0.11% of employment. A blank means the base was too small, not zero.',
+              'Lightcast models employment to a fraction of a job, so growth, change and the replacement rate are left blank below 10 jobs. Without the rule Gambling Managers reads 19,390% growth on 0.005 jobs. Suppresses ~120 of 796 occupations per measure, 0.11% of employment. A blank means the base was too small, not zero.',
             ],
             // --- Hidden for now ------------------------------------------
             // These three govern the person-level earnings charts on Workers,

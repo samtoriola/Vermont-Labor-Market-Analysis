@@ -24,8 +24,8 @@ const SECTOR_MEASURES = [
 
 const FAM_MEASURES = [
   { id: 'jobs', label: 'Share of jobs' },
-  { id: 'pay', label: 'Typical pay' },
-  { id: 'credential', label: 'Entry credential' },
+  { id: 'pay', label: 'Median pay' },
+  { id: 'credential', label: 'Typical entry education' },
   { id: 'age', label: 'Age mix' },
 ];
 
@@ -92,7 +92,7 @@ export default function Q1({ lw, section }) {
       stats: [
         [fmt(r.jobs), 'Jobs today'],
         [((r.jobs / TOTJ) * 100).toFixed(1) + '%', 'Of all VT jobs'],
-        [r.med ? money(r.med) : '—', 'Typical pay'],
+        [r.med ? money(r.med) : '—', 'Median pay'],
       ],
       onMore: () => famDrill(r),
     });
@@ -351,9 +351,9 @@ export default function Q1({ lw, section }) {
                     width,
                     rule: LWA,
                     ruleLabel: 'Living wage',
-                    valueLabel: 'Typical pay',
+                    valueLabel: 'Median pay',
                     clickHint: 'Click for the occupations inside it',
-                    aria: 'Typical pay by occupation group',
+                    aria: 'Median pay by occupation group',
                   }}
                 />
               )}

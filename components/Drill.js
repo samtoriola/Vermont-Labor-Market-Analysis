@@ -115,7 +115,7 @@ export function occDrill({ label, title, cap, occ, lwAnnual, extraStats = [] }) 
       ['Occupations', fmt(occ.length)],
       ['Jobs, 2025', fmt(jobs)],
       ['Below living wage', roll ? roll.below.toFixed(1) + '%' : '—'],
-      ['Turnover', turn === null ? '—' : turn.toFixed(1) + '%'],
+      ['Replacement rate', turn === null ? '—' : turn.toFixed(1) + '%'],
       ...extraStats,
     ],
     src:

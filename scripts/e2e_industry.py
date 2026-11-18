@@ -154,7 +154,7 @@ with sync_playwright() as pw:
     print("--- the credential measure packs one circle per occupation group ---")
     pg.locator(".sbitem", has_text="Occupation").first.click()
     pg.wait_for_timeout(700)
-    pg.locator(".rankctl .chips button", has_text="Entry credential").first.click()
+    pg.locator(".rankctl .chips button", has_text="Typical entry education").first.click()
     pg.wait_for_timeout(900)
 
     circles = pg.locator(".chart .bub circle")
