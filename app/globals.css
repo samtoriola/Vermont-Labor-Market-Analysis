@@ -589,6 +589,60 @@ section.view {
   margin-top: 3px;
 }
 
+/* The two postings lists in the county panel. Ranked, so they are an ol, and
+   the count sits right so the names stay scannable down the left. */
+.pcols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 14px 0 10px;
+}
+
+@media (max-width: 720px) {
+  .pcols {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pcol .k {
+  color: var(--ink-3);
+  font-family: var(--fig);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.plist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.plist li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+}
+
+.plist li:last-child {
+  border-bottom: 0;
+}
+
+.plist .pn {
+  flex: 1;
+  min-width: 0;
+}
+
+.plist .pv {
+  color: var(--ink-2);
+  font-family: var(--fig);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- charts ---------- */
 .chart {
   width: 100%;

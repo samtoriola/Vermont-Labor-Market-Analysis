@@ -34,6 +34,26 @@ export default function Q6({ lw, setLw, section }) {
     * alignment". It reaches the app as SOW.vscs.openCred and the chart had never
     * used it. All this does is split it by occupation group.
     */
+  // Degree type, where the data has it. byAwardFamily drops anything under
+  // 0.05 of a graduate, so a group can have a total with no mix behind it;
+  // every caller treats that as "not broken down" rather than as zero.
+  const AWARDS = V.awardOrder || [];
+  const awardMix = (f) => (V.byAwardFamily || {})[f] || null;
+  const awardRows = (f) => {
+    const m = awardMix(f);
+    return m ? AWARDS.filter((a) => m[a]).map((a) => [a, m[a].toFixed(1)]) : [];
+  };
+
+  // The award level most of a group's attributed graduates come out of. One
+  // stat rather than six: the pane is for a glance and the full mix is on the
+  // hover and in the table.
+  const topAward = (f) => {
+    const m = awardMix(f);
+    if (!m) return [];
+    const best = AWARDS.filter((a) => m[a]).sort((a, b) => m[b] - m[a])[0];
+    return best ? [[m[best].toFixed(1), 'Most from ' + best.toLowerCase()]] : [];
+  };
+
   const CRED_OPEN = credOpenByFamily();
   const famRows = V.byFamily.map((r) => ({
     ...r,
@@ -92,7 +112,11 @@ export default function Q6({ lw, setLw, section }) {
       stats: [
         [famShare(r) === null ? '—' : famShare(r).toFixed(0) + '%', 'Of the openings that ask'],
         [fmt(r.openCred), 'Openings asking'],
-        [r.linked.toFixed(1), 'Graduates'],
+        // Was 'Graduates', which is the one place on this tab a reader could
+        // take the figure for a headcount. It is an allocation, like every
+        // other `linked` here, and the tooltip and the table both say so.
+        [r.linked.toFixed(1), 'Graduates attributed'],
+        ...topAward(r.f),
       ],
       onMore: () => famDrill(r),
     });
@@ -228,6 +252,12 @@ export default function Q6({ lw, setLw, section }) {
                               kind: 'rate',
                               get: (r) => (r.openAll ? (r.linked / r.openAll) * 100 : null),
                             },
+                            ...AWARDS.map((a) => ({
+                              k: 'aw_' + a,
+                              label: a,
+                              kind: 'num1',
+                              get: (r) => (awardMix(r.f) || {})[a] || null,
+                            })),
                             { k: 'jobs', label: 'Jobs', kind: 'num', get: (r) => r.jobs },
                           ],
                           // Every group, including the three with nothing to divide
@@ -263,6 +293,7 @@ export default function Q6({ lw, setLw, section }) {
                                   ['All openings a year', fmt(r.openAll)],
                                   ['Against all openings', r.openAll ? ((r.linked / r.openAll) * 100).toFixed(1) + '%' : '—'],
                                   ['Graduates attributed', r.linked.toFixed(1)],
+                                  ...awardRows(r.f),
                                   ['Jobs', fmt(r.jobs)],
                                 ],
                               }))}

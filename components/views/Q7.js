@@ -6,6 +6,7 @@ import { CTY, SOW, lwAnnual } from '@/lib/data';
 import { fmt, money } from '@/lib/format';
 import { countyCols, countyMixCols } from '@/lib/tables';
 import { Callout, HowTo, Legend, Panel, Picker, VHead, LwPicker, N } from '../ui';
+import { CPOST } from '@/lib/data';
 import { RankedBars } from '../charts';
 import { Heatmap, HEAT_STEPS, HEAT_COLORS, HEAT_PRINT_FROM } from '../heatmap';
 import VermontMap from '../VermontMap';
@@ -87,8 +88,62 @@ export default function Q7({ lw, setLw, section }) {
           Vermont for comparison: <N>{wBa.toFixed(1)}%</N> BA+ (population-weighted),
           a typical job at <N>{money(ST.med)}</N>, living wage <N>$23.95</N>/hr statewide.
         </p>
+        {posts(picked.c)}
       </Panel>
     ) : null;
+
+  /**
+   * Who advertises in a county, and in what.
+   *
+   * POSTINGS, NOT PAYROLL. This is the only place on the dashboard that names an
+   * employer, and the temptation is to read it as "the biggest employers here".
+   * It is not that and cannot be made into that from this data: a posting counts
+   * once however many people it hires, an employer that never advertises never
+   * appears, and the county on a posting is where the company filed it. The
+   * caption says so in the panel rather than only in Methods, because someone
+   * who reads nothing else will read this.
+   *
+   * Lightcast resolves a company name per posting and does not always resolve the
+   * same employer to one name -- Chittenden shows both "The University Of Vermont
+   * Me(dical Center)" and "Uvm Medical Center" -- so the ranking is of names, not
+   * of legal entities.
+   */
+  const posts = (name) => {
+    const k = Object.keys(CPOST.counties).filter(
+      (id) => CPOST.counties[id].c === name
+    )[0];
+    const d = k ? CPOST.counties[k] : null;
+    if (!d || (!d.employers.length && !d.industries.length)) return null;
+    const list = (title, items) => (
+      <div className="pcol">
+        <div className="k">{title}</div>
+        <ol className="plist">
+          {items.map((x) => (
+            <li key={x.n}>
+              <span className="pn">{x.n}</span>
+              <span className="pv">{fmt(x.p)}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    );
+    return (
+      <>
+        <div className="pcols">
+          {list('Advertises most', d.employers)}
+          {list('Most advertised industries', d.industries)}
+        </div>
+        <p className="cap" style={{ margin: 0 }}>
+          Job postings, {CPOST.window}, {fmt(d.postings)} in this county — who{' '}
+          <strong>advertises</strong>, not who employs. One posting counts once however
+          many people it hires, and an employer that rarely advertises does not appear.
+          Explicitly remote roles are excluded: a posting carries the county the employer
+          filed it from, which puts national employers in the county holding their
+          registered address.
+        </p>
+      </>
+    );
+  };
 
   // Every county-and-family pair, the figures behind the grid. One row each
   // rather than a 22-column table nobody can read on a laptop.

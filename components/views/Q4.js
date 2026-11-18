@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import {
-  DATA, LC, TIER_ORDER, SERIES,
+  DATA, LC, SOW, TIER_ORDER, SERIES,
   lwAnnual, occByTier, credentialFunnel,
 } from '@/lib/data';
 import { pooledLadder, rollUp, rollUpOn, shareBelow, occBox } from '@/lib/wage';
@@ -53,6 +54,95 @@ const CRED_MEASURES = [
   { id: 'ladder', label: 'The pay ladder' },
   { id: 'jobs', label: 'Share of jobs' },
 ];
+
+/**
+ * One VSCS programme against the credential ladder.
+ *
+ * The select rather than chips: there are 149 programmes and the reader is
+ * looking one up, not comparing a handful. Ordered by size, because the ones
+ * worth opening first are the ones with graduates in them.
+ */
+function ProgramOverlap() {
+  const progs = (SOW.vscs.byCip || []).filter((p) => p.c > 0);
+  const [cip, setCip] = useState(progs.length ? progs[0].cip : null);
+  if (!progs.length) return null;
+  const p = progs.filter((x) => x.cip === cip)[0] || progs[0];
+  const mix = p.tierMix || {};
+  const tiers = TIER_ORDER.filter((t) => mix[t]);
+  const placed = tiers.reduce((a, t) => a + mix[t], 0);
+
+  return (
+    <Panel
+      title="Where does one programme's output land on the ladder?"
+      cap={
+        `Graduates attributed to each entry credential, for one VSCS programme. These are the ` +
+        `credentials the WORK asks for, not the award the programme grants — a certificate ` +
+        `programme can feed occupations entered at a bachelor's, and several do. The split is ` +
+        `the same employment-weighted allocation the VSCS alignment tab uses, so it is modelled ` +
+        `rather than observed.`
+      }
+      src={`Federal completions data, 2024 · ${fmt(progs.length)} programmes · programme-to-occupation crosswalk · Vermont occupation data, 2025`}
+      data={{
+        cols: [
+          { k: 'n', label: 'Programme', kind: 'text', get: (r) => r.n },
+          { k: 'cip', label: 'CIP code', kind: 'text', get: (r) => r.cip },
+          { k: 'c', label: 'Completions', kind: 'num1', get: (r) => r.c },
+          { k: 'linked', label: 'Graduates attributed', kind: 'num1', get: (r) => r.linked },
+          { k: 'nsoc', label: 'Occupations linked', kind: 'num', get: (r) => r.nsoc },
+          ...TIER_ORDER.map((t) => ({
+            k: 'tm_' + t, label: t, kind: 'num1',
+            get: (r) => (r.tierMix || {})[t] || null,
+          })),
+        ],
+        rows: progs,
+        label: 'vscs-programmes-by-credential',
+        initialSort: { k: 'c', dir: -1 },
+        unit: 'programmes',
+      }}
+    >
+      <div className="ctrls">
+        <label htmlFor="cip-select">
+          <span>Programme</span>
+          <select id="cip-select" value={p.cip} onChange={(e) => setCip(e.target.value)}>
+            {progs.map((x) => (
+              <option key={x.cip} value={x.cip}>
+                {x.n.replace(/\.$/, '')} — {x.c.toFixed(0)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <span className="ctrlnote">
+          {fmt(p.c)} completions · {p.nsoc ? `${fmt(p.nsoc)} linked occupations` : 'no linked occupation in Vermont'}
+        </span>
+      </div>
+      {tiers.length ? (
+        <>
+          <ol className="plist">
+            {tiers.map((t) => (
+              <li key={t}>
+                <span className="pn">{t}</span>
+                <span className="pv">{mix[t].toFixed(1)}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="cap" style={{ margin: '10px 0 0' }}>
+            {placed.toFixed(1)} of this programme&rsquo;s {fmt(p.c)} completions land in a Vermont
+            occupation with a listed entry credential
+            {tiers.length > 1
+              ? `, spread across ${tiers.length} rungs — which is the overlap: one programme is not one rung.`
+              : ', all on one rung.'}
+          </p>
+        </>
+      ) : (
+        <p className="cap" style={{ margin: 0 }}>
+          The crosswalk links this programme to no Vermont occupation carrying an entry
+          credential, so there is no rung to place its graduates on. Its completions are
+          still counted in the 1,983 total.
+        </p>
+      )}
+    </Panel>
+  );
+}
 
 export default function Q4({ lw, setLw, section }) {
   const LWA = lwAnnual(lw);
@@ -369,7 +459,8 @@ export default function Q4({ lw, setLw, section }) {
                   there. These are the credentials
                   <strong> jobs ask for</strong>, not the ones workers hold — the Workers
                   tab answers that, and the two do not match. Click a rung for the
-                  occupations at that level.
+                  occupations at that level. The panel underneath takes one VSCS
+                  programme and shows which rungs its graduates reach.
                 </HowTo>
                 <Picker id="q4-cred" label="Measure" options={CRED_MEASURES}>
                 {(m) => {
@@ -390,6 +481,7 @@ export default function Q4({ lw, setLw, section }) {
                   );
                 }}
                 </Picker>
+                <ProgramOverlap />
               </>
             ),
           },
