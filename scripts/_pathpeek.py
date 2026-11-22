@@ -1,0 +1,25 @@
+"""Shape dump for the Pathways rebuild. Reads committed JSON only."""
+import io, json, os, sys
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+H = os.path.dirname(os.path.abspath(__file__))
+D = lambda n: json.load(io.open(os.path.join(H, "..", "data", n), encoding="utf-8"))
+
+LC, PCT, SOW = D("lightcast.json"), D("percentiles.json"), D("sow.json")
+
+print("LC keys:", sorted(LC.keys()))
+print()
+print("tiers[0]:", json.dumps(LC["tiers"][0], indent=1)[:900])
+print()
+print("allOcc[0]:", json.dumps(LC["allOcc"][0], indent=1)[:700])
+print()
+print("PCT keys:", sorted(PCT.keys()))
+print("PCT.tiers keys:", sorted(PCT["tiers"].keys()))
+print("PCT.tiers sample:", json.dumps(PCT["tiers"][sorted(PCT["tiers"])[0]]))
+print("PCT.occ sample:", json.dumps(PCT["occ"][sorted(PCT["occ"])[0]]))
+print()
+print("SOW keys:", sorted(SOW.keys()))
+print("SOW.vscs keys:", sorted(SOW["vscs"].keys()) if isinstance(SOW.get("vscs"), dict) else None)
+print()
+print("livingWage:", LC.get("livingWage"))
+print("defaultLW:", LC.get("defaultLW"), "hours:", LC.get("hours"))
+print("tier order seen:", [r["t"] for r in LC["tiers"]])

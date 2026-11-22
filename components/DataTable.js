@@ -28,6 +28,10 @@ export function render(kind, v) {
       return money(v);
     case 'pct':
       return (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+    // One rate minus another. Signed like pct and coloured like pct, but the
+    // unit is points, and saying so is the whole reason the kind exists.
+    case 'pp':
+      return (v > 0 ? '+' : '') + v.toFixed(1) + ' pp';
     case 'rate':
       return v.toFixed(1) + '%';
     case 'x':
@@ -37,10 +41,10 @@ export function render(kind, v) {
   }
 }
 
-/** pct cells carry direction in color as well as sign. */
+/** pct and pp cells carry direction in color as well as sign. */
 function cellClass(kind, v) {
   if (kind === 'text') return undefined;
-  if (kind === 'pct' && typeof v === 'number') {
+  if ((kind === 'pct' || kind === 'pp') && typeof v === 'number') {
     if (v > 0) return 'up';
     if (v < 0) return 'down';
   }

@@ -1,0 +1,18 @@
+import json, os
+H = os.path.dirname(os.path.abspath(__file__))
+D = lambda n: json.load(open(os.path.join(H, "..", "data", n), encoding="utf-8"))
+lc, pct = D("lightcast.json"), D("percentiles.json")
+print("allOcc[0]:", json.dumps(lc["allOcc"][0]))
+print()
+print("topOcc[0]:", json.dumps(lc["topOcc"][0]))
+print()
+k = list(pct["occ"])[:3]
+print("pct.occ sample keys:", k)
+print("pct.occ[k0]:", json.dumps(pct["occ"][k[0]]))
+print()
+print("pct.families sample:", list(pct["families"])[:2])
+print("pct.families[0]:", json.dumps(pct["families"][list(pct["families"])[0]]))
+print("pct.statewide:", json.dumps(pct["statewide"]))
+print("pct.tiers keys:", list(pct["tiers"]))
+print()
+print("families[0]:", json.dumps(lc["families"][0])[:700])

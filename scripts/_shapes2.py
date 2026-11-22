@@ -1,0 +1,10 @@
+import io, json, os, sys
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+H = os.path.dirname(os.path.abspath(__file__))
+D = lambda n: json.load(io.open(os.path.join(H, "..", "data", n), encoding="utf-8"))
+LC = D("lightcast.json")
+print("sectors[0]:", json.dumps(LC["sectors"][0]))
+print("families[0]:", json.dumps(LC["families"][0]))
+print("counties[0]:", json.dumps(D("counties.json")["counties"][0])[:260])
+print("wagefloor[0]:", json.dumps(D("wagefloor.json")["counties"][0]))
+print("wagefloor keys:", sorted(D("wagefloor.json").keys()))

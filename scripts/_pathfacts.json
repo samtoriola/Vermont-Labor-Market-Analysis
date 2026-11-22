@@ -1,0 +1,206 @@
+{
+ "lwa": 49816.0,
+ "lw": "1 adult, no children",
+ "rows": [
+  {
+   "t": "No formal credential",
+   "short": "No formal credential",
+   "jobsAll": 69201,
+   "share": 21.2,
+   "nocc": 106,
+   "med": 41178,
+   "open": 13772,
+   "jobs": 69201,
+   "belowN": 56925,
+   "below": 82.26028522599535,
+   "above": 17.739714774004653,
+   "aboveOld": 10.1,
+   "box": {
+    "p10": 31126,
+    "p25": 34872,
+    "p50": 39345,
+    "p75": 46890,
+    "p90": 55699
+   },
+   "boxPub": {
+    "p10": 32518,
+    "p25": 35905,
+    "p50": 41178,
+    "p75": 47770,
+    "p90": 55583
+   },
+   "spread": 1.7894686114502345,
+   "spreadPub": 1.7092994649117412
+  },
+  {
+   "t": "High school",
+   "short": "High school",
+   "jobsAll": 113285,
+   "share": 34.7,
+   "nocc": 330,
+   "med": 53071,
+   "open": 17507,
+   "jobs": 113285,
+   "belowN": 56104,
+   "below": 49.52446982213782,
+   "above": 50.47553017786218,
+   "aboveOld": 47.6,
+   "box": {
+    "p10": 36771,
+    "p25": 42470,
+    "p50": 49996,
+    "p75": 62210,
+    "p90": 77000
+   },
+   "boxPub": {
+    "p10": 40536,
+    "p25": 46043,
+    "p50": 53071,
+    "p75": 62322,
+    "p90": 73349
+   },
+   "spread": 2.0940415000951837,
+   "spreadPub": 1.8094779948687587
+  },
+  {
+   "t": "Sub-baccalaureate",
+   "short": "Sub-baccalaureate",
+   "jobsAll": 36770,
+   "share": 11.3,
+   "nocc": 104,
+   "med": 57371,
+   "open": 5233,
+   "jobs": 36769,
+   "belowN": 14355,
+   "below": 39.04058718019888,
+   "above": 60.95941281980112,
+   "aboveOld": 62.0,
+   "box": {
+    "p10": 39767,
+    "p25": 46344,
+    "p50": 53536,
+    "p75": 67019,
+    "p90": 83186
+   },
+   "boxPub": {
+    "p10": 43361,
+    "p25": 49700,
+    "p50": 57371,
+    "p75": 65511,
+    "p90": 76071
+   },
+   "spread": 2.0918349385168606,
+   "spreadPub": 1.7543645211134429
+  },
+  {
+   "t": "Bachelor's",
+   "short": "Bachelor's",
+   "jobsAll": 85463,
+   "share": 26.2,
+   "nocc": 180,
+   "med": 89429,
+   "open": 10024,
+   "jobs": 85463,
+   "belowN": 5764,
+   "below": 6.743930387836844,
+   "above": 93.25606961216316,
+   "aboveOld": 97.0,
+   "box": {
+    "p10": 53378,
+    "p25": 65769,
+    "p50": 85398,
+    "p75": 112230,
+    "p90": 150997
+   },
+   "boxPub": {
+    "p10": 61920,
+    "p25": 72815,
+    "p50": 89429,
+    "p75": 112767,
+    "p90": 142579
+   },
+   "spread": 2.828824609389636,
+   "spreadPub": 2.3026324289405684
+  },
+  {
+   "t": "Graduate / professional",
+   "short": "Graduate / professional",
+   "jobsAll": 20413,
+   "share": 6.3,
+   "nocc": 76,
+   "med": 118831,
+   "open": 2180,
+   "jobs": 20413,
+   "belowN": 445,
+   "below": 2.180598857304956,
+   "above": 97.81940114269504,
+   "aboveOld": 100.0,
+   "box": {
+    "p10": 60056,
+    "p25": 72861,
+    "p50": 98811,
+    "p75": 142060,
+    "p90": 217448
+   },
+   "boxPub": {
+    "p10": 76506,
+    "p25": 94586,
+    "p50": 118831,
+    "p75": 150903,
+    "p90": 192630
+   },
+   "spread": 3.6207539629678966,
+   "spreadPub": 2.5178417379029097
+  }
+ ],
+ "funnel": [
+  {
+   "t": "No formal credential",
+   "nAll": 106,
+   "nHiring": 35,
+   "nPaying": 3,
+   "openAll": 13772.8,
+   "openPaying": 1189.5,
+   "jobsPaying": 5494.0
+  },
+  {
+   "t": "High school",
+   "nAll": 330,
+   "nHiring": 74,
+   "nPaying": 41,
+   "openAll": 17507.0,
+   "openPaying": 5215.5,
+   "jobsPaying": 40968.9
+  },
+  {
+   "t": "Sub-baccalaureate",
+   "nAll": 104,
+   "nHiring": 21,
+   "nPaying": 12,
+   "openAll": 5232.5,
+   "openPaying": 1927.0,
+   "jobsPaying": 15230.699999999999
+  },
+  {
+   "t": "Bachelor's",
+   "nAll": 180,
+   "nHiring": 45,
+   "nPaying": 44,
+   "openAll": 10023.8,
+   "openPaying": 7304.9,
+   "jobsPaying": 64733.8
+  },
+  {
+   "t": "Graduate / professional",
+   "nAll": 76,
+   "nHiring": 9,
+   "nPaying": 9,
+   "openAll": 2179.7000000000003,
+   "openPaying": 1288.9,
+   "jobsPaying": 12735.1
+  }
+ ],
+ "minOpen": 50,
+ "totalJobs": 326582,
+ "pricedJobs": 325131
+}

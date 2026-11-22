@@ -234,7 +234,9 @@ export default function Q3({ lw, setLw, section }) {
         'Projected five-year growth minus the change already observed between 2021 and ' +
         '2025, in percentage points. To the right is a group expected to pick up pace; to ' +
         'the left, one expected to grow more slowly than it just did — which includes ' +
-        'groups that are still growing.',
+        'groups that are still growing. Where the two point opposite ways the gap is ' +
+        'wider than either of them: a group that fell 6 points and is projected to rise ' +
+        '8 shows 14.',
       src: 'Vermont occupation data · 2030 projection against 2025 jobs, and 2025 against 2021',
       table: 'projected-against-observed',
       sort: { k: 'g5pct', dir: -1 },
@@ -246,7 +248,7 @@ export default function Q3({ lw, setLw, section }) {
                 label: r.f,
                 value: r.gap,
                 color: r.gap >= 0 ? '--good' : '--bad',
-                mode: 'pct',
+                mode: 'pp',
                 onClick: () => famDrill(r.f),
                 big: [[fmt(r.jobs), 'Jobs today']],
                 extra: [
@@ -256,7 +258,7 @@ export default function Q3({ lw, setLw, section }) {
                 ],
               }))}
               opts={{
-                mode: 'pct',
+                mode: 'pp',
                 signed: true,
                 valueLabel: 'Projection minus what happened',
                 clickHint: 'Click for the occupations inside it',
