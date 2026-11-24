@@ -87,11 +87,15 @@ def state_below(lw_key):
 
 
 OPEN = LC["openTotal"] / LC["openYears"]
+# Net change, which is what the page used to print, and gross -- the jobs added
+# over the occupations the projection puts up, which is what it prints now.
 ADDED = sum((o.get("g5") or 0) for o in LC["allOcc"]) / 5
+GROSS = sum(max(o.get("g5") or 0, 0) for o in LC["allOcc"]) / 5
 BELOW_DEFAULT = state_below(LC["defaultLW"])
 
-print("expected: openings %s/yr, added %s/yr, below %.1f%%"
-      % ("{:,.0f}".format(OPEN), "{:,.0f}".format(ADDED), BELOW_DEFAULT))
+print("expected: openings %s/yr, added %s/yr gross (%s/yr net), below %.1f%%"
+      % ("{:,.0f}".format(OPEN), "{:,.0f}".format(GROSS),
+         "{:,.0f}".format(ADDED), BELOW_DEFAULT))
 
 # Words the output must not contain, mirroring check_report_language.py.
 BANNED = ["best", "worst", "poor", "problem", "crisis", "failing", "underpaid",
@@ -336,7 +340,133 @@ with sync_playwright() as pw:
     elif vscs:
         print("  VSCS table still ends on %s, a group under one graduate" % vscs[0]["last"])
 
-    # ---- 4b. the one-pager is one page -------------------------------
+    # ---- 4b. the headlines that state a shape, at every benchmark ----
+    # Five more claims went the way the replacement one did, and four of them
+    # were wrong at a benchmark that is not the default:
+    #
+    #   credential ladder   "rises with the credential the work asks for" --
+    #                       it falls at a rung at three of the eight, and is
+    #                       flat at 100% at two more
+    #   openings split      counted NET job change as "jobs the projection
+    #                       creates", netting 171 shrinking occupations against
+    #                       the rest
+    #   group geography     "where the group is a larger share of local jobs"
+    #                       over the six highest local shares, which for nine
+    #                       of the 22 groups included counties below the state
+    #   county mix          named the group that differs most from the state
+    #                       without putting it in the table, in 5 of 14
+    #   replacement run     run = 0 at the two-earner benchmark printed
+    #                       "under -Infinity% of jobs"
+    #
+    # So the shape is recomputed here and the headline has to match it.
+    print("\n--- headlines that state a shape ---")
+
+    TIERS = ["No formal credential", "High school", "Sub-baccalaureate",
+             "Bachelor's", "Graduate / professional"]
+    trow = {t["t"]: t for t in LC["tiers"]}
+    seen = {"rises": 0, "spans": 0, "same": 0}
+    for key in LC["livingWage"]:
+        pg.locator("#lw-select").select_option(value=key)
+        pg.wait_for_timeout(620)
+        heads = pg.eval_on_selector_all(
+            "#rpt-out .rfnd h4",
+            "e => e.map(x => x.textContent.replace(/\\s+/g, ' ').trim())")
+        lad = [h for h in heads
+               if "clear" in h.lower() and ("credential" in h.lower() or "rung" in h.lower())]
+        vals = [trow[t]["above"][key] for t in TIERS if t in trow]
+        mono = all(b >= a - 0.05 for a, b in zip(vals, vals[1:]))
+        flat = max(vals) - min(vals) < 0.05
+        if not lad:
+            fails.append("no credential-ladder headline at %r" % key)
+        else:
+            h = lad[0]
+            if flat:
+                ok, seen["same"] = "same share" in h, seen["same"] + 1
+            elif mono:
+                ok, seen["rises"] = "rises at every rung" in h, seen["rises"] + 1
+            else:
+                ok, seen["spans"] = ("spans" in h and "rises" not in h), seen["spans"] + 1
+            if not ok:
+                fails.append("at %r the ladder is %s, and the headline reads %r"
+                             % (key, "flat" if flat else "rising" if mono
+                                else "not monotonic", h))
+        # Nothing anywhere in the output may print a non-finite figure.
+        t_k = out_text(pg)
+        for junk in ["Infinity", "NaN", "undefined"]:
+            if junk in t_k:
+                fails.append("at %r the report prints %r" % (key, junk))
+    print("  credential ladder: %d rising, %d spanning, %d flat, over %d benchmarks"
+          % (seen["rises"], seen["spans"], seen["same"], len(LC["livingWage"])))
+    pg.locator("#lw-select").select_option(value=LC["defaultLW"])
+    pg.wait_for_timeout(650)
+
+    # Growth openings are the jobs ADDED, over the occupations the projection
+    # puts up. Netting the ones it puts down against them understated the added
+    # side by 12% and put the ratio at 22.7 refills per added job, not 19.8.
+    t = out_text(pg)
+    if "{:,}".format(round(GROSS)) not in t:
+        fails.append("the openings split does not print %s, the jobs added a year"
+                     % "{:,}".format(round(GROSS)))
+    elif ("%.1f" % round((OPEN - GROSS) / GROSS, 1)) not in t:
+        fails.append("the openings split does not print the ratio %.1f"
+                     % round((OPEN - GROSS) / GROSS, 1))
+    else:
+        print("  openings split: %s added a year, %.1f refilled per added job"
+              % ("{:,}".format(round(GROSS)), (OPEN - GROSS) / GROSS))
+
+    # The group a reading names has to have a row under it.
+    pick_chip(pg, "Scope", "A county")
+    opts = pg.locator("#rpt-pick option")
+    missing = []
+    for i in range(opts.count()):
+        pg.locator("#rpt-pick").select_option(value=opts.nth(i).get_attribute("value"))
+        pg.wait_for_timeout(380)
+        got = pg.evaluate("""() => {
+          const f = Array.from(document.querySelectorAll('.rfnd')).filter(
+            (x) => /Occupation mix/.test(x.querySelector('h4').textContent))[0];
+          if (!f) return null;
+          return { read: (f.querySelector('.rread') || {}).textContent || '',
+                   rows: Array.from(f.querySelectorAll('tbody tr td:first-child'))
+                          .map((td) => td.textContent.trim()) };
+        }""")
+        if not got:
+            continue
+        named = got["read"].split(" differs most")[0].strip()
+        if named and named not in got["rows"]:
+            missing.append(named)
+    if missing:
+        fails.append("the mix reading names a group with no row beneath it: %s" % missing)
+    else:
+        print("  occupation mix: the group named as differing most has a row in all "
+              "%d counties" % opts.count())
+
+    # And the geography bars carry the statewide share, so the comparison the
+    # headline used to assert is on the page instead.
+    pick_chip(pg, "Scope", "An occupation group")
+    gopts = pg.locator("#rpt-pick option")
+    vals = [gopts.nth(i).get_attribute("value") for i in range(gopts.count())]
+    for val in [v for v in vals if "Healthcare Support" in (v or "")] or vals[:1]:
+        pg.locator("#rpt-pick").select_option(value=val)
+        pg.wait_for_timeout(520)
+        got = pg.evaluate("""() => {
+          const f = Array.from(document.querySelectorAll('.rfnd')).filter(
+            (x) => /counties/.test(x.querySelector('h4').textContent))[0];
+          if (!f) return null;
+          return { head: f.querySelector('h4').textContent,
+                   bars: Array.from(f.querySelectorAll('.rbl')).map((b) => b.textContent) };
+        }""")
+        if not got:
+            fails.append("%s carries no geography finding" % val)
+        elif "larger share" in got["head"]:
+            fails.append("%s still claims its counties hold a larger share" % val)
+        elif not [b for b in got["bars"] if "Vermont" in b]:
+            fails.append("%s: the geography bars carry no statewide row to compare "
+                         "against" % val)
+        else:
+            print("  %s: the bars carry the statewide share" % val)
+    pick_chip(pg, "Scope", "Vermont")
+
+    # ---- 4c. the one-pager is one page -------------------------------
     # The name is a promise, and it is the promise that breaks quietly: adding
     # a finding, or a county whose name wraps a headline, costs a line and the
     # document silently becomes two pages. Counted from a real PDF rather than
