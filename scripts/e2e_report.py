@@ -200,6 +200,46 @@ with sync_playwright() as pw:
     if pg.locator("#rpt-out .rslide:not(.off)").count() != 1:
         fails.append("after paging, the deck does not show exactly one slide")
 
+    # ---- 3b. no slide silently drops a row ----------------------------
+    # The frame is fixed 16:9 and clips rather than scrolls, so content that
+    # does not fit simply disappears -- at its worst a source line reading
+    # "five highest replacement rates, and the lowest" sat above four rows.
+    # Measured with rectangles, not scrollHeight: the fit box is scaled with a
+    # transform, which layout metrics do not see.
+    CLIP = """() => {
+      const s = document.querySelector('.rslide:not(.off)');
+      const bdy = s.querySelector('.rbody');
+      if (!bdy) return { over: 0, head: '' };
+      const inner = bdy.firstElementChild;
+      const br = bdy.getBoundingClientRect();
+      let bottom = br.top;
+      Array.from(inner ? inner.children : []).forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.height) bottom = Math.max(bottom, r.bottom);
+      });
+      return { over: Math.round(bottom - br.bottom),
+               head: s.querySelector('h3').textContent.slice(0, 44) };
+    }"""
+
+    def clip_scan(tag):
+        n = pg.locator(".rdots .rdot").count()
+        worst = []
+        for i in range(n):
+            pg.locator(".rdots .rdot").nth(i).click()
+            pg.wait_for_timeout(190)
+            o = pg.evaluate(CLIP)
+            # Up to 6px is the last row's own border, not a dropped row.
+            if o["over"] > 6:
+                worst.append((i + 1, o["over"], o["head"]))
+        print("  %-22s %d slides, clipped: %s" % (tag, n, worst or "none"))
+        if worst:
+            fails.append("%s: slides clip their content: %s" % (tag, worst))
+        return n
+
+    print()
+    pick_chip(pg, "Format", "Slide deck")
+    clip_scan("Vermont")
+
     # ---- 4. every scope builds
     print("\n--- every scope ---")
     for group, label, sel_id, n_expect in [
@@ -230,6 +270,43 @@ with sync_playwright() as pw:
             if bad:
                 fails.append("%s = %r prints a word that grades: %s" % (label, val, bad))
         print("    sampled %d of them, all built" % len(idx))
+        # The deck for this scope, on the option left selected above.
+        pick_chip(pg, "Format", "Slide deck")
+        clip_scan(label)
+        pick_chip(pg, "Format", "One-pager")
+
+    # ---- 4b. the one-pager is one page -------------------------------
+    # The name is a promise, and it is the promise that breaks quietly: adding
+    # a finding, or a county whose name wraps a headline, costs a line and the
+    # document silently becomes two pages. Counted from a real PDF rather than
+    # from element heights, because the panel's own chrome printing above the
+    # report is what made it five pages the first time and no element
+    # measurement of the report itself would have shown that.
+    print()
+    pick_chip(pg, "Format", "One-pager")
+    for label in ["Vermont", "A county", "An occupation group", "A VSCS program"]:
+        pick_chip(pg, "Scope", label)
+        pdf = pg.pdf(format="Letter", print_background=True,
+                     margin={"top": "0.5in", "bottom": "0.5in",
+                             "left": "0.5in", "right": "0.5in"})
+        n = len(re.findall(rb"/Type\s*/Page[^s]", pdf))
+        print("  one-pager / %-22s %d page(s)" % (label, n))
+        if n != 1:
+            fails.append("the one-pager prints %d pages for %s" % (n, label))
+
+    # The deck is the opposite promise: every slide on its own page, not just
+    # the one the viewer happens to be showing.
+    pick_chip(pg, "Scope", "Vermont")
+    pick_chip(pg, "Format", "Slide deck")
+    want = pg.locator("#rpt-out .rslide").count()
+    pdf = pg.pdf(format="Letter", print_background=True,
+                 margin={"top": "0.5in", "bottom": "0.5in",
+                         "left": "0.5in", "right": "0.5in"})
+    n = len(re.findall(rb"/Type\s*/Page[^s]", pdf))
+    print("  deck / Vermont             %d page(s) for %d slides" % (n, want))
+    if n != want:
+        fails.append("the deck prints %d pages for %d slides" % (n, want))
+    pick_chip(pg, "Format", "One-pager")
 
     # ---- 5. back to Vermont, and the rendered text stays clean
     pick_chip(pg, "Scope", "Vermont")

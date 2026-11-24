@@ -2532,14 +2532,35 @@ thead th[aria-sort='descending'] .sortmark {
 
 .rslide .rbody { flex: 1; min-height: 0; margin-top: 1.7cqw; overflow: hidden; }
 
+/* The scaled inner box. Width is divided back out so the content lays out at
+   full width and is then shrunk, rather than reflowing into a narrow column. */
+.rfit,
+.rslide .rpills {
+  transform: scale(var(--fit, 1));
+  transform-origin: top left;
+  width: calc(100% / var(--fit, 1));
+}
+
 .rslide p { margin: 0.9cqw 0 0; color: var(--ink-2); }
 
 .rslide .rstats { gap: 3cqw; margin: 0 0 1.2cqw; }
 .rslide .rstat .rv { font-size: 3.6cqw; }
 .rslide .rstat .rk { font-size: 1.35cqw; }
 
-.rslide .rbars { gap: 1.2cqw; margin: 1.2cqw 0 0; }
-.rslide .rbl { font-size: 1.5cqw; }
+.rslide .rbars { gap: 1.1cqw; margin: 1.1cqw 0 0; }
+
+/* On a slide a bar row is one line. Wrapped labels were what pushed eight
+   benchmark bars past the frame, and the frame clips rather than scrolls, so
+   the overflow removed bars with nothing saying so. The label column is wider
+   here than on the page for the same reason. */
+.rslide .rbar { grid-template-columns: minmax(0, 1.5fr) 1fr auto; }
+
+.rslide .rbl {
+  font-size: 1.45cqw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .rslide .rtrk { height: 1.9cqw; }
 .rslide .rbv { font-size: 1.6cqw; }
 
@@ -2643,13 +2664,17 @@ thead th[aria-sort='descending'] .sortmark {
    with a single slide in it would be the quietest possible bug. */
 
 @media print {
+  /* Screen furniture. The class names matter: .pnlhead and .pnlfoot were
+     guesses and do not exist, so the panel's own title and source line printed
+     at the top of the document and cost it the page it was being squeezed
+     onto. They are .panel-head and .srcline. */
   .sidebar,
   .top,
   .rptctl,
   .howto,
   .rdeckbar,
-  .pnlhead button,
-  .pnlfoot,
+  .panel-head,
+  .srcline,
   .tipcard {
     display: none !important;
   }
@@ -2716,7 +2741,58 @@ thead th[aria-sort='descending'] .sortmark {
   .rslide .rread { font-size: 11pt; border-left-width: 3pt; padding-left: 8pt; }
   .rslide .rpill { font-size: 10pt; border-left-width: 4pt; border-radius: 3pt; padding: 8pt 10pt; }
 
-  .rfnd { break-inside: avoid; }
+  /* ---- the one-pager is one page ----
+     Everything below exists to hold it there. The screen keeps its own sizes;
+     these apply only to paper, where the budget is about 960px of content for
+     a header, a figure strip, seven findings and the caveats. */
+
+  .rpage { font-size: 8pt; line-height: 1.4; }
+  .rhead { padding-bottom: 5pt; }
+  .rhead h3 { font-size: 14pt; margin-top: 3pt; }
+  .rstand { font-size: 7.5pt; margin-top: 3pt; }
+  .rkick { font-size: 6pt; }
+  .rcell { padding: 4pt 5pt 5pt; }
+  .rcell .rv { font-size: 11pt; }
+  .rcell .rk { font-size: 5.5pt; }
+
+  .rfnds { gap: 0 16pt; }
+  /* On paper every finding flows into a track: the full-width span exists for
+     the screen, where the type is twice the size and a wide table would clip. */
+  .rfnd.wide { grid-column: auto; }
+  .rfnd { break-inside: avoid; padding: 5pt 0 6pt; }
+  .rfnd h4 { font-size: 8pt; line-height: 1.28; }
+  .rn { font-size: 9pt; margin-right: 4pt; }
+  .rstats { gap: 12pt; margin: 5pt 0 1pt; }
+  .rstat .rv { font-size: 12pt; }
+  .rstat .rk { font-size: 5.5pt; }
+
+  .rbars { gap: 2.5pt; margin: 4pt 0 1pt; }
+  /* One line per bar: a wrapped label in a 345px column was costing three
+     lines a row, which is most of why this ran to five pages. The label track
+     is wider than on screen so that holding it to one line truncates less. */
+  .rbar { grid-template-columns: minmax(0, 1.6fr) 1fr auto; gap: 0 6pt; }
+  .rbl { font-size: 6.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rtrk { height: 6pt; }
+  .rbv { font-size: 6.5pt; }
+
+  .rtblwrap { margin: 4pt 0 1pt; }
+  .rtbl { font-size: 6.5pt; }
+  .rtbl th { font-size: 5.5pt; padding: 0 0 3pt 6pt; }
+  .rtbl td { padding: 2.5pt 0 2.5pt 6pt; }
+
+  .rread { margin-top: 4pt; padding-left: 5pt; border-left-width: 2pt; font-size: 7pt; line-height: 1.35; }
+  .rsrc { font-size: 5.5pt; margin-top: 4pt; }
+
+  .rfoot { margin-top: 6pt; padding-top: 5pt; }
+  .rfoot p { font-size: 5pt; line-height: 1.4; margin-bottom: 1.5pt; }
+
+  /* Only the slide on screen is measured, so a scale left on one of them would
+     print at that size while the rest print full size. */
+  .rfit,
+  .rslide .rpills {
+    transform: none !important;
+    width: 100% !important;
+  }
 
   a[href]::after { content: none !important; }
 }
