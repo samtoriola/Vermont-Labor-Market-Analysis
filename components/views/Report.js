@@ -122,7 +122,12 @@ const BRIEF_COLS = 4;
 function trimCols(table, cap) {
   if (!table || table.cols.length <= cap) return { table, note: null };
   return {
+    // Spread, so flags on the table survive the cut. Rebuilding the object
+    // from scratch here dropped `ends`, and the five-column table went back to
+    // losing the row its own caption promised while the four-column one kept
+    // it -- the bug reappearing on exactly half the tables.
     table: {
+      ...table,
       cols: table.cols.slice(0, cap),
       rows: table.rows.map((r) => r.slice(0, cap)),
     },
@@ -130,11 +135,30 @@ function trimCols(table, cap) {
   };
 }
 
+/**
+ * Cut a table to `cap` rows.
+ *
+ * A table flagged `ends` was built as "the top few, and the other end", and
+ * its source line says so. Taking the cut off the bottom there left the table
+ * contradicting its own caption -- "five highest replacement rates, and the
+ * lowest" printed above three rows, all of them high. So the flagged tables
+ * keep their last row and lose one more from the middle, the same rule the
+ * bars follow.
+ */
 function trimRows(table, cap, where) {
   if (!table || table.rows.length <= cap) return { table, note: null };
+  const rows = table.ends
+    ? table.rows.slice(0, cap - 1).concat([table.rows[table.rows.length - 1]])
+    : table.rows.slice(0, cap);
   return {
-    table: { ...table, rows: table.rows.slice(0, cap) },
-    note: 'showing ' + cap + ' of ' + table.rows.length + ' rows, ' + where,
+    table: { ...table, rows },
+    note:
+      'showing ' +
+      cap +
+      ' of ' +
+      table.rows.length +
+      ' rows' +
+      (table.ends ? ', including both ends' : ', ' + where),
   };
 }
 

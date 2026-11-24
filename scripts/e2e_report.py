@@ -275,6 +275,67 @@ with sync_playwright() as pw:
         clip_scan(label)
         pick_chip(pg, "Format", "One-pager")
 
+    # ---- 4a. claims match the data, and both ends survive a trim ------
+    # The headline on the replacement finding used to read "groups with higher
+    # replacement rates have smaller shares clearing the benchmark", which
+    # states a rule the data does not carry: at r = -0.71 roughly four ordered
+    # pairs in five run that way, and the group with the fifth-highest
+    # replacement rate clears 85.8%. It now counts the run at the top, which is
+    # checkable -- so it is checked, against the same data the tab reads.
+    pick_chip(pg, "Scope", "Vermont")
+    pick_chip(pg, "Format", "One-pager")
+
+    fams = [r for r in LC["families"]
+            if r.get("turn") is not None and r.get("above")]
+    fams.sort(key=lambda r: -r["turn"])
+    clear = lambda r: r["above"][LC["defaultLW"]]
+    state_clear = 100 - BELOW_DEFAULT
+    run = 0
+    while run < len(fams) and clear(fams[run]) < state_clear:
+        run += 1
+    import math
+    top_max = math.ceil(max(clear(r) for r in fams[:run]))
+    lowest_turn = fams[-1]["f"]
+
+    found = pg.evaluate("""() => Array.from(document.querySelectorAll('.rfnd')).map((f) => ({
+        head: f.querySelector('h4').textContent.replace(/\s+/g, ' ').trim(),
+        src: (f.querySelector('.rsrc') || {}).textContent || '',
+        last: (() => { const rs = f.querySelectorAll('tbody tr');
+          return rs.length ? rs[rs.length - 1].querySelector('td').textContent.trim() : null; })(),
+      }))""")
+
+    rep = [f for f in found if "replacement rates" in f["head"]]
+    if not rep:
+        fails.append("the replacement finding is not on the one-pager")
+    else:
+        h = rep[0]["head"]
+        print()
+        print("  headline: %s" % h[2:])
+        if ("%d highest" % run) not in h or ("%d%%" % top_max) not in h:
+            fails.append("the headline says %r; the data says a run of %d under %d%%"
+                         % (h, run, top_max))
+        if rep[0]["last"] != lowest_turn:
+            fails.append("the trimmed table ends on %r; the lowest replacement rate is %r"
+                         % (rep[0]["last"], lowest_turn))
+        else:
+            print("  table still ends on %s, the lowest replacement rate" % lowest_turn)
+
+    # Any table whose source line promises both ends has to show both ends.
+    # Bars carry the same promise in their own note, which reads "showing 5 of
+    # 14, including both ends" with no "rows" in it -- so match on the row
+    # wording, or every bar chart looks like a table with no rows.
+    thin = {r["f"] for r in SOW["vscs"]["byFamily"] if r["linked"] < 1}
+    for f in found:
+        if "rows, including both ends" in f["src"] and f["last"] is None:
+            fails.append("a finding promises both table ends with no table: %s"
+                         % f["head"][:50])
+    vscs = [f for f in found if "Attributed graduates" in f["head"]]
+    if vscs and vscs[0]["last"] not in thin:
+        fails.append("the VSCS table ends on %r, which is not one of the groups "
+                     "under one attributed graduate" % vscs[0]["last"])
+    elif vscs:
+        print("  VSCS table still ends on %s, a group under one graduate" % vscs[0]["last"])
+
     # ---- 4b. the one-pager is one page -------------------------------
     # The name is a promise, and it is the promise that breaks quietly: adding
     # a finding, or a county whose name wraps a headline, costs a line and the
