@@ -1,8 +1,15 @@
-"""Vendor and survey names belong on About and Methods, nowhere else.
+"""Vendor and survey names belong on About, Methods and the Report, nowhere else.
 
 The charts name what the data is and when it is from; who publishes it is stated
 once, in general terms, on the two reference tabs. Nothing else in the toolchain
 would notice a name creeping back into a caption or a source line.
+
+THE REPORT IS THE THIRD EXEMPTION, and for the opposite reason to the other two.
+About and Methods are exempt because a reader can reach them from any tab. The
+Report is exempt because its reader cannot reach anything: the output is built
+to be printed and sent, and a document that cites "federal completions data"
+with no way to find out whose is a document nobody can check. Attribution has to
+travel with it, so lib/report.js names its sources in full.
 """
 import os
 from playwright.sync_api import sync_playwright
@@ -10,7 +17,7 @@ from playwright.sync_api import sync_playwright
 URL = "http://127.0.0.1:%s/" % os.environ.get("VT_PORT", "3163")
 NAMES = ["Lightcast", "CPS", "IPUMS", "OEWS", "IPEDS", "NAICS", "SOC ",
          "American Community Survey", "TIGER", "MIT Living Wage", "cip2020", "MAJORNUM"]
-ALLOWED = {"About", "Methods"}
+ALLOWED = {"About", "Methods", "Report"}
 
 hits = []
 with sync_playwright() as p:

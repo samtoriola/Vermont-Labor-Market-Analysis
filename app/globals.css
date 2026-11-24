@@ -2218,3 +2218,505 @@ thead th[aria-sort='descending'] .sortmark {
     min-width: 940px;
   }
 }
+
+
+/* ======================================================================
+   Report tab
+   ====================================================================== */
+
+.rptctl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--panel-2);
+  margin-bottom: 18px;
+}
+
+.rptctl .ctrls {
+  padding: 0;
+  border: 0;
+  background: none;
+  margin: 0;
+}
+
+.rptgo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--rule);
+  padding-top: 11px;
+}
+
+.rptprint {
+  font-family: var(--sans);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.rptprint:hover { filter: brightness(1.06); }
+
+.rptprint:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- shared report parts ---------- */
+
+.rpt { font-size: var(--t-base); }
+
+.rstats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin: 10px 0 2px;
+}
+
+.rstat .rv,
+.rcell .rv {
+  font-family: var(--fig);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.rstat .rk,
+.rcell .rk {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.rbars { display: grid; gap: 7px; margin: 12px 0 2px; }
+
+@media (min-width: 760px) {
+  .rbars.two { grid-template-columns: 1fr 1fr; column-gap: 26px; }
+}
+
+.rbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) 1.4fr auto;
+  gap: 0 11px;
+  align-items: center;
+}
+
+.rbl {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.rtrk {
+  display: block;
+  height: 10px;
+  background: var(--track);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.rfil { display: block; height: 100%; border-radius: 2px; }
+
+.rbv {
+  font-family: var(--fig);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.rtblwrap { overflow-x: auto; margin: 12px 0 2px; }
+
+.rtbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.rtbl th {
+  text-align: right;
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  font-weight: 700;
+  padding: 0 0 6px 12px;
+  border-bottom: 1px solid var(--rule-strong);
+  white-space: nowrap;
+}
+
+.rtbl th:first-child { text-align: left; padding-left: 0; }
+
+.rtbl td {
+  text-align: right;
+  padding: 6px 0 6px 12px;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+.rtbl td:first-child {
+  text-align: left;
+  padding-left: 0;
+  color: var(--ink-2);
+  white-space: normal;
+}
+
+.rread {
+  margin: 12px 0 0;
+  padding-left: 11px;
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+}
+
+.rsrc {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  margin: 9px 0 0;
+}
+
+/* ---------- the one-pager ---------- */
+
+.rpage { max-width: 940px; }
+
+.rhead { border-bottom: 2px solid var(--ink); padding-bottom: 11px; }
+
+.rkick {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: var(--t-xs);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.rhead h3 {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.12;
+  margin: 8px 0 0;
+  text-wrap: balance;
+}
+
+.rstand {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink-2);
+  margin: 8px 0 0;
+  max-width: 70ch;
+}
+
+.rstrip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 620px) {
+  .rstrip { grid-template-columns: repeat(4, 1fr); }
+}
+
+.rcell { background: var(--panel); padding: 12px 12px 13px; }
+
+.rfnds { display: grid; gap: 0 30px; }
+
+@media (min-width: 900px) {
+  .rfnds { grid-template-columns: 1fr 1fr; }
+  /* A table wider than four columns takes both tracks rather than being cut off
+     at the fold, where only a scrollbar would admit it had been. */
+  .rfnd.wide { grid-column: 1 / -1; }
+}
+
+.rfnd {
+  padding: 16px 0 17px;
+  border-bottom: 1px solid var(--rule);
+  min-width: 0;
+  break-inside: avoid;
+}
+
+.rfnd h4 {
+  font-size: var(--t-lg, 15px);
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.rn {
+  font-family: var(--serif);
+  font-weight: 600;
+  color: var(--accent);
+  margin-right: 8px;
+}
+
+.rfnd p { margin: 6px 0 0; color: var(--ink-2); }
+.rfnd p.rread { color: var(--ink); }
+
+.rfoot {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+.rfoot p {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  margin: 0 0 5px;
+  line-height: 1.55;
+  max-width: 100ch;
+}
+
+.rfoot b { color: var(--ink-2); }
+
+/* ---------- the deck ---------- */
+
+.rdeck { max-width: 960px; }
+
+.rstage {
+  aspect-ratio: 16 / 9;
+  position: relative;
+  container-type: inline-size;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.rslide {
+  position: absolute;
+  inset: 0;
+  padding: 4cqw 4.8cqw;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.95cqw;
+  line-height: 1.45;
+}
+
+.rslide.off { display: none; }
+
+.rslide .rsk {
+  font-size: 1.45cqw;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.rslide h3 {
+  font-family: var(--serif);
+  font-size: 3.4cqw;
+  font-weight: 600;
+  line-height: 1.14;
+  margin: 1cqw 0 0;
+  text-wrap: balance;
+}
+
+.rslide .rbody { flex: 1; min-height: 0; margin-top: 1.7cqw; overflow: hidden; }
+
+.rslide p { margin: 0.9cqw 0 0; color: var(--ink-2); }
+
+.rslide .rstats { gap: 3cqw; margin: 0 0 1.2cqw; }
+.rslide .rstat .rv { font-size: 3.6cqw; }
+.rslide .rstat .rk { font-size: 1.35cqw; }
+
+.rslide .rbars { gap: 1.2cqw; margin: 1.2cqw 0 0; }
+.rslide .rbl { font-size: 1.5cqw; }
+.rslide .rtrk { height: 1.9cqw; }
+.rslide .rbv { font-size: 1.6cqw; }
+
+.rslide .rtblwrap { margin: 1.2cqw 0 0; overflow: hidden; }
+.rslide .rtbl { font-size: 1.55cqw; }
+.rslide .rtbl th { font-size: 1.2cqw; padding: 0 0 0.7cqw 1.1cqw; }
+.rslide .rtbl td { padding: 0.7cqw 0 0.7cqw 1.1cqw; }
+
+.rslide .rread {
+  margin: 1.4cqw 0 0;
+  padding-left: 1.3cqw;
+  border-left: 0.35cqw solid var(--accent);
+  font-size: 1.95cqw;
+}
+
+.rslide .rsrc {
+  font-size: 1.3cqw;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.1cqw;
+  margin-top: 1.4cqw;
+}
+
+.rslide .rthesis {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 2.5cqw;
+  color: var(--ink-2);
+  margin-top: 2cqw;
+  max-width: 52ch;
+}
+
+.rslide .rmeta { margin-top: 3cqw; font-size: 1.5cqw; color: var(--ink-3); }
+
+.rpills { display: grid; gap: 1.1cqw; }
+
+.rpill {
+  border: 1px solid var(--rule);
+  border-left: 0.5cqw solid var(--accent);
+  border-radius: 0.5cqw;
+  padding: 1.3cqw 1.7cqw;
+  font-size: 1.7cqw;
+  color: var(--ink-2);
+}
+
+.rdeckbar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+
+.sldbtn {
+  font-family: var(--sans);
+  font-size: var(--t-sm);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--rule-strong);
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.sldbtn[disabled] { opacity: 0.4; cursor: default; }
+
+.rdots { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.rdot {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1px solid var(--rule-strong);
+  background: var(--panel);
+  color: var(--ink-3);
+  font-family: var(--fig);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  padding: 0;
+}
+
+.rdot[aria-current='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.sldbtn:focus-visible,
+.rdot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rcount { font-size: var(--t-sm); color: var(--ink-3); margin-left: auto; }
+
+/* ---------- print ----------
+   What leaves the building. The shell, the controls and the panel chrome are
+   screen furniture; the report is the document. The deck prints every slide,
+   one to a page, because the viewer only ever shows one and a printed deck
+   with a single slide in it would be the quietest possible bug. */
+
+@media print {
+  .sidebar,
+  .top,
+  .rptctl,
+  .howto,
+  .rdeckbar,
+  .pnlhead button,
+  .pnlfoot,
+  .tipcard {
+    display: none !important;
+  }
+
+  .shell,
+  .main,
+  .wrap,
+  .view,
+  .panel {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    max-width: none !important;
+  }
+
+  .panel > .cap,
+  .panel > .src {
+    display: none !important;
+  }
+
+  .rpt,
+  .rpage,
+  .rdeck { max-width: none; }
+
+  .rfnds { grid-template-columns: 1fr 1fr; }
+  .rfnd.wide { grid-column: 1 / -1; }
+  .rtblwrap { overflow-x: visible; }
+
+  .rstage {
+    aspect-ratio: auto;
+    border: 0;
+    overflow: visible;
+    container-type: normal;
+  }
+
+  /* Every slide, one per page, at a size that does not depend on cqw. */
+  .rslide,
+  .rslide.off {
+    display: flex !important;
+    position: static;
+    break-after: page;
+    min-height: 92vh;
+    padding: 0 0 18pt;
+    font-size: 11pt;
+  }
+
+  .rslide:last-child { break-after: auto; }
+
+  .rslide h3 { font-size: 24pt; margin-top: 6pt; }
+  .rslide .rsk { font-size: 8pt; }
+  .rslide .rthesis { font-size: 14pt; }
+  .rslide .rmeta,
+  .rslide .rsrc { font-size: 8pt; }
+  .rslide .rstat .rv { font-size: 20pt; }
+  .rslide .rstat .rk { font-size: 7.5pt; }
+  .rslide .rbl,
+  .rslide .rbv,
+  .rslide .rtbl { font-size: 9pt; }
+  .rslide .rtbl th { font-size: 7.5pt; }
+  .rslide .rtrk { height: 9pt; }
+  .rslide .rread { font-size: 11pt; border-left-width: 3pt; padding-left: 8pt; }
+  .rslide .rpill { font-size: 10pt; border-left-width: 4pt; border-radius: 3pt; padding: 8pt 10pt; }
+
+  .rfnd { break-inside: avoid; }
+
+  a[href]::after { content: none !important; }
+}

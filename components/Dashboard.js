@@ -17,6 +17,7 @@ import Workers from './views/Workers';
 import Opportunity from './views/Q5';
 import Alignment from './views/Q6';
 import Regions from './views/Q7';
+import Report from './views/Report';
 import About from './views/About';
 import Methods from './views/Methods';
 
@@ -32,6 +33,7 @@ const COMPONENTS = {
   workers: Workers,
   opportunity: Opportunity,
   alignment: Alignment,
+  report: Report,
   about: About,
   methods: Methods,
 };
